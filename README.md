@@ -1,2 +1,2 @@
-# MicroquakeSystem_Liaoning-University
+# MicroquakeSystem_LiaoningUniversity
 A system about coal mine monitor.
