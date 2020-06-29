@@ -16,6 +16,7 @@ import com.h2.constant.Sensor;
 import com.h2.thread.ThreadStep3;
 import com.h2.tool.Location;
 import com.h2.tool.Location2;
+import com.h2.tool.PSO;
 import com.h2.tool.calDuringTimePar;
 import com.mathworks.toolbox.javabuilder.MWException;
 
@@ -50,6 +51,9 @@ public class Five_Locate {
 		for(int i = 0; i < 5; i++) {
 			sensors1[i]=sensors[i];
 		}
+		
+		//PSO locate.
+		Sensor location_PSO = PSO.process(sensors1);
 		
 		//calculate the coordinations of the quake source, location variable only store the quake time, not store the motivation time, and store the coordinations of the quake happening.
 		Sensor location_refine = Location2.getLocation(sensors1);//calculate the quake time in milliseconds.
@@ -91,7 +95,7 @@ public class Five_Locate {
 		double []energy = new double[sensors1.length];
 		for (int i=0;i<sensors1.length;i++)	energy[i] = sensors1[i].getEnergy();
 		finalEnergy = one_dim_array_max_min.mindouble(energy);
-		System.out.println("五台站"+finalEnergy);
+//		System.out.println("五台站"+finalEnergy);
 		
 		//calculate the during grade with 5 sensors.
 		float duringEarthQuake = calDuringTimePar.computeDuringQuakeGrade(sensors1,5);
@@ -100,7 +104,8 @@ public class Five_Locate {
 		String quakeString = (Float.compare(Float.NaN, earthQuakeFinal) == 0) ? "0"	: String.format("%.2f", earthQuakeFinal);//修改震级，保留两位小数
 		double quakeStringDuring = (Float.compare(Float.NaN, duringEarthQuake) == 0) ? 0:  duringEarthQuake;//修改震级，保留两位小数
 		String result = location_refine.toString()+" "+quakeString+" "+finalEnergy+" "+location_refine.getquackTime();//坐标+时间+震级
-		
+		String PSO_result = String.valueOf(location_PSO.getLatitude())+" "+String.valueOf(location_PSO.getLongtitude())+ " "+String.valueOf(location_PSO.getAltitude())+ " "+String.valueOf(location_PSO.getSecTime());
+		System.out.println("PSO result:"+PSO_result);
 		
 		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setGroupingUsed(false);

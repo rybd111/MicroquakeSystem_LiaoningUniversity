@@ -69,38 +69,19 @@ public class DbExcute {
 		PreparedStatement aStatement = null;
 		try {
 			aStatement = connection.prepareStatement(sqlStr);
-			/*double[] a=new double[4];
 			
-				a[0]=0.64940742498539*aQuackResults.getxData()+35985600.9610101;
-				a[1]=-1.53986503030543*aQuackResults.getxData()+44192917.6882761;
-				a[2]=-1.53983673409655*aQuackResults.getxData()+44185403.6645409;
-				a[3]=0.649460010261126*aQuackResults.getxData()+35995275.1940533;
-				for(int i=0;i<a.length;i++){
-					System.out.println("a["+i+"]:"+a[i]);
-				}*/
-				
-			/*if((aQuackResults.getxData()<Parameters.PINGDDINGMAP_MAX_X)&&aQuackResults.getxData()>Parameters.PINGDDINGMAP_MIN_X&&
-				aQuackResults.getyData()>(0.64940742498539*aQuackResults.getxData()+35985600.9610101)&&
-				aQuackResults.getyData()<(-1.53986503030543*aQuackResults.getxData()+44192917.6882761)&&
-				aQuackResults.getyData()>(-1.53983673409655*aQuackResults.getxData()+44185403.6645409)&&
-				aQuackResults.getyData()<(0.649460010261126*aQuackResults.getxData()+35995275.1940533)){*///锟睫讹拷锟斤拷平锟斤拷山锟斤拷图锟斤拷围锟节的碉拷娲拷锟斤拷锟斤拷菘锟斤拷锟�
-//			if(aQuackResults.getxData()>533990.667 && aQuackResults.getyData()>4417004.76
-//					&&aQuackResults.getxData()<546000 && aQuackResults.getyData()<4429001.8){
-			//if(aQuackResults.getxData()>0 && aQuackResults.getyData()>0){
-				aStatement.setDouble(1, aQuackResults.getxData());
-				aStatement.setDouble(2, aQuackResults.getyData());
-				aStatement.setDouble(3, aQuackResults.getzData());
-				aStatement.setTimestamp(4, aQuackResults.getQuackTime());
-				aStatement.setDouble(5, aQuackResults.getQuackGrade());
-				aStatement.setDouble(6, aQuackResults.getParrival()); 
-				aStatement.setString(7, aQuackResults.getPanfu());
-				aStatement.setDouble(8, aQuackResults.getDuringGrade());
-				aStatement.setDouble(9, aQuackResults.getNengliang());
-				aStatement.setString(10, aQuackResults.getFilename_S());
-//				aStatement.execute();
-				System.out.println(aStatement.execute()+"-shujuku");
-				connection.close();
-//			}
+			aStatement.setDouble(1, aQuackResults.getxData());
+			aStatement.setDouble(2, aQuackResults.getyData());
+			aStatement.setDouble(3, aQuackResults.getzData());
+			aStatement.setTimestamp(4, aQuackResults.getQuackTime());
+			aStatement.setDouble(5, aQuackResults.getQuackGrade());
+			aStatement.setDouble(6, aQuackResults.getParrival()); 
+			aStatement.setString(7, aQuackResults.getPanfu());
+			aStatement.setDouble(8, aQuackResults.getDuringGrade());
+			aStatement.setDouble(9, aQuackResults.getNengliang());
+			aStatement.setString(10, aQuackResults.getFilename_S());
+			System.out.println(aStatement.execute()+"-shujuku");
+			connection.close();
 		} catch (SQLException e) {e.printStackTrace();}
 		finally {
 			JdbcUtil.close(connection,(com.mysql.jdbc.Statement) statement,resultSet);
@@ -115,24 +96,7 @@ public class DbExcute {
 		PreparedStatement aStatement3 = null;
 		try {
 			aStatement3 = connection.prepareStatement(sqlStr3);
-			/*double[] a=new double[4];
 			
-				a[0]=0.64940742498539*aQuackResults.getxData()+35985600.9610101;
-				a[1]=-1.53986503030543*aQuackResults.getxData()+44192917.6882761;
-				a[2]=-1.53983673409655*aQuackResults.getxData()+44185403.6645409;
-				a[3]=0.649460010261126*aQuackResults.getxData()+35995275.1940533;
-				for(int i=0;i<a.length;i++){
-					System.out.println("a["+i+"]:"+a[i]);
-				}*/
-				
-			/*if((aQuackResults.getxData()<Parameters.PINGDDINGMAP_MAX_X)&&aQuackResults.getxData()>Parameters.PINGDDINGMAP_MIN_X&&
-				aQuackResults.getyData()>(0.64940742498539*aQuackResults.getxData()+35985600.9610101)&&
-				aQuackResults.getyData()<(-1.53986503030543*aQuackResults.getxData()+44192917.6882761)&&
-				aQuackResults.getyData()>(-1.53983673409655*aQuackResults.getxData()+44185403.6645409)&&
-				aQuackResults.getyData()<(0.649460010261126*aQuackResults.getxData()+35995275.1940533)){*///锟睫讹拷锟斤拷平锟斤拷山锟斤拷图锟斤拷围锟节的碉拷娲拷锟斤拷锟斤拷菘锟斤拷锟�
-//			if(aQuackResults.getxData()>533990.667 && aQuackResults.getyData()>4417004.76
-//					&&aQuackResults.getxData()<546000 && aQuackResults.getyData()<4429001.8){
-			//if(aQuackResults.getxData()>0 && aQuackResults.getyData()>0){
 				aStatement3.setDouble(1, aQuackResults.getxData());
 				aStatement3.setDouble(2, aQuackResults.getyData());
 				aStatement3.setDouble(3, aQuackResults.getzData());
@@ -145,7 +109,6 @@ public class DbExcute {
 				aStatement3.setString(10, aQuackResults.getFilename_S());
 				System.out.println(aStatement3.execute()+"-shujuku");
 				connection.close();
-//			}
 		} catch (SQLException e) {e.printStackTrace();}
 		finally {
 			JdbcUtil.close(connection,(com.mysql.jdbc.Statement) statement,resultSet);

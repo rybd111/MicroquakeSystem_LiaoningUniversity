@@ -35,7 +35,7 @@ public class MainThread extends Thread{
     /**
      * fileStr must define at first with different path for your destination.
      */
-    public static String fileStr[] = new String[5];
+    public static String fileStr[] = new String[7];
     /**this variable obtain the parent fold name.*/
     public static String fileParentPackage[] = new String[Parameters.SensorNum];
     /**this variable exchange data to the foreground.*/
@@ -86,14 +86,20 @@ public class MainThread extends Thread{
 //        fileStr[0] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/3-西风井/";
 //        fileStr[1] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/4-铁塔/";
     	
-        fileStr[0] = "I:/研究生阶段/矿山/矿山数据/20200618/Testu/";
-        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/20200618/Testw/";
-        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/20200618/Testy/";
-        fileStr[3] = "I:/研究生阶段/矿山/矿山数据/20200618/Testz/";
-        fileStr[4] = "I:/研究生阶段/矿山/矿山数据/20200618/Testt/";
-//        fileStr[5] = "I:/研究生阶段/矿山/矿山数据/2020.2.14红阳三矿/Testy/";
-//        fileStr[6] = "I:/研究生阶段/矿山/矿山数据/2020.2.14红阳三矿/Testz/";
+//        fileStr[0] = "I:/研究生阶段/矿山/矿山数据/20200622/Testu/";
+//        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/20200622/Testw/";
+//        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/20200622/Testy/";
+//        fileStr[3] = "I:/研究生阶段/矿山/矿山数据/20200622/Testz/";
+//        fileStr[4] = "I:/研究生阶段/矿山/矿山数据/20200622/Testt/";
         
+    	fileStr[0] = "I:/研究生阶段/矿山/矿山数据/2020.2.14红阳三矿/Tests/";
+        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/2020.2.14红阳三矿/Testt/";
+        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/2020.2.14红阳三矿/Testu/";
+        fileStr[3] = "I:/研究生阶段/矿山/矿山数据/2020.2.14红阳三矿/Testw/";
+        fileStr[4] = "I:/研究生阶段/矿山/矿山数据/2020.2.14红阳三矿/Testx/";
+        fileStr[5] = "I:/研究生阶段/矿山/矿山数据/2020.2.14红阳三矿/Testy/";
+        fileStr[6] = "I:/研究生阶段/矿山/矿山数据/2020.2.14红阳三矿/Testz/";
+//        fileStr[6] = "I:/研究生阶段/矿山/矿山数据/2020.2.14红阳三矿/Testz/";
         
         
 //        fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿2.14/Test1/";
