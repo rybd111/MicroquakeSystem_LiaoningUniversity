@@ -25,9 +25,10 @@ public class PSO {
 
     private static int particle_num = 5000;//������
 
-    private static int N = 500;//��������
+    private static int N = 200;//迭代次数
 
-    private static double c1,c2 = 1.4962;
+    private static double c1,c2 = 1.8;
+    private static double c3,c4 = 1.2;
 
     private static double w = 1.4;//��������,���ｫȨ��ϵ����0.9���Լ�С��0.4
 
@@ -75,42 +76,94 @@ public class PSO {
     }
 
     /**
-     * ����ÿ�����ӵ��ٶ�
+     * 跟新每个粒子的速度
      */
     public static void updateV(int n) {
         for(particle particle:particles) {
             for(int i=0;i<particle.dimension;i++) {
             	if(i==0) {
-            		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c1*rand()*(particle.pbest[i]-particle.X[i])+c2*rand()*(gbest[i]-particle.X[i]);
-                    if(v>particle.Vmax0) // �ж��ٶ��Ƿ񳬹������ٶ�
+            		double ra = rand();
+            		if(ra>=0.5) {
+            		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c1*ra*(particle.pbest[i]-particle.X[i])+c2*ra*(gbest[i]-particle.X[i]);
+            		
+                    if(v>particle.Vmax0) // 判断速度是否超过最大的速度
                         v = particle.Vmax0;
-                    else if(v<-particle.Vmax0) // ������ٶȵ��෴��С
+                    else if(v<-particle.Vmax0) // 比最大速度的相反数小
                         v = -particle.Vmax0;
-                    particle.V[i] = v;//����Vi
+                    particle.V[i] = v;//更新Vi
+            		}
+            		if(ra<0.5) {
+                		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c3*ra*(particle.pbest[i]-particle.X[i])+c4*ra*(gbest[i]-particle.X[i]);
+                		
+                        if(v>particle.Vmax0) // 判断速度是否超过最大的速度
+                            v = particle.Vmax0;
+                        else if(v<-particle.Vmax0) // 比最大速度的相反数小
+                            v = -particle.Vmax0;
+                        particle.V[i] = v;//更新Vi
+                		}
             	}
             	if(i==1) {
-            		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c1*rand()*(particle.pbest[i]-particle.X[i])+c2*rand()*(gbest[i]-particle.X[i]);
-                    if(v>particle.Vmax1) // �ж��ٶ��Ƿ񳬹������ٶ�
+            		double ra = rand();
+            		if(ra>=0.5) {
+            		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c1*ra*(particle.pbest[i]-particle.X[i])+c2*ra*(gbest[i]-particle.X[i]);
+            		
+                    if(v>particle.Vmax1) // 判断速度是否超过最大的速度
                         v = particle.Vmax1;
-                    else if(v<-particle.Vmax1) // ������ٶȵ��෴��С
+                    else if(v<-particle.Vmax1) // 比最大速度的相反数小
                         v = -particle.Vmax1;
-                    particle.V[i] = v;//����Vi
+                    particle.V[i] = v;//更新Vi
+            		}
+            		if(ra<0.5) {
+                		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c3*ra*(particle.pbest[i]-particle.X[i])+c4*ra*(gbest[i]-particle.X[i]);
+                		
+                        if(v>particle.Vmax1) // 判断速度是否超过最大的速度
+                            v = particle.Vmax1;
+                        else if(v<-particle.Vmax1) // 比最大速度的相反数小
+                            v = -particle.Vmax1;
+                        particle.V[i] = v;//更新Vi
+                		}
             	}
             	if(i==2) {
-            		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c1*rand()*(particle.pbest[i]-particle.X[i])+c2*rand()*(gbest[i]-particle.X[i]);
-                    if(v>particle.Vmax2) // �ж��ٶ��Ƿ񳬹������ٶ�
+            		double ra = rand();
+            		if(ra>=0.5) {
+            		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c1*ra*(particle.pbest[i]-particle.X[i])+c2*ra*(gbest[i]-particle.X[i]);
+            		
+                    if(v>particle.Vmax2) // 判断速度是否超过最大的速度
                         v = particle.Vmax2;
-                    else if(v<-particle.Vmax2) // ������ٶȵ��෴��С
+                    else if(v<-particle.Vmax2) // 比最大速度的相反数小
                         v = -particle.Vmax2;
-                    particle.V[i] = v;//����Vi
+                    particle.V[i] = v;//更新Vi
+            		}
+            		if(ra<0.5) {
+                		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c3*ra*(particle.pbest[i]-particle.X[i])+c4*ra*(gbest[i]-particle.X[i]);
+                		
+                        if(v>particle.Vmax2) // 判断速度是否超过最大的速度
+                            v = particle.Vmax2;
+                        else if(v<-particle.Vmax2) // 比最大速度的相反数小
+                            v = -particle.Vmax2;
+                        particle.V[i] = v;//更新Vi
+                		}
             	}
             	if(i==particle.dimension-1) {
-            		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c1*rand()*(particle.pbest[i]-particle.X[i])+c2*rand()*(gbest[i]-particle.X[i]);
-                    if(v>particle.Vmax3) // �ж��ٶ��Ƿ񳬹������ٶ�
+            		double ra = rand();
+            		if(ra>=0.5) {
+            		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c1*ra*(particle.pbest[i]-particle.X[i])+c2*ra*(gbest[i]-particle.X[i]);
+            		
+                    if(v>particle.Vmax3) // 判断速度是否超过最大的速度
                         v = particle.Vmax3;
-                    else if(v<-particle.Vmax3) // ������ٶȵ��෴��С
+                    else if(v<-particle.Vmax3) // 比最大速度的相反数小
                         v = -particle.Vmax3;
-                    particle.V[i] = v;//����Vi
+                    particle.V[i] = v;//更新Vi
+            		}
+            		if(ra<0.5) {
+                		double v =(0.9 - n*(0.9-0.4)/N) * particle.V[i]+c3*ra*(particle.pbest[i]-particle.X[i])+c4*ra*(gbest[i]-particle.X[i]);
+                		
+                        if(v>particle.Vmax3) // 判断速度是否超过最大的速度
+                            v = particle.Vmax3;
+                        else if(v<-particle.Vmax3) // 比最大速度的相反数小
+                            v = -particle.Vmax3;
+                        particle.V[i] = v;//更新Vi
+                		}
             	}
             }
         }
@@ -128,18 +181,18 @@ public class PSO {
                 particle.X[i] = particle.X[i] + particle.V[i];
                 
                 if(i==particle.dimension-4) {
-                	if(particle.X[i]>41522401) {
+                	if(particle.X[i]>41522401 || particle.X[i]<41513381) {
                 		particle.X[i]=particle.X[i] - particle.V[i];
                 	}
                 }
                 if(i==particle.dimension-3) {
-                	if(particle.X[i]>4600606) {
+                	if(particle.X[i]>4600606 || particle.X[i]<4591010) {
                 		particle.X[i]=particle.X[i] - particle.V[i];
                 	}
                 }
                 
                 if(i==particle.dimension-2) {
-                	if(particle.X[i]>0) {
+                	if(particle.X[i]>0 || particle.X[i]<-1500) {
                 		particle.X[i]=particle.X[i] - particle.V[i];
                 	}
                 }

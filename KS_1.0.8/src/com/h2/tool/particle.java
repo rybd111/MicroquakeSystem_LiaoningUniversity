@@ -53,38 +53,33 @@ public class particle {
 	    		x[i]=se[i].getLatitude()+Parameters.SENSORINFO[SensorTool.baseCoordinate][0];
 	    		y[i]=se[i].getLongtitude()+Parameters.SENSORINFO[SensorTool.baseCoordinate][1];
 	    		z[i]=se[i].getAltitude()+Parameters.SENSORINFO[SensorTool.baseCoordinate][2];
-	    		t[i]=se[i].getSecTime();
     		}
     		if(Parameters.region_offline=="hongyang") {
     			x[i]=se[i].getLatitude()+ Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][0];
         		y[i]=se[i].getLongtitude()+Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][1];
         		z[i]=se[i].getAltitude()+Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][2];
-        		t[i]=se[i].getSecTime();
     		}
+    		if(Parameters.region_offline=="datong") {
+    			x[i]=se[i].getLatitude()+ Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][0];
+        		y[i]=se[i].getLongtitude()+Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][1];
+        		z[i]=se[i].getAltitude()+Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][2];
+    		}
+    		if(Parameters.region_offline=="pingdingshan") {
+    			x[i]=se[i].getLatitude()+ Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][0];
+        		y[i]=se[i].getLongtitude()+Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][1];
+        		z[i]=se[i].getAltitude()+Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][2];
+    		}
+    		t[i]=se[i].getSecTime();
     	} 
     	double Sum=0;
     	
-        /*double newFitness = Math.abs(Math.sqrt(Math.pow(X[0]-x[0], 2)+Math.pow(X[1]-y[0], 2)+Math.pow(X[2]-z[0], 2))-v*v*Math.pow(t[0]-X[3], 2))+
-        					Math.abs(Math.sqrt(Math.pow(X[0]-x[1], 2)+Math.pow(X[1]-y[1], 2)+Math.pow(X[2]-z[1], 2))-v*v*Math.pow(t[1]-X[3], 2))+
-        					Math.abs(Math.sqrt(Math.pow(X[0]-x[2], 2)+Math.pow(X[1]-y[2], 2)+Math.pow(X[2]-z[2], 2))-v*v*Math.pow(t[2]-X[3], 2))+
-        					Math.abs(Math.sqrt(Math.pow(X[0]-x[3], 2)+Math.pow(X[1]-y[3], 2)+Math.pow(X[2]-z[3], 2))-v*v*Math.pow(t[3]-X[3], 2))+
-        					Math.abs(Math.sqrt(Math.pow(X[0]-x[4], 2)+Math.pow(X[1]-y[4], 2)+Math.pow(X[2]-z[4], 2))-v*v*Math.pow(t[4]-X[3], 2));
-
-      return newFitness;*/
     	for(int i=0;i<se.length;i++) {
     		double sum = Math.abs(Math.sqrt(Math.pow(X[0]-x[i], 2)+Math.pow(X[1]-y[i], 2)+Math.pow(X[2]-z[i], 2))-v*v*Math.pow(t[i]-X[3], 2));
     		Sum+=sum; 
     	}
     	double newFitness = Sum;
     	return newFitness;
-        /*double newFitness = Math.abs(Math.sqrt(Math.pow(X[0]-x1, 2)+Math.pow(X[1]-y1, 2)+Math.pow(X[2]-z1, 2))-v*v*Math.pow(t1-X[3], 2))+
-				Math.abs(Math.sqrt(Math.pow(X[0]-x2, 2)+Math.pow(X[1]-y2, 2)+Math.pow(X[2]-z2, 2))-v*v*Math.pow(t2-X[3], 2))+
-				Math.abs(Math.sqrt(Math.pow(X[0]-x3, 2)+Math.pow(X[1]-y3, 2)+Math.pow(X[2]-z3, 2))-v*v*Math.pow(t3-X[3], 2))+
-				Math.abs(Math.sqrt(Math.pow(X[0]-x4, 2)+Math.pow(X[1]-y4, 2)+Math.pow(X[2]-z4, 2))-v*v*Math.pow(t4-X[3], 2))+
-				Math.abs(Math.sqrt(Math.pow(X[0]-x5, 2)+Math.pow(X[1]-y5, 2)+Math.pow(X[2]-z5, 2))-v*v*Math.pow(t5-X[3], 2));
-
-				return newFitness;*/
-		
+        
     }
 
 
