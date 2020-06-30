@@ -39,7 +39,7 @@ public class Five_Locate {
 	 * @throws ParseException
 	 * @throws IOException
 	 * @author Baishuo Han, Hanlin Zhang.
-	 * @throws MWException 
+	 * @throws MWException
 	 */
 	@SuppressWarnings("unused")
 	public static String five(Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,

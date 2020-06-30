@@ -74,7 +74,8 @@ public class particle {
     	double Sum=0;
     	
     	for(int i=0;i<se.length;i++) {
-    		double sum = Math.abs(Math.sqrt(Math.pow(X[0]-x[i], 2)+Math.pow(X[1]-y[i], 2)+Math.pow(X[2]-z[i], 2))-v*v*Math.pow(t[i]-X[3], 2));
+//    		double sum = Math.abs(Math.sqrt(Math.pow(X[0]-x[i], 2)+Math.pow(X[1]-y[i], 2)+Math.pow(X[2]-z[i], 2))-v*v*Math.pow(t[i]-X[3], 2));
+    		double sum = Math.abs(Math.sqrt(Math.pow(X[0]-x[i], 2)+Math.pow(X[1]-y[i], 2)+Math.pow(X[2]-z[i], 2))-v*(t[i]-X[3]));
     		Sum+=sum; 
     	}
     	double newFitness = Sum;
