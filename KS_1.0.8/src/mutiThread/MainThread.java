@@ -150,9 +150,9 @@ public class MainThread extends Thread{
             while(true) {
                 
             	//sleep any seconds to avoid the procedure reset mechanically.
-            	try {
-                    Thread.sleep(1000*(r.nextInt(10)+1));
-                } catch (InterruptedException e2) {	e2.printStackTrace();}
+//            	try {
+//                    Thread.sleep(1000*(r.nextInt(10)+1));
+//                } catch (InterruptedException e2) {	e2.printStackTrace();}
                 
                 //the procedure will reset when the sensors produce a new file or there produces net error.
                 if(ReadData.netError==true||ReadData.newData==true||isFirst==true){
