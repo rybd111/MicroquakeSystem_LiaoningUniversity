@@ -664,8 +664,8 @@ public class ReadData {
                 if (Math.abs(volt) > 5000 && flag2) flag1 = true;
                 if (flag1 && flag2) {//高电平结束，说明1s数据结束，计量timeCount
 
-//                	if(timeCount==0 && LoopCount>((Parameters.FREQUENCY+200)/2)-(Parameters.distanceToSquareWave*(Parameters.FREQUENCY+200))) {
-                	if(timeCount==0 && LoopCount>((Parameters.FREQUENCY+200)/2)) {
+                	if(timeCount==0 && LoopCount>((Parameters.FREQUENCY+200)/2)-(Parameters.distanceToSquareWave*(Parameters.FREQUENCY+200))) {
+//                	if(timeCount==0 && LoopCount>((Parameters.FREQUENCY+200)/2)) {
                     	timeCount++;
                     	System.out.println(sensorName+"数据头时间距离下一方波处的数据量大于频率的一半"+LoopCount);
                     }
@@ -752,8 +752,8 @@ public class ReadData {
                 if (Math.abs(volt) > 5000 && flag2) flag1 = true;
                 if (flag1 && flag2) {//高电平结束，说明1s数据结束，计量timeCount
 
-//                	if(timeCount==0 && LoopCount>((Parameters.FREQUENCY+200)/2)-(Parameters.distanceToSquareWave*(Parameters.FREQUENCY+200))) {
-                	if(timeCount==0 && LoopCount>((Parameters.FREQUENCY+200)/2)) {
+                	if(timeCount==0 && LoopCount>((Parameters.FREQUENCY+200)/2)-(Parameters.distanceToSquareWave*(Parameters.FREQUENCY+200))) {
+//                	if(timeCount==0 && LoopCount>((Parameters.FREQUENCY+200)/2)) {
                     	timeCount++;
                     	System.out.println(sensorName+"数据头时间距离下一方波处的数据量大于频率的一半"+LoopCount);
                     }
