@@ -111,7 +111,7 @@ public class SensorTool
 	{
 		int lineSeries = 0;
 		boolean flag=false;
-		
+//		System.out.println(data.size());
 		//the hop number is 100, i starts from the first data of the first sliding window to the first data of the last sliding window.
 		for(int i=0;i<data.size()-Parameters.N-Parameters.refineRange;i+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
 		{
@@ -129,7 +129,8 @@ public class SensorTool
 							sensor.setSign(true);
 							
 							//there set the position(series) in now vector, it means the relative position in 10s vector.
-							sensor.setlineSeries(lineSeries);
+							sensor.setlineSeries(lineSeries-Parameters.refineRange);
+							
 							System.out.println("激发位置："+"  "+sensor.getlineSeries());
 							//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
 							sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
@@ -304,7 +305,9 @@ public class SensorTool
 			average+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
 		}
 		average = average/Parameters.afterRange;
+		
 		if(average>=Parameters.afterRange_Threshold456) {
+			
 			if(Parameters.offline==true) {
 //				System.out.println(MainThread.fileParentPackage[th]+"在"+Parameters.afterRange/(Parameters.FREQUENCY+200)+"秒内的平均振幅为："+average);
 				// we will find the next condition.
@@ -313,7 +316,8 @@ public class SensorTool
 				}
 				sumA = sumA/Parameters.refineRange;
 				if(sumA>=Parameters.refineRange_Threshold456) {
-					System.out.println(MainThread.fileParentPackage[th]+"在"+Parameters.afterRange/(Parameters.FREQUENCY+200)+"秒内的平均振幅为_"+sumA);
+					System.out.println(th+"在"+Parameters.afterRange+"范围内的平均振幅为："+average+data.get(lineSeries).split(" ")[6]+"pos"+lineSeries);
+					System.out.println(MainThread.fileParentPackage[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
 					return true;
 				}
 				else
@@ -327,7 +331,8 @@ public class SensorTool
 				}
 				sumA = sumA/Parameters.refineRange;
 				if(sumA>=Parameters.refineRange_Threshold456) {
-					System.out.println(MainThread.fileStr[th]+"在"+Parameters.afterRange/(Parameters.FREQUENCY+200)+"秒内的平均振幅为_"+sumA);
+					System.out.println(th+"在"+Parameters.afterRange+"范围内的平均振幅为："+average+data.get(lineSeries).split(" ")[6]+"pos"+lineSeries);
+					System.out.println(MainThread.fileParentPackage[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
 					return true;
 				}
 				else

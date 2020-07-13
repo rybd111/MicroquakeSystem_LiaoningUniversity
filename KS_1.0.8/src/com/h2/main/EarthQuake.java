@@ -84,9 +84,10 @@ public class EarthQuake {
 		//Set every sensor's motivation flag to indicate the sensor is inspired or not.
 		for (int i = 0; i < Parameters.SensorNum; i++) {
 			//add extra data used to judge sensor's motivation status.
+			for(int k=sensorData[i][0].size()-Parameters.refineRange;k<sensorData[i][0].size();k++)
+				judgeMotiData.addElement(sensorData[i][0].get(k));
+			
 			judgeMotiData.addAll(sensorData[i][1]);
-//			for(int i=0;i<Parameters.refineRange;i++)
-//				judgeMotiData.addElement(sensorData[bei][2].get(i));
 			
 			SensorTool.motivate(judgeMotiData, sensors[i],i);//存储了激发时间和激发的标志位
 			judgeMotiData.clear();
@@ -114,7 +115,7 @@ public class EarthQuake {
 									l[countNumber]=i;//record the number of motivated sensors.
 									countNumber++;
 									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
-									System.out.println("激发台站"+MainThread.fileStr[i]);
+									System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
 									Parameters.initPanfu[j]=1;
 								}
 							}
@@ -127,7 +128,7 @@ public class EarthQuake {
 									l[countNumber]=i;//record the number of motivated sensors.
 									countNumber++;
 									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
-									System.out.println("激发台站"+MainThread.fileParentPackage[i]);
+									System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
 									Parameters.initPanfu[j]=1;
 								}
 							}

@@ -46,14 +46,14 @@ public class Parameters
 	/**
 	 * 短时窗平均值与长时窗平均值的比值大于2.5，上次矫正
 	 */
-	public static double ShortCompareLong = 2;
+	public static double ShortCompareLong = 0;
 	public static double ShortCompareLongAdjust=1.4;
 
 	public static int afterRange = (Parameters.FREQUENCY+200)/10;
-	public static int refineRange = (Parameters.FREQUENCY+200);
+	public static int refineRange = (int) ((Parameters.FREQUENCY+200)*1.5);
 //	public static final double afterRange_Threshold123 = 1000;
 	public static double afterRange_Threshold456 = 1000;
-	public static double refineRange_Threshold456 = 0;
+	public static double refineRange_Threshold456 =500;
 	
 	/**
 	 * 距离其他传感器的传输花费时间，大于1s则认为不时同时发生的事件，但要根据实际点之间的距离和波速进行调整。
@@ -157,7 +157,7 @@ public class Parameters
 	/**
 	 * when we will store all motivation sensor data to csv file, we need to set this variable to 1.
 	 */
-	public static int isStorageAllMotivationCSV = 0;
+	public static int isStorageAllMotivationCSV =0;
 	/**
 	 * when we will store record of each event, we need to set this variable to 1.
 	 */
@@ -238,12 +238,13 @@ public class Parameters
 	 * the time to read when procedure start.
 	 */
 //	public static final String timeStr = "170214123000";
-	public static final String timeStr = "200214130000";
+	public static final String timeStr = "200701080000";
 	/**the data file must store in a fold which name ends with "1" or "2" or "3" or "4" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 * */
 //	public static final String[] diskName_offline = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
 	public static final String[] diskName_offline = { "s" , "t" , "u" , "w" , "x" , "y" , "z" , "v" , "r"};
+//	public static final String[] diskName_offline = { "t" , "u" , "w" , "v" , "z" , "y" , "x"};
 	/**the location of all sensor which must be correspond with diskName_offline in sequence.*/
 	public static final double[][] SENSORINFO_offline_datong = {
 //		 { 1987, 2567, 1560.4 }, //   1号S  Test1
