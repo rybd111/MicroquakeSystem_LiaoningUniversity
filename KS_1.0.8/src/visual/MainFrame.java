@@ -75,7 +75,12 @@ public class MainFrame {
 		
 		shell.open();
 		shell.layout();
-
+		if(MainThread.exitVariable_visual == true) {
+			MainThread.exitVariable_visual = false;
+			MainThread main = new MainThread();
+			main.start();
+		}
+		
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
@@ -101,7 +106,7 @@ public class MainFrame {
 		text = new Text(shell, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		text.setBounds(10, 62, 1649, 495);
 		text.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
-		text.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		text.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BORDER));
 		text.setFont(SWTResourceManager.getFont("微软雅黑", 10, SWT.NORMAL));
 		
 		//System.out.flow reset to the front text widget. Reset the direct to the text in SWT.

@@ -1,11 +1,15 @@
-/META-INF/
 /bean/
 /com/
 /controller/
 /gather/
-/jdbc - 副本.properties
 /jdbc.properties
 /logback.xml
 /mianThread/
 /mutiThread/
 /org/
+/sev/
+/testKS/
+/utils/
+/visual/
+/visual_data/
+/说明.txt

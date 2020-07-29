@@ -46,14 +46,14 @@ public class Parameters
 	/**
 	 * 短时窗平均值与长时窗平均值的比值大于2.5，上次矫正
 	 */
-	public static double ShortCompareLong = 0;
+	public static double ShortCompareLong = 2;
 	public static double ShortCompareLongAdjust=1.4;
 
 	public static int afterRange = (Parameters.FREQUENCY+200)/10;
 	public static int refineRange = (int) ((Parameters.FREQUENCY+200)*1.5);
 //	public static final double afterRange_Threshold123 = 1000;
 	public static double afterRange_Threshold456 = 1000;
-	public static double refineRange_Threshold456 =500;
+	public static double refineRange_Threshold456 = 500;
 	
 	/**
 	 * 距离其他传感器的传输花费时间，大于1s则认为不时同时发生的事件，但要根据实际点之间的距离和波速进行调整。
@@ -157,11 +157,11 @@ public class Parameters
 	/**
 	 * when we will store all motivation sensor data to csv file, we need to set this variable to 1.
 	 */
-	public static int isStorageAllMotivationCSV =0;
+	public static int isStorageAllMotivationCSV =1;
 	/**
 	 * when we will store record of each event, we need to set this variable to 1.
 	 */
-	public static int isStorageEventRecord = 0;
+	public static int isStorageEventRecord = 1;
 	/**
 	 * 设置三台站、五台站txt存储路径
 	 * 默认为：D://ConstructionData//3moti//

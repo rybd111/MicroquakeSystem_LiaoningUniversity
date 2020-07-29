@@ -332,7 +332,7 @@ public class SensorTool
 				sumA = sumA/Parameters.refineRange;
 				if(sumA>=Parameters.refineRange_Threshold456) {
 					System.out.println(th+"在"+Parameters.afterRange+"范围内的平均振幅为："+average+data.get(lineSeries).split(" ")[6]+"pos"+lineSeries);
-					System.out.println(MainThread.fileParentPackage[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+					System.out.println(MainThread.fileStr[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
 					return true;
 				}
 				else
