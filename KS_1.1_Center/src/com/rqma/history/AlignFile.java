@@ -78,7 +78,7 @@ public class AlignFile {
             int pos = (time_sorted[0].position);
             if(pos>=allfilesname[id].length){
                 System.out.println("该台站此目录下的所有文件已处理完毕");
-                System.exit(0);
+//                System.exit(0);
             }
 
             time_sorted[0].setFilename(allfilesname[id][pos]);
@@ -178,7 +178,7 @@ public class AlignFile {
 	            int pos = (timeLine[0].position);
 	            if(pos>=allfilesname[id].length){
 	                System.out.println("该台站此目录下的所有文件已处理完毕(---没有能够对齐的文件---)");
-	                System.exit(0);
+//	                System.exit(0);
 	            }
 	
 	            timeLine[0].setFilename(allfilesname[id][pos]);
@@ -197,7 +197,7 @@ public class AlignFile {
                 int pos = (timeLine[0].position);
                 if(pos>=allfilesname[id].length){
                     System.out.println("该台站此目录下的所有文件已处理完毕(---没有能够对齐的文件---)");
-                    System.exit(0);
+//                    System.exit(0);
                 }
 
                 timeLine[0].setFilename(allfilesname[id][pos]);
