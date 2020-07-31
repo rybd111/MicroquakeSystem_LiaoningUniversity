@@ -85,7 +85,6 @@ public class MainThread extends Thread{
 //        fileStr[3] = "I:/研究生阶段/矿山/矿山数据/20200629/Testy/";
 //        fileStr[4] = "I:/研究生阶段/矿山/矿山数据/20200629/Testz/";
         
-        
     	fileStr[0] = "I:/研究生阶段/矿山/矿山数据/平顶山/20190329/Testu/";
     	fileStr[1] = "I:/研究生阶段/矿山/矿山数据/平顶山/20190329/Testw/";
     	fileStr[2] = "I:/研究生阶段/矿山/矿山数据/平顶山/20190329/Testx/";
@@ -329,12 +328,7 @@ public class MainThread extends Thread{
                 System.out.println("----------开始处理第 " + count + " 组数据---------");
             //begin endless loop.
             while (true) {
-                /*try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}*/
+                
             	synchronized (this) {
                     while (readDataArray == null || ReadData.newData == true) {
                         count++;
