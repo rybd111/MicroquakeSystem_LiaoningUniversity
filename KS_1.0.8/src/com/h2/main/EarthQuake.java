@@ -68,7 +68,7 @@ public class EarthQuake {
 		//the number of data must enough to calculate which satisfied to 10s, or it will appear mistake consequence for the current data.
 		for (Vector<String>[] vectors : ssen) {
 			for (Vector<String> vector : vectors) {
-				if (vector.size() < Parameters.FREQUENCY * 10)	return " ";//this function must be return a String to foreground.
+				if (vector.size() < Parameters.FREQUENCY * Parameters.readLen)	return " ";//this function must be return a String to foreground.
 			}
 		}
 
@@ -84,14 +84,21 @@ public class EarthQuake {
 		//Set every sensor's motivation flag to indicate the sensor is inspired or not.
 		for (int i = 0; i < Parameters.SensorNum; i++) {
 			//add extra data used to judge sensor's motivation status.
-			for(int k=sensorData[i][0].size()-Parameters.refineRange;k<sensorData[i][0].size();k++)
+			for(int k=sensorData[i][0].size()-(Parameters.refineRange);k<sensorData[i][0].size();k++)
 				judgeMotiData.addElement(sensorData[i][0].get(k));
 			
 			judgeMotiData.addAll(sensorData[i][1]);
+//			String jing = judgeMotiData.get(0).split(" ")[6];
+//			if(jing.equals("2020-07-2815:27:45")) {
+//				System.out.println();
+//			}
+			//experience.
+//			sensors[i].setCutVectorData(judgeMotiData);
 			
 			SensorTool.motivate(judgeMotiData, sensors[i],i);//存储了激发时间和激发的标志位
 			judgeMotiData.clear();
 		}
+		
 		
 		//we will diagnose there has a motivational sensor or not to reduce the complexity.
 		Sensor sensor_latest = new Sensor();
@@ -199,6 +206,11 @@ public class EarthQuake {
 				}
 			}
 			
+			//write data along.
+//			if(countNumber>2) {
+//				writeToDisk.saveAllMotivationSensors(Parameters.SensorNum, sensors, "");
+//			}
+
 			//write the motivation data on the disk. 
 			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && EarthQuake.realMoti==true) {
 				writeToDisk.saveAllMotivationSensors(countNumber, sensors1, panfu);

@@ -33,7 +33,9 @@ public class ConfigToParameters {
 	
 	public ConfigToParameters() throws NumberFormatException, IOException {
 		String j = System.getProperty("user.dir");//get the procedure absolute path.
-		this.filePath = j+"/src/Config.ini";//get the config file.
+		
+		this.filePath = j+"/Config.ini";//get the config file.
+		System.out.println(filePath);
 		Load(this.filePath);//get the variables in config file.
 	}
 	/**
@@ -65,7 +67,10 @@ public class ConfigToParameters {
 //		            System.out.println("value of variable:"+item[1]);
 		            //save new value to Parameters.
 		            /**distanceToSquareWave*/
-		            if(item[0].equals("distanceToSquareWave")) {
+	            	if(item[0].equals("FREQUENCY")) {
+		            	Parameters.FREQUENCY = Integer.parseInt(item[1]);
+		            }
+	            	if(item[0].equals("distanceToSquareWave")) {
 		            	Parameters.distanceToSquareWave = Double.parseDouble(item[1]);
 		            }
 		            /**ShortCompareLong*/
@@ -80,9 +85,21 @@ public class ConfigToParameters {
 		            if(item[0].equals("afterRange_Threshold456")) {
 		            	Parameters.afterRange_Threshold456 = Double.parseDouble(item[1]);
 		            }
-		            /**refineRange_Threshold456*/
-		            if(item[0].equals("refineRange_Threshold456")) {
-		            	Parameters.refineRange_Threshold456 = Double.parseDouble(item[1]);
+		            /**afterRange_ThresholdMin*/
+		            if(item[0].equals("afterRange_ThresholdMin")) {
+		            	Parameters.afterRange_ThresholdMin = Double.parseDouble(item[1]);
+		            }
+		            /**afterRange_ThresholdMax*/
+		            if(item[0].equals("afterRange_ThresholdMax")) {
+		            	Parameters.afterRange_ThresholdMax = Double.parseDouble(item[1]);
+		            }
+		            /**refineRange_ThresholdMin*/
+		            if(item[0].equals("refineRange_ThresholdMin")) {
+		            	Parameters.refineRange_ThresholdMin = Double.parseDouble(item[1]);
+		            }
+		            /**refineRange_ThresholdMax*/
+		            if(item[0].equals("refineRange_ThresholdMax")) {
+		            	Parameters.refineRange_ThresholdMax = Double.parseDouble(item[1]);
 		            }
 		            /**IntervalToOtherSensors*/
 		            if(item[0].equals("IntervalToOtherSensors")) {
@@ -103,19 +120,28 @@ public class ConfigToParameters {
 		            if(item[0].equals("C")) {
 		            	Parameters.C = Integer.parseInt(item[1]);
 		            }
-		            
+		            /**SensorNum*/
+		            if(item[0].equals("SensorNum")) {
+		            	Parameters.SensorNum = Integer.parseInt(item[1]);
+		            }
 		            int i=1;
 	            	/**fileStr*/
 		            if(item[0].equals("fileStr")) {
 		            	MainThread.fileStr[0] = item[1];
+		            	
 		            	while((line=reader.readLine())!=null) {
 		            		item = line.split("=");
 		            		if(!item[0].equals("")) {
 				            	item[0] = item[0].replaceAll(" ", "");
 				            	item[1] = item[1].replaceAll(" ", "");
-				            	if(item[0].equals("fileStr")) {
-					            	MainThread.fileStr[i] = item[1];
-					            	i++;
+				            	try {
+					            	if(item[0].equals("fileStr") && i<Parameters.SensorNum) {
+						            	MainThread.fileStr[i] = item[1];
+						            	i++;
+					            	}
+				            	}
+				            	catch(Exception e){
+				            		System.out.println("主路径个数超限错误！");
 				            	}
 		            		}
 		            		else
@@ -180,24 +206,26 @@ public class ConfigToParameters {
 		            if(item[0].equals("isStorageEventRecord")) {
 		            	Parameters.isStorageEventRecord = Integer.parseInt(item[1]);
 		            }
-		            if(item[0].equals("AbsolutePath3")) {
-		            	Parameters.AbsolutePath3 = item[1];
-		            }
-		            if(item[0].equals("AbsolutePath5")) {
-		            	Parameters.AbsolutePath5 = item[1];
-		            }
-		            if(item[0].equals("AbsolutePath5_record")) {
-		            	Parameters.AbsolutePath5_record = item[1];
-		            }
+		            
 		            if(item[0].equals("AbsolutePath_CSV3")) {
 		            	Parameters.AbsolutePath_CSV3 = item[1];
 		            }
 		            if(item[0].equals("AbsolutePath_CSV5")) {
 		            	Parameters.AbsolutePath_CSV5 = item[1];
 		            }
+		            if(item[0].equals("AbsolutePath5_record")) {
+		            	Parameters.AbsolutePath5_record = item[1];
+		            }
+		            if(item[0].equals("AbsolutePath_wave")) {
+		            	Parameters.AbsolutePath3 = item[1];
+		            }
+		            if(item[0].equals("AbsolutePath5")) {
+		            	Parameters.AbsolutePath5 = item[1];
+		            }
 		            if(item[0].equals("AbsolutePath_allMotiTime_record")) {
 		            	Parameters.AbsolutePath_allMotiTime_record = item[1];
 		            }
+		            
 		            if(item[0].equals("DatabaseName5")) {
 		            	Parameters.AbsolutePath5 = item[1];
 		            }
@@ -238,21 +266,28 @@ public class ConfigToParameters {
 		            if(item[0].equals("plusDouble_coefficient_12")) {
 		            	Parameters.plusDouble_coefficient_12 = Double.parseDouble(item[1]);
 		            }
+		            if(item[0].equals("offline")) {
+		            	if(item[1].equals("true"))
+		            		Parameters.offline = true;
+		            	if(item[1].equals("false"))
+		            		Parameters.offline = false;
+		            }
 	            }
             }
         }
-        System.out.println(Parameters.distanceToSquareWave);
-        System.out.println(Parameters.ShortCompareLong);
-        System.out.println(Parameters.ShortCompareLongAdjust);
-        System.out.println(Parameters.afterRange_Threshold456);
-        System.out.println(Parameters.refineRange_Threshold456);
-        System.out.println(Parameters.IntervalToOtherSensors);
-        System.out.println(Parameters.SSIntervalToOtherSensors);
-        System.out.println(Parameters.INTERVAL);
-        System.out.println(Parameters.C);
-        for(int i=0;i<MainThread.fileStr.length;i++) {
-        	System.out.println(MainThread.fileStr[i]);
-        }
+//        System.out.println(Parameters.distanceToSquareWave);
+//        System.out.println(Parameters.ShortCompareLong);
+//        System.out.println(Parameters.ShortCompareLongAdjust);
+//        System.out.println(Parameters.afterRange_Threshold456);
+//        System.out.println(Parameters.refineRange_Threshold456);
+//        System.out.println(Parameters.IntervalToOtherSensors);
+//        System.out.println(Parameters.SSIntervalToOtherSensors);
+//        System.out.println(Parameters.INTERVAL);
+//        System.out.println(Parameters.C);
+//        System.out.println(Parameters.SensorNum);
+//        for(int i=0;i<MainThread.fileStr.length;i++) {
+//        	System.out.println(MainThread.fileStr[i]);
+//        }
 //     	System.out.println(Parameters.WenJianTou);
 //    	System.out.println(Parameters.ShuJuTou1);
 //    	System.out.println(Parameters.ShuJu);
@@ -275,15 +310,12 @@ public class ConfigToParameters {
 //    	System.out.println(Parameters.isStorageEachMotivationCSV);
 //    	System.out.println(Parameters.isStorageAllMotivationCSV);
 //    	System.out.println(Parameters.isStorageEventRecord);
-//    	System.out.println(Parameters.AbsolutePath3);
-//    	System.out.println(Parameters.AbsolutePath5);
 //    	System.out.println(Parameters.AbsolutePath5_record);
 //    	System.out.println(Parameters.AbsolutePath_CSV3);
 //    	System.out.println(Parameters.AbsolutePath_CSV5);
 //    	System.out.println(Parameters.AbsolutePath_allMotiTime_record);
-//    	System.out.println(Parameters.AbsolutePath5);
-//    	System.out.println(Parameters.AbsolutePath5);
-//    	System.out.println(Parameters.AbsolutePath5);
+//    	System.out.println(Parameters.AbsolutePath_recordsOfOneSensor);
+//    	System.out.println(Parameters.AbsolutePath_wave);
 //    	System.out.println(Parameters.Adjust);
 //    	System.out.println(Parameters.MinusAFixedOnMagtitude);
 //    	System.out.println(Parameters.readSecond);
@@ -291,5 +323,6 @@ public class ConfigToParameters {
 //    	System.out.println(Parameters.plusSingle_coefficient);
 //    	System.out.println(Parameters.plusDouble_coefficient_45);
 //    	System.out.println(Parameters.plusDouble_coefficient_12);
+//    	System.out.println(Parameters.offline);
 	}
 }

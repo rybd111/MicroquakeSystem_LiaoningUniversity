@@ -92,13 +92,13 @@ public class MainThread extends Thread{
 //    	fileStr[3] = "I:/研究生阶段/矿山/矿山数据/平顶山/20191208/Testz/";
 //    	fileStr[4] = "I:/研究生阶段/矿山/矿山数据/平顶山/20190609/Testz/";
     
-    	fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200728/Testz/";
-        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200728/Testr/";
-        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200728/Testy/";
+    	fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200728/Testr/";
+        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200728/Testy/";
+        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200728/Testz/";
         fileStr[3] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200728/Testw/";
 //        fileStr[4] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testx/";
 //        fileStr[5] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testy/";
-//        fileStr[6] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testt/";
+//        fileStr[6] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testz/";
         
         
 //        fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿2.14/Test1/";
@@ -498,7 +498,7 @@ class readTask implements Runnable{
     @SuppressWarnings("unused")
     private void doWork() throws Exception {
 
-        while (num <= 10) {//读取10s的数据
+        while (num <= Parameters.readLen) {//读取10s的数据
             if(manager.isMrMa[this.sensorID]==false) {
 	        	if(Parameters.offline==true)
 	                temVector = readData.getOfflineData(sensorName, sensorID);

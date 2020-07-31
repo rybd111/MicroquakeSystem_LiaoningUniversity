@@ -136,9 +136,9 @@ public class Sensor {
 
 	//15s data.
 	public Vector<String> getCutVectorData() {return motidata;}
-	public void setCutVectorData(Vector<String> motidata) {this.motidata = motidata;}
+	public void setCutVectorData(Vector<String> motidata) {this.motidata = (Vector<String>) motidata.clone();}
 
-	//获取幅度
+	//获取幅度le
 	public double getFudu() {return fudu;}
 	public void setFudu(double fudu) {this.fudu = fudu;}
 	

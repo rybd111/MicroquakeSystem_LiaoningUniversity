@@ -172,7 +172,7 @@ public class Preferences extends ApplicationWindow {
 		
 		t1_6 = new Text(composite, SWT.BORDER);
 		t1_6.setBounds(168, 156, 104, 26);
-		t1_6.setText(String.valueOf(Parameters.refineRange_Threshold456));
+		t1_6.setText(String.valueOf(Parameters.refineRange_ThresholdMin));
 		
 		Label l1_7 = new Label(composite, SWT.NONE);
 		l1_7.setBounds(10, 188, 120, 20);
@@ -640,7 +640,7 @@ public class Preferences extends ApplicationWindow {
 		t1_3.setText(String.valueOf(Parameters.afterRange));
 		t1_4.setText(String.valueOf(Parameters.afterRange_Threshold456));
 		t1_5.setText(String.valueOf(Parameters.refineRange));
-		t1_6.setText(String.valueOf(Parameters.refineRange_Threshold456));
+		t1_6.setText(String.valueOf(Parameters.refineRange_ThresholdMin));
 		t1_7.setText(String.valueOf(Parameters.SensorNum));
 		t1_8.setText(String.valueOf(Parameters.plusSingle_coefficient));
 		t1_9.setText(String.valueOf(Parameters.plusDouble_coefficient_45));

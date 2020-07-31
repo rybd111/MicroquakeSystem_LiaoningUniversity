@@ -299,48 +299,91 @@ public class SensorTool
 	public static boolean getAverage(Vector<String> data, int lineSeries,int th) {
 		double maxA = 0.0;
 		double sumA = 0.0;
+		double sumB = 0.0;
 		double average = 0.0;
+		
 
 		for(int i=0;i<Parameters.afterRange;i++) {//the scope of the diagnosing.
 			average+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
 		}
 		average = average/Parameters.afterRange;
 		
-		if(average>=Parameters.afterRange_Threshold456) {
-			
-			if(Parameters.offline==true) {
-//				System.out.println(MainThread.fileParentPackage[th]+"在"+Parameters.afterRange/(Parameters.FREQUENCY+200)+"秒内的平均振幅为："+average);
-				// we will find the next condition.
-				for(int i=0;i<Parameters.refineRange;i++) {
-					sumA+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
-				}
-				sumA = sumA/Parameters.refineRange;
-				if(sumA>=Parameters.refineRange_Threshold456) {
-					System.out.println(th+"在"+Parameters.afterRange+"范围内的平均振幅为："+average+data.get(lineSeries).split(" ")[6]+"pos"+lineSeries);
-					System.out.println(MainThread.fileParentPackage[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
-					return true;
-				}
-				else
-					return false;
+		if(average>=Parameters.afterRange_ThresholdMin) {
+			// we will find the next condition.
+			for(int i=0;i<Parameters.refineRange;i++) {
+				sumA+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
 			}
-			else {
-//				System.out.println(MainThread.fileStr[th]+"在"+Parameters.afterRange_Threshold456/(Parameters.FREQUENCY+200)+"秒内的平均振幅为："+average);
-				// we will find the next condition.
-				for(int i=0;i<Parameters.refineRange;i++) {
-					sumA+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
+			sumA = sumA/Parameters.refineRange;
+			//first we set the min value.
+			if(sumA>=Parameters.refineRange_ThresholdMin && lineSeries-Parameters.afterRange>0) {
+				
+				for(int i=Parameters.afterRange;i>0;i--) {
+					sumB += Math.abs(Integer.parseInt(data.get(Parameters.refineRange-i+lineSeries).split(" ")[5]));
 				}
-				sumA = sumA/Parameters.refineRange;
-				if(sumA>=Parameters.refineRange_Threshold456) {
-					System.out.println(th+"在"+Parameters.afterRange+"范围内的平均振幅为："+average+data.get(lineSeries).split(" ")[6]+"pos"+lineSeries);
-					System.out.println(MainThread.fileStr[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
-					return true;
+				sumB = sumB/Parameters.afterRange;
+//				System.out.println(MainThread.fileStr[th]+"后10个元素的均值为："+sumB);
+				if(sumB>Parameters.refineRange_ThresholdMax) {
+					//use the max threshold to diagnose.
+					if(sumA>=Parameters.refineRange_ThresholdMax) {
+						//use large model diagnosing.
+						if(average>=Parameters.afterRange_ThresholdMax) {
+							if(sumA>=Parameters.refineRange_ThresholdMax) {
+								if(Parameters.offline==true)
+									System.out.println("large"+MainThread.fileParentPackage[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+								else
+									System.out.println("large"+MainThread.fileStr[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+								return true;
+							}
+							return false;
+						}
+						return false;
+					}
+					else {
+						return false;
+					}
 				}
-				else
+				else {
+					sumB=0.0;
+					//get the noise value.
+					for(int i=-1*Parameters.afterRange;i<0;i++) {
+						sumB+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
+					}
+					sumB=sumB/Parameters.afterRange;
+					//minus the noise value of each point in the refine range.
+					sumA=0.0;
+					for(int i=0;i<Parameters.refineRange;i++) {
+						sumA += Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]))-2*Math.abs(sumB);
+					}
+					sumA = sumA/Parameters.refineRange;
+					if(sumA>=Parameters.refineRange_ThresholdMin) {
+						if(Parameters.offline==true)
+							System.out.println("small"+MainThread.fileParentPackage[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+						else
+							System.out.println("small"+MainThread.fileStr[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+						return true;
+					}
 					return false;
+				}
 			}
+			else
+				return false;
 		}
 		else {
 			return false;
 		}
+	}
+	
+	public static double Variance(int[] x) { 
+		int m=x.length;
+		double sum=0;
+		for(int i=0;i<m;i++){//求和
+			sum+=x[i];
+		}
+		double dAve=sum/m;//求平均值
+		double dVar=0;
+		for(int i=0;i<m;i++){//求方差
+			dVar+=(x[i]-dAve)*(x[i]-dAve);
+		}
+		return dVar/m;
 	}
 }
