@@ -12,7 +12,7 @@ import mutiThread.MainThread;
  * @author Hanlin Zhang.
  */
 public class saveOri {
-	public String []panfu = new String[MainThread.fileStr.length];
+	public String []panfu = new String[Parameters.SensorNum];
 	public String panfu1 = "";
 	@SuppressWarnings("unused")
 	public saveOri() {
