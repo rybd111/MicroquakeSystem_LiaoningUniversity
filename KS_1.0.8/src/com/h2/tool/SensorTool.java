@@ -125,21 +125,25 @@ public class SensorTool
 					if(Parameters.motivationDiagnose==1) {
 						flag=getAverage(data,lineSeries,th);
 						if(flag==true) {
-							//set the flag signal.
-							sensor.setSign(true);
-							
-							//there set the position(series) in now vector, it means the relative position in 10s vector.
-							sensor.setlineSeries(lineSeries-Parameters.refineRange);
-							
-							System.out.println("激发位置："+"  "+sensor.getlineSeries());
-							//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
-							sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
-							
-							//Set the absolute time in GPS time.
-							sensor.setAbsoluteTime(relativeStatus.PArrivalTime(data, sensor,th));
-							
-							//we obtain the time of the first time of the now vector.
-							sensor.setTime(data.get(lineSeries).split(" ")[6]);
+							int standard = data.size()-Parameters.refineRange*2;
+							System.out.println(standard);
+							if(lineSeries < standard) {//判断是否再后面激发，如果在后面激发，则在下个窗口进行计算。
+								//set the flag signal.
+								sensor.setSign(true);
+								
+								//there set the position(series) in now vector, it means the relative position in 10s vector.
+								sensor.setlineSeries(lineSeries-Parameters.refineRange*2);
+								
+								System.out.println("激发位置："+"  "+sensor.getlineSeries());
+								//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
+								sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
+								
+								//Set the absolute time in GPS time.
+								sensor.setAbsoluteTime(relativeStatus.PArrivalTime(data, sensor,th));
+								
+								//we obtain the time of the first time of the now vector.
+								sensor.setTime(data.get(lineSeries).split(" ")[6]);
+							}
 						}
 					}
 					else {
@@ -327,9 +331,21 @@ public class SensorTool
 					if(sumA>=Parameters.refineRange_ThresholdMax) {
 						//use large model diagnosing.
 						if(average>=Parameters.afterRange_ThresholdMax) {
+							sumB=0.0;
+							//get the noise value.
+							for(int i=-1*Parameters.afterRange;i<0;i++) {
+								sumB+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
+							}
+							sumB=sumB/Parameters.afterRange;
+							//minus the noise value of each point in the refine range.
+							sumA=0.0;
+							for(int i=0;i<Parameters.refineRange;i++) {
+								sumA += Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]))-4*Math.abs(sumB);
+							}
+							sumA = sumA/Parameters.refineRange;
 							if(sumA>=Parameters.refineRange_ThresholdMax) {
 								if(Parameters.offline==true)
-									System.out.println("large"+MainThread.fileParentPackage[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+									System.out.println("large"+MainThread.fileParentPackage[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA+"noise"+sumB);
 								else
 									System.out.println("large"+MainThread.fileStr[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
 								return true;

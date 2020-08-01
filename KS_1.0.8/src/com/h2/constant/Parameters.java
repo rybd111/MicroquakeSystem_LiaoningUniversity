@@ -17,7 +17,7 @@ public class Parameters
 	 */
 	public static int FREQUENCY = 4800;// 单位hz/s
 	public static int readLen = 10;
-	public static double distanceToSquareWave = 0.2;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
+	public static double distanceToSquareWave = 0.15;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
 	/**
 	 * 用于单位转换，采样频率是秒，长短时窗的单位是毫秒
 	 */
@@ -89,7 +89,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static int SensorNum = 7;
+	public static int SensorNum = 6;
 	/**
 	 * 从0-5依次为各个盘符的背景噪声，背景噪声必须在传感器布置到矿区固定后，才能通过长时间观察确定
 	 * 这个顺序必须与启动时的传感器序号顺序一致
@@ -155,7 +155,7 @@ public class Parameters
 	/**
 	 * when we will store data to database, we need to set this variable to 1.
 	 */
-	public static int isStorageDatabase = 0;
+	public static int isStorageDatabase = 1;
 	/**
 	 * when we will store each motivation sensor data to csv file, we need to set this variable to 1.
 	 */

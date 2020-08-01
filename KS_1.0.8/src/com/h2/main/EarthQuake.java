@@ -84,7 +84,7 @@ public class EarthQuake {
 		//Set every sensor's motivation flag to indicate the sensor is inspired or not.
 		for (int i = 0; i < Parameters.SensorNum; i++) {
 			//add extra data used to judge sensor's motivation status.
-			for(int k=sensorData[i][0].size()-(Parameters.refineRange);k<sensorData[i][0].size();k++)
+			for(int k=sensorData[i][0].size()-(Parameters.refineRange*2);k<sensorData[i][0].size();k++)
 				judgeMotiData.addElement(sensorData[i][0].get(k));
 			
 			judgeMotiData.addAll(sensorData[i][1]);
@@ -140,7 +140,7 @@ public class EarthQuake {
 								}
 							}
 						}
-					}	
+					}
 				}
 			}
 			
@@ -215,27 +215,27 @@ public class EarthQuake {
 			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && EarthQuake.realMoti==true) {
 				writeToDisk.saveAllMotivationSensors(countNumber, sensors1, panfu);
 			}
-			
-			if(countNumber >= 5 && EarthQuake.realMoti==true) {
-				//write to a txt file to indicate the motivation time of each sensor.
-				WriteRecords.WriteSeveralMotiTime(sensors1, Parameters.AbsolutePath_allMotiTime_record);
-			}
-			
-			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.
-			if(countNumber >= 5 && EarthQuake.realMoti==true) {
-				outString = Five_Locate.five(sensors1, aQuackResults, sensorThread3, aDbExcute);	
-			}
-			
-			//if the number of motivated sensors is greater than 3, we will calculate three location.
-			if(countNumber>=3 && EarthQuake.realMoti==true){
-				outString = Three_Locate.three(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);
-			}
-			
-			//if the number of motivated sensors is greater than 4, we will calculate four location-main event location.
-			if(countNumber>=4 && EarthQuake.realMoti==true) {
-				//outString = MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);
-				MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);
-			}
+//			
+//			if(countNumber >= 5 && EarthQuake.realMoti==true) {
+//				//write to a txt file to indicate the motivation time of each sensor.
+//				WriteRecords.WriteSeveralMotiTime(sensors1, Parameters.AbsolutePath_allMotiTime_record);
+//			}
+//			
+//			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.
+//			if(countNumber >= 5 && EarthQuake.realMoti==true) {
+//				outString = Five_Locate.five(sensors1, aQuackResults, sensorThread3, aDbExcute);	
+//			}
+//			
+//			//if the number of motivated sensors is greater than 3, we will calculate three location.
+//			if(countNumber>=3 && EarthQuake.realMoti==true){
+//				outString = Three_Locate.three(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);
+//			}
+//			
+//			//if the number of motivated sensors is greater than 4, we will calculate four location-main event location.
+//			if(countNumber>=4 && EarthQuake.realMoti==true) {
+//				//outString = MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);
+//				MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);
+//			}
 			
 			//we can hide this print when the console are so much content or display this print when we want to adjust the procedure.
 //			if(countNumber>=3) {

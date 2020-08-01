@@ -195,7 +195,8 @@ public class AlignFile {
 	        }
         }
         else if(Parameters.region_offline=="pingdingshan"||Parameters.region_offline=="hongyang") {
-        	while ((newest_date - oldest_date) >= (3600-3*60) * 1000) {
+//        	while ((newest_date - oldest_date) >= (3600-3*60) * 1000) {
+        	while ((newest_date - oldest_date) >= (3600) * 1000) {
                 int id = timeLine[0].getId();
                 timeLine[0].position += 1;
                 int pos = (timeLine[0].position);
