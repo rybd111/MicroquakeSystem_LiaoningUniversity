@@ -89,7 +89,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static int SensorNum = 5;
+	public static int SensorNum = 7;
 	/**
 	 * 从0-5依次为各个盘符的背景噪声，背景噪声必须在传感器布置到矿区固定后，才能通过长时间观察确定
 	 * 这个顺序必须与启动时的传感器序号顺序一致
@@ -239,18 +239,18 @@ public class Parameters
 	 * There are two regions we distribute called datong, pingdingshan.
 	 * */
 	private static String [] station= {"hongyang","datong","pingdingshan"};
-	public static final String region_offline =station[2];
+	public static final String region_offline =station[0];
 	/**
 	 * the time to read when procedure start.
 	 */
-	public static final String timeStr = "170214123000";
-//	public static final String timeStr = "200701080000";
+//	public static final String timeStr = "200214123000";
+	public static String timeStr = "200711080000";
 	/**the data file must store in a fold which name ends with "1" or "2" or "3" or "4" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 * */
 //	public static final String[] diskName_offline = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-//	public static final String[] diskName_offline = { "s" , "t" , "u" , "w" , "x" , "y" , "z" , "v" , "r"};
-	public static final String[] diskName_offline = { "t" , "u" , "w" , "v" , "z" , "y" , "x"};
+	public static final String[] diskName_offline = { "s" , "t" , "u" , "w" , "x" , "y" , "z" , "v" , "r"};
+//	public static final String[] diskName_offline = { "t" , "u" , "w" , "v" , "z" , "y" , "x"};
 	/**the location of all sensor which must be correspond with diskName_offline in sequence.*/
 	public static final double[][] SENSORINFO_offline_datong = {
 //		 { 1987, 2567, 1560.4 }, //   1号S  Test1
