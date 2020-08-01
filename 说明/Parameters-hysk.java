@@ -81,7 +81,7 @@ public class Parameters
 	 * 长短时窗每次移动的距离（滑动窗口的跳数），暂时设置为移动100条数据
 	 * 该值设置太小，则可能由于电脑性能不行，导致实时读取数据受限
 	 */
-	public static final int INTERVAL = 100;
+	public static int INTERVAL = 50;
 	/**
 	 * P波波速，只能通过放炮准确测定，否则只能估算，对于定位结果影响较大
 	 */
@@ -93,7 +93,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static int SensorNum = MainThread.fileStr.length;
+	public static int SensorNum = 6;
 	/**
 	 * 从0-5依次为各个盘符的背景噪声，背景噪声必须在传感器布置到矿区固定后，才能通过长时间观察确定
 	 * 这个顺序必须与启动时的传感器序号顺序一致

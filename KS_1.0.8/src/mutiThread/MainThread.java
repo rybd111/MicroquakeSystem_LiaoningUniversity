@@ -68,12 +68,12 @@ public class MainThread extends Thread{
     	
     	/**when we need to read data offline, we can use the absolute path as follows.*/
 
-        fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200730/Testr/";
-        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200730/Testw/";
-        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200730/Testu/";
-        fileStr[3] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200730/Testt/";
-        fileStr[4] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200730/Testy/";
-        fileStr[5] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200730/Testz/";
+        fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testr/";
+        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testw/";
+        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testu/";
+        fileStr[3] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testy/";
+        fileStr[4] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testz/";
+//        fileStr[5] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200728/Testz/";
 //        fileStr[6] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200730/Testz/";
         
 //        fileStr[0] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/3-西风井/";
@@ -145,11 +145,13 @@ public class MainThread extends Thread{
             
             while(true) {
                 
-            	//sleep any seconds to avoid the procedure reset mechanically.
-//            	try {
-//                    Thread.sleep(1000*(r.nextInt(10)+1));
-//                } catch (InterruptedException e2) {	e2.printStackTrace();}
-//                
+            	if(Parameters.isDelay==1) {
+	            	//sleep any seconds to avoid the procedure reset mechanically.
+	            	try {
+	                    Thread.sleep(1000*(r.nextInt(10)+1));
+	                } catch (InterruptedException e2) {	e2.printStackTrace();}
+            	}
+            	
                 //the procedure will reset when the sensors produce a new file or there produces net error.
                 if(ReadData.netError==true||ReadData.newData==true||isFirst==true){
                 	

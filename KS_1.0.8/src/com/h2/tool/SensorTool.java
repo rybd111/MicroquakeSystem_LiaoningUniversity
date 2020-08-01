@@ -127,7 +127,7 @@ public class SensorTool
 						if(flag==true) {
 							int standard = data.size()-Parameters.refineRange*2;
 							System.out.println(standard);
-							if(lineSeries < standard) {//判断是否再后面激发，如果在后面激发，则在下个窗口进行计算。
+//							if(lineSeries < standard) {//判断是否再后面激发，如果在后面激发，则在下个窗口进行计算。
 								//set the flag signal.
 								sensor.setSign(true);
 								
@@ -143,7 +143,7 @@ public class SensorTool
 								
 								//we obtain the time of the first time of the now vector.
 								sensor.setTime(data.get(lineSeries).split(" ")[6]);
-							}
+//							}
 						}
 					}
 					else {
@@ -318,16 +318,16 @@ public class SensorTool
 				sumA+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
 			}
 			sumA = sumA/Parameters.refineRange;
-			//first we set the min value.
+			//first we set the min value, and restrict the motivation position after Parameters.afterRange.
 			if(sumA>=Parameters.refineRange_ThresholdMin && lineSeries-Parameters.afterRange>0) {
-				
+//			if(sumA>=Parameters.refineRange_ThresholdMin) {
 				for(int i=Parameters.afterRange;i>0;i--) {
 					sumB += Math.abs(Integer.parseInt(data.get(Parameters.refineRange-i+lineSeries).split(" ")[5]));
 				}
 				sumB = sumB/Parameters.afterRange;
 //				System.out.println(MainThread.fileStr[th]+"后10个元素的均值为："+sumB);
 				if(sumB>Parameters.refineRange_ThresholdMax) {
-					//use the max threshold to diagnose.
+					//use the max threshold to diagnose for the first diagnosing according to the min value, so we should diagnose it through max value.
 					if(sumA>=Parameters.refineRange_ThresholdMax) {
 						//use large model diagnosing.
 						if(average>=Parameters.afterRange_ThresholdMax) {
