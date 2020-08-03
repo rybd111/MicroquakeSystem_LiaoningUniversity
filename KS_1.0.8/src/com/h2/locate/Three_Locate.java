@@ -120,11 +120,11 @@ public class Three_Locate {
 				finalEnergy = one_dim_array_max_min.mindouble(energy);
 				
 				//calculate the during grade with 3 sensors.
-				float duringEarthQuake = calDuringTimePar.computeDuringQuakeGrade(sensors1,3);
+//				float duringEarthQuake = calDuringTimePar.computeDuringQuakeGrade(sensors1,3);
 				
 				//we will set 0 when the consequence appears NAN value.
 				String quakeString = (Float.compare(Float.NaN, earthQuakeFinal) == 0) ? "0"	: String.format("%.2f", earthQuakeFinal);//修改震级，保留两位小数
-				double quakeStringDuring = (Float.compare(Float.NaN, duringEarthQuake) == 0) ? 0:  duringEarthQuake;//修改震级，保留两位小数
+//				double quakeStringDuring = (Float.compare(Float.NaN, duringEarthQuake) == 0) ? 0:  duringEarthQuake;//修改震级，保留两位小数
 				String result = location_refine.toString()+" "+quakeString+" "+finalEnergy+" "+location_refine.getquackTime();//坐标+时间+震级
 				
 				//将各double坐标转换成数据库组形式
@@ -154,13 +154,15 @@ public class Three_Locate {
 				aQuackResults.setxData(Double.parseDouble(nf.format(location_refine.getLatitude())));
 				aQuackResults.setyData(Double.parseDouble(nf.format(location_refine.getLongtitude())));
 				aQuackResults.setzData(Double.parseDouble(nf.format(location_refine.getAltitude())));
-				aQuackResults.setQuackTime(StringToDateTime.getDateSql(location_refine.getquackTime()));
+				aQuackResults.setQuackTime(location_refine.getquackTime());
 				aQuackResults.setQuackGrade(Double.parseDouble(quakeString));
 				aQuackResults.setParrival(location_refine.getSecTime());//P波到时，精确到毫秒
 				aQuackResults.setPanfu(sensors1[0].getpanfu());
-				aQuackResults.setDuringGrade(quakeStringDuring);//持续时间震级
+				aQuackResults.setDuringGrade(0);//持续时间震级
 				aQuackResults.setNengliang(finalEnergy);//能量，待解决
 				aQuackResults.setFilename_S(sensors1[0].getFilename());
+				aQuackResults.setTensor(0);//矩张量
+				aQuackResults.setKind("three");
 
 				//output the three locate consequence.
 				System.out.println("三台站："+aQuackResults.toString());//在控制台输出结果
@@ -168,7 +170,7 @@ public class Three_Locate {
 				//diagnose is not open the function of storing into the database.
 				if(Parameters.isStorageDatabase ==1) {
 					try {
-						aDbExcute.addElement3(aQuackResults);
+						aDbExcute.addElement(aQuackResults);
 					} catch (Exception e) {
 						System.out.println("add to database error");
 					}

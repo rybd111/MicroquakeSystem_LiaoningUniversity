@@ -127,13 +127,15 @@ public class MajorEvent_locate {
 		aQuackResults.setxData(Double.parseDouble(nf.format(location_refine.getLatitude())));
 		aQuackResults.setyData(Double.parseDouble(nf.format(location_refine.getLongtitude())));
 		aQuackResults.setzData(Double.parseDouble(nf.format(location_refine.getAltitude())));
-		aQuackResults.setQuackTime(StringToDateTime.getDateSql(location_refine.getquackTime()));
+		aQuackResults.setQuackTime(location_refine.getquackTime());
 		aQuackResults.setQuackGrade(Double.parseDouble(quakeString));//近震震级
 		aQuackResults.setDuringGrade(quakeStringDuring);//持续时间震级
 		aQuackResults.setParrival(location_refine.getSecTime());//P波到时，精确到毫秒
 		aQuackResults.setPanfu(sensors1[0].getpanfu());//盘符
 		aQuackResults.setNengliang(finalEnergy);//能量，待解决
 		aQuackResults.setFilename_S(sensors1[0].getFilename());//文件名，当前第一个台站的文件名，其他台站需要进一步改变第一个字符为其他台站，则为其他台站的文件名。
+		aQuackResults.setTensor(0);//矩张量
+		aQuackResults.setKind("major");
 		
 		//output the five locate consequence.
 		System.out.println("主事件："+aQuackResults.toString());//在控制台输出结果

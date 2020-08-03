@@ -69,12 +69,12 @@ public class MainThread extends Thread{
     	/**when we need to read data offline, we can use the absolute path as follows.*/
 
         fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testr/";
-        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testw/";
-        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testu/";
+        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testu/";
+        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testw/";
         fileStr[3] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testy/";
         fileStr[4] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200726/Testz/";
-//        fileStr[5] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200728/Testz/";
-//        fileStr[6] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200730/Testz/";
+//        fileStr[5] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200730/Testz/";
+//        fileStr[6] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testz/";
         
 //        fileStr[0] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/3-西风井/";
 //        fileStr[1] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/4-铁塔/";

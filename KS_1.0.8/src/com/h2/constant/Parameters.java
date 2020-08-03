@@ -245,7 +245,7 @@ public class Parameters
 	 * the time to read when procedure start.
 	 */
 //	public static final String timeStr = "200214123000";
-	public static String timeStr = "200728100000";
+	public static String timeStr = "200707000000";
 	/**the data file must store in a fold which name ends with "1" or "2" or "3" or "4" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 * */

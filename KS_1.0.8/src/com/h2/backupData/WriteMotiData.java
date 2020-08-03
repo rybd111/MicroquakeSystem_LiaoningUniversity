@@ -149,7 +149,7 @@ public class WriteMotiData {
 	 * @author Hanlin Zhang.
 	 */
     @SuppressWarnings("unused")
-	public static void writeToCSV(Vector<String>[] totalMotiData, String filePath, int[] line, Sensor[] sen) throws ParseException, IOException {
+	public static void writeToCSV(Vector<String>[] totalMotiData, String filePath, int[] line, Sensor[] s1) throws ParseException, IOException {
     	File file=new File(filePath);
 		BufferedWriter out = null;
 		String result="";//every line data ready to write.
@@ -181,7 +181,7 @@ public class WriteMotiData {
 	        										   +totalMotiData[i].get(j).split(" ")[3]+","
 	        												   +totalMotiData[i].get(j).split(" ")[4]+","
 	        														   +totalMotiData[i].get(j).split(" ")[5]+","+line[i]+","
-	        														   	       +String.valueOf(sen[i].getSensorNum()+1)+",";
+	        														   	       +String.valueOf(s1[i].getSensorNum()+1)+",";
 	            	}
 	        	   	out.write(result+"\r\t");
 	        	   	result="";
@@ -200,7 +200,7 @@ public class WriteMotiData {
  	        										   +totalMotiData[i].get(j).split(" ")[3]+","
  	        												   +totalMotiData[i].get(j).split(" ")[4]+","
  	        														   +totalMotiData[i].get(j).split(" ")[5]+","+line[i]+","
- 	        														   	       +String.valueOf(sen[i].getSensorNum()+1)+",";
+ 	        														   	       +String.valueOf(s1[i].getSensorNum()+1)+",";
  	            	}
  	        	   	out.write(result+"\r\t");
  	        	   	result="";

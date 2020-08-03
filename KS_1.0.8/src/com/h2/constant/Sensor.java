@@ -137,6 +137,10 @@ public class Sensor {
 	//15s data.
 	public Vector<String> getCutVectorData() {return motidata;}
 	public void setCutVectorData(Vector<String> motidata) {this.motidata = (Vector<String>) motidata.clone();}
+	
+	//10s data.
+	public Vector<String> getTenVectorData() {return tendata;}
+	public void setTenVectorData(Vector<String> tendata) {this.motidata = (Vector<String>) tendata.clone();}
 
 	//获取幅度le
 	public double getFudu() {return fudu;}
@@ -275,5 +279,6 @@ public class Sensor {
 	 * the motivation data of the current sensor.
 	 */
 	private Vector<String> motidata;
-	
+	/**the size of calculation window.*/
+	private Vector<String> tendata;
 }

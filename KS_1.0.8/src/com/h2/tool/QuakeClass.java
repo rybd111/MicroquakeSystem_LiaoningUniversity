@@ -37,7 +37,7 @@ public class QuakeClass
 	 * @throws MWException 
 	 */
 	@SuppressWarnings("unused")
-	public static void SensorMaxFudu(Sensor sen, Vector<String> data, int th, Sensor location) throws ParseException, MWException
+	public static void SensorMaxFudu(Sensor sen, Vector<String> data, int th) throws ParseException, MWException
 	{
 
 		//store the data cutting from 30s data.

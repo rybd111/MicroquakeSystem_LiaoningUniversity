@@ -93,7 +93,7 @@ public class EarthQuake {
 //				System.out.println();
 //			}
 			//experience.
-//			sensors[i].setCutVectorData(judgeMotiData);
+//			sensors[i].setTenVectorData(judgeMotiData);
 			
 			SensorTool.motivate(judgeMotiData, sensors[i],i);//存储了激发时间和激发的标志位
 			judgeMotiData.clear();
@@ -119,7 +119,7 @@ public class EarthQuake {
 						for(int j=0;j<Parameters.diskName.length;j++) {
 							if(MainThread.fileStr[i].equals(Parameters.diskName[j])) {
 								if(Parameters.initPanfu[j]==0) {
-									l[countNumber]=i;//record the number of motivated sensors.
+									l[i]=i;//record the number of motivated sensors.
 									countNumber++;
 									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
 									System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
@@ -132,7 +132,7 @@ public class EarthQuake {
 						for(int j=0;j<Parameters.diskName_offline.length;j++) {
 							if(MainThread.fileParentPackage[i].replace("Test", "").equals(Parameters.diskName_offline[j])) {
 								if(Parameters.initPanfu[j]==0) {
-									l[countNumber]=i;//record the number of motivated sensors.
+									l[i]=i;//record the number of motivated sensors.
 									countNumber++;
 									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
 									System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
@@ -148,11 +148,14 @@ public class EarthQuake {
 				Parameters.initPanfu[i]=0;
 			
 			Sensor[] sensors1 = new Sensor[countNumber];//save the sensors after sorting from short to long.
+			Sensor[] sensors2 = new Sensor[Parameters.SensorNum-countNumber];
+			Sensor[] S = new Sensor[sensors1.length+sensors2.length];
+			
 			String panfu="";
 			int[] newl = new int[countNumber];//merge l to newl.
 			int count=0;// a counter.
-			Vector<String>[] motiPreLa = new Vector[countNumber];
-			Vector<String>[] inteData = new Vector[countNumber];
+			Vector<String>[] motiPreLa = new Vector[Parameters.SensorNum];
+			Vector<String>[] inteData = new Vector[Parameters.SensorNum];
 			
 			if(countNumber>2) {
 				
@@ -189,7 +192,7 @@ public class EarthQuake {
 				}
 				
 				//initialization.
-				for(int i=0;i<countNumber;i++) {
+				for(int i=0;i<Parameters.SensorNum;i++) {
 					motiPreLa[i] = new Vector<String>();
 					inteData[i] = new Vector<String>();
 				}
@@ -204,6 +207,51 @@ public class EarthQuake {
 					motiPreLa[i] = QuakeClass.cutOdata(inteData[i], sensors1, Parameters.startTime, Parameters.endTime, sensors1[i]);
 					sensors1[i].setCutVectorData(motiPreLa[i]);
 				}
+				
+				//no motivation sensor also set to motivation data according to the first motivated sensor's time.
+				int n=countNumber;
+				for(int i=0;i<Parameters.SensorNum;i++) {
+					if(n<Parameters.SensorNum) {
+						if(l[i]==0 && i!=0) {
+							inteData[n].addAll(ssen[i][0]);
+							inteData[n].addAll(ssen[i][1]);
+							inteData[n].addAll(ssen[i][2]);
+							n++;
+						}
+					}
+				}
+				
+				int n1 = 0;
+				n=countNumber;
+				for(int i=0;i<Parameters.SensorNum;i++) {
+					if(sensors[i].isSign()==false) {
+						//set attributes same as the sensors0.
+						sensors[i].setlineSeries(sensors1[0].getlineSeries());
+						sensors[i].setSecTime(sensors1[0].getSecTime());
+						sensors[i].setAbsoluteTime(sensors1[0].getAbsoluteTime());
+						sensors[i].setTime(sensors1[0].getTime());
+						
+						//cut the position the same as sensors1[0] with no motivation sensors.
+						motiPreLa[n] = QuakeClass.cutOdata(inteData[n], sensors1, Parameters.startTime, Parameters.endTime, sensors[i]);
+						sensors[i].setCutVectorData(motiPreLa[n]);
+						sensors2[n1] = sensors[i];
+						n++;n1++;
+					}
+				}
+				
+				//merge sensor1 sensor2.
+				
+				n=0;
+				for(int i=0;i<S.length;i++) {
+					if(i<sensors1.length) {
+						S[i] = sensors1[i];
+					}
+					else {
+						S[i] = sensors2[n];
+						n++;
+					}
+				}
+				
 			}
 			
 			//write data along.
@@ -213,7 +261,7 @@ public class EarthQuake {
 
 			//write the motivation data on the disk. 
 			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && EarthQuake.realMoti==true) {
-				writeToDisk.saveAllMotivationSensors(countNumber, sensors1, panfu);
+				writeToDisk.saveAllMotivationSensors(countNumber, S, panfu);
 			}
 			
 			if(countNumber >= 5 && EarthQuake.realMoti==true) {
@@ -223,7 +271,7 @@ public class EarthQuake {
 			
 			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.
 			if(countNumber >= 5 && EarthQuake.realMoti==true) {
-				outString = Five_Locate.five(sensors1, aQuackResults, sensorThread3, aDbExcute);	
+				outString = Five_Locate.five(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);	
 			}
 			
 			//if the number of motivated sensors is greater than 3, we will calculate three location.
@@ -236,6 +284,8 @@ public class EarthQuake {
 				//outString = MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);
 				MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);
 			}
+			
+			//calculate quake grade.
 			
 			//we can hide this print when the console are so much content or display this print when we want to adjust the procedure.
 //			if(countNumber>=3) {

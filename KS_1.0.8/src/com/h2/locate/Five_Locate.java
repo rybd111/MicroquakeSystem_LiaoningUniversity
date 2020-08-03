@@ -43,17 +43,17 @@ public class Five_Locate {
 	 */
 	@SuppressWarnings("unused")
 	public static String five(Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
-			DbExcute aDbExcute) throws ParseException, IOException, MWException {
+			DbExcute aDbExcute, int motinum) throws ParseException, IOException, MWException {
 		
 		String outString=" ";
 		//Take the top 5 to calculate the quake location and quake magnitude, it may need to optimize later.
 		Sensor[] sensors1 = new Sensor[5];
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < motinum; i++) {
 			sensors1[i]=sensors[i];
 		}
 		
 		//PSO locate.
-		Sensor location_PSO = PSO.process(sensors1);
+//		Sensor location_PSO = PSO.process(sensors1);
 		
 		//calculate the coordinations of the quake source, location variable only store the quake time, not store the motivation time, and store the coordinations of the quake happening.
 		Sensor location_refine = Location2.getLocation(sensors1);//calculate the quake time in milliseconds.
@@ -74,15 +74,6 @@ public class Five_Locate {
 		try {threadSignal_cal.await();}
         catch (InterruptedException e1) {e1.printStackTrace();}
 		
-		
-//		for(int i=0;i<sensors1.length;i++) {
-//			sensorThread3[i] = new ThreadStep3(sensors1[i], location_refine, i, threadSignal_cal);
-//			sensorThread3[i].cal();//计算单个传感器的近震震级
-//		}
-//		if(Parameters.isStorageEachMotivationCSV==1) {
-//			writeToDisk.writeToCSV(sensors1, 5, location_refine.getquackTime(), sensors1[0].getpanfu()+" ");
-//		}
-		
 		//We integrate every sensors quake magnitude to compute the last quake magnitude.
 		float earthQuakeFinal = 0;
 		for (Sensor sen : sensors1)	earthQuakeFinal += sen.getEarthClassFinal();
@@ -98,14 +89,14 @@ public class Five_Locate {
 //		System.out.println("五台站"+finalEnergy);
 		
 		//calculate the during grade with 5 sensors.
-		float duringEarthQuake = calDuringTimePar.computeDuringQuakeGrade(sensors1,5);
+//		float duringEarthQuake = calDuringTimePar.computeDuringQuakeGrade(sensors1,5);
 		
 		//we will set 0 when the consequence appears NAN value.
 		String quakeString = (Float.compare(Float.NaN, earthQuakeFinal) == 0) ? "0"	: String.format("%.2f", earthQuakeFinal);//修改震级，保留两位小数
-		double quakeStringDuring = (Float.compare(Float.NaN, duringEarthQuake) == 0) ? 0:  duringEarthQuake;//修改震级，保留两位小数
+//		double quakeStringDuring = (Float.compare(Float.NaN, duringEarthQuake) == 0) ? 0:  duringEarthQuake;//修改震级，保留两位小数
 		String result = location_refine.toString()+" "+quakeString+" "+finalEnergy+" "+location_refine.getquackTime();//坐标+时间+震级
-		String PSO_result = String.valueOf(location_PSO.getLatitude())+" "+String.valueOf(location_PSO.getLongtitude())+ " "+String.valueOf(location_PSO.getAltitude())+ " "+String.valueOf(location_PSO.getSecTime());
-		System.out.println("PSO result:"+PSO_result);
+//		String PSO_result = String.valueOf(location_PSO.getLatitude())+" "+String.valueOf(location_PSO.getLongtitude())+ " "+String.valueOf(location_PSO.getAltitude())+ " "+String.valueOf(location_PSO.getSecTime());
+//		System.out.println("PSO result:"+PSO_result);
 		
 		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setGroupingUsed(false);
@@ -128,16 +119,19 @@ public class Five_Locate {
 			}
 		}
 		
+		
 		aQuackResults.setxData(Double.parseDouble(nf.format(location_refine.getLatitude())));
 		aQuackResults.setyData(Double.parseDouble(nf.format(location_refine.getLongtitude())));
 		aQuackResults.setzData(Double.parseDouble(nf.format(location_refine.getAltitude())));
-		aQuackResults.setQuackTime(StringToDateTime.getDateSql(location_refine.getquackTime()));
+		aQuackResults.setQuackTime(location_refine.getquackTime());
 		aQuackResults.setQuackGrade(Double.parseDouble(quakeString));//近震震级
-		aQuackResults.setDuringGrade(quakeStringDuring);//持续时间震级
+		aQuackResults.setDuringGrade(0);//持续时间震级
 		aQuackResults.setParrival(location_refine.getSecTime());//P波到时，精确到毫秒
 		aQuackResults.setPanfu(sensors1[0].getpanfu());//盘符
 		aQuackResults.setNengliang(finalEnergy);//能量，待解决
 		aQuackResults.setFilename_S(sensors1[0].getFilename());//文件名，当前第一个台站的文件名，其他台站需要进一步改变第一个字符为其他台站，则为其他台站的文件名。
+		aQuackResults.setTensor(0);//矩张量
+		aQuackResults.setKind("five");
 		
 		//output the five locate consequence.
 		System.out.println("五台站："+aQuackResults.toString());//在控制台输出结果

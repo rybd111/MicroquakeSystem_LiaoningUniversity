@@ -13,17 +13,19 @@ public class QuackResults {
 	private double xData;
 	private double yData;
 	private double zData;
-	private Timestamp quackTime;
+	private String quackTime;
 	private double quackGrade;
 	private double Parrival;
 	private double duringQuackGrade;
 	private String panfu;
 	private double nengliang;
 	private String filename_S;
+	private double tensor;
+	private String kind;
 	
 	public QuackResults(double xData, double yData, double zData,
-			Timestamp quackTime, double quackGrade, double Parrival, 
-			 String panfu, double duringGrade, double nengliang, String filename_S) {
+			String quackTime, double quackGrade, double Parrival, 
+			 String panfu, double duringGrade, double nengliang, String filename_S, double tensor, String kind) {
 		super();
 		this.xData = xData;
 		this.yData = yData;
@@ -35,6 +37,7 @@ public class QuackResults {
 		this.panfu = panfu;
 		this.nengliang = nengliang;
 		this.filename_S = filename_S;
+		this.kind = kind;
 	}
 
 	public QuackResults() {
@@ -50,24 +53,28 @@ public class QuackResults {
 		//System.out.println("d:="+NF.format(d));
 		if(quackGrade < 0){
 			return "[x="+NF.format(xData)+" y="+NF.format(yData)+" z="+NF.format(zData)+
-					" Time="+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(quackTime)+
+					" Time="+quackTime+
 					" Grade="+quackGrade+
 					" Parrival="+Parrival+
 					" duringGrade="+duringQuackGrade+
 					" panfu="+panfu+
 					" nengliang="+nengliang+
 					" filename_S="+filename_S+
+					" tensor="+tensor+
+					" kind="+kind+
 					"--------------------------------------------------------------------------]";
 		}
 		else{
 			return "[x="+NF.format(xData)+" y="+NF.format(yData)+" z="+NF.format(zData)+
-					" Time="+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(quackTime)+
+					" Time="+quackTime+
 					" Grade="+quackGrade+
 					" Parrival="+Parrival+
 					" duringGrade="+duringQuackGrade+
 					" panfu="+panfu+
 					" nengliang="+nengliang+
 					" filename_S="+filename_S+
+					" tensor="+tensor+
+					" kind="+kind+
 					"]";
 		}
 	}
@@ -93,10 +100,10 @@ public class QuackResults {
 		this.zData = zData;
 	}
 
-	public Timestamp getQuackTime() {//��Դ����ʱ��
+	public String getQuackTime() {//��Դ����ʱ��
 		return quackTime;
 	}
-	public void setQuackTime(Timestamp quackTime) {
+	public void setQuackTime(String quackTime) {
 		this.quackTime = quackTime;
 	}
 
@@ -140,6 +147,20 @@ public class QuackResults {
 	}
 	public String getFilename_S() {
 		return filename_S;
+	}
+	
+	public void setTensor(double tensor) {
+		this.tensor = tensor;
+	}
+	public double getTensor() {
+		return tensor;
+	}
+	
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
+	public String getKind() {
+		return kind;
 	}
 
 }

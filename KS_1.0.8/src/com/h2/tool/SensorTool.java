@@ -126,7 +126,7 @@ public class SensorTool
 						flag=getAverage(data,lineSeries,th);
 						if(flag==true) {
 							int standard = data.size()-Parameters.refineRange*2;
-							System.out.println(standard);
+//							System.out.println(standard);
 //							if(lineSeries < standard) {//判断是否再后面激发，如果在后面激发，则在下个窗口进行计算。
 								//set the flag signal.
 								sensor.setSign(true);
@@ -134,7 +134,7 @@ public class SensorTool
 								//there set the position(series) in now vector, it means the relative position in 10s vector.
 								sensor.setlineSeries(lineSeries-Parameters.refineRange*2);
 								
-								System.out.println("激发位置："+"  "+sensor.getlineSeries());
+//								System.out.println("激发位置："+"  "+sensor.getlineSeries());
 								//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
 								sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
 								

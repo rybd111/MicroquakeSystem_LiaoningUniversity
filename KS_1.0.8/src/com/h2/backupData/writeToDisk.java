@@ -91,62 +91,65 @@ public class writeToDisk {
 	 * @throws ParseException 
 	 */
 	@SuppressWarnings("unused")
-	public static void writeToCSV(Sensor[] sen, int motiNum, String motiDate, String panfu) throws ParseException, IOException {
+//	public static void writeToCSV(Sensor[] s1, Sensor[] s2, int motiNum, String motiDate, String panfu) throws ParseException, IOException {
+	public static void writeToCSV(Sensor[] s1, int motiNum, String motiDate, String panfu) throws ParseException, IOException {
 		
 		//the name of write file - the most early time in all motivated sensors.
 		motiDate=motiDate.replace(":","-");//替换掉时间中的:
 		motiDate=motiDate.replace(".", "`");//替换掉时间中的.
 		
 		//set new motivation position.
-		int[] lineInNewData = new int[sen.length];
-		for(int i=0;i<sen.length;i++) {
-			lineInNewData[i]=sen[i].getlineSeriesNew();
+		int[] lineInNewData = new int[s1.length];
+		for(int i=0;i<s1.length;i++) {
+			lineInNewData[i]=s1[i].getlineSeriesNew();
 		}
 		
 		//get the motidata of each motivation sensor, but it is not align in time.
-		Vector<String> [] MOTIDATA = new Vector[sen.length];
-		for(int i=0;i<sen.length;i++) {
+		Vector<String> [] MOTIDATA = new Vector[s1.length];
+		for(int i=0;i<s1.length;i++) {
 			MOTIDATA[i] = new Vector<String>();
 		}
-		for(int i=0;i<sen.length;i++) {
-			MOTIDATA[i].addAll(sen[i].getCutVectorData());
+		for(int i=0;i<s1.length;i++) {
+			MOTIDATA[i].addAll(s1[i].getCutVectorData());
 		}
+		
 		
 		if(Parameters.offline==false) {
 			
 			if(motiNum>3){
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv", lineInNewData, sen);
-				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv");//文件名
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv", lineInNewData, s1);
+				for(int i=0;i<s1.length;i++)
+					s1[i].setFilename_S(Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv");//文件名
 			}
 
 			if(motiNum==3){
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv", lineInNewData, sen);
-				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv");//文件名
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv", lineInNewData, s1);
+				for(int i=0;i<s1.length;i++)
+					s1[i].setFilename_S(Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv");//文件名
 			}
 			
 		}
 		else {
 			
 			if (motiNum == 3) {
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3_offline+panfu+motiDate+".csv", lineInNewData, sen);
-				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_CSV3_offline+panfu+motiDate+".csv");//文件名
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3_offline+panfu+motiDate+".csv", lineInNewData, s1);
+				for(int i=0;i<s1.length;i++)
+					s1[i].setFilename_S(Parameters.AbsolutePath_CSV3_offline+panfu+motiDate+".csv");//文件名
 			}
 			if (motiNum > 3) {
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5_offline+panfu+motiDate+".csv", lineInNewData, sen);
-				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_CSV5_offline+panfu+motiDate+".csv");//文件名
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5_offline+panfu+motiDate+".csv", lineInNewData, s1);
+				for(int i=0;i<s1.length;i++)
+					s1[i].setFilename_S(Parameters.AbsolutePath_CSV5_offline+panfu+motiDate+".csv");//文件名
 			}
 			
 		}
 	}
 	
 	@SuppressWarnings("unused")
-	public static void saveAllMotivationSensors(int countNumber, Sensor [] sensors, String panfu) throws ParseException, IOException {
+//	public static void saveAllMotivationSensors(int countNumber, Sensor [] s1, Sensor[] s2, String panfu) throws ParseException, IOException {
+	public static void saveAllMotivationSensors(int countNumber, Sensor [] s1, String panfu) throws ParseException, IOException {
 			//the name of csv file is named by the first data's date in seconds.
-			writeToDisk.writeToCSV(sensors, countNumber, sensors[0].getAbsoluteTime(), panfu+" ");
+			writeToDisk.writeToCSV(s1, countNumber, s1[0].getAbsoluteTime(), panfu+" ");
 	}
 	
 }

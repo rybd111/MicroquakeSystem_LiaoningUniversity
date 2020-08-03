@@ -35,7 +35,7 @@ public class ThreadStep3 extends Thread
 	{
 		//calculate the near quake magnitude.
 		try {
-			QuakeClass.SensorMaxFudu(this.sensor, this.dataCalculate, this.i, this.location);
+			QuakeClass.SensorMaxFudu(this.sensor, this.dataCalculate, this.i);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,7 +50,7 @@ public class ThreadStep3 extends Thread
 	{
 		//calculate the near quake magnitude.
 		try {
-			QuakeClass.SensorMaxFudu(this.sensor, this.dataCalculate, this.i, this.location);
+			QuakeClass.SensorMaxFudu(this.sensor, this.dataCalculate, this.i);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
