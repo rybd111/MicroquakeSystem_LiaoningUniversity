@@ -155,7 +155,7 @@ public class Parameters
 	/**
 	 * when we will store data to database, we need to set this variable to 1.
 	 */
-	public static int isStorageDatabase = 1;
+	public static int isStorageDatabase = 0;
 	/**
 	 * when we will store each motivation sensor data to csv file, we need to set this variable to 1.
 	 */
@@ -163,11 +163,11 @@ public class Parameters
 	/**
 	 * when we will store all motivation sensor data to csv file, we need to set this variable to 1.
 	 */
-	public static int isStorageAllMotivationCSV = 1;
+	public static int isStorageAllMotivationCSV = 0;
 	/**
 	 * when we will store record of each event, we need to set this variable to 1.
 	 */
-	public static int isStorageEventRecord = 1;
+	public static int isStorageEventRecord = 0;
 	public static int isDelay = 1;
 	/**
 	 * 设置三台站、五台站txt存储路径

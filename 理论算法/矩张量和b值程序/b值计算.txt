@@ -1,0 +1,130 @@
+﻿%由幅度计算震级继而计算能量
+clear
+clc
+% sss=importdata('C:\Users\Qian\Desktop\14-2压机曲线.txt');
+% sss=sss.data;
+% sss=xlsread('C:\Users\Qian\Desktop\3-1压机数据.xlsx');
+% [x,y]=size(sss);   %x为矩阵sss行数，y为列数
+% i=1;j=2;
+% for ii=1:x
+%     shijian1(ii)=sss(ii,1)*1;%时间
+%     yingli(ii)=sss(ii,2)*1; %应力
+% end
+% yingli=smooth(yingli,100);
+
+yr=importdata('C:\Users\QD-PC\Desktop\程序\声发射转换结果.txt');
+yr = yr.data;
+shijian2=yr(:,3);   %时间
+fudu=yr(:,4);       %最大幅度
+[m,~]=size(fudu);
+for ou=1:m
+    zhenji(ou)=log10(fudu(ou));
+end
+% plot(yr(:,3),yr(:,4))
+%%%
+% b值计算
+%%%
+% 1-7对应：fd=0.04，dt=100或者50均可
+% 1-5对应  fd= 0.04,  dt=40
+% 1图
+% fd=0.04;  %分档间隔
+% dt=40;  %样本数
+fd=0.2;  %分档间隔 
+dt=20;  %样本数
+qw=fix(m/dt);  % 以dt个事件作为一个b值计算样本，qw为样本数, fix 取整函数
+
+for ii=1:qw
+    zj=[];
+    zj=zhenji(((ii-1)*dt+1):(ii*dt)); %选择样本
+    sj12(ii)=shijian2(ii*dt);
+    zjmax=max(zj);
+    zjmin=min(zj);
+    mm=fix((zjmax-zjmin)/fd); %震级分档总数
+    M=[];N=[];
+    for iu=1:mm
+        hzjmx=(zjmin+fd*iu);
+        hzjmn=(zjmin + fd*(iu-1));
+        M(iu)=hzjmx; %该档震级
+        yt=0;
+        for iy=1:dt
+            if (zj(iy)<=hzjmx && zj(iy)>=hzjmn)
+                yt=yt+1;
+            end
+        end
+        N(iu)=yt;  
+    end
+    c1=0;%左上部 M*log10(N) 求和
+    c21=0;%右上部  M求和
+    c22=0;%右上部  log10(N)求和
+    c3=0;%左下部 M*M 求和
+    for iu=1:1:mm
+        if N(iu)==0
+            continue
+        end
+        c1=c1+M(iu)*log10(N(iu));
+        c21=c21+M(iu);
+        c22=c22+ log10(N(iu));
+        c3=c3+M(iu)*M(iu);
+    end
+    b(ii)=(c1-mm*c21*c22)/(c3-mm*c3*c3);
+end
+jj=1;
+for ii=1:qw 
+    if b(ii)==0
+        continue;
+    end
+    bb(jj)=b(ii);
+    sjsj(jj)=sj12(ii);
+    jj=jj+1;
+end
+
+fig=figure(1);
+left_color=[0 0 0];
+right_color=[0 0 0];
+set(fig,'defaultAxesColorOrder',[left_color; right_color]);
+yyaxis left
+plot(shijian1,yingli,'LineWidth',1,'MarkerSize',6,'MarkerEdgeColor','red', 'MarkerFaceColor','blue','Color','black');
+% hold on
+% plot([150,150],[0,14000],'--','LineWidth',2,'Color','red')
+% hold on
+% plot([390,390],[0,14000],'--','LineWidt
+
+
+fig=figure(1);
+left_color=[0 0 0];
+right_color=[0 0 0];
+set(fig,'defaultAxesColorOrder',[left_color; right_color]);
+% yyaxis left
+% plot(shijian1,yingli,'LineWidth',1,'MarkerSize',6,'MarkerEdgeColor','red', 'MarkerFaceColor','blue','Color','black');
+% % hold on
+% % plot([150,150],[0,14000],'--','LineWidth',2,'Color','red')
+% % hold on
+% % plot([390,390],[0,14000],'--','LineWidth',2,'Color','red')
+% % hold off
+% xlabel('ok','Fontsize',16,'FontName','Script','string','时间/s');
+% ylabel('ok','FontSize',16,'FontName','Script','string','力/kN')
+% axis([0 1200 0 250]);
+% set(gca,'XTick',0:200:2200);
+% set(gca,'YTick',0:50:250);
+% set(gca,'FontSize',22) 
+yyaxis right
+plot(sjsj,bb,'*-','LineWidth',1,'MarkerSize',6, 'MarkerEdgeColor','red','MarkerFaceColor','red','Color','blue');
+ylabel('ok','FontSize',16,'FontName','Script','string','b值')
+axis([0 1200 0.04 0.2]);
+set(gca,'XTick',0:200:2200);
+set(gca,'YTick',0.04:0.02:0.2);
+set(gca,'FontSize',22)
+% l3=legend('加载曲线','声发射b值');
+% set(l3,'FontSize',20)
+% l4=title('b值-时间 演化曲线');
+% set(l4,'FontSize',22)
+
+
+
+
+
+
+
+
+
+

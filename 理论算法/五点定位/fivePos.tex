@@ -1,0 +1,153 @@
+\documentclass[runningheads,a4paper]{llncs}
+%\usepackage[UTF8]{ctex}
+\setcounter{tocdepth}{3}
+\usepackage{subfigure}
+%\usepackage{psfig}
+%\input{psfig.sty}
+\usepackage{times,epsfig}
+%\usepackage{enumerate}
+%\usepackage{rotating}
+%\usepackage{subcaption}
+%\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{array}
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\newcolumntype{C}[1]{>{\PreserveBackslash\centering}p{#1}}
+\newcolumntype{R}[1]{>{\PreserveBackslash\raggedleft}p{#1}}
+\newcolumntype{L}[1]{>{\PreserveBackslash\raggedright}p{#1}}
+\usepackage{url}
+\urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas, frank.holzwarth,|\urldef{\mailsb}\path|anna.kramer, leonie.kunz, christine.reiss, nicole.sator,|\urldef{\mailsc}\path|erika.siebert-cole, peter.strasser, lncs}@springer.com|\newcommand{\keywords}[1]{\par\addvspace\baselineskip\noindent\keywordname\enspace\ignorespaces#1}
+\usepackage{indentfirst}%段首空格
+\usepackage{xcolor,graphicx,float}
+%\usepackage{textcomp}
+%\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08emT\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\usepackage{amsmath, amssymb, amstext, amsfonts}
+\usepackage{bm}%数学字体中用于加粗的包
+\usepackage{mdwtab}
+\usepackage{makeidx}
+\usepackage{subfigure}
+\usepackage[center]{caption2}
+\usepackage{booktabs}
+%\usepackage{epsf}
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\usepackage{multirow}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[numbers,sort&compress]{natbib}%文献连写
+%\usepackage[colorlinks,linkcolor=blue,anchorcolor=red,citecolor=green]{hyperref}%将引用框起来的方框
+\usepackage{hyperref}%将引用框起来的方框
+\begin{document}
+	We take the first equation to illustrate this problem. Firstly, we can obtain an equation according to the Euclidean distance formulation like equation (\ref{1}) through considering the only one remote sensor.
+	
+	\begin{equation}
+	\label{1}
+	\sqrt{(x_1-x)^2+(y_1-y)^2+(z_1-z)^2}=c(t_1-t)	
+	\end{equation}
+	
+	\begin{equation}
+	{(x_1-x)^2+(y_1-y)^2+(z_1-z)^2}=c^2(t_1-t)^2	
+	\end{equation}
+	
+	\begin{equation}
+	x_1^2+y_1^2+z_1^2+x^2-2x_1x+y^2-2y_1y+z^2-2z_1z=c^2t_1^2-2c^2t_1t+c^2t^2	
+	\end{equation}
+	
+	Put the $c^2t_1^2$ to the left of the equation, then we can get the equation(\ref{4}).
+	
+	\begin{equation}
+	\label{4}
+		x_1^2+y_1^2+z_1^2-c^2t_1^2+x^2-2x_1x+y^2-2y_1y+z^2-2z_1z=-2c^2t_1t+c^2t^2
+	\end{equation}
+	
+	Then, we can replace the first four items to $R_1$, get euation (\ref{5})
+	
+	\begin{equation}
+	\label{5}
+	R_1-c^2t^2+x^2+y^2+z^2-2x_1x-2y_1y-2z_1z=-2c^2t_1t
+	\end{equation}
+	
+	We replace the $c^2t^2-R_1$ to $T_1$, the equation (\ref{5}) will become equation (\ref{6}).
+	
+	\begin{equation}
+	\label{6}
+	x^2+y^2+z^2-c^2t^2-2(x_1x+y_1y+z_1z-c^2t_1t)=-R_1
+	\end{equation}
+	
+	We list all the formula from sensor 1 to sensor n and get the equation (\ref{7}).
+	
+	\begin{equation}
+	\begin{split}
+	\label{7}
+	x^2+y^2+z^2-c^2t^2-2(x_1x+y_1y+z_1z-c^2t_1t)=-R_1\\
+	x^2+y^2+z^2-c^2t^2-2(x_2x+y_2y+z_2z-c^2t_2t)=-R_2\\
+	x^2+y^2+z^2-c^2t^2-2(x_3x+y_3y+z_3z-c^2t_3t)=-R_3\\
+	x^2+y^2+z^2-c^2t^2-2(x_4x+y_4y+z_4z-c^2t_4t)=-R_4\\
+	x^2+y^2+z^2-c^2t^2-2(x_5x+y_5y+z_5z-c^2t_5t)=-R_5\\
+	\dots\\
+	x^2+y^2+z^2-c^2t^2-2(x_nx+y_ny+z_nz-c^2t_nt)=-R_n
+	\end{split}
+	\end{equation}
+	
+	We simplify the equation (\ref{7}) from the second to the n through minusing the first equation, and get the equation (\ref{8}).
+	
+	\begin{equation}
+	\begin{split}
+	\label{8}
+	x^2+y^2+z^2-c^2t^2-2(x_1x+y_1y+z_1z-c^2t_1t)=-R_1\\
+	-2(x_2x+y_2y+z_2z-c^2t_2t)+2(x_1x+y_1y+z_1z-c^2t_1t)=-R_2+R_1\\
+	-2(x_3x+y_3y+z_3z-c^2t_3t)+2(x_1x+y_1y+z_1z-c^2t_1t)=-R_3+R_1\\
+	-2(x_4x+y_4y+z_4z-c^2t_4t)+2(x_1x+y_1y+z_1z-c^2t_1t)=-R_4+R_1\\
+	-2(x_5x+y_5y+z_5z-c^2t_5t)+2(x_1x+y_1y+z_1z-c^2t_1t)=-R_5+R_1\\
+	\dots\\
+	-2(x_nx+y_ny+z_nz-c^2t_nt)+2(x_1x+y_1y+z_1z-c^2t_1t)=-R_n+R_1
+	\end{split}
+	\end{equation}
+	
+	We can further simplify the above equation to equation (\ref{9}).
+
+	\begin{equation}
+	\begin{split}
+	\label{9}
+	(x_1-x_2)x+(y_1-y_2)y+(z_1-z_2)z+(t_2-t_1)c^2t=\frac{R_1-R_2}{2}\\
+	(x_1-x_3)x+(y_1-y_3)y+(z_1-z_3)z+(t_3-t_1)c^2t=\frac{R_1-R_3}{2}\\
+	(x_1-x_4)x+(y_1-y_4)y+(z_1-z_4)z+(t_4-t_1)c^2t=\frac{R_1-R_4}{2}\\
+	(x_1-x_5)x+(y_1-y_5)y+(z_1-z_5)z+(t_5-t_1)c^2t=\frac{R_1-R_5}{2}\\
+	\dots\\
+	(x_1-x_n)x+(y_1-y_n)y+(z_1-z_n)z+(t_n-t_1)c^2t=\frac{R_1-R_n}{2}
+	\end{split}
+	\end{equation}
+	
+	And we can transform this equation group into a determinant as equation (\ref{10}).
+	
+	\begin{equation}
+	\begin{split}
+	\label{10}
+	\begin{bmatrix}
+	(x_1-x_2)&(y_1-y_2)&(z_1-z_2)&(t_2-t_1)c^2\\
+	(x_1-x_3)&(y_1-y_3)&(z_1-z_3)&(t_3-t_1)c^2\\
+	(x_1-x_4)&(y_1-y_4)&(z_1-z_4)&(t_4-t_1)c^2\\
+	(x_1-x_5)&(y_1-y_5)&(z_1-z_5)&(t_5-t_1)c^2\\
+	\vdots&\vdots&\vdots&\vdots\\
+	(x_1-x_n)&(y_1-y_n)&(z_1-z_n)&(t_n-t_1)c^2
+	\end{bmatrix}
+	\begin{bmatrix}
+	x\\ y\\ z\\ t
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	\frac{R_1-R_2}{2}\\
+	\frac{R_1-R_3}{2}\\
+	\frac{R_1-R_4}{2}\\
+	\frac{R_1-R_5}{2}\\
+	\vdots\\
+	\frac{R_1-R_n}{2}
+	\end{bmatrix}
+	\end{split}
+	\end{equation}
+	
+	Then, we can use the thoery of the linear algebra to find many consequences of this equation cause when the order of the determinant are not full.
+	
+	
+	
+	
+\end{document}

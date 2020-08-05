@@ -179,14 +179,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      		y.push(data2[2]);
 	      		nearGrade.push(data2[3]);
 	      		levelEnergy.push(data2[4]);
-	      		flag.push(data2[0].toString());
-	      		alert(flag[i]);
+	      		flag.push(data2[0]);
+	      		//alert(flag[i]);
  			}
          });                      
 
          for(var i=0;i<x.length;i++){
         	var m=0.15*nearGrade[i]+0.2;
-        	
+        	alert(flag[i].equals('three'));
 	 		if(flag[i].equals("three")){
 		 		var o= mxOcx.DrawImageMark(x[i],y[i],m, 0.0, sImageFileR, sImageFileR+","+sImageFileR1, false);
 		 	    mxOcx.TwinkeEnt(o);//开启图片闪烁功能
