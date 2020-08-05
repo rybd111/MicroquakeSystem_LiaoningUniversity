@@ -89,7 +89,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static int SensorNum = 5;
+	public static int SensorNum = 7;
 	/**
 	 * 从0-5依次为各个盘符的背景噪声，背景噪声必须在传感器布置到矿区固定后，才能通过长时间观察确定
 	 * 这个顺序必须与启动时的传感器序号顺序一致
@@ -168,7 +168,7 @@ public class Parameters
 	 * when we will store record of each event, we need to set this variable to 1.
 	 */
 	public static int isStorageEventRecord = 1;
-	public static int isDelay = 0;
+	public static int isDelay = 1;
 	/**
 	 * 设置三台站、五台站txt存储路径
 	 * 默认为：D://ConstructionData//3moti//
@@ -191,7 +191,7 @@ public class Parameters
 	/**
 	 * 5台站、3台站存入的数据库表名
 	 */
-	public static final String DatabaseName5 = "mine_quack_5_results";
+	public static final String DatabaseName5 = "mine_quack_results";
 	public static final String DatabaseName5_updated = "mine_quack_5_results_updated";
 	public static final String DatabaseName4 = "mine_quack_4_results";
 	public static final String DatabaseName3 = "mine_quack_3_results";

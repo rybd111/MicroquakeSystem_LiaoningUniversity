@@ -123,10 +123,10 @@ public class DbExcute {
 	public ArrayList<String> getData(String paras[]) {
 		// String sql="select * from mine_quack_results where 1=?";
 		
-		String []sql = new String[3];
-		sql[0] = "select * from "+Parameters.DatabaseName3+" where quackTime>=? and quackTime<? and quackGrade>? and nengliang>?";
-		sql[1] = "select * from "+Parameters.DatabaseName4+" where quackTime>=? and quackTime<? and quackGrade>? and nengliang>?";
-		sql[2] = "select * from "+Parameters.DatabaseName5+" where quackTime>=? and quackTime<? and quackGrade>? and nengliang>?";
+		String sql = null;
+//		sql[0] = "select * from "+Parameters.DatabaseName3+" where quackTime>=? and quackTime<? and quackGrade>? and nengliang>?";
+//		sql[1] = "select * from "+Parameters.DatabaseName4+" where quackTime>=? and quackTime<? and quackGrade>? and nengliang>?";
+		sql = "select * from "+Parameters.DatabaseName5+" where quackTime>=? and quackTime<? and quackGrade>? and nengliang>?";
 		
 		
 //		String sql_union = "select * from ("
@@ -136,14 +136,14 @@ public class DbExcute {
 		
 		
 		ArrayList<String> newAl = new ArrayList<String>();
-		for(int i=0;i<sql.length;i++) {
+//		for(int i=0;i<sql.length;i++) {
 			// String paras[]={"2017-03-25 00:00:00","2017-06-02 00:00:00"};
 			ArrayList al = new ArrayList();
 			try {
 				connection = JdbcUtil.getConnection();
 				PreparedStatement aStatement = null;
 //				aStatement = connection.prepareStatement("sql"+String.valueOf(i+3));
-				aStatement = connection.prepareStatement(sql[i]);
+				aStatement = connection.prepareStatement(sql);
 				if (paras != null) {
 					for (int j = 0; j < paras.length; j++) {
 						aStatement.setString(j + 1, paras[j]);
@@ -171,17 +171,19 @@ public class DbExcute {
 			
 			for (int j = 0; j < al.size(); j++) {
 				Object obj[] = (Object[]) al.get(j);
-				BigDecimal bd = new BigDecimal(obj[1].toString());
-				newAl.add(bd.toPlainString());
+//				BigDecimal bd = new BigDecimal(obj[1].toString());
+//				newAl.add(bd.toPlainString());
+				newAl.add(obj[1].toString());
 				newAl.add(obj[2].toString());
-				newAl.add(obj[5].toString());
-				newAl.add(obj[8].toString());
-				newAl.add(String.valueOf(i+3));
+				newAl.add(obj[3].toString());
+				newAl.add(obj[6].toString());
+				newAl.add(obj[10].toString());
+				
 				// System.out.println(obj[0].toString()+" "+obj[1].toString());
 	
 				// System.out.println(al.get(i).toString());
 			}
-		}
+//		}
 		return newAl;
 	}
 	// 删锟斤拷锟斤拷锟斤拷

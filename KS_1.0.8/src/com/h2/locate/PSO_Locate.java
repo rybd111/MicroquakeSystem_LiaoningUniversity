@@ -127,13 +127,13 @@ public class PSO_Locate {
 					String dateInFileName = intequackTime.substring(0, 10);
 					//If the difference between the current calculated time and the last time is more than 1 day, the storage file is changed to a new.
 					if(dif>=1) {
-						WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv", quakeString, finalEnergy, "三台站");
+						WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv", quakeString, finalEnergy, "粒子群");
 //						if(countNumber==3) {
 //							WriteRecords.insertALine(Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv");
 //						}
 					}
 					else {
-						WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv", quakeString, finalEnergy, "三台站");
+						WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv", quakeString, finalEnergy, "粒子群");
 //						if(countNumber==3) {
 //							WriteRecords.insertALine(Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv");
 //						}

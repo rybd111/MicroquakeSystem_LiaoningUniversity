@@ -175,19 +175,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	var data1=data.split("\n");
         	for(var i=0;i<data1.length-1;i++){
 		 		var data2=data1[i].split(" ");
-		 		x.push(data2[0]);
-	      		y.push(data2[1]);
-	      		nearGrade.push(data2[2]);
-	      		levelEnergy.push(data2[3]);
-	      		flag.push(data2[4]);
-	      		 //alert(flag[i]);
+		 		x.push(data2[1]);
+	      		y.push(data2[2]);
+	      		nearGrade.push(data2[3]);
+	      		levelEnergy.push(data2[4]);
+	      		flag.push(data2[0].toString());
+	      		alert(flag[i]);
  			}
          });                      
 
          for(var i=0;i<x.length;i++){
         	var m=0.15*nearGrade[i]+0.2;
         	
-	 		if(parseInt(flag[i])==3){
+	 		if(flag[i].equals("three")){
 		 		var o= mxOcx.DrawImageMark(x[i],y[i],m, 0.0, sImageFileR, sImageFileR+","+sImageFileR1, false);
 		 	    mxOcx.TwinkeEnt(o);//开启图片闪烁功能
 		 	    var ent = mxOcx.ObjectIdToObject(o);//将o转换为IMxDrawEntity类型对象，为了将图片插入到顶层
@@ -196,7 +196,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	    res.AddLong(2147403647);//设置图层高度
 		 	    ent.SetProp("drawOrder",res);//将图片插入到新图层
 	 		}
-	 		if(parseInt(flag[i])==4){
+	 		if(flag[i].equals("PSO")){
 	 			var o= mxOcx.DrawImageMark(x[i],y[i],m, 0.0, sImageFileB, sImageFileB+","+sImageFileB1, false);
 	 			mxOcx.TwinkeEnt(o);//开启图片闪烁功能
 		 	    var ent = mxOcx.ObjectIdToObject(o);//将o转换为IMxDrawEntity类型对象，为了将图片插入到顶层
@@ -205,7 +205,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	    res.AddLong(2147403647);//设置图层高度
 		 	    ent.SetProp("drawOrder",res);//将图片插入到新图层
 	 		}
-	 		if(parseInt(flag[i])==5){
+	 		if(flag[i].equals("five")) {
 	 			var o= mxOcx.DrawImageMark(x[i],y[i],m, 0.0, sImageFileG, sImageFileG+","+sImageFileG1, false);
 	 			mxOcx.TwinkeEnt(o);//开启图片闪烁功能
 		 	    var ent = mxOcx.ObjectIdToObject(o);//将o转换为IMxDrawEntity类型对象，为了将图片插入到顶层

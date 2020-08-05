@@ -1,0 +1,38 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : KS
+Source Server Version : 50716
+Source Host           : localhost:3306
+Source Database       : ks
+
+Target Server Type    : MYSQL
+Target Server Version : 50716
+File Encoding         : 65001
+
+Date: 2020-08-05 13:09:56
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `mine_quack_5_results`
+-- ----------------------------
+DROP TABLE IF EXISTS `mine_quack_5_results`;
+CREATE TABLE `mine_quack_5_results` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `kind` varchar(100) DEFAULT NULL,
+  `xData` double DEFAULT NULL,
+  `yData` double DEFAULT NULL,
+  `zData` double DEFAULT NULL,
+  `quackTime` varchar(100) DEFAULT NULL,
+  `quackGrade` double DEFAULT NULL,
+  `Parrival` double DEFAULT NULL,
+  `panfu` varchar(10) DEFAULT NULL,
+  `duringGrade` double DEFAULT NULL,
+  `nengliang` double DEFAULT NULL,
+  `wenjianming` varchar(100) DEFAULT NULL,
+  `tensor` double DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
+

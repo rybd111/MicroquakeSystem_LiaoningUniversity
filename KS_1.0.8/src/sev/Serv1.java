@@ -35,6 +35,7 @@ public class Serv1 extends HttpServlet {
 		for(int i=0;i<al.size();i=i+paras.length+1){
 			String data=al.get(i)+" "+al.get(i+1)+" "+al.get(i+2)+" "+al.get(i+3)+" "+al.get(i+4);
 			out.println(data);
+			
 		}
 		
 		out.flush();
