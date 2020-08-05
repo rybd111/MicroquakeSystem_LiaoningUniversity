@@ -92,18 +92,24 @@ public class MajorEvent_locate {
 			earthQuakeFinal = (float) (earthQuakeFinal-Parameters.MinusAFixedValue);// We discuss the consequen to minus 0.7 to reduce the final quake magnitude at datong coal mine.
 		
 		//We compute the minimum energy of all sensors as the final energy.
-		double finalEnergy = 0.0;
-		double []energy = new double[sensors1.length];
-		for (int i=0;i<sensors1.length;i++)	energy[i] = sensors1[i].getEnergy();
+		double finalEnergy = 0.0;double []energy = new double[sensors1.length];
+		int finalClass = 0;int [] class1 = new int[sensors1.length];
+		for (int i=0;i<sensors1.length;i++) {
+			energy[i] = sensors1[i].getEnergy();
+			class1[i] = sensors1[i].getClass1();
+		}
 		finalEnergy = one_dim_array_max_min.mindouble(energy);
+		finalClass = one_dim_array_max_min.getMethod_4(class1);
+		
+//		System.out.println("该事件的分类为："+finalClass);
 		
 		//calculate the during grade with 5 sensors.
-		float duringEarthQuake = calDuringTimePar.computeDuringQuakeGrade(sensors1,4);
+//		float duringEarthQuake = calDuringTimePar.computeDuringQuakeGrade(sensors1,4);
 		
 		//we will set 0 when the consequence appears NAN value.
 		String quakeString = (Float.compare(Float.NaN, earthQuakeFinal) == 0) ? "0"	: String.format("%.2f", earthQuakeFinal);//修改震级，保留两位小数
-		double quakeStringDuring = (Float.compare(Float.NaN, duringEarthQuake) == 0) ? 0:  duringEarthQuake;//修改震级，保留两位小数
-		String result = location_refine.toString() + " " + intequackTime + " " + quakeString + " " + quakeStringDuring;
+//		double quakeStringDuring = (Float.compare(Float.NaN, duringEarthQuake) == 0) ? 0:  duringEarthQuake;//修改震级，保留两位小数
+		String result = location_refine.toString()+" "+quakeString+" "+finalEnergy+" "+location_refine.getquackTime();//坐标+时间+震级
 		
 		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setGroupingUsed(false);
@@ -129,7 +135,7 @@ public class MajorEvent_locate {
 		aQuackResults.setzData(Double.parseDouble(nf.format(location_refine.getAltitude())));
 		aQuackResults.setQuackTime(location_refine.getquackTime());
 		aQuackResults.setQuackGrade(Double.parseDouble(quakeString));//近震震级
-		aQuackResults.setDuringGrade(quakeStringDuring);//持续时间震级
+		aQuackResults.setDuringGrade(0);//持续时间震级
 		aQuackResults.setParrival(location_refine.getSecTime());//P波到时，精确到毫秒
 		aQuackResults.setPanfu(sensors1[0].getpanfu());//盘符
 		aQuackResults.setNengliang(finalEnergy);//能量，待解决

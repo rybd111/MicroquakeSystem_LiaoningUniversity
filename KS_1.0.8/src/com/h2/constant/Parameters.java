@@ -17,7 +17,7 @@ public class Parameters
 	 */
 	public static int FREQUENCY = 4800;// 单位hz/s
 	public static int readLen = 10;
-	public static double distanceToSquareWave = 0.15;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
+	public static double distanceToSquareWave = 0.17;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
 	/**
 	 * 用于单位转换，采样频率是秒，长短时窗的单位是毫秒
 	 */

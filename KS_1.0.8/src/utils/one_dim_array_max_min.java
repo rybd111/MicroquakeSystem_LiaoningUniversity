@@ -3,6 +3,10 @@
  */
 package utils;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Hanlin Zhang
  */
@@ -53,4 +57,30 @@ public class one_dim_array_max_min {
 		}
 		return max;
 	}
+	
+	public static int getMethod_4(int[] array){
+        Map<Integer, Integer> map = new HashMap<>();
+        int count = 0;
+        int count_2 = 0;
+        int temp = 0;
+        for(int i=0;i<array.length;i=i+count){
+            if(i==array.length-1){
+                temp =1;
+                break;
+            }
+            for(int j=i+1;j<array.length;j++){
+                if(array[i]==array[j]){
+                    count++;
+                }
+                continue;
+            }
+            if(count>count_2){
+            count_2 = count;
+            map.put(count_2, array[i]);
+            }
+                        
+        }
+        return map.get(count_2);
+    }
+
 }

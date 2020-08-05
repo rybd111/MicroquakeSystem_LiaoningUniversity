@@ -48,7 +48,7 @@ public class Five_Locate {
 		String outString=" ";
 		//Take the top 5 to calculate the quake location and quake magnitude, it may need to optimize later.
 		Sensor[] sensors1 = new Sensor[5];
-		for(int i = 0; i < motinum; i++) {
+		for(int i = 0; i < 5; i++) {
 			sensors1[i]=sensors[i];
 		}
 		
@@ -82,11 +82,16 @@ public class Five_Locate {
 			earthQuakeFinal = (float) (earthQuakeFinal-Parameters.MinusAFixedValue);// We discuss the consequence to minus 0.7 to reduce the final quake magnitude at datong coal mine.
 		
 		//We compute the minimum energy of all sensors as the final energy.
-		double finalEnergy = 0.0;
-		double []energy = new double[sensors1.length];
-		for (int i=0;i<sensors1.length;i++)	energy[i] = sensors1[i].getEnergy();
+		double finalEnergy = 0.0;double []energy = new double[sensors1.length];
+		int finalClass = 0;int [] class1 = new int[sensors1.length];
+		for (int i=0;i<sensors1.length;i++) {
+			energy[i] = sensors1[i].getEnergy();
+			class1[i] = sensors1[i].getClass1();
+		}
 		finalEnergy = one_dim_array_max_min.mindouble(energy);
-//		System.out.println("五台站"+finalEnergy);
+		finalClass = one_dim_array_max_min.getMethod_4(class1);
+		
+//		System.out.println("该事件的分类为："+finalClass);
 		
 		//calculate the during grade with 5 sensors.
 //		float duringEarthQuake = calDuringTimePar.computeDuringQuakeGrade(sensors1,5);

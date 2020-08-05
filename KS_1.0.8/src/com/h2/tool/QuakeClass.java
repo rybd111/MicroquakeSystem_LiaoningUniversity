@@ -1,6 +1,7 @@
 package com.h2.tool;
 
 import java.awt.print.Printable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +20,8 @@ import com.h2.thread.ThreadStep3;
 import com.mathworks.toolbox.javabuilder.MWArray;
 import com.mathworks.toolbox.javabuilder.MWException;
 
+import PSO.pso_locate;
+import ELMdiag.Class1;
 import Energy_matlab.Energy_;
 import mutiThread.MainThread;
 import utils.Data2Object_MATLAB;
@@ -60,6 +63,7 @@ public class QuakeClass
 		//calculate the energy.
 //		sen.setEnergy(EMD(motiPreLa, sen, th));
 		sen.setEnergy(Energy_MATLAB(motiPreLa));
+//		sen.setClass1(ELM_MATLAB(motiPreLa));
 	}
 	/**
 	 * Cut a period of time data modified by artificial setting.
@@ -917,4 +921,60 @@ public class QuakeClass
 		
 		return Double.parseDouble(energy[0].toString());
 	}
+	
+	/**
+	 * calculate the class of each sensor's motidata.
+	 * @param a
+	 * @return
+	 * @throws MWException
+	 * @author Hanlin Zhang.
+	 */
+	
+	public static int ELM_MATLAB(Vector<String> a) throws MWException {
+		String inte[];
+		boolean flag=false;
+		int channel=5;
+		
+		for (int i = 0; i < a.size(); i++){
+			inte = a.get(i).split(" ");
+			if(Parameters.TongDaoDiagnose==1) {//若有6个通道，判断才有意义
+				if (testValue(inte[4]) || testValue(inte[3])){
+					channel=2;
+				}
+			}
+		}
+		
+		Object aObject=Data2Object_MATLAB.data2Object_65000(a, channel);
+		Class1 c = new Class1();
+		Object c1[] = c.ELM(1, aObject);
+//		System.out.println("class"+ c1[0].toString());
+		return Integer.parseInt(c1[0].toString());
+	}
+	
+	public static Sensor PSO(double [][]Info) throws MWException {
+		
+		pso_locate p = new pso_locate();
+		Object d = Data2Object_MATLAB.array2Object(Info);
+		Object c = Data2Object_MATLAB.num2Object(Parameters.C);
+		Object result[] = p.PSO(4, d, c);
+		
+		Sensor s = new Sensor();
+		
+		s.setLatitude(Double.parseDouble(result[0].toString()));
+		s.setLongtitude(Double.parseDouble(result[1].toString()));
+		s.setAltitude(Double.parseDouble(result[2].toString()));
+		s.setSecTime(Double.parseDouble(result[3].toString()));
+		
+		System.out.print("x:"+s.getLatitude());
+		System.out.print("y:"+s.getLongtitude());
+		System.out.print("z:"+s.getAltitude());
+		System.out.print("t"+s.getSecTime());
+		System.out.println();
+//		System.out.print("x:"+result[0].toString());
+//		System.out.print("y:"+result[1].toString());
+//		System.out.print("z:"+result[2].toString());
+//		System.out.println();
+		return s;
+	}
+	
 }

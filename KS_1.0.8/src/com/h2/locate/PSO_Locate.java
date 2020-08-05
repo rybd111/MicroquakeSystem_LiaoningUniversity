@@ -15,6 +15,7 @@ import com.h2.constant.Sensor;
 import com.h2.main.EarthQuake;
 import com.h2.thread.ThreadStep3;
 import com.h2.tool.Doublelocate;
+import com.h2.tool.QuakeClass;
 import com.h2.tool.Triplelocate;
 import com.h2.tool.calDuringTimePar;
 import com.h2.tool.stringJoin;
@@ -26,7 +27,7 @@ import utils.StringToDateTime;
 import utils.TimeDifferent;
 import utils.one_dim_array_max_min;
 
-public class Three_Locate {
+public class PSO_Locate {
 	/**
 	 * @param sensors save the sensor's status.
 	 * @param aQuackResults save the information for inserting into the database.
@@ -43,41 +44,31 @@ public class Three_Locate {
 	 * @throws MWException 
 	 */
 	@SuppressWarnings("unused")
-	public static String three(Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
+	public static String pso(Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
 			DbExcute aDbExcute, int countNumber) throws ParseException, IOException, MWException {
 		
 		String outString=" ";
-		int count=0;//count the final valid satisfied the conditions' sensors.
-		int[] l1 = new int[countNumber];
-		
-		//We first need to diagnose all sensors that satisfy the conditions, when the number of motivated sensors are greater than 3, this function just starts the calculation. 
-		for(int i = 0; i < countNumber; i++) {
-			double e1=sensors[i].getCrestortrough().getE1();
-			if(Math.cos(Math.PI/4+e1/2)>=(-Parameters.S/Parameters.C)&&Math.cos(Math.PI/4+e1/2)<=(Parameters.S/Parameters.C)) {
-				l1[count]=i;//record the sensors satisfied the angle conditions.
-//				System.out.print(l1[count]);
-				count++;
-			}
-		}
-//		System.out.println();
-		
-		if(count<=2) {
-			System.out.println("超出限制条件无法计算");
-		}
 		
 		//the number of sensors satisfy the condition is greater than 3, set the restrain to false.
-		if(count>=3){
+		if(countNumber>=3){
 			//Take the top 3 to calculate the quake location and quake magnitude, it may need to optimize later.
-			Sensor[] sensors1 = new Sensor[3];
-	 		for(int i = 0; i < 3; i++) {
-				sensors1[i]=sensors[l1[i]];
+			Sensor[] sensors1 = new Sensor[countNumber];
+			for(int i = 0; i < countNumber; i++) {
+				sensors1[i]=sensors[i];
 			}
 			
+	 		//calculate the two dimensional matrix.
+	 		double coor[][] = new double[sensors1.length][4];
+	 		for(int i=0;i<sensors1.length;i++) {
+ 				coor[i][0]=sensors1[i].getLatitude();
+ 				coor[i][1]=sensors1[i].getLongtitude();
+ 				coor[i][2]=sensors1[i].getAltitude();
+ 				coor[i][3]=sensors1[i].getSecTime();
+	 		}
+	 		
 			//compute the quake coordination.
-			Sensor location_refine=Triplelocate.tripleStationLocate(sensors1);
-			
-			//we will calculate the quake time through this function.			
-			location_refine.setSecTime(Doublelocate.quakeTime(sensors1[0], location_refine));
+			Sensor location_refine = new Sensor();
+			location_refine = QuakeClass.PSO(coor);
 			
 			String intequackTime = TimeDifferent.TimeDistance(sensors[0].getAbsoluteTime(), location_refine.getSecTime()); //the time of refine quake time;
 			
@@ -101,7 +92,7 @@ public class Three_Locate {
 				//We integrate every sensors quake magnitude to compute the last quake magnitude.
 				float earthQuakeFinal = 0;
 				for (Sensor sen : sensors1)	earthQuakeFinal += sen.getEarthClassFinal();
-				earthQuakeFinal /= 3;//For this method is only support 5 sensors, so we must divide 5 to calculate the last quake magnitude.
+				earthQuakeFinal /= countNumber;//For this method is only support 5 sensors, so we must divide 5 to calculate the last quake magnitude.
 				if(Parameters.MinusAFixedOnMagtitude==true)
 					earthQuakeFinal = (float) (earthQuakeFinal-Parameters.MinusAFixedValue);// We discuss the consequen to minus 0.7 to reduce the final quake magnitude at datong coal mine.
 				
@@ -137,15 +128,15 @@ public class Three_Locate {
 					//If the difference between the current calculated time and the last time is more than 1 day, the storage file is changed to a new.
 					if(dif>=1) {
 						WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv", quakeString, finalEnergy, "三台站");
-						if(countNumber==3) {
-							WriteRecords.insertALine(Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv");
-						}
+//						if(countNumber==3) {
+//							WriteRecords.insertALine(Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv");
+//						}
 					}
 					else {
 						WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv", quakeString, finalEnergy, "三台站");
-						if(countNumber==3) {
-							WriteRecords.insertALine(Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv");
-						}
+//						if(countNumber==3) {
+//							WriteRecords.insertALine(Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv");
+//						}
 					}
 				}
 				
@@ -160,10 +151,10 @@ public class Three_Locate {
 				aQuackResults.setNengliang(finalEnergy);//能量，待解决
 				aQuackResults.setFilename_S(sensors1[0].getFilename());
 				aQuackResults.setTensor(0);//矩张量
-				aQuackResults.setKind("three");
+				aQuackResults.setKind("PSO");
 
 				//output the three locate consequence.
-				System.out.println("三台站："+aQuackResults.toString());//在控制台输出结果
+				System.out.println("粒子群："+aQuackResults.toString());//在控制台输出结果
 				
 				//diagnose is not open the function of storing into the database.
 				if(Parameters.isStorageDatabase ==1) {

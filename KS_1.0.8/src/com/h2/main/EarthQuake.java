@@ -18,6 +18,7 @@ import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
 import com.h2.locate.Five_Locate;
 import com.h2.locate.MajorEvent_locate;
+import com.h2.locate.PSO_Locate;
 import com.h2.locate.Three_Locate;
 import com.h2.thread.ThreadStep3;
 import com.h2.tool.CrestorTrough;
@@ -47,7 +48,7 @@ public class EarthQuake {
 	public static String outString = "";
 	
 	/**Used to execute the sql of database.*/
-	static DbExcute aDbExcute =new DbExcute();
+	static DbExcute aDbExcute = new DbExcute();
 
 	/**store the computation consequence of every location methods.*/
 	static QuackResults aQuackResults=new QuackResults();
@@ -234,6 +235,7 @@ public class EarthQuake {
 						//cut the position the same as sensors1[0] with no motivation sensors.
 						motiPreLa[n] = QuakeClass.cutOdata(inteData[n], sensors1, Parameters.startTime, Parameters.endTime, sensors[i]);
 						sensors[i].setCutVectorData(motiPreLa[n]);
+						sensors[i].setlineSeriesNew(0);
 						sensors2[n1] = sensors[i];
 						n++;n1++;
 					}
@@ -271,18 +273,19 @@ public class EarthQuake {
 			
 			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.
 			if(countNumber >= 5 && EarthQuake.realMoti==true) {
-				outString = Five_Locate.five(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);	
+				Five_Locate.five(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
+				PSO_Locate.pso(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
 			}
 			
 			//if the number of motivated sensors is greater than 3, we will calculate three location.
 			if(countNumber>=3 && EarthQuake.realMoti==true){
-				outString = Three_Locate.three(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);
+				outString = Three_Locate.three(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
 			}
 			
 			//if the number of motivated sensors is greater than 4, we will calculate four location-main event location.
 			if(countNumber>=4 && EarthQuake.realMoti==true) {
 				//outString = MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);
-				MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);
+				MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
 			}
 			
 			//calculate quake grade.

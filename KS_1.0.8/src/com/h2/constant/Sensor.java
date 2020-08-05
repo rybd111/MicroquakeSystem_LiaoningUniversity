@@ -23,6 +23,7 @@ public class Sensor {
 		this.EarthClassFinal = 0;//M平均值之前的求和
 		this.duringTime = 0.0;
 		this.eachEnergy = 0.0;
+		this.class1 = 0;
 		
 		this.Altitude = 0;// 海拔z
 		this.Longtitude = 0;// 经度y
@@ -41,6 +42,31 @@ public class Sensor {
 		crestortrough=null;//判断激发后对其进行赋值
 	}
 
+	public void AddCoor() {
+		if(Parameters.offline == false) {
+			this.Latitude = Latitude+Parameters.SENSORINFO[SensorTool.baseCoordinate][0];
+			this.Longtitude = Longtitude+Parameters.SENSORINFO[SensorTool.baseCoordinate][1];
+			this.Altitude = Altitude+Parameters.SENSORINFO[SensorTool.baseCoordinate][2];
+		}
+		else if(Parameters.offline == true) {
+			if(Parameters.region_offline=="hongyang") {
+				this.Latitude = Latitude + Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][0];
+				this.Longtitude = Longtitude + Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][1];
+				this.Altitude = Altitude+Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][2];
+			}
+			if(Parameters.region_offline=="datong") {
+				this.Latitude = Latitude + Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][0];
+				this.Longtitude = Longtitude + Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][1];
+				this.Altitude = Altitude+Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][2];
+			}
+			if(Parameters.region_offline=="pingdingshan") {
+				this.Latitude = Latitude + Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][0];
+				this.Longtitude = Longtitude + Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][1];
+				this.Altitude = Altitude+Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][2];
+			}
+		}
+	}
+	
 	@SuppressWarnings("unused")
 	@Override
 	/**
@@ -86,6 +112,34 @@ public class Sensor {
 		return "Error";
 	}
 	
+	public String toString_NOadd() {
+		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
+		nf.setGroupingUsed(false);
+		if(Parameters.offline == false) {
+			return nf.format(Latitude) + " "
+			     + nf.format(Longtitude) + " "
+			     + nf.format(Altitude);
+		}
+		else if(Parameters.offline == true) {
+			if(Parameters.region_offline=="hongyang") {
+				return nf.format(Latitude) + " "
+				     + nf.format(Longtitude) + " "
+				     + nf.format(Altitude);
+			}
+			if(Parameters.region_offline=="datong") {
+				return nf.format(Latitude) + " "
+				     + nf.format(Longtitude) + " "
+				     + nf.format(Altitude);
+			}
+			if(Parameters.region_offline=="pingdingshan") {
+				return nf.format(Latitude) + " "
+				     + nf.format(Longtitude) + " "
+				     + nf.format(Altitude);
+			}
+		}
+		return "Error";
+	}
+	
 	//get each sensor's series number to mark them.
 	public void setSensorNum(int i) {this.sensorNum=i;}
 	public int getSensorNum() {return sensorNum;}
@@ -101,6 +155,9 @@ public class Sensor {
 	//get energy of each sensor.
 	public double getEnergy() {return eachEnergy;}
 	public void setEnergy(double eachEnergy) {this.eachEnergy = eachEnergy;}
+	
+	public int getClass1() {return class1;}
+	public void setClass1(int class1) {this.class1 = class1;}
 	
 	//sign this sensor is not motivation.
 	public boolean isSign() {return sign;}
@@ -259,10 +316,10 @@ public class Sensor {
 	 * 持续时间震级
 	 */
 	private double duringTime;
-	/**
-	 * energy.
-	 */
+	/**energy*/
 	private double eachEnergy;
+	/**class of data*/
+	private int class1;
 	/**
 	 * 存储激发的盘符
 	 */
