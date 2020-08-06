@@ -113,6 +113,7 @@ public class EarthQuake {
 			//Meanwhile, we will move the position to the absolute position in 30 seconds, which is point to the position in the now Vector. It's used to cut the motiData and used to calculate during quake magnitude.
 			int countNumber = 0;
 			int[] l = new int[Parameters.SensorNum];
+			int[] l1 = new int[Parameters.SensorNum];
 			for (int i=0;i<Parameters.SensorNum;i++){
 				if (sensors[i].isSign()) {
 					sensors[i].setSensorNum(i);
@@ -121,6 +122,7 @@ public class EarthQuake {
 							if(MainThread.fileStr[i].equals(Parameters.diskName[j])) {
 								if(Parameters.initPanfu[j]==0) {
 									l[i]=i;//record the number of motivated sensors.
+									l1[countNumber]=i;
 									countNumber++;
 									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
 									System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
@@ -134,6 +136,7 @@ public class EarthQuake {
 							if(MainThread.fileParentPackage[i].replace("Test", "").equals(Parameters.diskName_offline[j])) {
 								if(Parameters.initPanfu[j]==0) {
 									l[i]=i;//record the number of motivated sensors.
+									l1[countNumber]=i;
 									countNumber++;
 									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
 									System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
@@ -162,12 +165,12 @@ public class EarthQuake {
 				
 				//merge l to avoid the series array l appearing two series number repetition.
 				for(int i=0;i<Parameters.SensorNum;i++) {
-					if(l[i]==0&&i==0) {
-						newl[count] = l[i];
+					if(l1[i]==0&&i==0) {
+						newl[count] = l1[i];
 						count++;
 					}
-					else if(l[i]!=0) {
-						newl[count] = l[i];
+					else if(l1[i]!=0) {
+						newl[count] = l1[i];
 						count++;
 					}
 				}

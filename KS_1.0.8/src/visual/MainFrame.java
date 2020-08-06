@@ -109,7 +109,7 @@ public class MainFrame {
 		//screen out the back end content.
 		text = new Text(shell, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		text.setBounds(10, 62, 1649, 495);
-		text.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
+		text.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		text.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		text.setFont(SWTResourceManager.getFont("微软雅黑", 10, SWT.NORMAL));
 		
