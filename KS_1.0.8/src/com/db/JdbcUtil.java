@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import com.h2.constant.Parameters;
+
 
 public class JdbcUtil {
 	static String url = null;
@@ -18,22 +20,26 @@ public class JdbcUtil {
 	static {
 		try {
 			Properties properties = new Properties();
-			InputStream in = JdbcUtil.class.getClassLoader().getResourceAsStream("./jdbc.properties");
-			//System.out.println(in);
+//			String j = "./jdbc.properties";//get the procedure absolute path.
+//			System.out.println(j);
+//			InputStream in = JdbcUtil.class.getClassLoader().getResourceAsStream(j);
+//			System.out.println(in);
 			
-			properties.load(in);
+//			properties.load(in);
 			properties.put("driver","com.mysql.jdbc.Driver");
 			//properties.put("url","url=jdbc:mysql://localhost:3306/ks?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true");
 			properties.setProperty("useSSL", "false");
 			driver = properties.getProperty("driver");
 			
-			url = properties.getProperty("url");
+//			url = properties.getProperty("url");
 			url = "jdbc:mysql://localhost:3306/ks?useSSL=false";
 			//System.out.println(url);
-			username = properties.getProperty("username");
-			password = properties.getProperty("password");
-			//System.out.println(password);
-			//System.out.println(driver);
+//			username = properties.getProperty("username");
+//			password = properties.getProperty("password");
+			username = "root";
+			password = "root";
+			System.out.println(password);
+			System.out.println(driver);
 			
 			Class.forName(driver);
 		} catch (Exception e) {

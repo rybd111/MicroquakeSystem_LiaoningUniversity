@@ -145,7 +145,8 @@ public class ReadDataSegmentHead {
      public Date readDataSegmentHead(File file) throws Exception{
     	
 		//用于承装数据段头的字节
-		byte[] dataSegmentHeadByte = new byte[34] ;
+    	 
+    	 byte[] dataSegmentHeadByte = new byte[34] ;
 		
 		HfmedHead hfmedHead = new ReadHfmedHead().readHead(file);//读文件头，文件头内容
 		//打开流
@@ -157,8 +158,9 @@ public class ReadDataSegmentHead {
 			Parameters.WenJianTou=242;
 			Parameters.TongDaoDiagnose=0;
 		}
-		
-		buffered.skip(Parameters.WenJianTou) ;
+//		byte[] fileSegmentHead = new byte[Parameters.WenJianTou];
+//		buffered.read(fileSegmentHead);
+		buffered.skip(Parameters.WenJianTou);
 		int count = buffered.read(dataSegmentHeadByte);
 		//System.out.println("count :  " + count) ;
 		buffered.close() ;

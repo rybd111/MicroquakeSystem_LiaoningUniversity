@@ -52,7 +52,7 @@ public class MajorEvent_locate {
 			sensors1[i]=sensors[i];
 			PArrival[i] = sensors1[i].getSecTime();
 		}
-				
+		
 		//calculate the coordinations of the quake source, location variable only store the quake time, not store the motivation time, and store the coordinations of the quake happening.
 		Sensor location_refine = Majorlocate.majorLocate(PArrival);//calculate the quake time in milliseconds.
 		

@@ -275,6 +275,9 @@ public class ConfigToParameters {
 		            if(item[0].equals("timeStr")) {
 		            	Parameters.timeStr = item[1];
 		            }
+//		            if(item[0].equals("jdbcPath")) {
+//		            	Parameters.jdbcPath = item[1];
+//		            }
 	            }
             }
         }

@@ -121,7 +121,7 @@ public class EarthQuake {
 						for(int j=0;j<Parameters.diskName.length;j++) {
 							if(MainThread.fileStr[i].equals(Parameters.diskName[j])) {
 								if(Parameters.initPanfu[j]==0) {
-									l[i]=i;//record the number of motivated sensors.
+									l[i]=i+1;//record the number of motivated sensors.
 									l1[countNumber]=i;
 									countNumber++;
 									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
@@ -135,7 +135,7 @@ public class EarthQuake {
 						for(int j=0;j<Parameters.diskName_offline.length;j++) {
 							if(MainThread.fileParentPackage[i].replace("Test", "").equals(Parameters.diskName_offline[j])) {
 								if(Parameters.initPanfu[j]==0) {
-									l[i]=i;//record the number of motivated sensors.
+									l[i]=i+1;//record the number of motivated sensors.
 									l1[countNumber]=i;
 									countNumber++;
 									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
@@ -216,7 +216,7 @@ public class EarthQuake {
 				int n=countNumber;
 				for(int i=0;i<Parameters.SensorNum;i++) {
 					if(n<Parameters.SensorNum) {
-						if(l[i]==0 && i!=0) {
+						if(l[i]==0) {
 							inteData[n].addAll(ssen[i][0]);
 							inteData[n].addAll(ssen[i][1]);
 							inteData[n].addAll(ssen[i][2]);

@@ -196,6 +196,7 @@ public class Parameters
 	public static final String DatabaseName4 = "mine_quack_4_results";
 	public static final String DatabaseName3 = "mine_quack_3_results";
 	public static final String DatabaseName3_updated = "mine_quack_3_results_updated";
+//	public static String jdbcPath="";
 	/**
 	 * 测试重复变量，当出现重复盘符时，该变量起作用。
 	 * @description
@@ -245,7 +246,7 @@ public class Parameters
 	 * the time to read when procedure start.
 	 */
 //	public static final String timeStr = "200214123000";
-	public static String timeStr = "200100000000";
+	public static String timeStr = "200603123000";
 	/**the data file must store in a fold which name ends with "1" or "2" or "3" or "4" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 * */
