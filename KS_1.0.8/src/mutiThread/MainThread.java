@@ -32,7 +32,7 @@ import controller.ADMINISTRATOR;
  * @author Yilong Zhang, Hanlin Zhang, Chengfeng Liu, rqma, Rui Cao, et al.
  */
 public class MainThread extends Thread{
-    /**
+	/**
      * fileStr must define at first with different path for your destination.
      */
     public static String fileStr[] = new String[Parameters.SensorNum];

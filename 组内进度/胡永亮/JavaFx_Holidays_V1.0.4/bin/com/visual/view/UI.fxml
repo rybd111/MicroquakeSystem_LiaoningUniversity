@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1077.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.visual.view.UIController">
+   <children>
+      <Label alignment="CENTER" layoutY="-1.0" prefHeight="30.0" prefWidth="927.0" style="-fx-background-color: #0000FF; -fx-border-color: #000000;" text="XX矿场微震地面台网监控系统-辽宁大学" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <HBox id="mToggleID_HBox" layoutY="30.0" minHeight="-Infinity" prefHeight="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <ToggleButton layoutY="27.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onOperationButtonClick" prefHeight="23.0" prefWidth="52.0" style="-fx-border-color: #000000;" text="运行" AnchorPane.topAnchor="30.0">
+               <toggleGroup>
+                  <ToggleGroup fx:id="mToggleGroup_ID" />
+               </toggleGroup></ToggleButton>
+            <ToggleButton layoutX="52.0" layoutY="27.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onDayScheduleClick" prefHeight="23.0" prefWidth="64.0" style="-fx-border-color: #000000;" text="日报表" toggleGroup="$mToggleGroup_ID" AnchorPane.topAnchor="30.0" />
+            <ToggleButton layoutX="116.0" layoutY="27.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onMonthScheduleClick" prefHeight="23.0" prefWidth="64.0" style="-fx-border-color: #000000;" text="月报表" toggleGroup="$mToggleGroup_ID" AnchorPane.topAnchor="30.0" />
+            <ToggleButton layoutX="180.0" layoutY="27.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onHelpClick" prefHeight="23.0" prefWidth="52.0" style="-fx-border-color: #000000;" text="帮助" toggleGroup="$mToggleGroup_ID" AnchorPane.topAnchor="30.0" />
+         </children>
+      </HBox>
+      <AnchorPane fx:id="mGreenPane" prefHeight="379.0" prefWidth="568.0" style="-fx-background-color: #00CD00; -fx-border-color: #000000;" AnchorPane.bottomAnchor="398.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="509.0" AnchorPane.topAnchor="53.0">
+         <children>
+            <HBox AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onZoomIN" prefHeight="23.0" prefWidth="52.0" style="-fx-border-color: #000000;" text="放大" />
+                  <Button layoutX="52.0" mnemonicParsing="false" onAction="#onZoomOut" prefHeight="23.0" prefWidth="64.0" style="-fx-border-color: #000000;" text="缩小" />
+                  <Button layoutX="114.0" mnemonicParsing="false" onAction="#onRestore" prefHeight="23.0" prefWidth="64.0" style="-fx-border-color: #000000;" text="还原" />
+               </children>
+            </HBox>
+            <Label layoutX="178.0" layoutY="1.0" prefHeight="25.0" prefWidth="381.0" style="-fx-border-color: #000000;" text="最新事件：2020-01-02,10:21:29.679" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
+            <BorderPane fx:id="mBorderPane" layoutX="10.0" layoutY="32.0" prefHeight="336.0" prefWidth="546.0" style="-fx-background-color: #FFFFFF;" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="mYellowPane" layoutY="435.0" prefHeight="399.0" prefWidth="568.0" style="-fx-border-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+         <children>
+            <Label prefHeight="30.0" prefWidth="64.0" style="-fx-background-color: #FFC125;" text="事件触发：" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TableView fx:id="mTableView" layoutY="29.0" prefHeight="366.0" prefWidth="568.0" style="-fx-background-color: #FFC125;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+              <columns>
+                <TableColumn fx:id="eventIndex" prefWidth="55.0" text="事件序号" />
+                <TableColumn fx:id="eventTime" prefWidth="137.0" text="触发时间" />
+                  <TableColumn fx:id="eventLoca" prefWidth="66.0" text="触发台站" />
+                  <TableColumn fx:id="eventPos" prefWidth="163.0" text="定位坐标" />
+                  <TableColumn fx:id="energy" prefWidth="86.0" text="能量/J" />
+                  <TableColumn fx:id="grade" prefWidth="60.0" text="震级" />
+              </columns>
+            </TableView>
+            <Label layoutX="64.0" prefHeight="30.0" prefWidth="504.0" style="-fx-background-color: #FFC125;" text="（说明：点击下方事件序号，XXXXXXXX）" textFill="#ff3a3a" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="mBluePane" layoutX="564.0" layoutY="53.0" prefHeight="777.0" prefWidth="513.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="564.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
+         <children>
+            <Label layoutX="2.0" layoutY="750.0" prefHeight="30.0" prefWidth="511.0" style="-fx-border-color: #000000;" text="    时间        0                          5            10              15      Sec" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="25.0" prefWidth="320.0" style="-fx-border-color: #000000;" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label minHeight="-Infinity" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #00BFFF;" text="P波到时手动调整:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="11.0" layoutY="11.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="163.0" style="-fx-background-color: #00BFFF;" text="（红线）" textFill="RED">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="314.0" layoutY="2.0" prefHeight="27.0" prefWidth="192.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button layoutX="314.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="64.0" style="-fx-border-color: #000000;" text="放大" />
+                  <Button layoutX="378.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="64.0" style="-fx-border-color: #000000;" text="缩小" />
+                  <Button layoutX="442.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="64.0" style="-fx-border-color: #000000;" text="还原" />
+               </children>
+            </HBox>
+            <VBox layoutX="4.0" layoutY="29.0" prefHeight="716.0" prefWidth="504.0" spacing="5.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="28.0">
+               <children>
+                  <SplitPane dividerPositions="0.20634920634920634" prefHeight="75.0" prefWidth="506.0">
+                    <items>
+                      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="45.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text=" T1" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="35.0" layoutY="7.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="25.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="47.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="0.0">
+                           <children>
+                              <LineChart fx:id="mChart_T1" layoutX="-73.0" layoutY="-20.0" prefHeight="131.0" prefWidth="519.0" AnchorPane.bottomAnchor="-38.0" AnchorPane.leftAnchor="-73.0" AnchorPane.rightAnchor="-52.0" AnchorPane.topAnchor="-20.0">
+                                <xAxis>
+                                  <NumberAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                           </children></AnchorPane>
+                    </items>
+                  </SplitPane>
+                  <SplitPane dividerPositions="0.20634920634920634" layoutX="10.0" layoutY="10.0" prefHeight="75.0" prefWidth="506.0">
+                     <items>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="45.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text=" T2" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="35.0" layoutY="7.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="25.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="47.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="0.0">
+                           <children>
+                              <LineChart fx:id="mChart_T2" layoutX="-73.0" layoutY="-20.0" prefHeight="131.0" prefWidth="519.0" AnchorPane.bottomAnchor="-38.0" AnchorPane.leftAnchor="-73.0" AnchorPane.rightAnchor="-52.0" AnchorPane.topAnchor="-20.0">
+                                 <xAxis>
+                                    <NumberAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+                  <SplitPane dividerPositions="0.20634920634920634" layoutX="10.0" layoutY="90.0" prefHeight="75.0" prefWidth="506.0">
+                     <items>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="45.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text=" T3" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="35.0" layoutY="7.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="25.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="47.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="0.0">
+                           <children>
+                              <LineChart fx:id="mChart_T3" layoutX="-73.0" layoutY="-20.0" prefHeight="131.0" prefWidth="519.0" AnchorPane.bottomAnchor="-38.0" AnchorPane.leftAnchor="-73.0" AnchorPane.rightAnchor="-52.0" AnchorPane.topAnchor="-20.0">
+                                 <xAxis>
+                                    <NumberAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+                  <SplitPane dividerPositions="0.20634920634920634" layoutX="10.0" layoutY="170.0" prefHeight="75.0" prefWidth="506.0">
+                     <items>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="45.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text=" T4" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="35.0" layoutY="7.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="25.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="47.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="0.0">
+                           <children>
+                              <LineChart fx:id="mChart_T4" layoutX="-73.0" layoutY="-20.0" prefHeight="131.0" prefWidth="519.0" AnchorPane.bottomAnchor="-38.0" AnchorPane.leftAnchor="-73.0" AnchorPane.rightAnchor="-52.0" AnchorPane.topAnchor="-20.0">
+                                 <xAxis>
+                                    <NumberAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+                  <SplitPane dividerPositions="0.20634920634920634" layoutX="10.0" layoutY="250.0" prefHeight="75.0" prefWidth="506.0">
+                     <items>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="45.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text=" T5" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="35.0" layoutY="7.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="25.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="47.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="0.0">
+                           <children>
+                              <LineChart fx:id="mChart_T5" layoutX="-73.0" layoutY="-20.0" prefHeight="131.0" prefWidth="519.0" AnchorPane.bottomAnchor="-38.0" AnchorPane.leftAnchor="-73.0" AnchorPane.rightAnchor="-52.0" AnchorPane.topAnchor="-20.0">
+                                 <xAxis>
+                                    <NumberAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+                  <SplitPane dividerPositions="0.20634920634920634" layoutX="10.0" layoutY="330.0" prefHeight="75.0" prefWidth="506.0">
+                     <items>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="45.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text=" T6" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="35.0" layoutY="7.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="25.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="47.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="0.0">
+                           <children>
+                              <LineChart fx:id="mChart_T6" layoutX="-73.0" layoutY="-20.0" prefHeight="131.0" prefWidth="519.0" AnchorPane.bottomAnchor="-38.0" AnchorPane.leftAnchor="-73.0" AnchorPane.rightAnchor="-52.0" AnchorPane.topAnchor="-20.0">
+                                 <xAxis>
+                                    <NumberAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+                  <SplitPane dividerPositions="0.20634920634920634" layoutX="10.0" layoutY="410.0" prefHeight="75.0" prefWidth="506.0">
+                     <items>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="45.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text=" T7" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="35.0" layoutY="7.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="25.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="47.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="0.0">
+                           <children>
+                              <LineChart fx:id="mChart_T7" layoutX="-73.0" layoutY="-20.0" prefHeight="131.0" prefWidth="519.0" AnchorPane.bottomAnchor="-38.0" AnchorPane.leftAnchor="-73.0" AnchorPane.rightAnchor="-52.0" AnchorPane.topAnchor="-20.0">
+                                 <xAxis>
+                                    <NumberAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+                  <SplitPane dividerPositions="0.20634920634920634" layoutX="10.0" layoutY="490.0" prefHeight="75.0" prefWidth="506.0">
+                     <items>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="45.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text=" T8" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="35.0" layoutY="7.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="25.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="47.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="0.0">
+                           <children>
+                              <LineChart fx:id="mChart_T8" layoutX="-73.0" layoutY="-20.0" prefHeight="131.0" prefWidth="519.0" AnchorPane.bottomAnchor="-38.0" AnchorPane.leftAnchor="-73.0" AnchorPane.rightAnchor="-52.0" AnchorPane.topAnchor="-20.0">
+                                 <xAxis>
+                                    <NumberAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+                  <SplitPane dividerPositions="0.20634920634920634" layoutX="10.0" layoutY="570.0" prefHeight="75.0" prefWidth="506.0">
+                     <items>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="45.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text=" T9" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="35.0" layoutY="7.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="25.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="47.0" prefHeight="15.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="0.0">
+                           <children>
+                              <LineChart fx:id="mChart_T9" layoutX="-73.0" layoutY="-20.0" prefHeight="131.0" prefWidth="519.0" AnchorPane.bottomAnchor="-38.0" AnchorPane.leftAnchor="-73.0" AnchorPane.rightAnchor="-52.0" AnchorPane.topAnchor="-20.0">
+                                 <xAxis>
+                                    <NumberAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
