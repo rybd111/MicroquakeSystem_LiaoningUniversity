@@ -21,29 +21,29 @@ import javafx.scene.layout.BorderPane;
 
 public class UIController {
 
-//--------------------------CAD»æÖÆ--------------------------
+//--------------------------CADç»˜åˆ¶--------------------------
 	@FXML
 	private AnchorPane mGreenPane;
 	@FXML
 	private BorderPane mBorderPane;
-//--------------------------±í¸ñ-------------------
+//--------------------------è¡¨æ ¼-------------------
 	@FXML
 	private AnchorPane mYellowPane;
 	@FXML
 	private TableView<TableData> mTableView;
 	@FXML
-	private TableColumn<TableData, String> eventIndex;// ´¥·¢ÊÂ¼şĞòºÅ
+	private TableColumn<TableData, String> eventIndex;// è§¦å‘äº‹ä»¶åºå·
 	@FXML
-	private TableColumn<TableData, String> eventTime;// ´¥·¢Ê±¼ä
+	private TableColumn<TableData, String> eventTime;// è§¦å‘æ—¶é—´
 	@FXML
-	private TableColumn<TableData, String> eventLoca;// ´¥·¢Ì¨Õ¾
+	private TableColumn<TableData, String> eventLoca;// è§¦å‘å°ç«™
 	@FXML
-	private TableColumn<TableData, String> eventPos;// ¶¨Î»×ø±ê
+	private TableColumn<TableData, String> eventPos;// å®šä½åæ ‡
 	@FXML
-	private TableColumn<TableData, String> energy;// ÄÜÁ¿
+	private TableColumn<TableData, String> energy;// èƒ½é‡
 	@FXML
-	private TableColumn<TableData, String> grade;// Õğ¼¶
-//--------------------------²¨ĞÎÍ¼-------------------
+	private TableColumn<TableData, String> grade;// éœ‡çº§
+//--------------------------æ³¢å½¢å›¾-------------------
 	@FXML
 	private AnchorPane mBluePane;
 	@FXML
@@ -66,53 +66,53 @@ public class UIController {
 	private LineChart<Number, Number> mChart_T9;
 
 //------------------------------------------------------------------
-//--------------------------°´Å¥°ó¶¨µÄÊÂ¼ş--------------------------
+//--------------------------æŒ‰é’®ç»‘å®šçš„äº‹ä»¶--------------------------
 //------------------------------------------------------------------
 	@FXML
 	void onOperationButtonClick(ActionEvent event) {
-		System.out.println("ÓÃ»§°´ÏÂÔËĞĞToggleButton°´Å¥");
+		System.out.println("ç”¨æˆ·æŒ‰ä¸‹è¿è¡ŒToggleButtonæŒ‰é’®");
 	}
 
 	@FXML
 	void onDayScheduleClick(ActionEvent event) {
-		System.out.println("ÓÃ»§°´ÏÂÈÕ±¨±íToggleButton°´Å¥");
+		System.out.println("ç”¨æˆ·æŒ‰ä¸‹æ—¥æŠ¥è¡¨ToggleButtonæŒ‰é’®");
 	}
 
 	@FXML
 	void onMonthScheduleClick(ActionEvent event) {
-		System.out.println("ÓÃ»§°´ÏÂÔÂ±¨±íToggleButton°´Å¥");
+		System.out.println("ç”¨æˆ·æŒ‰ä¸‹æœˆæŠ¥è¡¨ToggleButtonæŒ‰é’®");
 	}
 
 	@FXML
 	void onHelpClick(ActionEvent event) {
-		System.out.println("ÓÃ»§°´ÏÂ°ïÖúToggleButton°´Å¥");
+		System.out.println("ç”¨æˆ·æŒ‰ä¸‹å¸®åŠ©ToggleButtonæŒ‰é’®");
 	}
 
 	@FXML
 	void onZoomIN(ActionEvent event) {
-		System.out.println("·Å´ó");
+		System.out.println("æ”¾å¤§");
 	}
 
 	@FXML
 	void onZoomOut(ActionEvent event) {
-		System.out.println("ËõĞ¡");
+		System.out.println("ç¼©å°");
 	}
 
 	@FXML
 	void onRestore(ActionEvent event) {
-		System.out.println("»¹Ô­");
+		System.out.println("è¿˜åŸ");
 	}
 
-	// ÔÚMain³ÌĞò¼ÓÔØfxmlÎÄ¼şÊ±ºòÖ´ĞĞ
+	// åœ¨Mainç¨‹åºåŠ è½½fxmlæ–‡ä»¶æ—¶å€™æ‰§è¡Œ
 	@FXML
 	void initialize() {
-		Tools_DataCommunication.getCommunication().showCAD(mBorderPane);// ÏÔÊ¾CAD
-		// ½«TableColumnÓëTableDataÃ¿Ò»¸öÊôĞÔÁ¬½ÓÆğÀ´
+		Tools_DataCommunication.getCommunication().showCAD(mBorderPane);// æ˜¾ç¤ºCAD
+		// å°†TableColumnä¸TableDataæ¯ä¸€ä¸ªå±æ€§è¿æ¥èµ·æ¥
 		Tools_DataCommunication.getCommunication().InitTableViewData(eventIndex, eventTime, eventLoca, eventPos, energy,
 				grade);
-		Tools_DataCommunication.getCommunication().ShowTableView(mTableView);// ÏÔÊ¾TableView
+		Tools_DataCommunication.getCommunication().ShowTableView(mTableView);// æ˜¾ç¤ºTableView
 		Tools_DataCommunication.getCommunication().ShowLineChart(mChart_T1, mChart_T2, mChart_T3, mChart_T4, mChart_T5,
-				mChart_T6, mChart_T7, mChart_T8, mChart_T9);//ÏÔÊ¾²¨ĞÎÍ¼
-		System.out.println("ÒÑ³õÊ¼»¯µ½UI½çÃæÉÏ");
+				mChart_T6, mChart_T7, mChart_T8, mChart_T9);//æ˜¾ç¤ºæ³¢å½¢å›¾
+		System.out.println("å·²åˆå§‹åŒ–åˆ°UIç•Œé¢ä¸Š");
 	}
 }

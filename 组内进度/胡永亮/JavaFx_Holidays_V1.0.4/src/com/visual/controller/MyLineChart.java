@@ -29,9 +29,9 @@ public class MyLineChart {
 	private XYChart.Series<Number, Number> T2_series2 = new XYChart.Series<Number, Number>();//y
 	private XYChart.Series<Number, Number> T2_series3 = new XYChart.Series<Number, Number>();//z
 	//T3
-	private XYChart.Series<Number, Number> T3_series1 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T3_series2 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T3_series3 = new XYChart.Series<Number, Number>();
+	private XYChart.Series<Number, Number> T3_series1 = new XYChart.Series<Number, Number>();//x
+	private XYChart.Series<Number, Number> T3_series2 = new XYChart.Series<Number, Number>();//y
+	private XYChart.Series<Number, Number> T3_series3 = new XYChart.Series<Number, Number>();//z
 
 	private XYChart.Series<Number, Number> T4_series1 = new XYChart.Series<Number, Number>();
 	private XYChart.Series<Number, Number> T4_series2 = new XYChart.Series<Number, Number>();
@@ -82,14 +82,14 @@ public class MyLineChart {
 	}
 
 	public void setLineChart(int time) {
-		System.out.println("¿ªÊ¼¶ÁÈ¡CSVÎÄ¼ş");
+		System.out.println("å¼€å§‹è¯»å–CSVæ–‡ä»¶");
 		ReadCSV r = new ReadCSV("C:/Users/Sunny/Desktop/5moti/25613 2020-05-01 09-33-15`05.csv");
 		try {
 			Tools_DataCommunication.getCommunication().list = r.readContents(time);// s
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("¶ÁÈ¡CSVÎÄ¼şÍê±Ï");
+		System.out.println("è¯»å–CSVæ–‡ä»¶å®Œæ¯•");
 
 		setSeries();//
 
@@ -97,12 +97,12 @@ public class MyLineChart {
 
 	private void setSeries() {
 
-		System.out.println("Ö´ĞĞsetSeries()·½·¨");
+		System.out.println("æ‰§è¡ŒsetSeries()æ–¹æ³•");
 		if (3 != Tools_DataCommunication.getCommunication().list.size())
 			return;
 		System.out.println(Tools_DataCommunication.getCommunication().list.get(0).size());
 		for (int i = 0; i < Tools_DataCommunication.getCommunication().list.get(0).size(); i++) {
-			// Êı¾İ¹ıÂË¡£
+			// æ•°æ®è¿‡æ»¤ã€‚
 			if (i % 5 == 0)
 				continue;
 
@@ -170,9 +170,9 @@ public class MyLineChart {
 					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
 		}
 
-//		setSeries1();//ÄÜÔËĞĞ
+//		setSeries1();//èƒ½è¿è¡Œ
 
-//		setSeries2();//ÄÜÔËĞĞ
+//		setSeries2();//èƒ½è¿è¡Œ
 	}
 
 	private void setSeries1() {

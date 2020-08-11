@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
@@ -21,14 +22,15 @@ public class Main extends Application {
 		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/UI.fxml"));
-//		//»ñµÃRootLayout¶ÔÏó
+//		//è·å¾—RootLayoutå¯¹è±¡
 		AnchorPane root = (AnchorPane) loader.load();
 
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
+		primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("view/lndx.png")));
 		primaryStage.show();
 		
-		/**¼àÌı´°¿Ú¹Ø±Õ²Ù×÷*/
+		/**ç›‘å¬çª—å£å…³é—­æ“ä½œ*/
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
@@ -48,7 +50,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-		//ÉèÖÃ¶ÁÈ¡CSVÎÄ¼şµÄÃëÊı
+		//è®¾ç½®è¯»å–CSVæ–‡ä»¶çš„ç§’æ•°
 		Tools_DataCommunication.getCommunication().readTime=1;// s
 		launch(args);
 	}

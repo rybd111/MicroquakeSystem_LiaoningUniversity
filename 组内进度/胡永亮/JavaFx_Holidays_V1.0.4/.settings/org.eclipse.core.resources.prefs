@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+encoding//src/com/visual/Main.java=UTF-8
+encoding//src/com/visual/controller/MyCAD.java=UTF-8
+encoding//src/com/visual/controller/MyLineChart.java=UTF-8
+encoding//src/com/visual/controller/MyTableView.java=UTF-8
+encoding//src/com/visual/model/Parameters.java=UTF-8
+encoding//src/com/visual/model/ReadCSV.java=UTF-8
+encoding//src/com/visual/model/TableData.java=UTF-8
+encoding//src/com/visual/util/Tools_DataCommunication.java=UTF-8
+encoding//src/com/visual/view/Line.css=UTF-8
+encoding//src/com/visual/view/ShowCADController.java=UTF-8
+encoding//src/com/visual/view/UIController.java=UTF-8
+encoding//src/com/visual/view/lndx.png=UTF-8

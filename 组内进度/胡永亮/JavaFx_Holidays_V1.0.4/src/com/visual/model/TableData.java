@@ -3,13 +3,13 @@ package com.visual.model;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- * 	TableView±í¸ñµÄÊı¾İ½á¹¹
+ * 	TableViewè¡¨æ ¼çš„æ•°æ®ç»“æ„
  * 
  * @author Sunny
  *
  */
 public class TableData {
-	// Ä¿Ç°ÎÒÃÇÔÚJavaFXÖĞµÄÊôĞÔÒ»°ã¾ù²ÉÓÃProperty,ÕâÑù¿ÉÒÔ·½±ãÆäËûµØ·½µÄÊı¾İ°ó¶¨Ê¹ÓÃ
+	// ç›®å‰æˆ‘ä»¬åœ¨JavaFXä¸­çš„å±æ€§ä¸€èˆ¬å‡é‡‡ç”¨Property,è¿™æ ·å¯ä»¥æ–¹ä¾¿å…¶ä»–åœ°æ–¹çš„æ•°æ®ç»‘å®šä½¿ç”¨
 	private SimpleStringProperty eventIndex = new SimpleStringProperty();
 	private SimpleStringProperty eventTime = new SimpleStringProperty();
 	private SimpleStringProperty eventLoca = new SimpleStringProperty();
@@ -18,12 +18,12 @@ public class TableData {
 	private SimpleStringProperty grade = new SimpleStringProperty();
 	/***
 	 * 
-	 * @param eventIndex ÊÂ¼şĞòºÅ
-	 * @param eventTime  ´¥·¢Ê±¼ä
-	 * @param eventLoca  ´¥·¢Ì¨Õ¾
-	 * @param eventPos   ¶¨Î»×ø±ê
-	 * @param energy     ÄÜÁ¿
-	 * @param grade      Õğ¼¶
+	 * @param eventIndex äº‹ä»¶åºå·
+	 * @param eventTime  è§¦å‘æ—¶é—´
+	 * @param eventLoca  è§¦å‘å°ç«™
+	 * @param eventPos   å®šä½åæ ‡
+	 * @param energy     èƒ½é‡
+	 * @param grade      éœ‡çº§
 	 */
 	public TableData(String eventIndex, String eventTime, String eventLoca, String eventPos, String energy,
 			String grade) {

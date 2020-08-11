@@ -20,9 +20,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
 /***
- * ÓÃÓÚÀàÓëÀàÖ®¼äµÄÊı¾İ´«Êä
+ * ç”¨äºç±»ä¸ç±»ä¹‹é—´çš„æ•°æ®ä¼ è¾“
  * 
- * @author Sunny ¶öººÊ½µ¥ÀıÄ£Ê½
+ * @author Sunny é¥¿æ±‰å¼å•ä¾‹æ¨¡å¼
  */
 public class Tools_DataCommunication {
 	private static Tools_DataCommunication communication = new Tools_DataCommunication();
@@ -34,19 +34,19 @@ public class Tools_DataCommunication {
 		return communication;
 	}
 
-	/** ÓÃÓÚ²¨ĞÎÍ¼µÄÊı¾İ´«µİ */
+	/** ç”¨äºæ³¢å½¢å›¾çš„æ•°æ®ä¼ é€’ */
 	public ArrayList<ArrayList<Integer>> list;
-	/** ÓÃÓÚ¶ÁÈ¡CSVÎÄ¼şµÄÃëÊı Ò»Ãë5000ÌõÊı¾İ */
+	/** ç”¨äºè¯»å–CSVæ–‡ä»¶çš„ç§’æ•° ä¸€ç§’5000æ¡æ•°æ® */
 	public int readTime = 1;// s
-	/** ÓÃÓÚTableViewµÄÊı¾İ´«µİ */
+	/** ç”¨äºTableViewçš„æ•°æ®ä¼ é€’ */
 	public ObservableList dataList = FXCollections.observableArrayList();
 
-	/** ÓÃÓÚÏÔÊ¾CAD */
+	/** ç”¨äºæ˜¾ç¤ºCAD */
 	public void showCAD(BorderPane mBorderPane) {
 		MyCAD mycad = new MyCAD(mBorderPane);
 	}
 
-	/** ½«TableColumnÓëTableDataÃ¿Ò»¸öÊôĞÔÁ¬½ÓÆğÀ´ */
+	/** å°†TableColumnä¸TableDataæ¯ä¸€ä¸ªå±æ€§è¿æ¥èµ·æ¥ */
 	public void InitTableViewData(TableColumn<TableData, String> eventIndex, TableColumn<TableData, String> eventTime,
 			TableColumn<TableData, String> eventLoca, TableColumn<TableData, String> eventPos,
 			TableColumn<TableData, String> energy, TableColumn<TableData, String> grade) {
@@ -58,15 +58,15 @@ public class Tools_DataCommunication {
 		grade.setCellValueFactory(new PropertyValueFactory<>("grade"));
 	}
 
-	/** ÓÃÓÚÏÔÊ¾TableView */
+	/** ç”¨äºæ˜¾ç¤ºTableView */
 	public void ShowTableView(TableView mTableView) {
 		MyTableView view = new MyTableView();
 		view.setTableViewData();
 		mTableView.setItems(dataList);
 	}
 
-	/** ÓÃÓÚ³õÊ¼»¯×ø±êÖá 
-	 * Èç¹û²»Ö´ĞĞÕâ¸ö·½·¨£¬»á±¨ £ºjava.lang.OutOfMemoryError: GC overhead limit exceeded´íÎó
+	/** ç”¨äºåˆå§‹åŒ–åæ ‡è½´ 
+	 * å¦‚æœä¸æ‰§è¡Œè¿™ä¸ªæ–¹æ³•ï¼Œä¼šæŠ¥ ï¼šjava.lang.OutOfMemoryError: GC overhead limit exceededé”™è¯¯
 	 * */
 	private void InitLineChart(LineChart<Number, Number> T1, LineChart<Number, Number> T2, LineChart<Number, Number> T3,
 			LineChart<Number, Number> T4, LineChart<Number, Number> T5, LineChart<Number, Number> T6,
@@ -183,7 +183,7 @@ public class Tools_DataCommunication {
 		T9_yAxis.setUpperBound(20000);
 	}
 
-	/** ÓÃÓÚÏÔÊ¾²¨ĞÎÍ¼ */
+	/** ç”¨äºæ˜¾ç¤ºæ³¢å½¢å›¾ */
 	public void ShowLineChart(LineChart<Number, Number> T1, LineChart<Number, Number> T2, LineChart<Number, Number> T3,
 			LineChart<Number, Number> T4, LineChart<Number, Number> T5, LineChart<Number, Number> T6,
 			LineChart<Number, Number> T7, LineChart<Number, Number> T8, LineChart<Number, Number> T9) {

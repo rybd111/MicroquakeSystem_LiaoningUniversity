@@ -35,11 +35,11 @@ public class ReadCSV {
 		ArrayList<Integer> number3 = new ArrayList<>();
 		ArrayList<ArrayList<Integer>> list=new ArrayList<ArrayList<Integer>>();
 		int count = 0;
-		// (ÎÄ¼þÍêÕûÂ·¾¶),±àÂë¸ñÊ½
+		// (æ–‡ä»¶å®Œæ•´è·¯å¾„),ç¼–ç æ ¼å¼
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));// GBK
 		String line = null;
 		while ((line = reader.readLine()) != null) {
-			String item[] = line.split(",");// CSV¸ñÊ½ÎÄ¼þÊ±ºòµÄ·Ö¸î·û,ÎÒÊ¹ÓÃµÄÊÇ,ºÅ
+			String item[] = line.split(",");// CSVæ ¼å¼æ–‡ä»¶æ—¶å€™çš„åˆ†å‰²ç¬¦,æˆ‘ä½¿ç”¨çš„æ˜¯,å·
 			if (item.length > 1 && count < num*5000) {
 				number1.add(Integer.parseInt(item[4]));
 				number2.add(Integer.parseInt(item[5]));
