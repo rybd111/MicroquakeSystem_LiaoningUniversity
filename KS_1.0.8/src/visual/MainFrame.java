@@ -60,6 +60,8 @@ public class MainFrame {
 	 */
 	public static void main(String[] args) {
 		try {
+			@SuppressWarnings("unused")
+			ConfigToParameters c = new ConfigToParameters();
 			MainFrame window = new MainFrame();
 			window.open();
 		} catch (Exception e) {
@@ -137,13 +139,6 @@ public class MainFrame {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(MainThread.exitVariable_visual == true) {
-					try {
-						@SuppressWarnings("unused")
-						ConfigToParameters c = new ConfigToParameters();
-					} catch (NumberFormatException | IOException e1) {
-						e1.printStackTrace();
-					}
-//					MainThread.exitVariable_visual = false;
 					MainThread main = new MainThread();
 					main.start();
 				}
