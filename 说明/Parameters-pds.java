@@ -19,8 +19,9 @@ public class Parameters
 	/**
 	 * 传感器的采样频率，单位是hz/s，文档中是10k，表示每秒有10000条数据
 	 */
-	public static final int FREQUENCY = 4800;// 单位hz/s
-	public static double distanceToSquareWave = 0;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
+	public static int FREQUENCY = 4800;// 单位hz/s
+	public static int readLen = 10;
+	public static double distanceToSquareWave = 0.17;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
 	/**
 	 * 用于单位转换，采样频率是秒，长短时窗的单位是毫秒
 	 */
@@ -30,6 +31,7 @@ public class Parameters
 	 */
 	public static final int HEAD = 32767;
 	public static final int TAIL = -32768;
+	
 	/**
 	 * 存储虚窗口的数据，虚窗口保存上一个10秒数据中的后5秒数据，这个数用于跳过前边的数据
 	 */
@@ -53,15 +55,20 @@ public class Parameters
 	public static double ShortCompareLongAdjust=1.4;
 
 	public static int afterRange = (Parameters.FREQUENCY+200)/10;
-	public static int refineRange = (int) ((Parameters.FREQUENCY+200)*1.5);
+	public static int refineRange = (int) ((Parameters.FREQUENCY+200)*1.2);
 //	public static final double afterRange_Threshold123 = 1000;
-	public static double afterRange_Threshold456 = 1000;
-	public static double refineRange_Threshold456 = 0;
+	public static double afterRange_Threshold456 = 500;
+	public static double afterRange_ThresholdMin = 500;
+	public static double afterRange_ThresholdMax = 1000;
+	public static double refineRange_ThresholdMin = 500;
+	public static double refineRange_ThresholdMax = 2000;
+	
+	public static double refineRange_variance = 0.0;
 	
 	/**
 	 * 距离其他传感器的传输花费时间，大于1s则认为不时同时发生的事件，但要根据实际点之间的距离和波速进行调整。
 	 */
-	public static int IntervalToOtherSensors=5;
+	public static int IntervalToOtherSensors=2;
 	/**
 	 * when it is true, then the time interval among all sensors are turn on.
 	 */
@@ -74,7 +81,7 @@ public class Parameters
 	 * 长短时窗每次移动的距离（滑动窗口的跳数），暂时设置为移动100条数据
 	 * 该值设置太小，则可能由于电脑性能不行，导致实时读取数据受限
 	 */
-	public static int INTERVAL = 100;
+	public static int INTERVAL = 50;
 	/**
 	 * P波波速，只能通过放炮准确测定，否则只能估算，对于定位结果影响较大
 	 */
@@ -86,7 +93,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static final int SensorNum = MainThread.fileStr.length;
+	public static int SensorNum = 8;
 	/**
 	 * 从0-5依次为各个盘符的背景噪声，背景噪声必须在传感器布置到矿区固定后，才能通过长时间观察确定
 	 * 这个顺序必须与启动时的传感器序号顺序一致
@@ -163,8 +170,9 @@ public class Parameters
 	 * when we will store record of each event, we need to set this variable to 1.
 	 */
 	public static int isStorageEventRecord = 1;
+	public static int isDelay = 0;
 	/**
-	 * 设置三台站、五台站存储路径
+	 * 设置三台站、五台站txt存储路径
 	 * 默认为：D://ConstructionData//3moti//
 	 */
 	public static String AbsolutePath3 = "D:/data/ConstructionData/3moti/";
@@ -239,7 +247,7 @@ public class Parameters
 	 * There are two regions we distribute called datong, pingdingshan.
 	 * */
 	private static String [] station= {"hongyang","datong","pingdingshan"};
-	public static final String region_offline =station[0];
+	public static String region_offline =station[0];
 	/**
 	 * the time to read when procedure start.
 	 */
@@ -307,8 +315,6 @@ public class Parameters
 	public static final String AbsolutePath5_offline = "D:/data/ConstructionData/5moti/";
 	public static final String AbsolutePath_CSV3_offline = "D:/data/ConstructionData/3moti/";
 	public static final String AbsolutePath_CSV5_offline = "D:/data/ConstructionData/5moti/";
-	
-	
 	
 	/**
 	 * 程序注释需要加上前标，以防止出错无法判断出错位置

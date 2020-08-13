@@ -78,6 +78,6 @@ m3=D_sort(3,1);
 Miso=(m1+m2+m3)/3/m1;
 Mdc=(m2-m3)/m1;
 Mclvd=(2*m1+2*m3-4*m2)/3/m1;
-Pdc=abs(Mdc)/(abs(Miso)+abs(Mdc)+abs(Mclvd))
+Pdc=abs(Mdc)/(abs(Miso)+abs(Mdc)+abs(Mclvd));
 end
 

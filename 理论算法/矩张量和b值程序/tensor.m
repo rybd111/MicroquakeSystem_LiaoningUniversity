@@ -2,10 +2,10 @@
 clear;
 close all;
 file = 'sample.txt';
-a=load('I:\研究生阶段\矿山\理论算法\矩张量和b值程序\矩张量反演所需文件\fn_sta1.txt');
-b=fopen('I:\研究生阶段\矿山\理论算法\矩张量和b值程序\矩张量反演所需文件\quake source info.txt');
-c=fopen('I:\研究生阶段\矿山\理论算法\矩张量和b值程序\矩张量反演所需文件\channel info.txt');
-fid=fopen('I:\研究生阶段\矿山\理论算法\矩张量和b值程序\矩张量反演所需文件\consequence.txt','wt');
+a=load('I:\研究生阶段\矿山\更新程序\MicroquakeSystem_LiaoningUniversity\理论算法\矩张量和b值程序\fn_sta1.txt');
+b=fopen('I:\研究生阶段\矿山\更新程序\MicroquakeSystem_LiaoningUniversity\理论算法\矩张量和b值程序\quake source info.txt');
+c=fopen('I:\研究生阶段\矿山\更新程序\MicroquakeSystem_LiaoningUniversity\理论算法\矩张量和b值程序\channel info.txt');
+fid=fopen('I:\研究生阶段\矿山\更新程序\MicroquakeSystem_LiaoningUniversity\理论算法\矩张量和b值程序\consequence.txt','wt');
 tongdao=[];
 i=1;
 

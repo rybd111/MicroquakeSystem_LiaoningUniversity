@@ -21,7 +21,7 @@ public class Parameters
 	 */
 	public static int FREQUENCY = 4800;// 单位hz/s
 	public static int readLen = 10;
-	public static double distanceToSquareWave = 0.2;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
+	public static double distanceToSquareWave = 0.17;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
 	/**
 	 * 用于单位转换，采样频率是秒，长短时窗的单位是毫秒
 	 */
@@ -93,7 +93,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static int SensorNum = 6;
+	public static int SensorNum = 3;
 	/**
 	 * 从0-5依次为各个盘符的背景噪声，背景噪声必须在传感器布置到矿区固定后，才能通过长时间观察确定
 	 * 这个顺序必须与启动时的传感器序号顺序一致
@@ -172,6 +172,7 @@ public class Parameters
 	 * when we will store record of each event, we need to set this variable to 1.
 	 */
 	public static int isStorageEventRecord = 1;
+	public static int isDelay = 0;
 	/**
 	 * 设置三台站、五台站txt存储路径
 	 * 默认为：D://ConstructionData//3moti//
@@ -249,7 +250,7 @@ public class Parameters
 	 * the time to read when procedure start.
 	 */
 //	public static final String timeStr = "170214123000";
-	public static final String timeStr = "200214130000";
+	public static String timeStr = "200726000000";
 	/**the data file must store in a fold which name ends with "1" or "2" or "3" or "4" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 * */
@@ -313,8 +314,6 @@ public class Parameters
 	public static final String AbsolutePath_CSV3_offline = "D:/data/ConstructionData/3moti/";
 	public static final String AbsolutePath_CSV5_offline = "D:/data/ConstructionData/5moti/";
 	
-	
-	
 	/**
 	 * 程序注释需要加上前标，以防止出错无法判断出错位置
 	 * 命名规则：各部分提示符_自部分名称，如计算部分的近震震级表示为：compute_nearQuake
@@ -343,7 +342,7 @@ public class Parameters
 	 * 前后台交互部分：sev
 	 *  查询：select
 	 *  传输：translate1~translateN
-	 * 
+	 *  
 	 */
 	public static final String compute_nearQuake = "compute_nearQuake";
 	public static final String compute_energy = "compute_energy";
