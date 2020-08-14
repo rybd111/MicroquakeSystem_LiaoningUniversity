@@ -277,12 +277,12 @@ public class EarthQuake {
 			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.
 			if(countNumber >= 5 && EarthQuake.realMoti==true) {
 				Five_Locate.five(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
-				PSO_Locate.pso(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
 			}
 			
 			//if the number of motivated sensors is greater than 3, we will calculate three location.
 			if(countNumber>=3 && EarthQuake.realMoti==true){
 				outString = Three_Locate.three(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
+				PSO_Locate.pso(sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
 			}
 			
 			//if the number of motivated sensors is greater than 4, we will calculate four location-main event location.

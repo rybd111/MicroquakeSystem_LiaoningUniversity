@@ -52,13 +52,10 @@ public class ThreadStep3 extends Thread
 		try {
 			QuakeClass.SensorMaxFudu(this.sensor, this.dataCalculate, this.i);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MWException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		QuakeClass.getOneEarthQuakeGrade(location, sensor);
-//		this.downLatch.countDown();
 	}
 }

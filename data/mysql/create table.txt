@@ -34,5 +34,5 @@ CREATE TABLE `mine_quack_5_results` (
   `wenjianming` varchar(100) DEFAULT NULL,
   `tensor` double DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

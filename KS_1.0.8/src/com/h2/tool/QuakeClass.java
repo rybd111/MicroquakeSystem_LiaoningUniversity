@@ -28,10 +28,10 @@ import utils.Data2Object_MATLAB;
 
 public class QuakeClass
 {
-	static ArrayList<List<double[]>> imfa= new ArrayList<List<double[]>>(/*capacity*/);
-	static int s=0;
-	static double[] arr=new double[Parameters.SensorNum];
-	static int s3=0;
+//	static ArrayList<List<double[]>> imfa= new ArrayList<List<double[]>>(/*capacity*/);
+//	static int s=0;
+//	static double[] arr=new double[Parameters.SensorNum];
+//	static int s3=0;
 	/**
 	 * compute the max amplitude of every sensor.
 	 * @param sen the sensor status object used to store the status of every sensor.
@@ -583,317 +583,317 @@ public class QuakeClass
 	 * @author Yali Hao.
 	 * @return 
 	 */
-	public static double EMD(Vector<String> data, Sensor sen, int th){
-		return suoyou(data);
-	}
+//	public static double EMD(Vector<String> data, Sensor sen, int th){
+//		return suoyou(data);
+//	}
 
-	public  static double suoyou(Vector<String> data) {
-		boolean flag = false;
-		int i=0;
-		int w=0;
-		int x=0;
-		double sum1=0;
-		double[] array=new double[data.size()];
-		int  arrayx[]=new int[data.size()];
-		double yMax[] =new double[data.size()];
-		double yMin[]=new double[data.size()];
-		int XMax[]=new int[data.size()];
-		int XMin[]=new int[data.size()];
-		//回传时数据不一致
-		if(s==0) {
-			for(int h=Parameters.startTime*Parameters.FREQUENCY;h<Parameters.endTime*Parameters.FREQUENCY;h++){//h表示x轴的值	
-			//for(int h=5*Parameters.FREQUENCY;h<data.size()-Parameters.FREQUENCY;h++){//h表示x轴的值
-				array[i]=Double.parseDouble(data.get(h).split(" ")[5]);//取序列对应的y值存到array[i]
-				arrayx[i]=x;//把对应的x轴的值存到	arrayx[i]
-				x++;
-				i++;
-			}	
-			s++;
-		}
-		else {
-			for(int h=0;h<data.size();h++){//h表示x轴的值
-				array[i]=Double.parseDouble(data.get(h));//取序列对应的y值存到array[i]
-				arrayx[i]=h;//把对应的x轴的值存到	arrayx[i]
-				i++;
-			}	
-		}
-		int  jizhi[]=new int [2];
-		double minarray[]=array.clone();
-		double maxarray[]=array.clone();
-		double temp[]=new double[data.size()];
-		double temp1[]=new double[data.size()];
-		double temp2[]=array.clone();
-		double temp3[]=new double[data.size()];
-		double avg[]=new double[data.size()];
-		String temp4[]= new String[data.size()];
-		Vector<String> object2;//Vector定义
-		int s1;
-		int s2;
-		//遍历数组，找到极大值和极小值的数组，当s==array.length-1停下来遍历完成
-		int[]jizhi1=jizhi(array, arrayx, yMax, yMin, XMax, XMin, jizhi);
-		//极大值形成包络线
-		temp = addmax(arrayx, yMax, XMax, maxarray, temp,jizhi1);
-		//极小值形成包络线
-		temp1 = addmax(arrayx, yMin, XMin, minarray, temp1,jizhi1);
-		avg=avg(minarray, temp, temp1, avg);
-		temp2=imf(array, maxarray, temp2, avg);
-		int[]jizhi2=jizhi(temp2, arrayx, yMax, yMin, XMax, XMin, jizhi);
-		s1=jizhi2[0]+jizhi2[1];
-	//		System.out.println("极值点的个数" + s1);
-		s2=lingdian(w, temp2);
-	//		System.out.println("零点的个数" + s2);
-		double sum=0.0;
-		sum=QuakeClass.sumavg(avg);//
-		while(Math.abs(s1-s2)>=20) {//||sum!=0
-			 yMax=new double[data.size()];
-			 yMin=new double[data.size()];
-			 XMax=new int[data.size()];
-			 XMin=new int[data.size()];
-			 double[] minarray1=temp2.clone();
-			double[] maxarray1=temp2.clone();
-			
-			jizhi1=jizhi(temp2, arrayx, yMax, yMin, XMax, XMin, jizhi);
-			if(yMax.length==jizhi1[0]) {
-	//				System.out.println("极大值的个数是对的");
-			}else {
-	//				System.out.println("极大值的个数是错的");
-				yMax=QuakeClass.subBytes(yMax, 0, jizhi1[0]);
-			}
-			if(yMin.length==jizhi1[1]) {
-	//				System.out.println("极小值的个数是对的");
-			}else {
-	//				System.out.println("极小值的个数是错的");
-				yMin=QuakeClass.subBytes(yMin, 0, jizhi1[1]);
-			}
-			if(XMax.length==jizhi1[1]) {
-	//				System.out.println("x的极小值的个数是对的");
-			}else {
-	//				System.out.println("x的极小值的个数是错的");
-				XMax=QuakeClass.subBytes1(XMax, 0, jizhi1[0]);
-			}
-			if(XMin.length==jizhi1[1]) {
-	//				System.out.println("x的极小值的个数是对的");
-			}else {
-	//				System.out.println("x的极小值的个数是错的");
-				XMin=QuakeClass.subBytes1(XMin, 0, jizhi1[1]);
-			}
-			if(yMax.length==1) {
-				temp=maxarray1;
-			}else {
-			temp = addmax(arrayx, yMax, XMax, maxarray1, temp, jizhi1);
-			}if(yMin.length==1) {
-				temp1=minarray1;
-			}else {
-			temp1 = addmin(arrayx, yMin, XMin, minarray1, temp1,jizhi1);}
-			//画蛇添足
-			yMax=new double[data.size()];
-			yMin=new double[data.size()];
-			XMax=new int[data.size()];
-			XMin=new int[data.size()];
-			avg=avg(minarray1, temp, temp1, avg);
-			sum=QuakeClass.sumavg(avg);
-			temp2=imf(temp2, maxarray, temp2, avg);
-	//			System.out.println("yMax==="+yMax.length);
-			int[]jizhi3=jizhi(temp2, arrayx, yMax, yMin, XMax, XMin, jizhi);
-			s1=jizhi3[0]+jizhi3[1]; 
-	//			System.out.println("极值点的个数" + s1);
-			s2=lingdian(w, temp2);
-	//			System.out.println("零点的个数"+ s2);
-		}
-	
-		while(Math.abs(s1-s2)<=20 &&flag==false) {//&&sum==0
-	//			List<double[]> list=Arrays.asList(imf(minarray, maxarray, temp2, avg));
-			List<double[]> list=Arrays.asList(temp2);
-	//			System.out.println("1111");
-			imfa.add(list);
-			
-			for(int i1=0;i1<array.length;i1++) {
-				temp3[i1]= array[i1]-temp2[i1];
-			} 
-			for (int j = 0; j <temp3.length-1; j++) {
-				if(temp3[j]>=temp3[j+1]) {
-					if((j+1)==temp3.length-1) {
-						System.out.println("是单调的1");
-						//直接进行计算
-	//						System.out.println("imfa.size()======"+imfa.size());
-						for (int i2 = 0; i2 <imfa.size(); i2++) {
-							List<double[]> array2=imfa.get(i2);
-	//							System.out.println("array2.size()==="+array2.size());
-							for (int j2= 0; j2 < array2.size(); j2++) {
-	//								System.out.println(j2+"array2.get(j2)"+array2.get(j2).toString());
-								double[] b = array2.get(j2); //表示b的平方
-							for(int k=0;k<b.length;k++) {
-								double a=Math.pow(b[k], 2);	
-								sum1=sum1+a;
-							}
-							}
-						}
-						sum1=sum1/5000;
-						flag=true;
-						System.out.println("sum1===="+sum1);
-						s=0;
-						sum1=0;
-						flag=true;
-						break;
-					}
-					continue;
-				} 
-				for (int j1 = 0; j1 < temp3.length-1; j1++) {
-					if(temp3[j1]<=temp3[j1+1]) {
-						if((j1+1)==temp3.length-1) {
-	//							System.out.println("是单调的2");
-							for (int i2 = 0; i2 <imfa.size(); i2++) {
-	//								System.out.println("imfa.size()"+imfa.size());
-								List<double[]> array2=imfa.get(i2);
-								for (int j2= 0; j2 < array2.size(); j2++) {
-	//									System.out.println(array2.get(j2));
-									double[] b = array2.get(j2); //表示b的平方
-									for(int k=0;k<b.length;k++) {
-										double a=Math.pow(b[k], 2);	
-										sum1=sum1+a;
-									}
-								}
-							}
-							sum1=sum1/5000;
-//								System.out.println("sum2===="+sum1);
-							s=0;
-							flag=true;
-							break;
-							//直接进行计算
-						}
-						continue;
-					}
-				}
-				if(flag) {
-					break;
-				}
-	//					System.out.println("不是单调的");
-			}
-			if(flag) {
-				break;
-			}
-			//回传 
-			for(int i1=0;i1<temp4.length;i1++) {
-				temp4[i1]=String.valueOf(temp3[i1]);
-			}
-			object2=new Vector<String>(Arrays.asList(temp4));//[] -> array -> vector
-		    suoyou(object2);
-		}
-//		System.out.println("sum="+sum1);
-		return sum1;
-	}
+//	public  static double suoyou(Vector<String> data) {
+//		boolean flag = false;
+//		int i=0;
+//		int w=0;
+//		int x=0;
+//		double sum1=0;
+//		double[] array=new double[data.size()];
+//		int  arrayx[]=new int[data.size()];
+//		double yMax[] =new double[data.size()];
+//		double yMin[]=new double[data.size()];
+//		int XMax[]=new int[data.size()];
+//		int XMin[]=new int[data.size()];
+//		//回传时数据不一致
+//		if(s==0) {
+//			for(int h=Parameters.startTime*Parameters.FREQUENCY;h<Parameters.endTime*Parameters.FREQUENCY;h++){//h表示x轴的值	
+//			//for(int h=5*Parameters.FREQUENCY;h<data.size()-Parameters.FREQUENCY;h++){//h表示x轴的值
+//				array[i]=Double.parseDouble(data.get(h).split(" ")[5]);//取序列对应的y值存到array[i]
+//				arrayx[i]=x;//把对应的x轴的值存到	arrayx[i]
+//				x++;
+//				i++;
+//			}	
+//			s++;
+//		}
+//		else {
+//			for(int h=0;h<data.size();h++){//h表示x轴的值
+//				array[i]=Double.parseDouble(data.get(h));//取序列对应的y值存到array[i]
+//				arrayx[i]=h;//把对应的x轴的值存到	arrayx[i]
+//				i++;
+//			}	
+//		}
+//		int  jizhi[]=new int [2];
+//		double minarray[]=array.clone();
+//		double maxarray[]=array.clone();
+//		double temp[]=new double[data.size()];
+//		double temp1[]=new double[data.size()];
+//		double temp2[]=array.clone();
+//		double temp3[]=new double[data.size()];
+//		double avg[]=new double[data.size()];
+//		String temp4[]= new String[data.size()];
+//		Vector<String> object2;//Vector定义
+//		int s1;
+//		int s2;
+//		//遍历数组，找到极大值和极小值的数组，当s==array.length-1停下来遍历完成
+//		int[]jizhi1=jizhi(array, arrayx, yMax, yMin, XMax, XMin, jizhi);
+//		//极大值形成包络线
+//		temp = addmax(arrayx, yMax, XMax, maxarray, temp,jizhi1);
+//		//极小值形成包络线
+//		temp1 = addmax(arrayx, yMin, XMin, minarray, temp1,jizhi1);
+//		avg=avg(minarray, temp, temp1, avg);
+//		temp2=imf(array, maxarray, temp2, avg);
+//		int[]jizhi2=jizhi(temp2, arrayx, yMax, yMin, XMax, XMin, jizhi);
+//		s1=jizhi2[0]+jizhi2[1];
+//	//		System.out.println("极值点的个数" + s1);
+//		s2=lingdian(w, temp2);
+//	//		System.out.println("零点的个数" + s2);
+//		double sum=0.0;
+//		sum=QuakeClass.sumavg(avg);//
+//		while(Math.abs(s1-s2)>=20) {//||sum!=0
+//			 yMax=new double[data.size()];
+//			 yMin=new double[data.size()];
+//			 XMax=new int[data.size()];
+//			 XMin=new int[data.size()];
+//			 double[] minarray1=temp2.clone();
+//			double[] maxarray1=temp2.clone();
+//			
+//			jizhi1=jizhi(temp2, arrayx, yMax, yMin, XMax, XMin, jizhi);
+//			if(yMax.length==jizhi1[0]) {
+//	//				System.out.println("极大值的个数是对的");
+//			}else {
+//	//				System.out.println("极大值的个数是错的");
+//				yMax=QuakeClass.subBytes(yMax, 0, jizhi1[0]);
+//			}
+//			if(yMin.length==jizhi1[1]) {
+//	//				System.out.println("极小值的个数是对的");
+//			}else {
+//	//				System.out.println("极小值的个数是错的");
+//				yMin=QuakeClass.subBytes(yMin, 0, jizhi1[1]);
+//			}
+//			if(XMax.length==jizhi1[1]) {
+//	//				System.out.println("x的极小值的个数是对的");
+//			}else {
+//	//				System.out.println("x的极小值的个数是错的");
+//				XMax=QuakeClass.subBytes1(XMax, 0, jizhi1[0]);
+//			}
+//			if(XMin.length==jizhi1[1]) {
+//	//				System.out.println("x的极小值的个数是对的");
+//			}else {
+//	//				System.out.println("x的极小值的个数是错的");
+//				XMin=QuakeClass.subBytes1(XMin, 0, jizhi1[1]);
+//			}
+//			if(yMax.length==1) {
+//				temp=maxarray1;
+//			}else {
+//			temp = addmax(arrayx, yMax, XMax, maxarray1, temp, jizhi1);
+//			}if(yMin.length==1) {
+//				temp1=minarray1;
+//			}else {
+//			temp1 = addmin(arrayx, yMin, XMin, minarray1, temp1,jizhi1);}
+//			//画蛇添足
+//			yMax=new double[data.size()];
+//			yMin=new double[data.size()];
+//			XMax=new int[data.size()];
+//			XMin=new int[data.size()];
+//			avg=avg(minarray1, temp, temp1, avg);
+//			sum=QuakeClass.sumavg(avg);
+//			temp2=imf(temp2, maxarray, temp2, avg);
+//	//			System.out.println("yMax==="+yMax.length);
+//			int[]jizhi3=jizhi(temp2, arrayx, yMax, yMin, XMax, XMin, jizhi);
+//			s1=jizhi3[0]+jizhi3[1]; 
+//	//			System.out.println("极值点的个数" + s1);
+//			s2=lingdian(w, temp2);
+//	//			System.out.println("零点的个数"+ s2);
+//		}
+//	
+//		while(Math.abs(s1-s2)<=20 &&flag==false) {//&&sum==0
+//	//			List<double[]> list=Arrays.asList(imf(minarray, maxarray, temp2, avg));
+//			List<double[]> list=Arrays.asList(temp2);
+//	//			System.out.println("1111");
+//			imfa.add(list);
+//			
+//			for(int i1=0;i1<array.length;i1++) {
+//				temp3[i1]= array[i1]-temp2[i1];
+//			} 
+//			for (int j = 0; j <temp3.length-1; j++) {
+//				if(temp3[j]>=temp3[j+1]) {
+//					if((j+1)==temp3.length-1) {
+//						System.out.println("是单调的1");
+//						//直接进行计算
+//	//						System.out.println("imfa.size()======"+imfa.size());
+//						for (int i2 = 0; i2 <imfa.size(); i2++) {
+//							List<double[]> array2=imfa.get(i2);
+//	//							System.out.println("array2.size()==="+array2.size());
+//							for (int j2= 0; j2 < array2.size(); j2++) {
+//	//								System.out.println(j2+"array2.get(j2)"+array2.get(j2).toString());
+//								double[] b = array2.get(j2); //表示b的平方
+//							for(int k=0;k<b.length;k++) {
+//								double a=Math.pow(b[k], 2);	
+//								sum1=sum1+a;
+//							}
+//							}
+//						}
+//						sum1=sum1/5000;
+//						flag=true;
+//						System.out.println("sum1===="+sum1);
+//						s=0;
+//						sum1=0;
+//						flag=true;
+//						break;
+//					}
+//					continue;
+//				} 
+//				for (int j1 = 0; j1 < temp3.length-1; j1++) {
+//					if(temp3[j1]<=temp3[j1+1]) {
+//						if((j1+1)==temp3.length-1) {
+//	//							System.out.println("是单调的2");
+//							for (int i2 = 0; i2 <imfa.size(); i2++) {
+//	//								System.out.println("imfa.size()"+imfa.size());
+//								List<double[]> array2=imfa.get(i2);
+//								for (int j2= 0; j2 < array2.size(); j2++) {
+//	//									System.out.println(array2.get(j2));
+//									double[] b = array2.get(j2); //表示b的平方
+//									for(int k=0;k<b.length;k++) {
+//										double a=Math.pow(b[k], 2);	
+//										sum1=sum1+a;
+//									}
+//								}
+//							}
+//							sum1=sum1/5000;
+////								System.out.println("sum2===="+sum1);
+//							s=0;
+//							flag=true;
+//							break;
+//							//直接进行计算
+//						}
+//						continue;
+//					}
+//				}
+//				if(flag) {
+//					break;
+//				}
+//	//					System.out.println("不是单调的");
+//			}
+//			if(flag) {
+//				break;
+//			}
+//			//回传 
+//			for(int i1=0;i1<temp4.length;i1++) {
+//				temp4[i1]=String.valueOf(temp3[i1]);
+//			}
+//			object2=new Vector<String>(Arrays.asList(temp4));//[] -> array -> vector
+//		    suoyou(object2);
+//		}
+////		System.out.println("sum="+sum1);
+//		return sum1;
+//	}
 
 	/** 找到极大值极小值，返回一个数组，数组内第一个存极大值，第二个存极小值
 	 * */
-	private static int[]  jizhi(double[] array, int[] arrayx, double[] yMax, double[] yMin, int[] XMax, int[] XMin,int[] jizhi) {
-		int m = 0;
-		int n = 0;
-		int i=0;
-		for(int s=0;s<array.length;s++) {
-			if(s==array.length-2) {
-				while(i<1) {
-					//第一个存极大值
-					jizhi[i]=m;
-					i++;
-					//第二个存极小值
-					jizhi[i]=n;
-				}
-				return jizhi;
-			}
-			if(array[s+1]>array[s]&&array[s+1]>array[s+2]) {
-				yMax[m]=array[s+1];//找到极大值
-				XMax[m]=arrayx[s+1];//极大值对应的下标
-				m++;
-			}
-			if(array[s+1]<array[s]&&array[s+1]<array[s+2]) {
-				yMin[n]=array[s+1];//找到极小值
-				XMin[n]=arrayx[s+1];//极小值对应的下标
-				n++;
-				
-			}
-		}
-		return jizhi;
-	}
+//	private static int[]  jizhi(double[] array, int[] arrayx, double[] yMax, double[] yMin, int[] XMax, int[] XMin,int[] jizhi) {
+//		int m = 0;
+//		int n = 0;
+//		int i=0;
+//		for(int s=0;s<array.length;s++) {
+//			if(s==array.length-2) {
+//				while(i<1) {
+//					//第一个存极大值
+//					jizhi[i]=m;
+//					i++;
+//					//第二个存极小值
+//					jizhi[i]=n;
+//				}
+//				return jizhi;
+//			}
+//			if(array[s+1]>array[s]&&array[s+1]>array[s+2]) {
+//				yMax[m]=array[s+1];//找到极大值
+//				XMax[m]=arrayx[s+1];//极大值对应的下标
+//				m++;
+//			}
+//			if(array[s+1]<array[s]&&array[s+1]<array[s+2]) {
+//				yMin[n]=array[s+1];//找到极小值
+//				XMin[n]=arrayx[s+1];//极小值对应的下标
+//				n++;
+//				
+//			}
+//		}
+//		return jizhi;
+//	}
 
 	/**插值
 	 * */
-	private static double[] addmin(int[] arrayx, double[] yMax, int[] XMax, double[] maxarray, double[] temp,int[]jizhi1) {
-		int s = jizhi1[1];
-		for(int h=0;h<s-1;h++) {
-			temp=addvalue(yMax, XMax, h, maxarray,arrayx);
-		}
-		return temp;
-	}
+//	private static double[] addmin(int[] arrayx, double[] yMax, int[] XMax, double[] maxarray, double[] temp,int[]jizhi1) {
+//		int s = jizhi1[1];
+//		for(int h=0;h<s-1;h++) {
+//			temp=addvalue(yMax, XMax, h, maxarray,arrayx);
+//		}
+//		return temp;
+//	}
 	
 	/**形成暂时的imf分量
 	 * */
-	private static double[] imf(double[] array, double[] maxarray, double[] temp2, double[] avg) {
-		for(int i1=0;i1<maxarray.length;i1++) {
-			temp2[i1]= array[i1]-avg[i1];
-		}
-		return temp2;
-	}
+//	private static double[] imf(double[] array, double[] maxarray, double[] temp2, double[] avg) {
+//		for(int i1=0;i1<maxarray.length;i1++) {
+//			temp2[i1]= array[i1]-avg[i1];
+//		}
+//		return temp2;
+//	}
 	
 	/**
 	 * 包络线形成平均值
 	 * @return 
 	 * */
-	private static double[] avg(double[] minarray, double[] temp, double[] temp1, double[] avg) {
-		for(int i1=0;i1<minarray.length;i1++){
-			avg[i1]	= (temp1[i1]+temp[i1])/2;
-		}
-		return avg;
-	}
+//	private static double[] avg(double[] minarray, double[] temp, double[] temp1, double[] avg) {
+//		for(int i1=0;i1<minarray.length;i1++){
+//			avg[i1]	= (temp1[i1]+temp[i1])/2;
+//		}
+//		return avg;
+//	}
 	
-	private static int lingdian(int w,double[] temp2) {
-		w =0;
-		for(int i=0;i<temp2.length-1;i++) {
-			if((temp2[i]*temp2[i+1])<0) {
-				w++;
-			}
-		}
-		
-		return w;
-		
-	}
+//	private static int lingdian(int w,double[] temp2) {
+//		w =0;
+//		for(int i=0;i<temp2.length-1;i++) {
+//			if((temp2[i]*temp2[i+1])<0) {
+//				w++;
+//			}
+//		}
+//		
+//		return w;
+//		
+//	}
 	
-	private static double[] addmax(int[] arrayx, double[] yMax, int[] XMax, double[] maxarray, double[] temp,int[]jizhi1) {
-		int m = jizhi1[0];
-		for(int h=0;h<m-1;h++) {
-			temp=addvalue(yMax, XMax, h, maxarray,arrayx);
-		}
-		return temp;
-	}
+//	private static double[] addmax(int[] arrayx, double[] yMax, int[] XMax, double[] maxarray, double[] temp,int[]jizhi1) {
+//		int m = jizhi1[0];
+//		for(int h=0;h<m-1;h++) {
+//			temp=addvalue(yMax, XMax, h, maxarray,arrayx);
+//		}
+//		return temp;
+//	}
 
 	/** 用相邻两个极大值的平均值代替原来的相邻两个极大值之间的y
 	array存的最大值，array2 最大值的下标即对应的x值， array3全部的数据y值array4全部的数据x的值	
 	 * */
-	public  static double[] addvalue(double[] yMax,int  array2[],int m,double[] maxarray,int array4[]) {
-		double avg=(yMax[m]+yMax[m+1])/2;
-		for(int i=array2[m]+1;i<array2[m+1];i++) {
-			maxarray[i]=avg; 
-		}
-		return maxarray;
-	}
+//	public  static double[] addvalue(double[] yMax,int  array2[],int m,double[] maxarray,int array4[]) {
+//		double avg=(yMax[m]+yMax[m+1])/2;
+//		for(int i=array2[m]+1;i<array2[m+1];i++) {
+//			maxarray[i]=avg; 
+//		}
+//		return maxarray;
+//	}
 
-	public static double sumavg(double[] avg) {
-	double sum=0;
-		for(int i1=0;i1<avg.length;i1++) {
-		sum=sum+avg[i1];
-	}
-		return sum;
-	}
-	
-	public static double [] subBytes(double[] src, int begin, int count) {
-		double[] bs = new double[count];
-	    System.arraycopy(src, begin, bs, 0, count);
-	    return bs;
-	}
-	public static int [] subBytes1(int[] xMax, int begin, int count) {
-		int[] bs = new int[count];
-	    System.arraycopy(xMax, begin, bs, 0, count);
-	    return bs;
-	}
+//	public static double sumavg(double[] avg) {
+//	double sum=0;
+//		for(int i1=0;i1<avg.length;i1++) {
+//		sum=sum+avg[i1];
+//	}
+//		return sum;
+//	}
+//	
+//	public static double [] subBytes(double[] src, int begin, int count) {
+//		double[] bs = new double[count];
+//	    System.arraycopy(src, begin, bs, 0, count);
+//	    return bs;
+//	}
+//	public static int [] subBytes1(int[] xMax, int begin, int count) {
+//		int[] bs = new int[count];
+//	    System.arraycopy(xMax, begin, bs, 0, count);
+//	    return bs;
+//	}
 	/**
 	 * calculate the energy of one sensor.
 	 * @param a
