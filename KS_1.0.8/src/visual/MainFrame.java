@@ -44,6 +44,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.h2.constant.ConfigToParameters;
+import com.h2.constant.Parameters;
 
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
@@ -141,6 +142,7 @@ public class MainFrame {
 				if(MainThread.exitVariable_visual == true) {
 					MainThread main = new MainThread();
 					main.start();
+//					System.out.println("database's name"+Parameters.DatabaseName5);
 				}
 			}
 		});

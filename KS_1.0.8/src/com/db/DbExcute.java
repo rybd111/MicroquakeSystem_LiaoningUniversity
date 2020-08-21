@@ -128,7 +128,6 @@ public class DbExcute {
 //		sql[1] = "select * from "+Parameters.DatabaseName4+" where quackTime>=? and quackTime<? and quackGrade>? and nengliang>?";
 		sql = "select * from "+Parameters.DatabaseName5+" where quackTime>=? and quackTime<? and quackGrade>? and nengliang>?";
 		
-		
 //		String sql_union = "select * from ("
 //				+ "select * from "+Parameters.DatabaseName3+" union all "
 //				+ "select * from "+Parameters.DatabaseName5+" union all "

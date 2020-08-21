@@ -216,9 +216,6 @@ public class ConfigToParameters {
 		            if(item[0].equals("AbsolutePath5_record")) {
 		            	Parameters.AbsolutePath5_record = item[1];
 		            }
-		            if(item[0].equals("AbsolutePath_wave")) {
-		            	Parameters.AbsolutePath3 = item[1];
-		            }
 		            if(item[0].equals("AbsolutePath5")) {
 		            	Parameters.AbsolutePath5 = item[1];
 		            }
@@ -227,13 +224,13 @@ public class ConfigToParameters {
 		            }
 		            
 		            if(item[0].equals("DatabaseName5")) {
-		            	Parameters.AbsolutePath5 = item[1];
+		            	Parameters.DatabaseName5 = item[1];
 		            }
 		            if(item[0].equals("DatabaseName4")) {
-		            	Parameters.AbsolutePath5 = item[1];
+		            	Parameters.DatabaseName4 = item[1];
 		            }
 		            if(item[0].equals("DatabaseName3")) {
-		            	Parameters.AbsolutePath5 = item[1];
+		            	Parameters.DatabaseName3 = item[1];
 		            }
 		            /**Adjust*/
 		            if(item[0].equals("Adjust")) {
