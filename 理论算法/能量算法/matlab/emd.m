@@ -51,7 +51,7 @@
 %         _  |IMF(i,:).*IMF(j,:)|
 %   ORT = \ _____________________
 %         /
-%         ¯        || X ||²
+%         ?        || X ||?
 %        i~=j
 %
 % and the number of iterations to extract each mode in NB_ITERATIONS
@@ -155,7 +155,7 @@
 % gabriel.rilling@ens-lyon.fr
 
 
-function [imf,ort,nbits] = emd(varargin)
+function [imf] = emd(varargin)
 
 [x,t,sd,sd2,tol,MODE_COMPLEX,ndirs,display_sifting,sdt,sd2t,r,imf,k,nbit,NbIt,MAXITERATIONS,FIXE,FIXE_H,MAXMODES,INTERP,mask] = init(varargin{:});
 

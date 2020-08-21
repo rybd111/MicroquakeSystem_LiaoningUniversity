@@ -58,6 +58,12 @@ public class one_dim_array_max_min {
 		return max;
 	}
 	
+	/**
+	 * we should determine this attribute according to the distance of these sensors to the earthquake.
+	 * @param array
+	 * @return
+	 * @author Hanlin Zhang.
+	 */
 	public static int getMethod_4(int[] array){
         Map<Integer, Integer> map = new HashMap<>();
         int count = 0;
