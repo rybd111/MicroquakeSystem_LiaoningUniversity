@@ -17,7 +17,7 @@ public class MyTableView {
 
 	public void setTableViewData() {
 		DbExcute aDbExcute = new DbExcute();
-		aDbExcute.Query3("select * from " + Parameters.DatabaseName3);
+		aDbExcute.Query3("select * from " + Parameters.DatabaseName5);
 //		Tools_DataCommunication.getCommunication().dataList.clear();
 //		/**如果在这里进行数据库读入内存操作的话，会报错：java.sql.SQLException: Operation not allowed after ResultSet closed*/
 //		try {
