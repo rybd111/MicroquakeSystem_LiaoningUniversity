@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <script language="javascript" type="text/javascript">
+
+        function MxMain(require) {
+            var MxFun = require("./MxFun").MxFun;
+            
+            MxFun.createMxObject("MxDraw2d","test2.dwg");
+            MxFun.createMxObject("MxDraw3d","test.obj");
+
+            document.body.addEventListener('touchmove', function (e) {
+                e.preventDefault()
+            }, { passive: false })
+
+            return 0;
+        }
+
+    </script>
+
+    <script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="js/mxfun.min.js"></script>
+</head>
+
+<body style="overflow-x:hidden; overflow-y:hidden">
+
+<canvas id="MxDraw2d"  width="500px"  height="400px"></canvas>
+<canvas id="MxDraw3d"  width="500px"  height="400px"></canvas>
+</body>
+</html>
+

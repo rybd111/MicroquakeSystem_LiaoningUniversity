@@ -32,5 +32,49 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/com.ibm.icu_58.2.0.v20170418-1837.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-lang3-3.9.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/Energy_matlab.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/fastjson-1.2.21.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hutool-all-5.0.6.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/javabuilder.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jblas-1.2.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jfreechart-1.0.19-experimental.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jfreechart-1.0.19-swt.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jfreesvg-2.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jstl.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/junit-4.11.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jxbrowser-6.14.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jxbrowser-win32-6.14.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/logback-classic-1.2.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/logback-core-1.2.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.38.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.core.commands_3.9.0.v20170530-1048.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.core.runtime_3.13.0.v20170207-1030.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.equinox.common_3.9.0.v20170207-1454.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.equinox.registry_3.7.0.v20170222-1344.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.jface_3.13.2.v20171022-1656.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.jface.text_3.12.2.v20180112-1341.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.osgi_3.12.100.v20180210-1608.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.swt.win32.win32.x86_64_3.106.3.v20180329-0507.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.text_3.6.100.v20170203-0814.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.ui.forms_3.7.101.v20170815-1446.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.eclipse.ui.workbench_3.110.1.v20170704-1208.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/orsoncharts-1.4-eval-nofx.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/orsonpdf-1.6-eval.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-api-1.7.29.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/standard.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/swtgraphics2d.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/sysout-over-slf4j-1.0.1.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

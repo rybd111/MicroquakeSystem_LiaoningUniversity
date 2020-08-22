@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <style>
+  canvas{
+	border:1px solid #ccc
+  }
+  </style>
+    <script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="js/mxfun.min.js"></script>
+</head>
+
+<body style="overflow-x:hidden; overflow-y:hidden">
+
+<canvas id="MxDraw2d"  width="1000px"  height="800px" ></canvas>
+</body>
+    <script language="javascript" type="text/javascript">
+	var mycanvas=document.querySelector('canvas');
+	var ctx=mycanvas.getContext('2d');
+	ctx.moveTo(100,100);
+	ctx.lineTo(200,100);
+	ctx.stroke();
+	alert("大家好地方");
+        function MxMain(require) {
+            var MxFun = require("./MxFun").MxFun;
+            
+            MxFun.createMxObject("MxDraw2d","h.dwg");
+
+            document.body.addEventListener('touchmove', function (e) {
+                e.preventDefault()
+            }, { passive: false })
+
+            return 0;
+        }
+
+    </script>
+</html>
+

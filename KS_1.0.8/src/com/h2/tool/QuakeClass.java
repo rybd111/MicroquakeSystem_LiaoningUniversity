@@ -20,8 +20,9 @@ import com.h2.thread.ThreadStep3;
 import com.mathworks.toolbox.javabuilder.MWArray;
 import com.mathworks.toolbox.javabuilder.MWException;
 
-import PSO.pso_locate;
-import ELMdiag.Class1;
+//import PSO.pso_locate;
+
+//import ELMdiag.Class1;
 import Energy_matlab.Energy_;
 import mutiThread.MainThread;
 import utils.Data2Object_MATLAB;
@@ -931,50 +932,52 @@ public class QuakeClass
 	 */
 	
 	public static int ELM_MATLAB(Vector<String> a) throws MWException {
-		String inte[];
-		boolean flag=false;
-		int channel=5;
-		
-		for (int i = 0; i < a.size(); i++){
-			inte = a.get(i).split(" ");
-			if(Parameters.TongDaoDiagnose==1) {//若有6个通道，判断才有意义
-				if (testValue(inte[4]) || testValue(inte[3])){
-					channel=2;
-				}
-			}
-		}
-		
-		Object aObject=Data2Object_MATLAB.data2Object_65000(a, channel);
-		Class1 c = new Class1();
-		Object c1[] = c.ELM(1, aObject);
-//		System.out.println("class"+ c1[0].toString());
-		return Integer.parseInt(c1[0].toString());
+//		String inte[];
+//		boolean flag=false;
+//		int channel=5;
+//		
+//		for (int i = 0; i < a.size(); i++){
+//			inte = a.get(i).split(" ");
+//			if(Parameters.TongDaoDiagnose==1) {//若有6个通道，判断才有意义
+//				if (testValue(inte[4]) || testValue(inte[3])){
+//					channel=2;
+//				}
+//			}
+//		}
+//		
+//		Object aObject=Data2Object_MATLAB.data2Object_65000(a, channel);
+//		Class1 c = new Class1();
+//		Object c1[] = c.ELM(1, aObject);
+////		System.out.println("class"+ c1[0].toString());
+//		return Integer.parseInt(c1[0].toString());
+		return 0;
 	}
 	
 	public static Sensor PSO(double [][]Info) throws MWException {
 		
-		pso_locate p = new pso_locate();
-		Object d = Data2Object_MATLAB.array2Object(Info);
-		Object c = Data2Object_MATLAB.num2Object(Parameters.C);
-		Object result[] = p.PSO(4, d, c);
-		
-		Sensor s = new Sensor();
-		
-		s.setLatitude(Double.parseDouble(result[0].toString()));
-		s.setLongtitude(Double.parseDouble(result[1].toString()));
-		s.setAltitude(Double.parseDouble(result[2].toString()));
-		s.setSecTime(Double.parseDouble(result[3].toString()));
-		
-		System.out.print("x:"+s.getLatitude());
-		System.out.print("y:"+s.getLongtitude());
-		System.out.print("z:"+s.getAltitude());
-		System.out.print("t"+s.getSecTime());
-		System.out.println();
-//		System.out.print("x:"+result[0].toString());
-//		System.out.print("y:"+result[1].toString());
-//		System.out.print("z:"+result[2].toString());
+//		pso_locate p = new pso_locate();
+//		Object d = Data2Object_MATLAB.array2Object(Info);
+//		Object c = Data2Object_MATLAB.num2Object(Parameters.C);
+//		Object result[] = p.PSO(4, d, c);
+//		
+//		Sensor s = new Sensor();
+//		
+//		s.setLatitude(Double.parseDouble(result[0].toString()));
+//		s.setLongtitude(Double.parseDouble(result[1].toString()));
+//		s.setAltitude(Double.parseDouble(result[2].toString()));
+//		s.setSecTime(Double.parseDouble(result[3].toString()));
+//		
+//		System.out.print("x:"+s.getLatitude());
+//		System.out.print("y:"+s.getLongtitude());
+//		System.out.print("z:"+s.getAltitude());
+//		System.out.print("t"+s.getSecTime());
 //		System.out.println();
-		return s;
+////		System.out.print("x:"+result[0].toString());
+////		System.out.print("y:"+result[1].toString());
+////		System.out.print("z:"+result[2].toString());
+////		System.out.println();
+//		return s;
+		return null;
 	}
 	
 }

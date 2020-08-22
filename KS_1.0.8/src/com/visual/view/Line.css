@@ -1,0 +1,14 @@
+
+.chart-series-line {
+	-fx-stroke:#55ddff
+}
+.chart-series-line {
+	-fx-stroke-width:1.25
+}
+.chart-line-symbol{
+	-fx-background-color: blue,red;
+}
+
+.chart-line-symbol { 
+	-fx-background-color: transparent;
+}

@@ -1,0 +1,918 @@
+.layer_on{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: blue;
+    margin:0 auto;
+
+}
+body {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.bf-select .bf-select-list .bf-select-option:hover {
+    background: #4a90e2;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 5px #999;
+    background: #555;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px #555;
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.clear {
+    clear: both;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.bar1 {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    height: 50px;
+}
+
+.bar1 span {
+    line-height: 50px;
+    padding-left: 5px;
+    color: #fff;
+    font-size: 16px
+}
+
+.bar2 {
+    position: absolute;
+    right: 10px;
+    top: 55px;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999999;
+    height: auto;
+    width: 350px;
+}
+
+.bar2 .banner {
+    width: 350px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #000;
+    opacity: 100;
+    color: #fff;
+}
+
+.bar2 .banner .title {
+    width: 100px;
+    float: left;
+    display: block;
+    margin-left: 15px;
+}
+
+.bar2 .banner .close {
+    width: 10px;
+    float: right;
+    display: block;
+    margin-right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: right;
+}
+
+.bar2 .proBox {
+    height: auto;
+    max-height: 400px;
+    overflow: auto;
+    background: rgba(9, 9, 9, 0.7);
+}
+
+.bar2 .proBox .title {
+    width: 100%;
+    height: 40px;
+}
+
+.bar2 .proBox .title span {
+    color: #fff;
+    line-height: 33px;
+    display: block;
+    margin-left: 10px;
+    font-size: 13.5px;
+    border-bottom: 2px solid #06F;
+    width: 80px;
+    text-align: center;
+}
+
+.bar2 .proBox .proName {
+    width: 340px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #555;
+    color: #fff;
+    font-size: 13px;
+    padding-left: 10px;
+    border-bottom: 1px solid #999;
+}
+
+.bar2 .proBox table {
+    display: block;
+    background: rgba(6, 6, 6, 0.5);
+    color: #d4d4d4;
+}
+
+.bar2 .proBox table td {
+    font-size: 12px;
+    height: 30px;
+    padding: 3px 15px;
+}
+
+.bar2 .proBox table td.l {
+    border-bottom: 1px solid #999;
+    border-right: 1px solid #999;
+}
+
+.bar2 .proBox table td.r {
+    border-bottom: 1px solid #999;
+}
+
+.bar3 {
+    position: absolute;
+    left: 50%;
+    width: 500px;
+    margin-left: -330px;
+    bottom: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 999999;
+    height: 60px;
+    /*padding: 0 30px;*/
+    /*border-radius: 5px;*/
+}
+
+.bar3 span {
+    display: block;
+    float: left;
+    text-align: center;
+    height: 50px;
+    width: 55px;
+    line-height: 70px;
+    overflow: hidden;
+    /*margin: 0 5px;*/
+    cursor: pointer;
+    color: #fff;
+}
+
+.bar3 span.on {
+    background-color: #333;
+}
+
+.bar4 {
+    position: absolute;
+    left: 10px;
+    top: 55px;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999999;
+    height: auto;
+    width: 350px;
+}
+
+.bar4 .banner {
+    width: 350px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #000;
+    opacity: 100;
+    color: #fff;
+}
+
+.bar4 .banner .title {
+    width: 100px;
+    float: left;
+    display: block;
+    margin-left: 15px;
+}
+
+.bar4 .banner .close {
+    width: 10px;
+    float: right;
+    display: block;
+    margin-right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: right;
+}
+
+.bar4 .treeBox {
+    height: auto;
+    overflow: auto;
+    background: rgba(9, 9, 9, 0.7);
+    padding: 10px 0;
+    line-height: 20px;
+}
+
+.bar4 .treeBox .root {
+    margin-left: 10px;
+    font-size: 13px;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 10px;
+}
+
+.bar4 .treeBox .root input {
+    width: 15px;
+    height: 15px;
+    display: block;
+    float: left;
+}
+
+.bar4 .treeBox .root span {
+    display: block;
+    float: left;
+    margin-left: 3px;
+}
+
+.bar4 .treeBox .level1 {
+    font-size: 13px;
+    color: #fff;
+    margin: 5px 0;
+    margin-left: 35px;
+}
+
+.bar4 .treeBox .level1 input {
+    width: 15px;
+    height: 15px;
+    display: block;
+    float: left;
+}
+
+.bar4 .treeBox .level1 span {
+    display: block;
+    float: left;
+    margin-left: 3px;
+}
+
+.bar4 .treeBox .level1 .level2 {
+    font-size: 13px;
+    color: #ccc;
+    margin: 2px 0;
+    margin-left: 25px;
+}
+
+.bar4 .treeBox .level1 .level2 .level3 {
+    font-size: 13px;
+    color: #aaa;
+    margin: 2px 0;
+    margin-left: 20px;
+}
+
+
+
+.bf-select .bf-select-current {
+    display: block;
+    position: relative;
+    color: #ccc;
+    padding-right: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bf-select .bf-select-current::after {
+    position: absolute;
+    left: 50px;
+    top: 50%;
+    border-top: 5px solid rgba(255,255,255,0.6);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    transform: translate(0, -50%);
+    content: '';
+    display: block;
+}
+
+
+
+
+.bf-select .bf-open + .bf-select-list {
+    display: block;
+    width: 65px;
+}
+
+.bf-select .bf-select-list {
+    display: none;
+    width: 100%;
+    position: absolute;
+    z-index: 9;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    top: 100%;
+    left: 0;
+    border: 1px solid #666;
+    background: #111;
+    color: #fff;
+}
+
+.bf-select .bf-select-list .bf-select-option {
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bf-select .bf-select-current.bf-open::after {
+    transform: rotate(180deg);
+}
+
+
+.qiu {
+    background: #4a90e2;
+}
+
+/*Layer界面*/
+.layer-title {
+    position: relative;
+    float: left;
+    /*margin-left: 3%;*/
+    color: darkgrey
+}
+
+.bf-tree-header {
+    margin: 0 10px;
+    border-bottom: 1px solid #555;
+}
+
+.bf-select-tree {
+    padding: 3px 0 2px;
+    width: 65px;
+}
+
+.bf-select {
+    width: 100%;
+    height: 30px;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 24px;
+    position: relative;
+}
+.bf-select .bf-select-current {
+    display: block;
+    position: relative;
+    color: #ccc;
+    padding-right: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.bf-select .bf-select-list {
+    display: none;
+    width: 100%;
+    position: absolute;
+    z-index: 9;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    top: 100%;
+    left: 0;
+    border: 1px solid #666;
+    background: #111;
+    color: #fff;
+}
+.bf-select .bf-select-list .bf-select-option {
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.bf-toolbar .bf-button {
+    margin-left: 1px;
+}
+
+.bf-button {
+    float: left;
+    color: #fff;
+    opacity: .6;
+    box-sizing: border-box;
+    text-align: center;
+    height: 50px;
+    padding: 9px;
+    line-height: 32px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 32px;
+    vertical-align: top;
+    font-family: 'mxbim-mxbim';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.bf-button:hover {
+    opacity: 1;
+}
+
+.mainimage-bf-butto {
+    width: 32px;
+    height: 32px;
+}
+.mxbim-bf-tree:before {
+    /* content: "\e742"; */
+}
+.bf-toolbar:after {
+    display: table;
+    content: '';
+    clear: both;
+}
+
+.bf-tree {
+    width: 100%;
+    font-size: 12px;
+    line-height: 1.83;
+}
+.bf-tree .bf-tree-node {
+    position: relative;
+    padding-left: 26px;
+}
+.bf-tree .bf-tree-node .bf-icon {
+    position: absolute;
+    left: 8px;
+    top:1px;
+}
+.bf-icon:before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-right: 8px solid #666;
+    border-top: 8px solid transparent;
+}
+.bf-label {
+    margin: 3px 0;
+    display: block;
+    height: 14px;
+    float: left;
+}
+.bf-label input[type='checkbox'] {
+    display: none;
+}
+input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+input, select {
+    border: 0 none;
+    vertical-align: middle;
+    outline: none;
+}
+.bf-label.bf-checked .bf-checkbox {
+    background: #4990e2;
+    font-family: 'mxbim-mxbim';
+    font-size: 12px;
+
+
+    /*line-height: 14px;*/
+}
+.bf-label .bf-checkbox {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    overflow: hidden;
+    text-align: center;
+    line-height: 14px;
+    background: #fff;
+    border-radius: 2px;
+    position: relative;
+}
+.bf-label.bf-checked .bf-checkbox:after {
+    content: '\f00c';
+    display: block;
+    font-family: FontAwesome;
+}
+.bf-tree .bf-tree-node .bf-tree-name {
+    cursor: pointer;
+    margin-left: 2px;
+    padding: 0 3px;
+    white-space: nowrap;
+}
+.bf-tree .bf-tree-node:after {
+    display: table;
+    clear: both;
+    content: '';
+}
+.bf-sub-tree {
+    padding-left: 16px;
+}
+.bf-collapse .bf-icon:before {
+    transform: rotate(-40deg);
+}
+.bf-collapse+.bf-sub-tree {
+    display: none;
+}
+.bf-property-tab {
+    margin: 0 10px 2px;
+}
+.bf-property-tab .bf-tabs-list {
+    width: 100%;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.bf-property-tab .bf-tabs-list {
+    display: table;
+    width: 100%;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.bf-property-tab .bf-tabs-list .bf-tabs-option {
+    width: 50%;
+    float: left;
+    text-align: center;
+    height: 38px;
+    line-height: 38px;
+    border-bottom: 3px solid #888;
+}
+
+.bf-property-tab .bf-tabs-list .bf-tabs-option {
+    display: table-cell;
+    text-align: center;
+    height: 38px;
+    vertical-align: middle;
+    border-bottom: 3px solid #888;
+}
+.bf-property-tab .bf-tabs-list:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+body {
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #eee;
+}
+.bf-panel .bf-panel-tips {
+    font-size: 12px;
+    margin-top: 36px;
+    text-align: center;
+    color: #999;
+}
+.bf-panel .bf-panel-tips:before {
+    /* font-family: "mxbim-mxbim" !important; */
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    vertical-align: middle;
+    margin-right: 2px;
+    content: '\f05a';
+    font-family: FontAwesome;
+}
+
+
+.bf-panel .bf-table .bf-group-title {
+    background-color: rgba(85,85,85,0.45);
+}
+.bf-panel .bf-table .bf-group-title td {
+    color: #fff;
+    border-bottom: 1px solid #666;
+}
+.bf-panel .bf-table td {
+    vertical-align: middle;
+    /*line-height: 20px;
+    padding: 5px;*/
+    border: 1px solid #3f3f3f;
+}
+.bf-collapse .bf-group-content {
+    display: none;
+}
+.bf-icon {
+    position: relative;
+    float: left;
+    padding: 6px;
+}
+.bf-panel .bf-table .bf-key {
+    color: #999;
+    padding-left: 26px;
+    width: 40%;
+}
+.hide{
+    /* display: none */
+}
+
+
+
+
+
+
+.tree-panel {
+    padding-top: 0;
+    background-color: rgba(0,0,0,0.9);
+    font-size: .85em;
+}
+
+ .bf-panel {
+    z-index: 999;
+}
+
+ .bf-panel {
+    border: 0;
+
+}
+.bf-panel.bf-has-title {
+    padding-top: 40px;
+    z-index: 999;
+}
+.bf-panel {
+    box-sizing: border-box;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",SimSun,sans-serif;
+    color: #fff;
+    position: absolute;
+    overflow: hidden;
+    user-select: none;
+    background-color: rgba(17,17,17,0.88);
+    z-index: 9;
+    border: 1px solid #333;
+}
+.bf-panel .bf-close {
+    top: 4.5em;
+    right: inherit;
+    left: .8em;
+    width: 1.6em;
+    height: 1.6em;
+    font-size: 1em;
+    position: absolute;
+    cursor: pointer;
+    z-index: 99;
+    color: #4a90e2;
+}
+
+
+ .bf-panel .bf-title {
+    height: 3.1em;
+    font-size: 1.4em;
+    line-height: 3.1em;
+    padding: 0 0 0 2.7em;
+    margin-top: 0;
+}
+
+.bf-panel .bf-title {
+
+    border-bottom: 1px solid #666;
+
+    background-color: rgba(0,0,0,0.88);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+ .tree-panel .bf-panel-body {
+    padding-top: 0 !important;
+}
+
+
+ .tree-panel .bf-panel-header {
+    border-bottom: 1px solid #666;
+}
+ .bf-tree-header {
+    height: 4.6em;
+    margin: 0 11px;
+    padding: .6em 0;
+    border-bottom: 0;
+    margin-top: 0 !important;
+}
+.bf-tabs {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-size: .37em;
+    border: 1px solid #666;
+    border-radius: 5px;
+    position: relative;
+}
+.bf-tabs .bf-tabs-list {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+.bf-tabs .bf-tabs-option:nth-child(1) {
+    width: 33%;
+    padding-left: .8em;
+}
+.bf-tabs .bf-tabs-option:nth-child(2) {
+    width: 33.5%;
+    border-left: 1px solid #666;
+    border-right: 1px solid #666;
+}
+.bf-tabs .bf-tabs-option:nth-child(3) {
+    width: 33.5%;
+    padding-right: .8em;
+}
+.bf-tabs .active {
+    background: #4a90e2;
+}
+.bf-tabs .bf-tabs-option {
+    float: left;
+    list-style: none;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 3.3em;
+    height: 100%;
+    font-size: 1.1em;
+}
+.tree-panel .bf-panel-container, .property-panel .bf-panel-container {
+    padding-bottom: 3.2em;
+}
+
+
+ .bf-tree {
+    width: 100%;
+    line-height: 4em;
+    padding-left: 1em;
+    font-size: .3em;
+}
+ .bf-tree .bf-tree-node {
+    position: relative;
+    padding-left: 2em;
+    border-bottom: .05em solid #666;
+}
+.bf-tree .bf-tree-node .bf-icon {
+    left: -0.2em;
+    top: 1.2em;
+    margin-right: 1.7em;
+    padding: .5em;
+}
+.bf-tree .bf-tree-node .bf-icon {
+    position: absolute;
+    left: 5px;
+}
+ .bf-tree .bf-tree-node .bf-label {
+    margin-top: 1.29em;
+}
+
+ .bf-label {
+    margin: .95em .5em .03em 0;
+    height: 1em;
+}
+
+.bf-panel * {
+    box-sizing: border-box;
+}
+
+.bf-label {
+    margin: 3px 0;
+    display: block;
+    height: 14px;
+    float: left;
+}
+ .bf-label .bf-checkbox {
+    display: block;
+    font-size: .92em;
+    width: 1.7em;
+    height: 1.7em;
+    overflow: hidden;
+    text-align: center;
+    line-height: 1.7em;
+    background: #fff;
+    border-radius: .35em;
+    position: relative;
+}
+.bf-label input[type='checkbox'] {
+    display: none;
+}
+ .bf-tree .bf-tree-node .bf-tree-name {
+    cursor: pointer;
+    margin-left: .4em;
+    padding: 0;
+    font-size: 1.4em;
+}
+.bf-tree .bf-tree-node .bf-tree-name {
+    cursor: pointer;
+    margin-left: 2px;
+    padding: 0 3px;
+    white-space: nowrap;
+}
+ .bf-collapse+.bf-sub-tree {
+    display: none;
+}
+
+.bf-sub-tree {
+    padding-left: 1em;
+}
+
+ .bf-toolbar.bf-toolbar-bottom {
+    width: 50px;
+    right: 0;
+    top: 5.4em;
+    left: inherit;
+    bottom: inherit;
+    transform: translate(0, 0);
+    position: absolute;
+}
+
+
+.bf-toolbar {
+    box-sizing: border-box;
+    border: 1px solid #333;
+    background-color: rgba(17,17,17,0.88);
+    z-index: 99;
+    white-space: nowrap;
+}
+ .property-panel .bf-panel-body, .area-panel .bf-panel-body {
+    padding-top: 0 !important;
+}
+
+.property-panel .bf-panel-body {
+    padding-top: 0 !important;
+}
+.bf-panel .bf-panel-body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.tree-panel .bf-panel-container, .property-panel .bf-panel-container {
+    padding-bottom: 3.2em;
+}
+
+.bf-mobile .property-panel .bf-table, .area-panel .bf-table {
+    font-size: inherit;
+}
+
+.bf-panel .bf-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+ .property-panel .bf-table td,  .area-panel .bf-table td {
+    line-height: 2.1em;
+    font-size: .4em;
+}
+
+.bf-panel .bf-table .bf-group-title td {
+    color: #fff;
+    border-bottom: 1px solid #666;
+}
+
+.bf-panel .bf-table td {
+    vertical-align: middle;
+    line-height: 20px;
+    padding: 5px;
+    border: 1px solid #3f3f3f;
+}
+ .property-panel .bf-table td, .bf-mobile .area-panel .bf-table td {
+    line-height: 2.1em;
+    font-size: 1.1em;
+}
+
+
+.layer-state {
+    position: relative;
+    margin-left: 3%;
+    width: 15px;
+    height: 16px;
+}
+
+.layer-enable {
+    position: relative;
+    width: 100%;
+   /* margin-left: 3%;
+    width: 20px;
+    height: 12px*/
+}
+.layer-color {
+    position: relative;
+    margin-left: 6%;
+    display: inline-block;
+    width: 13px;
+    height: 13px
+}
+.bf-panel .bf-table .bf-group-title td:nth-child(1){
+    width: 12.5%;
+}
+.bf-panel .bf-table .bf-group-title td:nth-child(2){
+    width:12.5%;
+}
+.bf-panel .bf-table .bf-group-title td:nth-child(3){
+    width: 62.5%;
+}
+.bf-panel .bf-table .bf-group-title td:nth-child(4){
+    width: 12.5%;
+}

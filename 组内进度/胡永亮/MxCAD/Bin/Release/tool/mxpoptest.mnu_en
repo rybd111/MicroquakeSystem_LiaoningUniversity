@@ -1,0 +1,9 @@
+// 菜单条文件头说明.
+// "文件类型字符串" "资源文件名" "透明颜色" "位置,可以是：top,left,bottom,right"
+"MxDrawMenuBarFile" "MxDraw.dll" (214 211 206) "top" "Pop-up Menu2"
+
+// 菜单内容说明
+// "命令名称"  "命令" "图标索引字符串" "资源文件名" "命令提示字符串" "命令ID"  "ID类型" 
+"POPMENUS" "Object(&O)"
+"Edit text(&E)" "Mx_EditText" "" "" "Edit text"
+"POPMENUE"

@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <script>
+        var MxFun = undefined;
+        var THREE = undefined;
+
+
+        function MxMain(require) {
+            MxFun = require("./MxFun").MxFun;
+            THREE = MxFun.getTHREE();
+
+
+            MxFun.createMxObject(undefined, "test1.dwg", function (mxDraw) {
+
+                mxDraw.addEvent("loadComplete", function () {
+
+                    var pos = MxFun.screenCoord2World(100, 100);
+                    var w = MxFun.screenCoordLong2World(100);
+
+
+
+                    ThreeJsFun.drawImage(pos.x, pos.y, pos.z, w, w, './textures/mark.png');
+
+                    var color = { color: 0xffff7c };
+
+                    ThreeJsFun.drawLine(MxFun.screenCoord2World(100, 100), MxFun.screenCoord2World(200, 200), color);
+                    MxFun.updateDisplay();
+                }
+
+                );
+            });
+
+
+            return 0;
+        }
+    </script>
+
+
+    <script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="js/mxfun.min.js"></script>
+    <script language="javascript" type="text/javascript" src="user/threejsfun.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+
+</body>
+
+</html>

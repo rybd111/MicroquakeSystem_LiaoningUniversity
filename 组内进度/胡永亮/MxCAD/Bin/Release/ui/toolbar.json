@@ -1,0 +1,4 @@
+{
+  "test.png": [ "调用js函数", "mx3d_test()","Y" ],
+  "fullscreen1.gif": [ "全屏", "mx_fullscreen()","Y" ]
+}

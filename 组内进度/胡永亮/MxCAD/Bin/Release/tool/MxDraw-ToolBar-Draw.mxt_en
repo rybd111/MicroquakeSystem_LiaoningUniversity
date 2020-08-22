@@ -1,0 +1,29 @@
+// 工具条文件头说明.
+// ("文件类型字符串" "资源文件名" "透明颜色" )
+("MxDrawToolBarFile" "MxDraw.dll" (214 211 206) "left" " Drawing tool" "Y" "" "21")
+
+// 文件中的工具命令字符串每项说明.
+// ("命令名称" "命令提示字符串" "命令" "图标索引字符串")
+//("绘线" "绘线命令" "_Line" "IDB_DRAWLINE_BITMAP")
+("Line" " Line command" "Mx_Line" "IDB_DRAWLINE_BITMAP"  "" "MxEdit.mrx" "" "Y")
+
+("Polyline" " Polyline command" "Mx_Pline" "IDB_DRAWPOLYLINE_BITMAP"  "" "MxEdit.mrx" "" "Y")
+ ("Regular polygon" " Regular polygon command " "Mx_Polygon" "IDB_POLYGON_BITMAP"  "" "MxEdit.mrx" "" "Y")
+ ("Polygon" "Polygon command" "Mx_Polygon2" "IDB_POLYGON2_BITMAP"  "" "MxEdit.mrx" "" "Y")
+ ("Rectangle" "Rectangle command" "Mx_Rectang" "IDB_DRAWRECT_BITMAP"   "" "MxEdit.mrx" "" "Y")
+ ("Arc" "Arc command" "Mx_Arc" "IDB_DRAWARC_BITMAP"  "" "MxEdit.mrx" "" "Y")
+ ("Circle " " Circle command " "Mx_Circle" "IDB_DRAWCIRCLE_BITMAP"  "" "MxEdit.mrx" "" "Y")
+ ("Spline" "Spline command"  "_DrawSpline" "IDB_DRAWSPLINE_BITMAP")
+ ("Ellipse " " Ellipse command"  "_DrawEllipse" "IDB_DRAWELLIPSE_BITMAP")
+ ("Elliptical arc" "Elliptical arc command"  "_DrawEllipseArc" "IDB_DRAWELLIPSEARC_BITMAP")
+ 
+("Point" " Point command"  "_DrawPoint" "IDB_DRAWPOINT_BITMAP")
+ ("ddinsert" " ddinsert command"  "Mx_Insert" "IDB_INSERTBLOCK_BITMAP"  "" "" "" "Y")
+ 
+("Create block" " Create block"  "Mx_Block" "IDB_MBLOCK_BITMAP" "" "MxEdit.mrx" "" "Y")
+ ("Multiline text" " Multiline text command"  "_DrawText" "IDB_DRAWTEXT_BITMAP")
+ ("Insert picture" " Insert picture command"  "_InsertImage" "IDB_INSERTIMAGE_BITMAP")
+ ("Mtext" "Mtext" "MxPE_DrawMText" "IDB_DRAWMTEXT_BITMAP"  "" "PropertyEditor.mrx" "" "Y")
+
+("Fill" " Draw fill command" "Mx_Hatch" "IDB_HATCH_BITMAP"  "" "MxEdit.mrx" "" "Y")
+

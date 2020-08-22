@@ -1,0 +1,1 @@
+﻿var mxserver = 'ws://localhost:5090';

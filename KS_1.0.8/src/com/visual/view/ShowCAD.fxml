@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.teamdev.jxbrowser.chromium.javafx.BrowserView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane fx:controller="com.visual.view.ShowCADController" xmlns:fx="http://javafx.com/fxml">
+    <center>
+        <BrowserView fx:id="browserView"/>
+    </center>
+</BorderPane>

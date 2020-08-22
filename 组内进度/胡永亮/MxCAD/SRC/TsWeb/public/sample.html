@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script language="javascript" type="text/javascript" src="mxconfig.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="demo/mxdemolist.js"></script>
+    <link rel="stylesheet" href="ui/css/mxbimdemo.css">
+
+    <style>
+        @media(min-width: 480px){
+            * {
+                margin: 0;
+                padding: 0;
+                border: 0
+            }
+            html {
+                -webkit-text-size-adjust: none
+            }
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+                font-size: 14px;
+                line-height: 1.5;
+                color: #333;
+                background-color: #eee
+            }
+            img {
+                outline: none;
+                vertical-align: middle
+            }
+
+            nav, ol, ul {
+                list-style: none
+            }
+            a {
+                color: #4a90e2;
+                text-decoration: none;
+                outline: none
+            }
+            table {
+                border-collapse: collapse
+            }
+            input, select {
+                border: 0 none;
+                vertical-align: middle;
+                outline: none
+            }
+            a:hover {
+                text-decoration: underline
+            }
+
+            html {
+                -webkit-tap-highlight-color: transparent
+            }
+            body {
+                margin: 0
+            }
+            a {
+                text-decoration: none
+            }
+            a:focus, button:focus, input:focus, textarea:focus {
+                outline: none
+            }
+            ol, ul {
+                margin: 0;
+                padding: 0;
+                list-style: none
+            }
+            .w1200 {
+                width: 1200px;
+                margin: 0 auto
+            }
+            .img {
+                width: 100%;
+                height: 100%
+            }
+
+            .wrapper_sample {
+                margin: 95px 0 40px;
+                width: 100%
+            }
+
+            .wrapper_sample .list {
+                overflow: hidden;
+                margin-top: 20px
+            }
+            .wrapper_sample .list li {
+                float: left;
+                width: 270px;
+                margin: 0 40px 40px 0;
+                background-color: #fff;
+                box-shadow: 0 0 5px 0 #eee;
+                cursor: pointer
+            }
+            .wrapper_sample .list li a:hover {
+                text-decoration: none
+            }
+            .wrapper_sample .list li:nth-child(4n) {
+                margin: 0 0 20px
+            }
+            .wrapper_sample .list li:hover {
+                box-shadow: 0 0 5px 2px #ddd
+            }
+            .wrapper_sample .list li img {
+                width: 260px;
+                height: 160px;
+                margin: 5px 5px 0
+            }
+            .wrapper_sample .list li .name {
+                color: #333;
+                font-size: 14px;
+                padding: 10px;
+                text-align: center
+            }
+            .wrapper-static {
+                margin-top: 70px;
+                min-width: 1200px
+            }
+            .wrapper-static .subTitle {
+                height: 80px;
+                width: 100%;
+                background: #444;
+                line-height: 80px
+            }
+            .wrapper-static .subTitle .tit {
+                margin: 0 auto;
+                width: 1200px;
+                font-size: 24px;
+                color: #fff
+            }
+        }
+
+        @media(max-width: 480px)  {
+            * {
+                margin: 0;
+                padding: 0;
+                border: 0
+            }
+            html {
+                -webkit-text-size-adjust: none
+            }
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+                font-size: 14px;
+                line-height: 1.5;
+                color: #333;
+                background-color: #eee
+            }
+            img {
+                outline: none;
+                vertical-align: middle
+            }
+
+            nav, ol, ul {
+                list-style: none
+            }
+            a {
+                color: #4a90e2;
+                text-decoration: none;
+                outline: none
+            }
+            table {
+                border-collapse: collapse
+            }
+            input, select {
+                border: 0 none;
+                vertical-align: middle;
+                outline: none
+            }
+            a:hover {
+                text-decoration: underline
+            }
+
+            html {
+                -webkit-tap-highlight-color: transparent
+            }
+            body {
+                margin: 0
+            }
+            a {
+                text-decoration: none
+            }
+            a:focus, button:focus, input:focus, textarea:focus {
+                outline: none
+            }
+            ol, ul {
+                margin: 0;
+                padding: 0;
+                list-style: none
+            }
+            .w1200 {
+                width: 90%;
+                margin: 0 auto
+            }
+            .img {
+                width: 100%;
+                height: 100%
+            }
+
+            .wrapper_sample {
+                margin: 95px 0 40px;
+                width: 100%
+            }
+
+            .wrapper_sample .list {
+                overflow: hidden;
+                margin-top: 20px
+            }
+            .wrapper_sample .list li {
+                float: left;
+                width: 46%;
+                margin: 0px 5px 40px 5px;
+                background-color: #fff;
+                box-shadow: 0 0 5px 0 #eee;
+                cursor: pointer;
+            }
+            .wrapper_sample .list li a:hover {
+                text-decoration: none
+            }
+            /*.wrapper_sample .list li:nth-child(4n) {
+                margin: 0 0 20px
+            }*/
+            .wrapper_sample .list li:hover {
+                box-shadow: 0 0 5px 2px #ddd
+            }
+            .wrapper_sample .list li img {
+                width: 94%;
+                height: 110px;
+                margin: 5px 5px 0
+            }
+            .wrapper_sample .list li .name {
+                color: #333;
+                font-size: 14px;
+                padding: 10px;
+                text-align: center
+            }
+            .wrapper-static {
+                margin-top: 70px;
+                min-width: 90%;
+            }
+            .wrapper-static .subTitle {
+                height: 70px;
+                width: 100%;
+                background: #444;
+                line-height:70px
+            }
+            .wrapper-static .subTitle .tit {
+                margin: 0 auto;
+                width: 88%;
+                font-size: 1.5em;
+                color: #fff
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper-static wrapper_sample">
+    <div class="subTitle">
+        <div class="tit">示例文件
+        <div style="width: 100px;height:70px;position: relative;float: right;margin: 5px 0;line-height: 70px">
+            <span onclick="MxUpload()" style="display: inline-block;text-align: center;border: none;border-radius: 3px;outline: none;box-sizing: border-box;cursor: pointer;">
+                上传文件
+            </span>
+        </div>
+        </div>
+    </div>
+    <div class="w1200">
+        <ul class="list" id="box">
+
+        </ul>
+    </div>
+</div>
+
+<div class="popup-wrap popup-wrap-show" id="mxpopup">
+    <div class="popup-box">
+        <div class="popup-head" >
+            <div class="close" onclick="MxCancel()">
+                ×
+            </div>
+            上传模型/图纸
+        </div>
+        <div class="popup-body">
+            <div class="popup-box-upload">
+
+                <div>
+                    <span tabindex="0" class="rc-upload" role="button">
+                    <input id="input" type="file" accept=".rvt,.rfa,.ifc,.dwg,.skp,.nwc,.nwd,.dgn,.stp,.3DS,.stl,.dxf,.obj,.dae,.ply,.igms" style="display: none;">
+                    <span class="btn btn-primary btn-md" onclick="MxChoose()">添加本地文件</span>
+                </span>
+                    <p><br>文件格式：rfa,rvt,dwg,dwf,nwd,ifc,dxf,skp,dgn,obj,stl,3ds,dae,ply,igms</p>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popup-wrap popup-wrap-show" id="mxpopup1">
+    <div class="popup-box">
+        <div class="popup-head">
+            <div class="close" onclick="MxCancel1()">
+                ×
+            </div>
+            上传模型/图纸
+        </div>
+        <div class="popup-body">
+            <div class="popup-box-upload">
+
+
+                <div>
+                    <div class="tips">
+                        文件正在转换，转换成功后即可在线查看<br>复制链接地址，通过QQ、微信、Email发送给朋友<!--（链接 <strong class="warning">7</strong> 天后失效）-->
+                    </div>
+                    <div class="share-box">
+                        <input type="text" id="shareLink" readonly="" value="">
+                        <a class="btn btn-primary btn-md" id="mxlink" onclick="MxHref()">点击查看</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popup-wrap popup-wrap-show" id="mxpopup2">
+    <div class="popup-box">
+        <div class="popup-head">
+            <div class="close" onclick="MxCancel2()">
+                ×
+            </div>
+            上传模型/图纸
+        </div>
+        <div class="popup-body">
+            <div class="popup-box-upload">
+
+                <div>
+                    <i class="icon icon-loading" style="background-image: url(ui/image/loading-green.gif)">
+
+                    </i>
+                    <div ><!-- id="percent" style="text-align: center"-->
+                        正在上传文件，并对文件进行预处理中...
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload=function() {
+        MxDemo.init("mxweb3d.html");
+    }
+
+</script>
+
+<script>
+    var mxpopup = document.getElementById('mxpopup');
+    var mxpopup1 = document.getElementById('mxpopup1');
+    var mxpopup2 = document.getElementById('mxpopup2');
+
+    var shareLink = document.getElementById('shareLink');
+    function MxUpload() {
+        mxpopup.style.display = 'block';
+    }
+    function MxCancel() {
+        mxpopup.style.display = 'none';
+    }
+    function MxCancel1() {
+        mxpopup1.style.display = 'none';
+    }
+
+    function MxCancel2() {
+        mxpopup2.style.display = 'none';
+    }
+    function MxChoose() {
+
+        document.getElementById("input").click();
+
+    }
+
+    function MxHref() {
+        var inputvalue=shareLink.value;
+        document.getElementById("mxlink").href = inputvalue;
+
+    }
+</script>
+<script>
+    $('#input').on('change',function(){
+        var that = this;
+
+        var urlpath = window.location.origin;
+
+       var files = !!this.files ? this.files : [];
+            if (!files.length || !window.FileReader) {
+                console.log("浏览器不支持HTML5");
+                return false;
+            };
+       var fileName = this.files[0].name;
+        var fileName = encodeURIComponent(fileName);
+            var fd = new FormData();
+			
+     fd.append('file', files[0]);
+		
+		
+        $("#mxpopup2").css("display","block");
+        $("#mxpopup").css("display","none");
+
+
+
+        $.ajax({
+            url:'/upfile',//上传文件的请求路径必须是绝对路径
+            data:fd,
+            method:'post',
+            contentType:false,
+            /*async:false,*/
+            processData: false//此处是data的预处理，需要设置为false才可以
+        }).success(function (res){
+            console.log(res);
+            var ret = JSON.parse(res);
+            if(ret.code == 0)
+            {
+                //alert("上传成功");
+                /* alert("上传失败");*/
+                /* $("#mxpopup").modal("hide");*/
+                /*$("#mxpopup1").modal("show");*/
+                /*$("#mxpopup1").css("display","block");*/
+
+
+                $('#shareLink').val(urlpath + '/mxweb3d.html?file=' + fileName);
+                /* window.location.reload(true);*/
+
+                $("#mxpopup1").css("display","block");
+                $("#mxpopup2").css("display","none");
+            }
+            else
+            {
+                alert("上传失败");
+                $("#mxpopup2").css("display","none");
+                $("#mxpopup").css("display","block");
+            }
+
+
+        }).error(function () {
+
+            alert("上传失败");
+            $("#mxpopup2").css("display","none");
+            $("#mxpopup").css("display","block");
+
+        });
+
+    });
+
+</script>
+
+
+</body>
+</html>
