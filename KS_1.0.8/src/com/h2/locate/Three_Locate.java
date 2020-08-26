@@ -23,6 +23,7 @@ import com.mathworks.toolbox.javabuilder.MWException;
 import bean.QuackResults;
 import mutiThread.MainThread;
 import utils.StringToDateTime;
+import utils.Tensor;
 import utils.TimeDifferent;
 import utils.one_dim_array_max_min;
 
@@ -43,7 +44,7 @@ public class Three_Locate {
 	 * @throws MWException 
 	 */
 	@SuppressWarnings("unused")
-	public static String three(Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
+	public static String three(Sensor[] allsensors, Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
 			DbExcute aDbExcute, int countNumber) throws ParseException, IOException, MWException {
 		
 		String outString=" ";
@@ -115,6 +116,12 @@ public class Three_Locate {
 				finalEnergy = one_dim_array_max_min.mindouble(energy);
 				finalClass = one_dim_array_max_min.getMethod_4(class1);
 				
+				//矩张量计算
+				Tensor tensors=new Tensor();
+				
+				Object b=tensors.moment_tensor(allsensors, sensors1, location_refine);
+				double c=Double.parseDouble(b.toString());
+				
 //				System.out.println("该事件的分类为："+finalClass);
 				
 				//calculate the during grade with 3 sensors.
@@ -159,7 +166,7 @@ public class Three_Locate {
 				aQuackResults.setDuringGrade(0);//持续时间震级
 				aQuackResults.setNengliang(finalEnergy);//能量，待解决
 				aQuackResults.setFilename_S(sensors1[0].getFilename());
-				aQuackResults.setTensor(0);//矩张量
+				aQuackResults.setTensor(c);//矩张量
 				aQuackResults.setKind("three");
 
 				//output the three locate consequence.

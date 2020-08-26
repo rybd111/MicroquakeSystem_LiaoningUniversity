@@ -38,8 +38,8 @@ public class JdbcUtil {
 //			password = properties.getProperty("password");
 			username = "root";
 			password = "root";
-			System.out.println(password);
-			System.out.println(driver);
+//			System.out.println(password);
+//			System.out.println(driver);
 			
 			Class.forName(driver);
 		} catch (Exception e) {

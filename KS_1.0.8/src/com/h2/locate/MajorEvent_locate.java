@@ -20,6 +20,7 @@ import com.mathworks.toolbox.javabuilder.MWException;
 
 import bean.QuackResults;
 import utils.StringToDateTime;
+import utils.Tensor;
 import utils.TimeDifferent;
 import utils.one_dim_array_max_min;
 
@@ -40,7 +41,7 @@ public class MajorEvent_locate {
 	 * @throws MWException 
 	 */
 	@SuppressWarnings("unused")
-	public static String major(Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
+	public static String major(Sensor[] allsensors, Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
 			DbExcute aDbExcute) throws ParseException, IOException, MWException {
 		
 		String outString=" ";
@@ -101,6 +102,11 @@ public class MajorEvent_locate {
 		finalEnergy = one_dim_array_max_min.mindouble(energy);
 		finalClass = one_dim_array_max_min.getMethod_4(class1);
 		
+		//矩张量计算
+		Tensor tensors=new Tensor();
+		Object b=tensors.moment_tensor(allsensors, sensors1, location_refine);
+		double c=Double.parseDouble(b.toString());
+		
 //		System.out.println("该事件的分类为："+finalClass);
 		
 		//calculate the during grade with 5 sensors.
@@ -140,7 +146,7 @@ public class MajorEvent_locate {
 		aQuackResults.setPanfu(sensors1[0].getpanfu());//盘符
 		aQuackResults.setNengliang(finalEnergy);//能量，待解决
 		aQuackResults.setFilename_S(sensors1[0].getFilename());//文件名，当前第一个台站的文件名，其他台站需要进一步改变第一个字符为其他台站，则为其他台站的文件名。
-		aQuackResults.setTensor(0);//矩张量
+		aQuackResults.setTensor(c);//矩张量
 		aQuackResults.setKind("major");
 		
 		//output the five locate consequence.

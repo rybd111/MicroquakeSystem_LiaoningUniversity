@@ -201,7 +201,6 @@ public class DbExcute {
 		PreparedStatement aStatement3 = null;
 		try {
 			aStatement3 = connection.prepareStatement(sqlStr3);
-
 			aStatement3.setDouble(1, aQuackResults.getxData());
 			aStatement3.setDouble(2, aQuackResults.getyData());
 			aStatement3.setDouble(3, aQuackResults.getzData());
