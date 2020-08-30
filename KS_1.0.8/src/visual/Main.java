@@ -1,6 +1,9 @@
 package visual;
 
 import java.io.IOException;
+
+import com.h2.constant.ConfigToParameters;
+
 import visual.util.Tools_DataCommunication;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -40,7 +43,7 @@ public class Main extends Application {
 					public void run() {
 						Tools_DataCommunication.getCommunication().isClient = false;
 						try {
-							Thread.sleep(10);
+							Thread.sleep(50);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -51,14 +54,14 @@ public class Main extends Application {
 		});
 	}
 
-	// 6326  	空
-	//6307 		有
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		// 设置读取CSV文件的秒数
 		Tools_DataCommunication.getCommunication().readTime = 1;// s
 		// 设置显示CAD定位点圆的半径
 		Tools_DataCommunication.getCommunication().circleRadius = 5.0;
 		Tools_DataCommunication.getCommunication().isClient = true;
+		//读取配置文件
+		ConfigToParameters c = new ConfigToParameters();
 		launch(args);
 	}
 }
