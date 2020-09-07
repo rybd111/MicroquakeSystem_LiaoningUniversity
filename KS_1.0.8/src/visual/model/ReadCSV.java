@@ -40,12 +40,13 @@ public class ReadCSV {
 		String line = null;
 		while ((line = reader.readLine()) != null) {
 			String item[] = line.split(",");// CSV格式文件时候的分割符,我使用的是,号
-			if (item.length > 1 && count < num*5000) {
+			if (item.length > 1 && count < num*5000 && count%100==0) {
 				number1.add(Integer.parseInt(item[4]));
 				number2.add(Integer.parseInt(item[5]));
 				number3.add(Integer.parseInt(item[6]));
-				count++;
+				
 			}
+			count++;
 		}
 		list.add(number1);
 		list.add(number2);

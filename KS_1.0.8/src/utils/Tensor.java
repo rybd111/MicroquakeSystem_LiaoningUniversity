@@ -48,7 +48,7 @@ public class Tensor {
 			tongdao[i][0]=i+1;
 			for(int j=1; j<2; j++)
 			{
-				tongdao[i][j]= sensor1[i].getFudu();
+				tongdao[i][j]= sensor1[i].getInitialextremum();
 			}
 		}
 		

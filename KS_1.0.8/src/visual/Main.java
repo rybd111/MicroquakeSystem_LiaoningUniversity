@@ -56,9 +56,9 @@ public class Main extends Application {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		// 设置读取CSV文件的秒数
-		Tools_DataCommunication.getCommunication().readTime = 1;// s
+		Tools_DataCommunication.getCommunication().readTime = 18;// s
 		// 设置显示CAD定位点圆的半径
-		Tools_DataCommunication.getCommunication().circleRadius = 5.0;
+		Tools_DataCommunication.getCommunication().circleRadius = 25.0;
 		Tools_DataCommunication.getCommunication().isClient = true;
 		//读取配置文件
 		ConfigToParameters c = new ConfigToParameters();

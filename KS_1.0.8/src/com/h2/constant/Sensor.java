@@ -236,6 +236,9 @@ public class Sensor {
 	public CrestorTrough getCrestortrough() {return crestortrough;}
 	public void setCrestortrough(CrestorTrough crestortrough) {this.crestortrough = crestortrough;}
 	
+	//初动极值
+	public void setInitialextremum(double Initialextremum) {this.Initialextremum=Initialextremum;}
+	public double getInitialextremum() {return Initialextremum;}
 	
 	/**
 	 * 标识是否被激发
@@ -338,4 +341,6 @@ public class Sensor {
 	private Vector<String> motidata;
 	/**the size of calculation window.*/
 	private Vector<String> tendata;
+	/**the initialization exvalue*/
+	private double Initialextremum;
 }

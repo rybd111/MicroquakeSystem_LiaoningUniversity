@@ -48,6 +48,12 @@ public class QuakeClass
 		//切分为激发时间处前Parameters.startTime、后Parameters.endTime数据
 		motiPreLa = sen.getCutVectorData();
 		
+		//矩张量
+		Filter filter=new Filter();
+		double [] y=filter.cutOdata1(motiPreLa,sen.getlineSeriesNew());//未滤波波形的y值（从红线开始）
+		double [] lvbo=filter.movingAverageFilter(y);
+		sen.setInitialextremum(filter.Initialextremum(lvbo));
+		
 		//calculate the quack grade of each sensor.
 		// 1：先扫一遍10秒的数据，确定用哪一个通道,顺便确定通道的最大值
 		boolean flag = getFlag(motiPreLa, sen, th);
