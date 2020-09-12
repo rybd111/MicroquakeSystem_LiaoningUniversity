@@ -46,7 +46,6 @@ public class Sevlet01 extends HttpServlet {
 		for (int i = 1; i < aDataRec.getAfterVector().size(); i++) {
 			/*if(aDataRec.getAfterVector()== null||aDataRec.getAfterVector().size()>=1000||i>=aDataRec.getAfterVector().size()){
 				System.out.println("array index out of range------111111111111111111");
-				
 			}
 			else{*/
 				String[] arrStr=aDataRec.getAfterVector().get(i).split(" ");

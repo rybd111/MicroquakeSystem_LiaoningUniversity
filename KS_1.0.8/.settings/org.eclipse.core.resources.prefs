@@ -1,10 +1,4 @@
 eclipse.preferences.version=1
-encoding//WebRoot/display.jsp=UTF-8
-encoding//WebRoot/index.jsp=UTF-8
-encoding//WebRoot/js/echarts.common.min.js=UTF-8
-encoding//WebRoot/jsp/NewFile.jsp=UTF-8
-encoding//WebRoot/pic.jsp=UTF-8
-encoding//WebRoot/search.jsp=UTF-8
 encoding//src/com/db/DbExcute.java=UTF-8
 encoding//src/com/h2/backupData=UTF-8
 encoding//src/com/h2/constant=UTF-8
