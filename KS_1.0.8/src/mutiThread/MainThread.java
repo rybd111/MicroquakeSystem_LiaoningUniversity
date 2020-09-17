@@ -312,7 +312,7 @@ public class MainThread extends Thread{
 
             for (int i = 0; i < Parameters.SensorNum; i++) {
                 dataRecArray[i] = new DataRec(null, null, null);//不然会出现空指针
-//                aDataRec[i] = dataRecArray[i];
+                aDataRec[i] = dataRecArray[i];
             }
 
             /**

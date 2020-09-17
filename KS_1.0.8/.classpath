@@ -32,6 +32,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5"/>
-	<classpathentry kind="lib" path="I:/研究生阶段/矿山/更新程序/MicroquakeSystem_LiaoningUniversity/KS_1.0.8/WebRoot/WEB-INF/lib/KuangShan_back.war"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

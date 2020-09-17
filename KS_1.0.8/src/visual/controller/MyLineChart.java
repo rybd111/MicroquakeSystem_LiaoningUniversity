@@ -117,61 +117,61 @@ public class MyLineChart {
 			T1_series3.getData()
 					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));// z
 			// T2
-//			T2_series1.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-//			T2_series2.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-//			T2_series3.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-//
-//			T3_series1.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-//			T3_series2.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-//			T3_series3.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-//
-//			T4_series1.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-//			T4_series2.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-//			T4_series3.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-//
-//			T5_series1.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-//			T5_series2.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-//			T5_series3.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-//
-//			T6_series1.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-//			T6_series2.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-//			T6_series3.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-//
-//			T7_series1.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-//			T7_series2.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-//			T7_series3.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-//
-//			T8_series1.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-//			T8_series2.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-//			T8_series3.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-//
-//			T9_series1.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-//			T9_series2.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-//			T9_series3.getData()
-//					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
+			T2_series1.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
+			T2_series2.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
+			T2_series3.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
+
+			T3_series1.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
+			T3_series2.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
+			T3_series3.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
+
+			T4_series1.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
+			T4_series2.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
+			T4_series3.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
+
+			T5_series1.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
+			T5_series2.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
+			T5_series3.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
+
+			T6_series1.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
+			T6_series2.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
+			T6_series3.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
+
+			T7_series1.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
+			T7_series2.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
+			T7_series3.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
+
+			T8_series1.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
+			T8_series2.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
+			T8_series3.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
+
+			T9_series1.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
+			T9_series2.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
+			T9_series3.getData()
+					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
 		}
 
 //		setSeries1();//能运行

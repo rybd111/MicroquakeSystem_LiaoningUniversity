@@ -3,6 +3,9 @@ package visual;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+
+import com.h2.constant.Parameters;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.jface.viewers.TableViewer;
@@ -58,8 +61,8 @@ public class historyQuery {
 		
 		Composite composite = new Composite(shlHistory, SWT.NONE);
 		composite.setBounds(522, 0, 527, 476);
-		int num=5;
-		chartFrame []f = new chartFrame[5];
+		int num=Parameters.SensorNum;
+		chartFrame []f = new chartFrame[num];
 		
 		for(int i=0;i<num;i++) {
 			f[i] = new chartFrame(shlHistory);
