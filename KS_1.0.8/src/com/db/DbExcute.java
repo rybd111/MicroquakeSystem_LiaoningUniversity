@@ -81,14 +81,13 @@ public class DbExcute {
 			while (resultSet.next()) {
 				Tools_DataCommunication.getCommunication().dataList.add(new TableData(resultSet.getString("id"),
 						resultSet.getString("quackTime"), resultSet.getString("panfu"),
-						resultSet.getString("xData") + "," + resultSet.getString("yData") + ","
-								+ resultSet.getString("zData"),
+						resultSet.getString("xData") + "," + resultSet.getString("yData") + ","	+ resultSet.getString("zData"),
 						resultSet.getString("nengliang"), resultSet.getString("quackGrade"),
 						new QuackResults(resultSet.getDouble("xData"), resultSet.getDouble("yData"),
 								resultSet.getDouble("zData"), resultSet.getString("quackTime"),
 								resultSet.getDouble("quackGrade"), resultSet.getDouble("Parrival"),
 								resultSet.getString("panfu"), resultSet.getDouble("duringGrade"),
-								resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), 0.0, "")));
+								resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), resultSet.getDouble("tensor"), resultSet.getString("kind"), resultSet.getDouble("b_value"))));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -137,14 +136,13 @@ public class DbExcute {
 					// 添加新数据
 					TableData data1 = new TableData(resultSet.getString("id"), resultSet.getString("quackTime"),
 							resultSet.getString("panfu"),
-							resultSet.getString("xData") + "," + resultSet.getString("yData") + ","
-									+ resultSet.getString("zData"),
+							resultSet.getString("xData") + "," + resultSet.getString("yData") + ","	+ resultSet.getString("zData"),
 							resultSet.getString("nengliang"), resultSet.getString("quackGrade"),
 							new QuackResults(resultSet.getDouble("xData"), resultSet.getDouble("yData"),
 									resultSet.getDouble("zData"), resultSet.getString("quackTime"),
 									resultSet.getDouble("quackGrade"), resultSet.getDouble("Parrival"),
 									resultSet.getString("panfu"), resultSet.getDouble("duringGrade"),
-									resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), 0.0, ""));
+									resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), resultSet.getDouble("tensor"), resultSet.getString("kind"), resultSet.getDouble("b_value")));
 
 					Tools_DataCommunication.getCommunication().dataList.add(data1);
 
@@ -166,7 +164,7 @@ public class DbExcute {
 
 	public void addElement(QuackResults aQuackResults) {
 
-		String sqlStr = "insert into " + Parameters.DatabaseName5 + " values(null,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sqlStr = "insert into " + Parameters.DatabaseName5 + " values(null,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		connection = JdbcUtil.getConnection();
 		PreparedStatement aStatement = null;
 		try {
@@ -183,7 +181,8 @@ public class DbExcute {
 			aStatement.setDouble(10, aQuackResults.getNengliang());
 			aStatement.setString(11, aQuackResults.getFilename_S());
 			aStatement.setDouble(12, aQuackResults.getTensor());
-
+			aStatement.setDouble(13, aQuackResults.getbvalue());
+			
 			System.out.println(aStatement.execute() + "-shujuku");
 			connection.close();
 		} catch (SQLException e) {

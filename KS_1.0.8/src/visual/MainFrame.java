@@ -117,8 +117,8 @@ public class MainFrame {
 		
 		//System.out.flow reset to the front text widget. Reset the direct to the text in SWT.
 		MyPrintStream mps = new MyPrintStream(System.out, text);
-//		System.setOut(mps);
-//		System.setErr(mps);
+		System.setOut(mps);
+		System.setErr(mps);
 		
 		//stop button.
 		Button button_2 = new Button(shell, SWT.NONE);

@@ -43,7 +43,7 @@ public class disasterCheck {
 	 */
 	private void initialize() {
 		frame = new JFrame("实时数据监测");
-		frame.setBounds(100, 100, 742, 801);
+		frame.setBounds(0, 0, 740, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		chartFrame []f = new chartFrame[Parameters.SensorNum];

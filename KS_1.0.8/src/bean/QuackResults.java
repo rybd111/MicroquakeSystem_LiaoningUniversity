@@ -22,10 +22,11 @@ public class QuackResults {
 	private String filename_S;
 	private double tensor;
 	private String kind;
+	private double b;
 	
 	public QuackResults(double xData, double yData, double zData,
 			String quackTime, double quackGrade, double Parrival, 
-			 String panfu, double duringGrade, double nengliang, String filename_S, double tensor, String kind) {
+			 String panfu, double duringGrade, double nengliang, String filename_S, double tensor, String kind, double b) {
 		super();
 		this.xData = xData;
 		this.yData = yData;
@@ -38,6 +39,7 @@ public class QuackResults {
 		this.nengliang = nengliang;
 		this.filename_S = filename_S;
 		this.kind = kind;
+		this.b = b;
 	}
 
 	public QuackResults() {
@@ -161,6 +163,13 @@ public class QuackResults {
 	}
 	public String getKind() {
 		return kind;
+	}
+	
+	public void setbvalue(double b) {
+		this.b = b;
+	}
+	public double getbvalue() {
+		return b;
 	}
 
 }

@@ -110,7 +110,7 @@ public class chartFrame extends Thread{
 //			timeSeries.add(new Second(), randomNum());
 			timeSeries.add(count, historyData(count));
 			try {
-				Thread.sleep(10);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

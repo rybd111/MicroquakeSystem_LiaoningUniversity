@@ -21,6 +21,7 @@ import com.h2.tool.calDuringTimePar;
 import com.h2.tool.stringJoin;
 import com.mathworks.toolbox.javabuilder.MWException;
 
+import b_pro.BClass;
 import bean.QuackResults;
 import mutiThread.MainThread;
 import utils.StringToDateTime;
@@ -111,6 +112,21 @@ public class PSO_Locate {
 				Tensor tensors=new Tensor();
 				Object b=tensors.moment_tensor(allsensors, sensors1, location_refine);
 				double c=Double.parseDouble(b.toString());
+				
+				//求b值
+				Object [] earthQuakeFinal1=new Object[1];
+				earthQuakeFinal1[0]=earthQuakeFinal;	//事件的震级
+//				Object [] SecTime=new Object[1];
+//				SecTime[0]=location_refine.getSecTime();//p波到时
+				System.out.println("事件震级+"+earthQuakeFinal1[0]);
+				
+				double zjmax=3.5;//最大震级
+				double zjmin=0.1;//最小震级
+				BClass bclass=new BClass();
+				Object[] bb=bclass.b_pro(1,earthQuakeFinal1,zjmax,zjmin);
+				double b_value=Double.parseDouble(bb[0].toString());//b值
+				aQuackResults.setbvalue(b_value);
+				System.out.println("b值"+b_value);
 				
 //				System.out.println("该事件的分类为："+finalClass);
 				
