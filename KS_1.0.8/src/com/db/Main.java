@@ -8,6 +8,11 @@ import java.util.Date;
 
 import bean.QuackResults;
 
+/**
+ * test database connection.
+ * @author Administrator
+ *
+ */
 public class Main {
 	public static void main(String[] args) {
 		/*DbExcute aDbExcute =new DbExcute();

@@ -14,9 +14,7 @@ import com.yang.readFile.ReadData;
 import com.yang.readFile.ReadDataSegmentHead;
 
 import utils.DateArrayToIntArray;
-import bean.Location;
 import controller.ADMINISTRATOR;
-import controller.SensorDataReadForDuiQi;
 import mutiThread.MainThread;
 
 /**

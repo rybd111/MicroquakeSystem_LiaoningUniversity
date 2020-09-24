@@ -3,7 +3,6 @@ package mianThread;
 import com.h2.main.EarthQuake;
 
 import mutiThread.MainThread;
-import mutiThread.SleepAndWaitThread2;
 import visual.Preferences;
 
 

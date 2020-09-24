@@ -6,7 +6,10 @@ package com.h2.backupData;
 import mutiThread.MainThread;
 
 /**
+ * Pull a fixed file querying from different remote disks.(not accomplish)
+ * @revision 2020-09-23
  * @author Hanlin Zhang
+ * 
  */
 public class pullFileFromSensor {
 

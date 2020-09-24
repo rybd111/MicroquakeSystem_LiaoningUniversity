@@ -3,8 +3,8 @@ package com.h2.constant;
 import mutiThread.MainThread;
 
 /**
- * the constant and partial static variable used in this procedure.
- * @author Baishuo Han, Hanlin Zhang.
+ * The constant and partial static variable used in this procedure.
+ * @author Yilong Zhang, Baishuo Han, Hanlin Zhang, RQ Ma, Rui Cao, et al.
  */
 public class Parameters
 {

@@ -19,8 +19,8 @@ import bean.QuackResults;
 
 /**
  * 2017/10/21
- * 
- * @author lemo
+ * @revision 2020-9-23
+ * @author Yilong Zhang, Hanlin Zhang, Yongliang Hu, Gang Zhang, et al.
  * 
  */
 public class DbExcute {
@@ -287,24 +287,20 @@ public class DbExcute {
 		return newAl;
 	}
 
-	// 删锟斤拷锟斤拷锟斤拷
 	public void removeElement(String sql) {
 		update(sql);
 
 	}
 
-	// 锟斤拷锟斤拷一锟斤拷锟斤拷
 	public void createTable(String sql) {
 		update(sql);
 	}
 
-	// 删锟斤拷一锟斤拷锟斤拷
 	public void dropTable(String sql) {
 		update(sql);
 	}
 
 	public void deleteRepate(String sql) {
-		// TODO Auto-generated method stub
 		update(sql);
 	}
 

@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 
 /**
  * Store the every parameters will be put into the database.
- * @author Baishuo Han, Hanlin Zhang.
+ * @author Baishuo Han, Hanlin Zhang and Gang Zhang.
  * */
 public class QuackResults {
 
@@ -52,7 +52,7 @@ public class QuackResults {
 		
 		java.text.NumberFormat NF = java.text.NumberFormat.getInstance();
 		NF.setGroupingUsed(false);
-		//System.out.println("d:="+NF.format(d));
+		
 		if(quackGrade < 0){
 			return "[x="+NF.format(xData)+" y="+NF.format(yData)+" z="+NF.format(zData)+
 					" Time="+quackTime+
@@ -63,6 +63,7 @@ public class QuackResults {
 					" nengliang="+nengliang+
 					" filename_S="+filename_S+
 					" tensor="+tensor+
+					" b_value="+b+
 					" kind="+kind+
 					"--------------------------------------------------------------------------]";
 		}
@@ -76,95 +77,96 @@ public class QuackResults {
 					" nengliang="+nengliang+
 					" filename_S="+filename_S+
 					" tensor="+tensor+
+					" b_value="+b+
 					" kind="+kind+
 					"]";
 		}
 	}
-
+	/**x */
 	public double getxData() {
 		return xData;
 	}
 	public void setxData(double xData) {
 		this.xData = xData;
 	}
-	
+	/**y */
 	public double getyData() {
 		return yData;
 	}
 	public void setyData(double yData) {
 		this.yData = yData;
 	}
-
+	/**z */
 	public double getzData() {
 		return zData;
 	}
 	public void setzData(double zData) {
 		this.zData = zData;
 	}
-
-	public String getQuackTime() {//��Դ����ʱ��
+	/**quake time- the consequence for calculating from location algorithm.*/
+	public String getQuackTime() {
 		return quackTime;
 	}
 	public void setQuackTime(String quackTime) {
 		this.quackTime = quackTime;
 	}
-
-	public double getQuackGrade() {//���𼶼���
+	/**quacke grade- the consequence for calculating from quake grade algorithm.*/
+	public double getQuackGrade() {
 		return quackGrade;
 	}
 	public void setQuackGrade(double quackGrade) {
 		this.quackGrade = quackGrade;
 	}
-	
-	public void setParrival(double Parrival) {//P����ʱ
+	/**P arrival as second unit.*/	
+	public void setParrival(double Parrival) {
 		this.Parrival = Parrival;
 	}
 	public double getParrival() {
 		return Parrival;
 	}
-	
-	public void setDuringGrade(double duringGrade) {//����ʱ����
+	/**the during grade decided with the background noise.*/	
+	public void setDuringGrade(double duringGrade) {
 		this.duringQuackGrade = duringGrade;
 	}
 	public double getDuringGrade() {
 		return duringQuackGrade;
 	}
-
-	public void setPanfu(String panfu) {//����ʱ����
+	/**the motivation disk with different sensors.*/	
+	public void setPanfu(String panfu) {
 		this.panfu = panfu;
 	}
 	public String getPanfu() {
 		return panfu;
 	}
-	
+	/**the energy of one micro-quake event.*/	
 	public void setNengliang(double nengliang) {
 		this.nengliang = nengliang;
 	}
 	public double getNengliang() {
 		return nengliang;
 	}
-	
+	/**we store the wave on the disk.*/	
 	public void setFilename_S(String filename_S) {
 		this.filename_S = filename_S;
 	}
 	public String getFilename_S() {
 		return filename_S;
 	}
-	
+	/**Tensor value calculating by the algorithm matlab.*/	
 	public void setTensor(double tensor) {
 		this.tensor = tensor;
 	}
 	public double getTensor() {
 		return tensor;
 	}
-	
+	/**which locating algorithm use.*/
 	public void setKind(String kind) {
 		this.kind = kind;
 	}
 	public String getKind() {
 		return kind;
 	}
-	
+	/**b value calculating by matlab.*/
 	public void setbvalue(double b) {
 		this.b = b;
 	}

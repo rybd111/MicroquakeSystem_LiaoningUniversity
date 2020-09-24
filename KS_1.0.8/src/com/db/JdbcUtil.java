@@ -10,7 +10,11 @@ import java.util.Properties;
 
 import com.h2.constant.Parameters;
 
-
+/**
+ * connect to database.
+ * @author 
+ *
+ */
 public class JdbcUtil {
 	static String url = null;
 	static String username = null;

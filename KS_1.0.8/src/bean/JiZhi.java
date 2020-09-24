@@ -2,6 +2,11 @@ package bean;
 
 import java.util.List;
 
+/**
+ * get extreme value of list type.
+ * @author unknown
+ *
+ */
 public class JiZhi {
 	
 	int xMin = 0;

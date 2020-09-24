@@ -14,6 +14,7 @@ import org.jfree.data.time.TimeSeries;
 import mutiThread.MainThread;
 
 /**
+ * config the constant parameters of procedure from the beginning.
  * @author Hanlin Zhang
  */
 public class ConfigToParameters {
