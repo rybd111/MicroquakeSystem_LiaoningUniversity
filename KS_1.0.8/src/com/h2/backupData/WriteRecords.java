@@ -30,7 +30,8 @@ public class WriteRecords {
      * @author RQMa, Hanlin Zhang
      */
     @SuppressWarnings("unused")
-	public static void Write(Sensor[]sensors , Sensor sensor_latest, Sensor result, String filepath, String quakeGrade, double finalEnergy, String kindOfCalculation) {
+	public static void Write(Sensor[]sensors , Sensor sensor_latest, Sensor result, String filepath, 
+			String quakeGrade, double finalEnergy, String kindOfCalculation, double tensor, double b_value) {
         File file = new File(filepath);
         BufferedWriter out = null;
         BufferedWriter out1 = null;
@@ -47,13 +48,13 @@ public class WriteRecords {
 	            	for(int i=0;i<Parameters.diskName_offline.length;i++) {
 		            	out.write(Parameters.diskName_offline[i]+",");
 		            }
-            		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻");
+            		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻,张量,b值");
             	}
             	else {
             		for(int i=0;i<Parameters.diskName.length;i++) {
             			out.write((Parameters.diskName[i].replace(":/", "")+","));
 		            }
-            		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻");
+            		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻,张量,b值");
             	}
             	out.write("\r");
         	}
@@ -126,7 +127,9 @@ public class WriteRecords {
 	            }
             }
             record = record + String.valueOf(result.getLatitude())+","+String.valueOf(result.getLongtitude())+","+String.valueOf(result.getAltitude())+","
-            		+String.valueOf(result.getSecTime())+","+String.valueOf(quakeGrade)+","+String.valueOf(finalEnergy)+","+kindOfCalculation+","+String.valueOf(result.getquackTime())+"\t,";
+            		+String.valueOf(result.getSecTime())+","+String.valueOf(quakeGrade)+","
+            		+String.valueOf(finalEnergy)+","+kindOfCalculation+","+String.valueOf(result.getquackTime())+","
+            		+String.valueOf(tensor)+","+String.valueOf(b_value)+",";
             out.write(record+"\r");
             out.flush();
         } catch (IOException e) {
