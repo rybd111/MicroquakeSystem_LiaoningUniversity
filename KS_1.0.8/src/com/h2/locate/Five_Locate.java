@@ -40,7 +40,7 @@ public class Five_Locate {
 	 * @return the information of space-time strength. 
 	 * @throws ParseException
 	 * @throws IOException
-	 * @author Baishuo Han, Hanlin Zhang.
+	 * @author Baishuo Han, Hanlin Zhang, Gang Zhang.
 	 * @throws MWException
 	 */
 	@SuppressWarnings("unused")

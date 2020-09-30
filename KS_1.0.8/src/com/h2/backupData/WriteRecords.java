@@ -128,7 +128,7 @@ public class WriteRecords {
             }
             record = record + String.valueOf(result.getLatitude())+","+String.valueOf(result.getLongtitude())+","+String.valueOf(result.getAltitude())+","
             		+String.valueOf(result.getSecTime())+","+String.valueOf(quakeGrade)+","
-            		+String.valueOf(finalEnergy)+","+kindOfCalculation+","+String.valueOf(result.getquackTime())+","
+            		+String.valueOf(finalEnergy)+","+kindOfCalculation+","+String.valueOf(result.getquackTime())+"\t,"
             		+String.valueOf(tensor)+","+String.valueOf(b_value)+",";
             out.write(record+"\r");
             out.flush();

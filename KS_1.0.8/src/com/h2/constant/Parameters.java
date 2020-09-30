@@ -182,8 +182,11 @@ public class Parameters
 	public static String AbsolutePath5_record = "D:/data/ConstructionData/";
 
 	public static String AbsolutePath_CSV3 = "D:/data/ConstructionData/3moti/";
+	public static String AbsolutePath_CSV3_dataCenter = "";
 	public static String AbsolutePath_CSV5 = "D:/data/ConstructionData/5moti/";
+	public static String AbsolutePath_CSV5_dataCenter = "";
 	public static String AbsolutePath_allMotiTime_record = "D:/data/ConstructionData/TimeRecords.csv";
+	public static String AbsolutePath_allMotiTime_record_dataCenter = "";
 	/**
 	 * 1分钟的数据存放位置
 	 */
