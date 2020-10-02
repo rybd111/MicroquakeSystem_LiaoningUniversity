@@ -16,6 +16,7 @@ import com.h2.tool.SensorTool;
 public class Sensor {
 	public Sensor() {
 		this.sensorNum=0;
+		this.sensorSeries = 0;
 		this.sign = false;// 标识是否激发
 		this.time = "000000000000";// 激发的时间
 		this.quackTime="000000000000";//发震时刻
@@ -143,6 +144,10 @@ public class Sensor {
 	//get each sensor's series number to mark them.
 	public void setSensorNum(int i) {this.sensorNum=i;}
 	public int getSensorNum() {return sensorNum;}
+	
+	//get each sensor's series number to mark absolute path.
+	public void SetSensorSeries(int i) {this.sensorSeries = i;}
+	public int getSensorSeries() {return this.sensorSeries;}
 	
 	//get near quake grade of each sensor.
 	public double getEarthClassFinal() {return EarthClassFinal;}
@@ -335,6 +340,10 @@ public class Sensor {
 	 * the number of the sensor.
 	 */
 	private int sensorNum;
+	/**
+	 * the series of the sensor.
+	 */
+	private int sensorSeries;
 	/**
 	 * the motivation data of the current sensor.
 	 */

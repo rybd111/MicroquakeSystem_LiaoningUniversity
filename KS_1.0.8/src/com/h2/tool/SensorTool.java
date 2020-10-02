@@ -45,6 +45,7 @@ public class SensorTool
 			for (int i = 0; i < count; i++)
 			{
 				sensors[i]=new Sensor();
+				sensors[i].SetSensorSeries(i);
 				(sensors[i]).setLatitude(Parameters.SENSORINFO[k[i]][0]-Parameters.SENSORINFO[k[0]][0]);
 //				(sensors[i]).setLatitude(Parameters.SENSORINFO[k[i]][0]);
 				(sensors[i]).setLongtitude(Parameters.SENSORINFO[k[i]][1]-Parameters.SENSORINFO[k[0]][1]);
@@ -64,6 +65,7 @@ public class SensorTool
 				for (int i = 0; i < count; i++)
 				{
 					sensors[i]=new Sensor();
+					sensors[i].SetSensorSeries(i);
 					//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
 					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_hongyang[k[i]][0]-Parameters.SENSORINFO_offline_hongyang[k[0]][0]);
 //					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_hongyang[k[i]][0]);
@@ -77,6 +79,7 @@ public class SensorTool
 				for (int i = 0; i < count; i++)
 				{
 					sensors[i]=new Sensor();
+					sensors[i].SetSensorSeries(i);
 					//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
 					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_datong[k[i]][0]-Parameters.SENSORINFO_offline_datong[k[0]][0]);
 					(sensors[i]).setLongtitude(Parameters.SENSORINFO_offline_datong[k[i]][1]-Parameters.SENSORINFO_offline_datong[k[0]][1]);
@@ -87,6 +90,7 @@ public class SensorTool
 				for (int i = 0; i < count; i++)
 				{
 					sensors[i]=new Sensor();
+					sensors[i].SetSensorSeries(i);
 					//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
 					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_pingdingshan[k[i]][0]-Parameters.SENSORINFO_offline_pingdingshan[k[0]][0]);
 					(sensors[i]).setLongtitude(Parameters.SENSORINFO_offline_pingdingshan[k[i]][1]-Parameters.SENSORINFO_offline_pingdingshan[k[0]][1]);

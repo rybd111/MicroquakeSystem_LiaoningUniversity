@@ -24,7 +24,7 @@ public class Tensor {
 		for(int i=0;i<sensors.length;i++)
 		{		
 			
-			a[i][0]=sensors[i].getSensorNum();
+			a[i][0]=sensors[i].getSensorSeries();
 			for(int j=1;j<4;j++)
 			{
 				if(j==1)
