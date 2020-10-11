@@ -1,93 +1,153 @@
 package visual.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import org.eclipse.swt.events.PaintEvent;
+
+import com.h2.constant.Parameters;
 import visual.model.ReadCSV;
+import visual.model.saveCSV;
 import visual.util.Tools_DataCommunication;
-
+import visual.view.UIController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
+/**
+ * 已做代码优化-2020/09/25
+ * 
+ * @author Sunny-胡永亮
+ *
+ */
 public class MyLineChart {
+	/**CSV文件路径*/
+	private String filePath = null;
 
-	private LineChart<Number, Number> mChart_T1;
-	private LineChart<Number, Number> mChart_T2;
-	private LineChart<Number, Number> mChart_T3;
-	private LineChart<Number, Number> mChart_T4;
-	private LineChart<Number, Number> mChart_T5;
-	private LineChart<Number, Number> mChart_T6;
-	private LineChart<Number, Number> mChart_T7;
-	private LineChart<Number, Number> mChart_T8;
-	private LineChart<Number, Number> mChart_T9;
-	// T1
-	private XYChart.Series<Number, Number> T1_series1 = new XYChart.Series<Number, Number>();// x
-	private XYChart.Series<Number, Number> T1_series2 = new XYChart.Series<Number, Number>();// y
-	private XYChart.Series<Number, Number> T1_series3 = new XYChart.Series<Number, Number>();// z
-	// T2
-	private XYChart.Series<Number, Number> T2_series1 = new XYChart.Series<Number, Number>();// x
-	private XYChart.Series<Number, Number> T2_series2 = new XYChart.Series<Number, Number>();// y
-	private XYChart.Series<Number, Number> T2_series3 = new XYChart.Series<Number, Number>();// z
-	// T3
-	private XYChart.Series<Number, Number> T3_series1 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T3_series2 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T3_series3 = new XYChart.Series<Number, Number>();
-	// T4
-	private XYChart.Series<Number, Number> T4_series1 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T4_series2 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T4_series3 = new XYChart.Series<Number, Number>();
-	// T5
-	private XYChart.Series<Number, Number> T5_series1 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T5_series2 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T5_series3 = new XYChart.Series<Number, Number>();
-	// T6
-	private XYChart.Series<Number, Number> T6_series1 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T6_series2 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T6_series3 = new XYChart.Series<Number, Number>();
-	// T7
-	private XYChart.Series<Number, Number> T7_series1 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T7_series2 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T7_series3 = new XYChart.Series<Number, Number>();
-	// T8
-	private XYChart.Series<Number, Number> T8_series1 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T8_series2 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T8_series3 = new XYChart.Series<Number, Number>();
-	// T9
-	private XYChart.Series<Number, Number> T9_series1 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T9_series2 = new XYChart.Series<Number, Number>();
-	private XYChart.Series<Number, Number> T9_series3 = new XYChart.Series<Number, Number>();
+	private Slider mSlider_P;
+	private Slider mSlider_lower;
+	private Slider mSlider_upper;
 
-	public MyLineChart(LineChart<Number, Number> T1, LineChart<Number, Number> T2, LineChart<Number, Number> T3,
-			LineChart<Number, Number> T4, LineChart<Number, Number> T5, LineChart<Number, Number> T6,
-			LineChart<Number, Number> T7, LineChart<Number, Number> T8, LineChart<Number, Number> T9) {
-		this.mChart_T1 = T1;
-		this.mChart_T2 = T2;
-		this.mChart_T3 = T3;
-		this.mChart_T4 = T4;
-		this.mChart_T5 = T5;
-		this.mChart_T6 = T6;
-		this.mChart_T7 = T7;
-		this.mChart_T8 = T8;
-		this.mChart_T9 = T9;
-		// 把线放入LineChart表中
-		mChart_T1.getData().addAll(T1_series1, T1_series2, T1_series3);
-		mChart_T2.getData().addAll(T2_series1, T2_series2, T2_series3);
-		mChart_T3.getData().addAll(T3_series1, T3_series2, T3_series3);
-		mChart_T4.getData().addAll(T4_series1, T4_series2, T4_series3);
-		mChart_T5.getData().addAll(T5_series1, T5_series2, T5_series3);
-		mChart_T6.getData().addAll(T6_series1, T6_series2, T6_series3);
-		mChart_T7.getData().addAll(T7_series1, T7_series2, T7_series3);
-		mChart_T8.getData().addAll(T8_series1, T8_series2, T8_series3);
-		mChart_T9.getData().addAll(T9_series1, T9_series2, T9_series3);
+	private TextField mText_P;
+	private TextField mText_lower;
+	private TextField mText_upper;
+
+	private SplitPane mTimersplitpane;
+
+	private VBox mVBoxLineChart;
+
+	private int tIndex = 0;
+	public int gettIndex() {
+		return tIndex;
+	}
+
+	/** 鼠标悬停Label数组 */
+	private ArrayList<Label> T_label = new ArrayList<Label>();
+
+	/** 波形图表数组 */
+	private ArrayList<LineChart<Number, Number>> mChart_T = new ArrayList<>();
+
+	/** 波形图表的X坐标轴数组 */
+	private ArrayList<NumberAxis> T_xAxis = new ArrayList<>();
+
+	/** 波形图表的Y坐标轴数组 */
+	private ArrayList<NumberAxis> T_yAxis = new ArrayList<>();
+	/** 传感器站台名字 */
+	private String[] sensorName = { "杨\n甸\n子", "树\n碑\n子", "北\n青\n堆\n子", "车\n队", "工\n业\n广\n场", "火\n药\n库", "南\n风\n井",
+			"蒿\n子\n屯", "李\n大\n人" };
+	/** 波形线 数组 */
+	private ArrayList<XYChart.Series<Number, Number>> T_seriesZ = new ArrayList<XYChart.Series<Number, Number>>();
+	/** P波到时 */
+	private ArrayList<XYChart.Series<Number, Number>> pArray = new ArrayList<XYChart.Series<Number, Number>>();
+	/** 时间坐标轴 */
+	private NumberAxis timerXaxis = new NumberAxis(0, 18 * 5000, 5000);
+	private NumberAxis timerYaxis = new NumberAxis();
+	private LineChart<Number, Number> timerChart = new LineChart<Number, Number>(timerXaxis, timerYaxis);
+	private XYChart.Series<Number, Number> timerSeries = new XYChart.Series<Number, Number>();
+
+	public MyLineChart(Slider sliderP, TextField textP, Slider sliderlow, Slider sliderupper, TextField textlower,
+			TextField textupper, VBox box, SplitPane mTimersplitpane) {
+		final String stockLineChartCss = UIController.class.getResource("Line.css").toExternalForm();
+		this.mVBoxLineChart = box;
+		this.mSlider_P = sliderP;
+		this.mSlider_lower = sliderlow;
+		this.mSlider_upper = sliderupper;
+		this.mText_P = textP;
+		this.mText_lower = textlower;
+		this.mText_upper = textupper;
+		this.mTimersplitpane = mTimersplitpane;
+		/** 创建线条 */
+		for (int i = 0; i < 3 * 9; i++) {
+			T_seriesZ.add(new XYChart.Series<Number, Number>());
+		}
+		/** 创建鼠标悬停Label、XY轴、波形图表、设置波形图表锚点 */
+
+		for (int i = 0; i < 9; i++) {
+			// 创建鼠标悬停Label
+			Label label = new Label("T" + (i + 1));
+			// 初始化Label不可见
+			label.setVisible(false);
+			T_label.add(label);
+			/** P波到时 */
+			XYChart.Series<Number, Number> p = new XYChart.Series<Number, Number>();
+			pArray.add(p);
+			// 创建X坐标轴
+			T_xAxis.add(new NumberAxis(0, 18 * 5000, 500));
+			// 创建Y坐标轴
+			T_yAxis.add(new NumberAxis());
+			// 创建波形图表
+			LineChart<Number, Number> chart = new LineChart<Number, Number>(T_xAxis.get(i), T_yAxis.get(i));
+			mChart_T.add(chart);
+			// 设置波形图表样式
+			chart.getStylesheets().add(stockLineChartCss);
+			// 禁止播放动画
+			chart.setAnimated(false);
+			// 设置LineChart锚点
+			setChartAnchor(i, chart, label);
+			// 把线放入波形图表中
+			chart.getData().addAll(T_seriesZ.get(0 + 3 * i), T_seriesZ.get(1 + 3 * i), T_seriesZ.get(2 + 3 * i), p);
+		}
+		// 时间坐标轴
+		timerChart.getData().addAll(timerSeries);
+		timerChart.getStylesheets().add(stockLineChartCss);
+		AnchorPane anpane = null;
+		anpane = (AnchorPane) this.mTimersplitpane.getItems().get(1);
+		anpane.setTopAnchor(timerChart, -15.0);
+		anpane.setBottomAnchor(timerChart, 0.0);
+		anpane.setLeftAnchor(timerChart, -45.0);
+		anpane.setRightAnchor(timerChart, -10.0);
+		anpane.getChildren().addAll(timerChart);
+		initZoomSize();
 	}
 
 	public void setLineChart(int time, String path) {
+		
+		// 清空波形图最大Y值数组
+		Tools_DataCommunication.getCommunication().clearchartYmax();
+		// 放大缩小波形图还原到初始值
+		this.mSlider_lower.setValue(0.00);
+		this.mSlider_upper.setValue(90000.00);
 		System.out.println("读取CSV文件路径为：" + path);
 		if (path == null || path == "" || path == " " || path.length() <= 0) {
 			System.out.println("路径为空，绘制波形图失败！");
 			return;
 		}
-
-		ReadCSV r = new ReadCSV(path);
+		this.filePath=path;
+		ReadCSV r = new ReadCSV(this.filePath);
 		try {
 			Tools_DataCommunication.getCommunication().list = r.readContents(time);// s
 		} catch (NumberFormatException | IOException e) {
@@ -95,195 +155,317 @@ public class MyLineChart {
 		}
 
 		clearSeries();
+		setSensorName();
 		setSeries();//
 		System.out.println("波形图绘制完毕");
 		System.out.println("==================================================");
 	}
 
-	private void setSeries() {
-		if (3 != Tools_DataCommunication.getCommunication().list.size())
-			return;
-		System.out.println(Tools_DataCommunication.getCommunication().list.get(0).size());
-		for (int i = 0; i < Tools_DataCommunication.getCommunication().list.get(0).size(); i++) {
-			// 数据过滤。
-			if (i % 5 == 0)
-				continue;
-			// T1
-			/** 这里+20000，+60000，+100000的目的是平移X轴。因为要在一个表里画三条线 */
-			T1_series1.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));// x
-			T1_series2.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));// y
-			T1_series3.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));// z
-			// T2
-			T2_series1.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-			T2_series2.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-			T2_series3.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
+	private void setSensorName() {
 
-			T3_series1.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-			T3_series2.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-			T3_series3.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-
-			T4_series1.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-			T4_series2.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-			T4_series3.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-
-			T5_series1.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-			T5_series2.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-			T5_series3.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-
-			T6_series1.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-			T6_series2.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-			T6_series3.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-
-			T7_series1.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-			T7_series2.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-			T7_series3.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-
-			T8_series1.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-			T8_series2.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-			T8_series3.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
-
-			T9_series1.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(0).get(i) + 20000));
-			T9_series2.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(1).get(i) + 60000));
-			T9_series3.getData()
-					.add(new XYChart.Data<>(i, Tools_DataCommunication.getCommunication().list.get(2).get(i) + 100000));
+		SplitPane splitpane = null;
+		AnchorPane anchoranpane = null;
+		Label label = null;
+		for (int i = 0; i < mVBoxLineChart.getChildren().size(); i++) {
+			splitpane = (SplitPane) mVBoxLineChart.getChildren().get(i);
+			anchoranpane = (AnchorPane) splitpane.getItems().get(0);
+			label = (Label) anchoranpane.getChildren().get(0);
+			label.setText("T" + (i + 1));
 		}
-
-//		setSeries1();//能运行
-
-//		setSeries2();//能运行
+		char[] name = Tools_DataCommunication.getCommunication().fileSS.toUpperCase().toCharArray();
+		for (int i = 0; i < name.length; i++) {
+			splitpane = (SplitPane) mVBoxLineChart.getChildren().get(i);
+			anchoranpane = (AnchorPane) splitpane.getItems().get(0);
+			label = (Label) anchoranpane.getChildren().get(0);
+			switch (name[i]) {
+			case 'T':
+				label.setText(sensorName[0]);
+				break;
+			case 'U':
+				label.setText(sensorName[1]);
+				break;
+			case 'W':
+				label.setText(sensorName[2]);
+				break;
+			case 'X':
+				label.setText(sensorName[3]);
+				break;
+			case 'Z':
+				label.setText(sensorName[4]);
+				break;
+			case 'Y':
+				label.setText(sensorName[5]);
+				break;
+			case 'V':
+				label.setText(sensorName[6]);
+				break;
+			case 'S':
+				label.setText(sensorName[7]);
+				break;
+			case 'R':
+				label.setText(sensorName[8]);
+				break;
+			default:
+				System.out.println(
+						"======================Error：-传感器站台名称出错。-MyLineChart===================================");
+				break;
+			}
+		}
 	}
 
-	private void setSeries1() {
+	private void setSeries() {
+		// 清空P波到时
+		for (int i = 0; i < 9; i++)
+			pArray.get(i).getData().clear();
+		double tempt = 0.0;
+		for (int i = 0; i < Tools_DataCommunication.getCommunication().fileSS.length(); i++) {
 
-		T2_series1.getData().addAll(T1_series1.getData());
-		T2_series2.getData().addAll(T1_series2.getData());
-		T2_series3.getData().addAll(T1_series3.getData());
+			tempt = Tools_DataCommunication.getCommunication().chartYmax[i];
+			for (int j = 0; j < Tools_DataCommunication.getCommunication().list.get(0 + 3 * i).size(); j++) {
+				if (j == Tools_DataCommunication.getCommunication().P_array[i]) {
+					XYChart.Data<Number, Number> temp1 = new XYChart.Data<>(j, 0);
+					XYChart.Data<Number, Number> temp2 = new XYChart.Data<>(j, 6 * tempt);
+					pArray.get(i).getData().addAll(temp1, temp2);
+				}
 
-		T3_series1.getData().addAll(T1_series1.getData());
-		T3_series2.getData().addAll(T1_series2.getData());
-		T3_series3.getData().addAll(T1_series3.getData());
+				/** 数据过滤 */
+				if (j % 100 != 0)
+					continue;
+				XYChart.Data<Number, Number> data1 = new XYChart.Data<>(j,
+						Tools_DataCommunication.getCommunication().list.get(0 + 3 * i).get(j) + 1 * tempt);
+				XYChart.Data<Number, Number> data2 = new XYChart.Data<>(j,
+						Tools_DataCommunication.getCommunication().list.get(1 + 3 * i).get(j) + 3 * tempt);
+				XYChart.Data<Number, Number> data3 = new XYChart.Data<>(j,
+						Tools_DataCommunication.getCommunication().list.get(2 + 3 * i).get(j) + 5 * tempt);
+				T_seriesZ.get(0 + 3 * i).getData().add(data1);// x
+				T_seriesZ.get(1 + 3 * i).getData().add(data2);// y
+				T_seriesZ.get(2 + 3 * i).getData().add(data3);// z
+				/** setShowDataLabel必须在getData().add之后，不然会报空指针 */
+				setShowDataLabel(data1, T_label.get(i));
+				setShowDataLabel(data2, T_label.get(i));
+				setShowDataLabel(data3, T_label.get(i));
 
-		T4_series1.getData().addAll(T1_series1.getData());
-		T4_series2.getData().addAll(T1_series2.getData());
-		T4_series3.getData().addAll(T1_series3.getData());
+			}
 
-		T5_series1.getData().addAll(T1_series1.getData());
-		T5_series2.getData().addAll(T1_series2.getData());
-		T5_series3.getData().addAll(T1_series3.getData());
-
-		T6_series1.getData().addAll(T1_series1.getData());
-		T6_series2.getData().addAll(T1_series2.getData());
-		T6_series3.getData().addAll(T1_series3.getData());
-
-		T7_series1.getData().addAll(T1_series1.getData());
-		T7_series2.getData().addAll(T1_series2.getData());
-		T7_series3.getData().addAll(T1_series3.getData());
-
-		T8_series1.getData().addAll(T1_series1.getData());
-		T8_series2.getData().addAll(T1_series2.getData());
-		T8_series3.getData().addAll(T1_series3.getData());
-
-		T9_series1.getData().addAll(T1_series1.getData());
-		T9_series2.getData().addAll(T1_series2.getData());
-		T9_series3.getData().addAll(T1_series3.getData());
-	}
-
-	private void setSeries2() {
-
-		T2_series1.setData(T1_series1.getData());
-		T2_series2.setData(T1_series2.getData());
-		T2_series3.setData(T1_series3.getData());
-
-		T3_series1.setData(T1_series1.getData());
-		T3_series2.setData(T1_series2.getData());
-		T3_series3.setData(T1_series3.getData());
-
-		T4_series1.setData(T1_series1.getData());
-		T4_series2.setData(T1_series2.getData());
-		T4_series3.setData(T1_series3.getData());
-
-		T5_series1.setData(T1_series1.getData());
-		T5_series2.setData(T1_series2.getData());
-		T5_series3.setData(T1_series3.getData());
-
-		T6_series1.setData(T1_series1.getData());
-		T6_series2.setData(T1_series2.getData());
-		T6_series3.setData(T1_series3.getData());
-
-		T7_series1.setData(T1_series1.getData());
-		T7_series2.setData(T1_series2.getData());
-		T7_series3.setData(T1_series3.getData());
-
-		T8_series1.setData(T1_series1.getData());
-		T8_series2.setData(T1_series2.getData());
-		T8_series3.setData(T1_series3.getData());
-
-		T9_series1.setData(T1_series1.getData());
-		T9_series2.setData(T1_series2.getData());
-		T9_series3.setData(T1_series3.getData());
+		}
 	}
 
 	private void clearSeries() {
-		T1_series1.getData().clear();
-		T1_series2.getData().clear();
-		T1_series3.getData().clear();
+		for (int i = 0; i < T_seriesZ.size(); i++)
+			T_seriesZ.get(i).getData().clear();
+	}
 
-		T2_series1.getData().clear();
-		T2_series2.getData().clear();
-		T2_series3.getData().clear();
+	/** 改变LineChart的高度 */
+	public void alterSplitPaneHight(double hight) {
+		SplitPane pane = null;
+		AnchorPane anchorpane = null;
+		VBox box = null;
+		Label label = null;
+		for (int i = 0; i < mVBoxLineChart.getChildren().size(); i++) {
+			pane = (SplitPane) mVBoxLineChart.getChildren().get(i);
+			pane.setPrefHeight(hight);
+			anchorpane = (AnchorPane) pane.getItems().get(0);
+			box = (VBox) anchorpane.getChildren().get(1);
+			for (int j = 0; j < box.getChildren().size(); j++) {
+				label = (Label) box.getChildren().get(j);
+				label.setPrefHeight(hight / 3);
+			}
 
-		T3_series1.getData().clear();
-		T3_series2.getData().clear();
-		T3_series3.getData().clear();
+		}
+	}
 
-		T4_series1.getData().clear();
-		T4_series2.getData().clear();
-		T4_series3.getData().clear();
+	/**
+	 * 初始化放大缩小波形图及P波调整功能
+	 */
+	public void initZoomSize() {
+		mText_P.setText(Double.toString(mSlider_P.getValue()));
+		mText_lower.setText(Double.toString(mSlider_lower.getValue()));
+		mText_upper.setText(Double.toString(mSlider_upper.getValue()));
+		// 监听Slider的值是否发生改变
+		mSlider_P.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				mText_P.setText(String.format("%.2f", newValue));
+				if (tIndex == 0)
+					return;
+				double temp = pArray.get(tIndex - 1).getData().get(1).getYValue().doubleValue();
+				pArray.get(tIndex - 1).getData().clear();
+				XYChart.Data<Number, Number> data1 = new XYChart.Data<Number, Number>(newValue, 0);
+				XYChart.Data<Number, Number> data2 = new XYChart.Data<Number, Number>(newValue, temp);
+				pArray.get(tIndex - 1).getData().addAll(data1, data2);
+			}
+		});
+		mSlider_lower.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				// 设置X坐标轴的下界不能超过X坐标轴的上界
+				if (newValue.doubleValue() >= mSlider_upper.getValue() - 5000) {
+					mSlider_lower.setValue(mSlider_upper.getValue() - 5000);
+					return;
+				}
+				// 将SLider的值显示出来
+				mText_lower.setText(String.format("%.2f", newValue));
+				// 设置X坐标轴的low值
+				setXlowerBound(newValue.doubleValue());
 
-		T5_series1.getData().clear();
-		T5_series2.getData().clear();
-		T5_series3.getData().clear();
+			}
+		});
+		mSlider_upper.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				// 设置X坐标轴的下界不能超过X坐标轴的上界
+				if (newValue.doubleValue() <= mSlider_lower.getValue() + 5000) {
+					mSlider_upper.setValue(mSlider_lower.getValue() + 5000);
+					return;
+				}
+				// 将SLider的值显示出来
+				mText_upper.setText(String.format("%.2f", newValue));
+				// 设置X坐标轴的Up值
+				setXupperrBound(newValue.doubleValue());
+			}
+		});
+		// 监听用户是否按下回车按键
+		mText_P.setOnKeyReleased(event -> {
+			if (event.getCode() == KeyCode.ENTER) {
+				// 防止非法输入
+				if (Double.parseDouble(mText_P.getText()) >= 90000.0)
+					mText_P.setText("90000.0");
+				if (Double.parseDouble(mText_P.getText()) <= 0.0)
+					mText_P.setText("0.0");
+				mSlider_P.setValue(Double.parseDouble(mText_P.getText()));
+			}
+		});
+		mText_lower.setOnKeyReleased(event -> {
+			if (event.getCode() == KeyCode.ENTER) {
+				if (Double.parseDouble(mText_lower.getText()) >= 90000.0)
+					mText_lower.setText("85000.0");
+				if (Double.parseDouble(mText_lower.getText()) <= 0.0)
+					mText_lower.setText("0.0");
+				mSlider_lower.setValue(Double.parseDouble(mText_lower.getText()));
+			}
+		});
+		mText_upper.setOnKeyReleased(event -> {
+			if (event.getCode() == KeyCode.ENTER) {
+				if (Double.parseDouble(mText_upper.getText()) >= 90000.0)
+					mText_upper.setText("90000.0");
+				if (Double.parseDouble(mText_upper.getText()) <= 5000.0)
+					mText_upper.setText("5000.0");
+				mSlider_upper.setValue(Double.parseDouble(mText_upper.getText()));
+			}
+		});
+	}
 
-		T6_series1.getData().clear();
-		T6_series2.getData().clear();
-		T6_series3.getData().clear();
+	/**
+	 * 设置X坐标轴的下界
+	 * 
+	 * @param lower
+	 */
+	private void setXlowerBound(double lower) {
+		for (int i = 0; i < T_xAxis.size(); i++)
+			T_xAxis.get(i).setLowerBound(lower);
+		timerXaxis.setLowerBound(lower);
+	}
 
-		T7_series1.getData().clear();
-		T7_series2.getData().clear();
-		T7_series3.getData().clear();
+	/**
+	 * 设置X坐标轴的上界
+	 * 
+	 * @param upper
+	 */
+	private void setXupperrBound(double upper) {
+		for (int i = 0; i < T_xAxis.size(); i++)
+			T_xAxis.get(i).setUpperBound(upper);
+		timerXaxis.setUpperBound(upper);
+	}
 
-		T8_series1.getData().clear();
-		T8_series2.getData().clear();
-		T8_series3.getData().clear();
+	/**
+	 * 设置波形图表的锚点
+	 * 
+	 * @param i
+	 * @param child
+	 * @param label
+	 */
+	private void setChartAnchor(int i, Node child, Label label) {
+		SplitPane pane = null;
+		AnchorPane anpane = null;
+		AnchorPane anpaneLeft = null;
+		pane = (SplitPane) mVBoxLineChart.getChildren().get(i);
+		anpane = (AnchorPane) pane.getItems().get(1);
+		final StackPane stackpane = (StackPane) anpane.getChildren().get(0);
+		anpane = (AnchorPane) stackpane.getChildren().get(0);
+		anpane.setTopAnchor(child, -15.0);
+		anpane.setBottomAnchor(child, -39.0);
+		anpane.setLeftAnchor(child, -65.0);
+		anpane.setRightAnchor(child, -10.0);
+		anpane.getChildren().addAll(child);
+		stackpane.getChildren().addAll(label);
+		stackpane.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				label.setVisible(false);
+			}
+		});
+		/** 设置StackPhone孩子的对齐方式 */
+//		stackpane.setAlignment(Pos.TOP_LEFT);
+		stackpane.setAlignment(label, Pos.TOP_LEFT);
 
-		T9_series1.getData().clear();
-		T9_series2.getData().clear();
-		T9_series3.getData().clear();
+		/** 对显示XY坐标的Label进行鼠标跟随操作 */
+		stackpane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent e) {
+
+				if (e.getX() >= stackpane.getWidth() / 2)
+					label.setTranslateX(e.getX() - 110);
+				else
+					label.setTranslateX(e.getX());
+
+				if (e.getY() >= stackpane.getHeight() / 2)
+					label.setTranslateY(e.getY() - 20);
+				else
+					label.setTranslateY(e.getY());
+			}
+		});
+		anpaneLeft = (AnchorPane) pane.getItems().get(0);
+		anpaneLeft.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if (Tools_DataCommunication.getCommunication().P_array == null)
+					return;
+				tIndex = i + 1;
+				mSlider_P.setValue(Tools_DataCommunication.getCommunication().P_array[i]);
+			}
+		});
+	}
+
+	/**
+	 * 监听鼠标悬停事件 更新Label中XY的坐标信息
+	 * 
+	 * @param data
+	 * @param index
+	 */
+	private void setShowDataLabel(XYChart.Data<Number, Number> data, Label label) {
+		data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent e) {
+				/** 这里不对显示XY坐标的Label的位置进行修改，因为这里是Data的监听事件 */
+				label.setVisible(true);
+				label.setText("(" + String.valueOf(data.getXValue()) + "," + String.valueOf(data.getYValue()) + ")");
+			}
+		});
+	}
+
+	/**保存更改过后的P波到时位置*/
+	public void saveP() {
+		saveCSV sa=new saveCSV(this.filePath, pArray);
+		try {
+			sa.save();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

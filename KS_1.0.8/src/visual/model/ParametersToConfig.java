@@ -25,7 +25,7 @@ public class ParametersToConfig {
 	public ParametersToConfig() throws IOException {
 		String j = System.getProperty("user.dir");// get the procedure absolute path.
 		this.filePath = j + "/Config.ini";// get the config file.
-		System.out.println(filePath);
+//		System.out.println(filePath);
 		save(this.filePath);
 	}
 
@@ -172,7 +172,7 @@ public class ParametersToConfig {
 						buf.append("motivationDiagnose = " + Parameters.motivationDiagnose + "\n");
 					}
 					if (item[0].equals("diskName")) {
-						buf.append("diskName = " + Parameters.diskName + "\n");
+						buf.append("diskName = " + stringArrayToString(Parameters.diskName) + "\n");
 					}
 					if (item[0].equals("isStorageOneMinuteData")) {
 						buf.append("isStorageOneMinuteData = " + Parameters.isStorageOneMinuteData + "\n");
@@ -272,5 +272,14 @@ public class ParametersToConfig {
 			e.printStackTrace();
 		}
 
+	}
+
+	private String stringArrayToString(String[] s) {
+		String temp = "";
+		for (int i = 0; i < s.length; i++) {
+			temp += s[i].toString().replace(" ", ",");
+		}
+		System.out.print("11:    "+temp);
+		return temp;
 	}
 }

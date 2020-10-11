@@ -27,7 +27,7 @@ public class ShowCADController implements Initializable {
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(500);
+					Thread.sleep(2000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -39,24 +39,53 @@ public class ShowCADController implements Initializable {
 				if (browser.executeJavaScriptAndReturnValue("mybool").getBooleanValue()) {
 					Tools_DataCommunication.getCommunication().isFinishLoadCAD = true;
 					System.out.println("CAD加载完成！");
+					deleteALL();
 				}
 			}
 		}).start();
 	}
 
-	/** 二维CAD图纸 */
-	public void exeJs(double x, double y, double r) {
-		browser.executeJavaScript("MyCircle(" + x + "," + y + "," + r + ")");
-		
-		double d = Math.sqrt(x * x + y * y);
-		
-		double z=(r/y)*d;
-		
-		browser.executeJavaScript("MyView(" + (x - z) + "," + (y - z) + "," + (x + z) + "," + (y + z) + ")");
+	/** 二维CAD图纸 。用于在JxBrowser组件上显示点击事件的定位点 */
+	public void exeJs(double x, double y, double r,String kind) {
+		String strJs=null;
+		if(kind.equals("PSO"))//PSO[0,0,255]蓝色
+		{
+			strJs = "MyCircle(" + x + "," + y + "," + r +",0,0,255"+ ")";
+		}
+		else if(kind.equals("five")){//five[0,255,0]绿色
+			strJs = "MyCircle(" + x + "," + y + "," + r +",0,255,0"+ ")";
+		}
+		else if(kind.equals("three")) {//three[255,0,0]红色
+			strJs = "MyCircle(" + x + "," + y + "," + r +",255,0,0"+ ")";
+		}
+			
+//		System.out.println(strJs);
+		if(strJs==null)
+		{
+			System.out.println("============Error：ShowCADController类中调用JS方法的字符串为空==================");
+			return;
+		}
+			
+		browser.executeJavaScript(strJs);
+
+		/** 把定位点放到视区的中心上 */
+//		double d = Math.sqrt(x * x + y * y);
+//		double z = (r / y) * d;
+//		browser.executeJavaScript("MyView(" + (x - z) + "," + (y - z) + "," + (x + z) + "," + (y + z) + ")");
 	}
 
 	/** 三维CAD图纸 */
 	public void exeJs(double x, double y, double z, double r) {
 
+	}
+
+	/** 删除CAD上所有定位点 */
+	public void deleteALL() {
+		browser.executeJavaScript("MydeleteAll()");
+	}
+
+	/** 二维CAD图纸。用于绘制由通过查询约束查询到的所有事件的定位点 */
+	public void ShowcircleALL(double x, double y, double r) {
+		browser.executeJavaScript("MyCircleALL(" + x + "," + y + "," + r + ")");
 	}
 }

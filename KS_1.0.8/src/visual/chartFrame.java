@@ -139,7 +139,7 @@ public class chartFrame extends Thread{
 		return (long) (Math.random() * 20);
 	}
 	
-	private int historyData(int series) {
+	public int historyData(int series) {
 		//get the data from history records.
 		
 		if(MainThread.aDataRec[number].afterVector!=null) {

@@ -19,63 +19,99 @@ import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
 
 import bean.QuackResults;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import mutiThread.MainThread;
+import visual.Main;
 import visual.MainFrame;
 import visual.Preferences;
+import visual.disasterCheck;
 import visual.historyQuery;
 
 public class UIController {
+	@FXML
+	private SplitPane mSplitpaneSum;
 
-//--------------------------CAD绘制--------------------------
+	public SplitPane getmSplitpaneSum() {
+		return mSplitpaneSum;
+	}
+
+	@FXML
+	private SplitPane mSplitpane;
+
+	public SplitPane getmSplitpane() {
+		return mSplitpane;
+	}
+
+	// -----------------------------CAD------------------
 	@FXML
 	private AnchorPane mGreenPane;
+
 	@FXML
 	private BorderPane mBorderPane;
+	@FXML
+	private Label mLabel_neweve;
 //--------------------------表格-------------------
 	@FXML
 	private AnchorPane mYellowPane;
+
+	@FXML
+	private ComboBox<String> mComboBox;
+	@FXML
+	private Label mEventLabel;
+
 	@FXML
 	private TableView<TableData> mTableView;
-	@FXML
-	private TableColumn<TableData, String> eventIndex;// 触发事件序号
-	@FXML
-	private TableColumn<TableData, String> eventTime;// 触发时间
-	@FXML
-	private TableColumn<TableData, String> eventLoca;// 触发台站
-	@FXML
-	private TableColumn<TableData, String> eventPos;// 定位坐标
-	@FXML
-	private TableColumn<TableData, String> energy;// 能量
-	@FXML
-	private TableColumn<TableData, String> grade;// 震级
-//--------------------------波形图-------------------
+
+//------------------------波形图-------------------
 	@FXML
 	private AnchorPane mBluePane;
+
 	@FXML
-	private LineChart<Number, Number> mChart_T1;
+	private VBox mVBoxLineChart;
+
+	public VBox getmVBoxLineChart() {
+		return mVBoxLineChart;
+	}
+
 	@FXML
-	private LineChart<Number, Number> mChart_T2;
+	private Slider mSlider_P;
 	@FXML
-	private LineChart<Number, Number> mChart_T3;
+	private Slider mSlider_lower;
 	@FXML
-	private LineChart<Number, Number> mChart_T4;
+	private Slider mSlider_upper;
 	@FXML
-	private LineChart<Number, Number> mChart_T5;
+	private TextField mText_P;
 	@FXML
-	private LineChart<Number, Number> mChart_T6;
+	private TextField mText_lower;
 	@FXML
-	private LineChart<Number, Number> mChart_T7;
+	private TextField mText_upper;
+
 	@FXML
-	private LineChart<Number, Number> mChart_T8;
-	@FXML
-	private LineChart<Number, Number> mChart_T9;
+	private SplitPane mTimerSplitPane;
 
 //------------------------------------------------------------------
 //--------------------------按钮绑定的事件--------------------------
@@ -83,11 +119,6 @@ public class UIController {
 	@FXML
 	void onClickStart(ActionEvent event) {// 运行
 		Tools_DataCommunication.getCommunication().showandcloseMyConsole();
-//		if (MainThread.exitVariable_visual == true) {
-//			MainThread.exitVariable_visual = false;
-//			MainThread main = new MainThread();
-//			main.start();
-//		}
 		System.out.println("按下运行按钮");
 	}
 
@@ -104,15 +135,40 @@ public class UIController {
 	}
 
 	@FXML
-	void onClickHistoryQuery(ActionEvent event) {// 历史查询
-		System.out.println("按下历史查询按钮");
-		try {
-			historyQuery window = new historyQuery();
-			window.open();
-		} catch (Exception e) {
-			e.printStackTrace();
+	void onClickHistoryQuery(ActionEvent event) throws IOException {// 实时监测
+		if (MainThread.exitVariable_visual) {
+			// 弹出对话框
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("提示");
+			alert.setHeaderText("请先点击运行按钮");
+			alert.setContentText("计算程序运行后，方可查看实时数据");
+			alert.showAndWait();
+			return;
 		}
-
+		System.out.println("按下实时监测按钮");
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/CurrentTimeLinechart.fxml"));
+//		//获得RootLayout对象
+		AnchorPane root = (AnchorPane) loader.load();
+		CurrentTimeLinechartController control = loader.getController();
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.setTitle("实时监测");
+		stage.getIcons().add(new Image(Main.class.getResourceAsStream("view/lndx.png")));
+		stage.setResizable(false);// 禁止对窗口进行拉伸操作！
+		stage.show();
+		/** 监听窗口关闭操作 */
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				for (int i = 0; i < control.getT_seriesZ().size(); i++)
+					control.getT_seriesZ().get(i).getData().clear();
+				control.getTime_seriesZ().getData().clear();
+				control.ani_stop();
+//				System.exit(0);
+			}
+		});
 	}
 
 	@FXML
@@ -130,7 +186,6 @@ public class UIController {
 
 	@FXML
 	void onClickHelp(ActionEvent event) {// 帮助
-
 		try {
 			// 打开当前文件
 			Desktop.getDesktop().open(new File("C:\\Users\\Sunny\\Desktop\\说明"));
@@ -141,53 +196,93 @@ public class UIController {
 	}
 
 	@FXML
+	void onClickQuery(ActionEvent event) throws IOException {// 查询
+		System.out.println("按下查询按钮");
+
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/QueryPanel.fxml"));
+//		//获得RootLayout对象
+		AnchorPane root = (AnchorPane) loader.load();
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.setTitle("查询面板");
+		stage.getIcons().add(new Image(Main.class.getResourceAsStream("view/lndx.png")));
+		stage.setResizable(false);// 禁止对窗口进行拉伸操作！
+		stage.show();
+
+		/** 监听窗口关闭操作 */
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				Tools_DataCommunication.getCommunication().getmCAD().getController().deleteALL();
+				Tools_DataCommunication.getCommunication().dataList_QueryPanel.clear();
+				mTableView.setItems(Tools_DataCommunication.getCommunication().dataList);
+				System.out.println("查询界面关闭");
+			}
+		});
+	}
+
+	@FXML
 	void onClickTest(ActionEvent event) {// Test
 		System.out.println("按下Test按钮");
-		String adate = "20" + "170524151342";
-		Date date = new Date();
-		DateFormat formatDate = new SimpleDateFormat("yyyyMMddHHmmss");
-		try {
-			date = formatDate.parse(adate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 
 		DateFormat formatDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// 三台站：[x=4595388.504 # y=41518099.807 # z=22.776 # Time=2019-11-26 12:38:27 #
-		// Grade=-0.22#Parrival0.0--------------------------------------------------------------------------]
+		String time = formatDateTime.format(new Date());
 
-		String time = formatDateTime.format(date);
-		Timestamp timestamp = Timestamp.valueOf(time);
 		QuackResults aQuackResults3 = new QuackResults(1, 1, 1, time, 5.2, 0.2, " ", 0.0, 0.0,
-				"D:/data/ConstructionData/5data/25613 2020-05-01 09-33-15`05.csv",0.0,"",0.0);
+				"D:/data/ConstructionData/5data/25613 2020-05-01 09-33-15`05.csv", 0.0, "five",0.0);
 		DbExcute aDbExcute = new DbExcute();
 		aDbExcute.addElement3(aQuackResults3);
 	}
 
 	@FXML
-	void onZoomIN(ActionEvent event) {
-		System.out.println("放大");
-	}
-
-	@FXML
-	void onZoomOut(ActionEvent event) {
-		System.out.println("缩小");
-	}
-
-	@FXML
-	void onRestore(ActionEvent event) {
+	void onRestore(ActionEvent event) {// 还原
+		mSlider_lower.setValue(0.0);
+		mSlider_upper.setValue(90000.0);
 		System.out.println("还原");
+	}
+
+	@FXML
+	void onSaveP(ActionEvent event) {// 保存P波到时
+		System.out.println("保存P波到时");
+		if (Tools_DataCommunication.getCommunication().csvPath == null
+				|| Tools_DataCommunication.getCommunication().getmChart().gettIndex() == 0)
+			return;
+		// 弹出对话框
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("警告");
+		alert.setHeaderText("您确定要保存此时的P波到时吗？");
+		alert.setContentText("该操作不可恢复！！！");
+		alert.showAndWait().ifPresent(response -> {
+			if (response == ButtonType.OK) {
+				Tools_DataCommunication.getCommunication().getmChart().saveP();
+				System.out.println("保存成功");
+			}
+		});
+
 	}
 
 	// 在Main程序加载fxml文件时候执行
 	@FXML
 	void initialize() {
-		Tools_DataCommunication.getCommunication().showCAD(mBorderPane);// 显示CAD
-		// 将TableColumn与TableData每一个属性连接起来
-		Tools_DataCommunication.getCommunication().InitTableViewData(eventIndex, eventTime, eventLoca, eventPos, energy,
-				grade);
-		Tools_DataCommunication.getCommunication().ShowTableView(mTableView);// 显示TableView
-		Tools_DataCommunication.getCommunication().ShowLineChart(mChart_T1, mChart_T2, mChart_T3, mChart_T4, mChart_T5,
-				mChart_T6, mChart_T7, mChart_T8, mChart_T9);// 显示波形图
+		// 获取当前UI主界面控制类
+		Tools_DataCommunication.getCommunication().setController(this);
+		// 显示CAD
+		Tools_DataCommunication.getCommunication().showCAD(mLabel_neweve, mBorderPane);
+		// 显示TableView
+		Tools_DataCommunication.getCommunication().ShowTableView(mTableView, mComboBox, mEventLabel);
+		// 显示波形图
+		Tools_DataCommunication.getCommunication().ShowLineChart(mSlider_P, mText_P, mSlider_lower, mSlider_upper,
+				mText_lower, mText_upper, mVBoxLineChart, mTimerSplitPane);
+		mVBoxLineChart.heightProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				// TODO Auto-generated method stub
+				Tools_DataCommunication.getCommunication().getmChart()
+						.alterSplitPaneHight(newValue.doubleValue() / mVBoxLineChart.getChildren().size());
+			}
+		});
 	}
 }

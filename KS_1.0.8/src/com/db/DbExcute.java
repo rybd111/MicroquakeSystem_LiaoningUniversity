@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.tools.Tool;
+
 import com.h2.constant.Parameters;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
@@ -39,7 +41,7 @@ public class DbExcute {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
+			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
 	}
 
@@ -58,14 +60,14 @@ public class DbExcute {
 	}
 
 	/***
-	 * 从数据库读取表名为：mine_quack_3_results的表 只调用了一次，在客户端程序启动时读取数据库
+	 * 在客户端程序启动时读取数据库
 	 * 
 	 * @param sql
 	 * @return
 	 * @author Sunny
 	 */
 	@SuppressWarnings("unchecked")
-	public ResultSet Query3(String sql) {
+	public ResultSet Query_3_5(String sql) {
 		try {
 			connection = JdbcUtil.getConnection();
 			statement = connection.createStatement();
@@ -80,9 +82,10 @@ public class DbExcute {
 			 */
 			while (resultSet.next()) {
 				Tools_DataCommunication.getCommunication().dataList.add(new TableData(resultSet.getString("id"),
-						resultSet.getString("quackTime"), resultSet.getString("panfu"),
+						resultSet.getString("quackTime"),  resultSet.getString("kind"), resultSet.getString("panfu"),
 						resultSet.getString("xData") + "," + resultSet.getString("yData") + ","	+ resultSet.getString("zData"),
 						resultSet.getString("nengliang"), resultSet.getString("quackGrade"),
+						resultSet.getString("parrival"), resultSet.getString("tensor"),resultSet.getString("b_Value"),
 						new QuackResults(resultSet.getDouble("xData"), resultSet.getDouble("yData"),
 								resultSet.getDouble("zData"), resultSet.getString("quackTime"),
 								resultSet.getDouble("quackGrade"), resultSet.getDouble("Parrival"),
@@ -135,17 +138,20 @@ public class DbExcute {
 				if (isadd) {// 如果表新添加了数据，就把数据显示在TableView表中
 					// 添加新数据
 					TableData data1 = new TableData(resultSet.getString("id"), resultSet.getString("quackTime"),
-							resultSet.getString("panfu"),
+							resultSet.getString("kind"),	resultSet.getString("panfu"),
 							resultSet.getString("xData") + "," + resultSet.getString("yData") + ","	+ resultSet.getString("zData"),
 							resultSet.getString("nengliang"), resultSet.getString("quackGrade"),
+							resultSet.getString("parrival"), resultSet.getString("tensor"),resultSet.getString("b_value"),
 							new QuackResults(resultSet.getDouble("xData"), resultSet.getDouble("yData"),
 									resultSet.getDouble("zData"), resultSet.getString("quackTime"),
 									resultSet.getDouble("quackGrade"), resultSet.getDouble("Parrival"),
 									resultSet.getString("panfu"), resultSet.getDouble("duringGrade"),
-									resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), resultSet.getDouble("tensor"), resultSet.getString("kind"), resultSet.getDouble("b_value")));
+									resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), resultSet.getDouble("tensor"), 
+									resultSet.getString("kind"), resultSet.getDouble("b_value")));
 
 					Tools_DataCommunication.getCommunication().dataList.add(data1);
-
+					Tools_DataCommunication.getCommunication().getmCAD()
+							.updataNewLabel(resultSet.getString("quackTime"));
 					/** 自动在UI界面上显示新数据 */
 					Tools_DataCommunication.getCommunication().getmTableView().autoShowData(data1);
 				}
@@ -188,7 +194,7 @@ public class DbExcute {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
+			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
 	}
 
@@ -266,7 +272,7 @@ public class DbExcute {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
+			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
 
 		for (int j = 0; j < al.size(); j++) {
@@ -302,6 +308,49 @@ public class DbExcute {
 
 	public void deleteRepate(String sql) {
 		update(sql);
+	}
+
+	/**
+	 * 用于查询面板上对数据库进行查询操作的函数
+	 * 
+	 * @author Sunny
+	 * @param sql
+	 */
+	@SuppressWarnings("unchecked")
+	public void Query_panel(String sql) {
+		if (sql == null || sql == "" || sql == " ")
+			return;
+		Tools_DataCommunication.getCommunication().dataList_QueryPanel.clear();
+		try {
+			connection = JdbcUtil.getConnection();
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			/***
+			 * @param eventIndex 事件序号
+			 * @param eventTime  触发时间
+			 * @param eventLoca  触发台站
+			 * @param eventPos   定位坐标
+			 * @param energy     能量
+			 * @param grade      震级
+			 */
+			while (resultSet.next()) {
+				Tools_DataCommunication.getCommunication().dataList_QueryPanel.add(new TableData(
+						resultSet.getString("id"), resultSet.getString("quackTime"), resultSet.getString("kind"), resultSet.getString("panfu"),
+						resultSet.getString("xData") + "," + resultSet.getString("yData") + ","	+ resultSet.getString("zData"),
+						resultSet.getString("nengliang"), resultSet.getString("quackGrade"),
+						resultSet.getString("parrival"), resultSet.getString("tensor"),resultSet.getString("b_value"),
+						new QuackResults(resultSet.getDouble("xData"), resultSet.getDouble("yData"),
+								resultSet.getDouble("zData"), resultSet.getString("quackTime"),
+								resultSet.getDouble("quackGrade"), resultSet.getDouble("Parrival"),
+								resultSet.getString("panfu"), resultSet.getDouble("duringGrade"),
+								resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), resultSet.getDouble("tensor"), 
+								resultSet.getString("kind"), resultSet.getDouble("b_value"))));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.releaseResources(resultSet, statement, connection);
+		}
 	}
 
 }

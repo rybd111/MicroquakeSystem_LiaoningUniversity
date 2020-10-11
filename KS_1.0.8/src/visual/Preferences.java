@@ -101,7 +101,7 @@ public class Preferences extends ApplicationWindow {
 		b1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("点击了确认修改按钮");
+//				System.out.println("点击了确认修改按钮");
 				sureAlter();
 				try {
 					ParametersToConfig p = new ParametersToConfig();
@@ -109,19 +109,8 @@ public class Preferences extends ApplicationWindow {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				//结束程序
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						Tools_DataCommunication.getCommunication().isClient = false;
-						try {
-							Thread.sleep(50);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						System.exit(0);
-					}
-				}).start();
+				// 结束程序
+				Tools_DataCommunication.getCommunication().exitThreadAll();
 			}
 
 		});
@@ -136,9 +125,24 @@ public class Preferences extends ApplicationWindow {
 		b2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				restoreValue(t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7, t1_8, t1_9, t1_10, t1_11, t1_12, t1_13, t1_14,
-						t1_15, t1_16, t1_17, t1_18, t1_19, t3_2, t3_31, t3_32, t2_2, t2_31, t2_32, t4_1, t4_2, t4_3,
-						t4_4, t4_5, t4_6, t4_7);
+
+//				restoreValue(t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7, t1_8, t1_9, t1_10, t1_11, t1_12, t1_13, t1_14,
+//						t1_15, t1_16, t1_17, t1_18, t1_19, t3_2, t3_31, t3_32, t2_2, t2_31, t2_32, t4_1, t4_2, t4_3,
+//						t4_4, t4_5, t4_6, t4_7);
+				String initPath = System.getProperty("user.dir") + "/InitConfig.ini";
+//				System.out.println(initPath);
+				try {
+					ConfigToParameters c = new ConfigToParameters(initPath);
+					ParametersToConfig p = new ParametersToConfig();
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				// 结束程序
+				Tools_DataCommunication.getCommunication().exitThreadAll();
 			}
 		});
 		b2.setText("恢复原值");
@@ -561,6 +565,34 @@ public class Preferences extends ApplicationWindow {
 		return temp;
 	}
 
+	/**
+	 * 
+	 * @author Sunny
+	 * @param s
+	 * @return
+	 */
+	public static double[][] string_ToDoubleArray(String s) {
+		String[] temp1 = s.split("\n");
+		double[][] doubtemp = { { 0.0, 0.0, 0.0 }, // T
+				{ 0.0, 0.0, 0.0 }, // U
+				{ 0.0, 0.0, 0.0 }, // W
+				{ 0.0, 0.0, 0.0 }, // X
+				{ 0.0, 0.0, 0.0 }, // Z
+				{ 0.0, 0.0, 0.0 }, // Y
+				{ 0.0, 0.0, 0.0 }, // V
+				{ 0.0, 0.0, 0.0 }, // S
+				{ 0.0, 0.0, 0.0 }// R
+		};
+		for (int i = 0; i < temp1.length; i++) {
+			String[] temp2 = temp1[i].split("  ");
+			for (int j = 0; j < temp2.length; j++) {
+				System.out.print(temp2[i]);
+			}
+			System.out.println("\n" + temp2.length);
+		}
+		return null;
+	}
+
 	public static String double_twoDimarrayToLine_non(double[][] s) {
 		String temp = "";
 
@@ -616,12 +648,23 @@ public class Preferences extends ApplicationWindow {
 
 	public static String string_arrayToSingle(String[] s) {
 		String temp = "";
-
 		for (int i = 0; i < s.length; i++) {
 			temp += s[i] + " ";
 			temp += " \n";
 		}
+		return temp;
+	}
 
+	/**
+	 * 
+	 * @author Sunny
+	 * @param s
+	 * @return
+	 */
+	public static String[] string_ToStringArray(String s) {
+		String[] temp = s.split("\n");
+		for (int i = 0; i < temp.length; i++)
+			temp[i] = temp[i].substring(0, 4);
 		return temp;
 	}
 
@@ -713,6 +756,11 @@ public class Preferences extends ApplicationWindow {
 
 	}
 
+	/***
+	 * 所有的TODO:都是被final修饰的
+	 * 
+	 * @author Sunny
+	 */
 	private void sureAlter() {
 		Parameters.distanceToSquareWave = Double.parseDouble(t1_1.getText());
 		Parameters.ShortCompareLong = Double.parseDouble(t1_2.getText());
@@ -724,23 +772,23 @@ public class Preferences extends ApplicationWindow {
 		Parameters.plusSingle_coefficient = Double.parseDouble(t1_8.getText());
 		Parameters.plusDouble_coefficient_45 = Double.parseDouble(t1_9.getText());
 		Parameters.plusDouble_coefficient_12 = Double.parseDouble(t1_10.getText());
-//		Parameters.backGround=Double.parseDouble(t1_11.getText());
+//TODO:	Parameters.backGround=Double.parseDouble(t1_11.getText());
 		Parameters.FREQUENCY = Integer.parseInt(t1_12.getText());
-//		Parameters.LONGTIMEWINDOW = Integer.parseInt(t1_13.getText());
-//		Parameters.SHORTTIMEWINDOW = Integer.parseInt(t1_14.getText());
+//TODO:	Parameters.LONGTIMEWINDOW = Integer.parseInt(t1_13.getText());
+//TODO:	Parameters.SHORTTIMEWINDOW = Integer.parseInt(t1_14.getText());
 		Parameters.startTime = Integer.parseInt(t1_15.getText());
 		Parameters.endTime = Integer.parseInt(t1_16.getText());
 		Parameters.INTERVAL = Integer.parseInt(t1_17.getText());
 		Parameters.C = Integer.parseInt(t1_18.getText());
-//		Parameters.S = Double.parseDouble(t1_19.getText());
+//TODO:	Parameters.S = Double.parseDouble(t1_19.getText());
 
-//		Parameters.diskName = Double.parseDouble(t2_2.getText());
-//		Parameters.diskName = Double.parseDouble(t2_31.getText());
-//		Parameters.SENSORINFO = Double.parseDouble(t2_32.getText());
-//
-//		Parameters.diskName_offline = Double.parseDouble(t3_2.getText());
-//		Parameters.diskName_offline = Double.parseDouble(t3_31.getText());
-//		Parameters.SENSORINFO_offline_hongyang = Double.parseDouble(t3_32.getText());
+		Parameters.diskName = string_ToStringArray(t2_2.getText());
+/** Parameters.diskName = string_ToStringArray(t2_31.getText()); */
+//TODO:	Parameters.SENSORINFO = Double.parseDouble(t2_32.getText());
+
+//TODO:	Parameters.diskName_offline = Double.parseDouble(t3_2.getText());
+//TODO:	Parameters.diskName_offline = Double.parseDouble(t3_31.getText());
+//TODO:	Parameters.SENSORINFO_offline_hongyang = Double.parseDouble(t3_32.getText());
 
 		Parameters.MinusAFixedOnMagtitude = Boolean.parseBoolean(t4_1.getText());
 		Parameters.IntervalToOtherSensors = Integer.parseInt(t4_2.getText());

@@ -39,6 +39,13 @@ public class ConfigToParameters {
 		System.out.println(filePath);
 		Load(this.filePath);//get the variables in config file.
 	}
+	
+	public ConfigToParameters(String path) throws NumberFormatException, IOException {
+		this.filePath = path;
+		System.out.println(filePath);
+		Load(this.filePath);// get the variables in config file.
+	}
+	
 	/**
 	 * read the csv file's specific contents in coal mine files.
 	 * we need to know csv file must have different format, so this function only adapt for our current csv file.
