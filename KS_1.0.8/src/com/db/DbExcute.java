@@ -90,7 +90,7 @@ public class DbExcute {
 								resultSet.getDouble("zData"), resultSet.getString("quackTime"),
 								resultSet.getDouble("quackGrade"), resultSet.getDouble("Parrival"),
 								resultSet.getString("panfu"), resultSet.getDouble("duringGrade"),
-								resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), resultSet.getDouble("tensor"), resultSet.getString("kind"), resultSet.getDouble("b_value"))));
+								resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), resultSet.getDouble("tensor"), resultSet.getString("kind"), resultSet.getDouble("b_Value"))));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
