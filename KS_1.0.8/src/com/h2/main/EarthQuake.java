@@ -272,6 +272,8 @@ public class EarthQuake {
 			if(countNumber >= 5 && EarthQuake.realMoti==true) {
 				//write to a txt file to indicate the motivation time of each sensor.
 				WriteRecords.WriteSeveralMotiTime(sensors1, Parameters.AbsolutePath_allMotiTime_record);
+				//write to datacenter.
+				WriteRecords.WriteSeveralMotiTime(sensors1, Parameters.AbsolutePath_allMotiTime_record_dataCenter);
 			}
 			
 			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.

@@ -120,7 +120,7 @@ public class writeToDisk {
 				//write on the local disk.
 				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv", lineInNewData, s1);
 				//write on the data center.
-//				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5_dataCenter+panfu+motiDate+".csv", lineInNewData, s1);
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5_dataCenter+panfu+motiDate+".csv", lineInNewData, s1);
 				for(int i=0;i<s1.length;i++)
 					s1[i].setFilename_S(Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv");//文件名
 			}
@@ -129,7 +129,7 @@ public class writeToDisk {
 				//write on the local disk.
 				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv", lineInNewData, s1);
 				//write on the data center.
-//				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3_dataCenter+panfu+motiDate+".csv", lineInNewData, s1);
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3_dataCenter+panfu+motiDate+".csv", lineInNewData, s1);
 				for(int i=0;i<s1.length;i++)
 					s1[i].setFilename_S(Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv");//文件名
 			}
