@@ -1,6 +1,6 @@
 function [Pdc] = tensor_pro(a,tongdao,tlineb,density,velocity)
 %TENSOR_PRO this function will fine the tensor.
-%这个函数是求某个事件的矩张量，输出为double，输入为3个数组，分别为所有矿区内布置的传感器坐标，激发传感器序号和最大振幅，以及震源坐标。
+%这个函数是求某个事件的矩张量，输出为double，输入为3个数组，分别为所有矿区内布置的传感器坐标，激发传感器序号和P波初动极值，以及震源坐标。
 %a、tongdao是二维数组，tlineb是一维数组。
 
 %tongdao denotes the info of each motivatied sensor.
