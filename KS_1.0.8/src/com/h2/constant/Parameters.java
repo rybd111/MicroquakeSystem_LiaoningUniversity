@@ -3,8 +3,8 @@ package com.h2.constant;
 import mutiThread.MainThread;
 
 /**
- * the constant and partial static variable used in this procedure.
- * @author Baishuo Han, Hanlin Zhang.
+ * The constant and partial static variable used in this procedure.
+ * @author Yilong Zhang, Baishuo Han, Hanlin Zhang, RQ Ma, Rui Cao, et al.
  */
 public class Parameters
 {
@@ -89,7 +89,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static int SensorNum =8;
+	public static int SensorNum =5;
 	/**
 	 * 从0-5依次为各个盘符的背景噪声，背景噪声必须在传感器布置到矿区固定后，才能通过长时间观察确定
 	 * 这个顺序必须与启动时的传感器序号顺序一致
@@ -101,15 +101,15 @@ public class Parameters
 	 * 传感器的信息 经度，维度，海拔，坐标为CAD单位，需在程序运行前设置
 	 */
 	public static final double[][] SENSORINFO = {
-			{ 41518099.807,4595388.504,22.776 },//T
-			{ 41518060.298,4594304.927,21.926  },//U
-			{ 41520207.356,4597983.404,22.661  },//W
-			{ 41520815.875,4597384.576,25.468  },//X
-			{ 41519304.125,4595913.485,23.921  },//Z
-			{ 41519926.476,4597275.978,20.705  },//Y
-			{ 41516707.440,4593163.619,22.564  },//V
-			{ 41516836.655,4596627.472,21.545  },//S
-			{ 41517290.0374,4599537.3261,24.5649  }//R
+			{ 41518099.807,4595388.504,22.776 },//T 杨甸子
+			{ 41518060.298,4594304.927,21.926  },//U 树碑子
+			{ 41520207.356,4597983.404,22.661  },//W 北青堆子
+			{ 41520815.875,4597384.576,25.468  },//X 车队
+			{ 41519304.125,4595913.485,23.921  },//Z 工业广场
+			{ 41519926.476,4597275.978,20.705  },//Y 火药库
+			{ 41516707.440,4593163.619,22.564  },//V 南风井
+			{ 41516836.655,4596627.472,21.545  },//S 蒿子屯
+			{ 41517290.0374,4599537.3261,24.5649  }//R 李大人
 	};//从上起为牛家村、洗煤厂、香山矿、王家村、十一矿工业广场老办公楼西南角花坛、西风井、打钻工区
 	public static final String region = "红阳";
 	/**
@@ -180,10 +180,13 @@ public class Parameters
 	 */
 //	public static final String AbsolutePath3_record = "D:/data/";
 	public static String AbsolutePath5_record = "D:/data/ConstructionData/";
-
+	
 	public static String AbsolutePath_CSV3 = "D:/data/ConstructionData/3moti/";
+	public static String AbsolutePath_CSV3_dataCenter = "Q:/mineData/hysk/data/ConstructionData/3moti/";
 	public static String AbsolutePath_CSV5 = "D:/data/ConstructionData/5moti/";
+	public static String AbsolutePath_CSV5_dataCenter = "Q:/mineData/hysk/data/ConstructionData/5moti/";
 	public static String AbsolutePath_allMotiTime_record = "D:/data/ConstructionData/TimeRecords.csv";
+	public static String AbsolutePath_allMotiTime_record_dataCenter = "Q:/mineData/hysk/data/ConstructionData/TimeRecords.csv";
 	/**
 	 * 1分钟的数据存放位置
 	 */

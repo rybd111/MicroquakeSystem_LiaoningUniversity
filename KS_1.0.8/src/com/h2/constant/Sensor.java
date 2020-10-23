@@ -16,6 +16,7 @@ import com.h2.tool.SensorTool;
 public class Sensor {
 	public Sensor() {
 		this.sensorNum=0;
+		this.sensorSeries = 0;
 		this.sign = false;// 标识是否激发
 		this.time = "000000000000";// 激发的时间
 		this.quackTime="000000000000";//发震时刻
@@ -144,6 +145,10 @@ public class Sensor {
 	public void setSensorNum(int i) {this.sensorNum=i;}
 	public int getSensorNum() {return sensorNum;}
 	
+	//get each sensor's series number to mark absolute path.
+	public void SetSensorSeries(int i) {this.sensorSeries = i;}
+	public int getSensorSeries() {return this.sensorSeries;}
+	
 	//get near quake grade of each sensor.
 	public double getEarthClassFinal() {return EarthClassFinal;}
 	public void setEarthClassFinal(double earthClassFinal) {EarthClassFinal = earthClassFinal;}
@@ -236,6 +241,9 @@ public class Sensor {
 	public CrestorTrough getCrestortrough() {return crestortrough;}
 	public void setCrestortrough(CrestorTrough crestortrough) {this.crestortrough = crestortrough;}
 	
+	//初动极值
+	public void setInitialextremum(double Initialextremum) {this.Initialextremum=Initialextremum;}
+	public double getInitialextremum() {return Initialextremum;}
 	
 	/**
 	 * 标识是否被激发
@@ -333,9 +341,15 @@ public class Sensor {
 	 */
 	private int sensorNum;
 	/**
+	 * the series of the sensor.
+	 */
+	private int sensorSeries;
+	/**
 	 * the motivation data of the current sensor.
 	 */
 	private Vector<String> motidata;
 	/**the size of calculation window.*/
 	private Vector<String> tendata;
+	/**the initialization exvalue*/
+	private double Initialextremum;
 }

@@ -21,9 +21,11 @@ import com.h2.tool.calDuringTimePar;
 import com.h2.tool.stringJoin;
 import com.mathworks.toolbox.javabuilder.MWException;
 
+import b_pro.BClass;
 import bean.QuackResults;
 import mutiThread.MainThread;
 import utils.StringToDateTime;
+import utils.Tensor;
 import utils.TimeDifferent;
 import utils.one_dim_array_max_min;
 
@@ -44,7 +46,7 @@ public class PSO_Locate {
 	 * @throws MWException 
 	 */
 	@SuppressWarnings("unused")
-	public static String pso(Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
+	public static String pso(Sensor[] allsensors, Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
 			DbExcute aDbExcute, int countNumber) throws ParseException, IOException, MWException {
 		
 		String outString=" ";
@@ -106,6 +108,26 @@ public class PSO_Locate {
 				finalEnergy = one_dim_array_max_min.mindouble(energy);
 				finalClass = one_dim_array_max_min.getMethod_4(class1);
 				
+				//矩张量计算
+				Tensor tensors=new Tensor();
+				Object b=tensors.moment_tensor(allsensors, sensors1, location_refine);
+				double tensor_c=Double.parseDouble(b.toString());
+				
+				//求b值
+				Object [] earthQuakeFinal1=new Object[1];
+				earthQuakeFinal1[0]=earthQuakeFinal;	//事件的震级
+//				Object [] SecTime=new Object[1];
+//				SecTime[0]=location_refine.getSecTime();//p波到时
+//				System.out.println("事件震级+"+earthQuakeFinal1[0]);
+				
+				double zjmax=3.5;//最大震级
+				double zjmin=0.1;//最小震级
+				BClass bclass=new BClass();
+				Object[] bb=bclass.b_pro(1,earthQuakeFinal1,zjmax,zjmin);
+				double b_value=Double.parseDouble(bb[0].toString());//b值
+				aQuackResults.setbvalue(b_value);
+//				System.out.println("b值"+b_value);
+				
 //				System.out.println("该事件的分类为："+finalClass);
 				
 				//calculate the during grade with 3 sensors.
@@ -127,16 +149,14 @@ public class PSO_Locate {
 					String dateInFileName = intequackTime.substring(0, 10);
 					//If the difference between the current calculated time and the last time is more than 1 day, the storage file is changed to a new.
 					if(dif>=1) {
-						WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv", quakeString, finalEnergy, "粒子群");
-//						if(countNumber==3) {
-//							WriteRecords.insertALine(Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv");
-//						}
+						WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+
+								"_QuakeRecords.csv",quakeString, finalEnergy, "粒子群",
+								tensor_c, b_value);
 					}
 					else {
-						WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv", quakeString, finalEnergy, "粒子群");
-//						if(countNumber==3) {
-//							WriteRecords.insertALine(Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv");
-//						}
+						WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+
+								"_QuakeRecords.csv",quakeString, finalEnergy, "粒子群",
+								tensor_c, b_value);
 					}
 				}
 				
@@ -150,7 +170,7 @@ public class PSO_Locate {
 				aQuackResults.setDuringGrade(0);//持续时间震级
 				aQuackResults.setNengliang(finalEnergy);//能量，待解决
 				aQuackResults.setFilename_S(sensors1[0].getFilename());
-				aQuackResults.setTensor(0);//矩张量
+				aQuackResults.setTensor(tensor_c);//矩张量
 				aQuackResults.setKind("PSO");
 
 				//output the three locate consequence.

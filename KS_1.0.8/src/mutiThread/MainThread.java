@@ -89,11 +89,11 @@ public class MainThread extends Thread{
 //    	fileStr[3] = "I:/研究生阶段/矿山/矿山数据/平顶山/20190329/Testy/";
 //    	fileStr[4] = "I:/研究生阶段/矿山/矿山数据/平顶山/20190329/Testz/";
 
-//    	fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testr/";
-//        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testt/";
-//        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testu/";
-//        fileStr[3] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testw/";
-//        fileStr[4] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testx/";
+//    	fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200809-0817/Testr/";
+//        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200809-0817/Testt/";
+//        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200809-0817/Testu/";
+//        fileStr[3] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200809-0817/Testy/";
+//        fileStr[4] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200809-0817/Testz/";
 //        fileStr[5] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testy/";
 //        fileStr[6] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testz/";
         
@@ -312,7 +312,7 @@ public class MainThread extends Thread{
 
             for (int i = 0; i < Parameters.SensorNum; i++) {
                 dataRecArray[i] = new DataRec(null, null, null);//不然会出现空指针
-//                aDataRec[i] = dataRecArray[i];
+                aDataRec[i] = dataRecArray[i];
             }
 
             /**

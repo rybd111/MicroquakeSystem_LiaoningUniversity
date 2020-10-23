@@ -14,6 +14,7 @@ import org.jfree.data.time.TimeSeries;
 import mutiThread.MainThread;
 
 /**
+ * config the constant parameters of procedure from the beginning.
  * @author Hanlin Zhang
  */
 public class ConfigToParameters {
@@ -34,10 +35,17 @@ public class ConfigToParameters {
 	public ConfigToParameters() throws NumberFormatException, IOException {
 		String j = System.getProperty("user.dir");//get the procedure absolute path.
 		
-		this.filePath = j+"/Config.ini";//get the config file.
+		this.filePath = j+"/resource/Config.ini";//get the config file.
 		System.out.println(filePath);
 		Load(this.filePath);//get the variables in config file.
 	}
+	
+	public ConfigToParameters(String path) throws NumberFormatException, IOException {
+		this.filePath = path;
+		System.out.println(filePath);
+		Load(this.filePath);// get the variables in config file.
+	}
+	
 	/**
 	 * read the csv file's specific contents in coal mine files.
 	 * we need to know csv file must have different format, so this function only adapt for our current csv file.

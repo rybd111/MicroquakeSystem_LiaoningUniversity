@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * when the procedure appear a negative value in earthquake calculation, we will call this funciton.
+ * when the procedure appear a negative value in earthquake calculation, we will call this function.
  * @author Hanlin Zhang.
  */
 public class recordNegativeGrade{

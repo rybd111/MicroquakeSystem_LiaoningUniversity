@@ -2,10 +2,7 @@ package com.h2.backupData;
 
 import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
-
-import bean.Location;
 import mutiThread.MainThread;
-
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,36 +21,7 @@ import java.io.IOException;
 public class WriteRecords {
 	
 	public static String lastDate = "2019-1-13 02:05:03";//update at the creating ReadData function's object to make sure this variable is the last day all the way.
-	
-//    public static void Write(Sensor[]sensors , Sensor result,Sensor time_refine, String filepath) {
-//        File file = new File(filepath);
-//        BufferedWriter out = null;
-//        String record;
-//        try {
-//            out = new BufferedWriter(new FileWriter(file, true));
-//            if (!file.exists()) file.createNewFile();
-//            for (int i = 0; i < Parameters.SensorNum; i++) {
-//            	record=MainThread.fileStr[sensors[i].getSensorNum()]+sensors[i].getAbsoluteTime()+"\r\n";
-//                out.write(record);
-//            }
-////            record=result.getLatitude()+"\t\t"+result.getLongtitude()+"\t\t"+result.getAltitude()+"\t\t"+result.getSecTime()+"\r\n";
-//            record=time_refine.getLatitude()+"\t\t"+time_refine.getLongtitude()+"\t\t"+time_refine.getAltitude()+"\t\t"+time_refine.getSecTime()+"\r\n";
-//            out.write(record);
-//            out.write("---------------------------------------------------------------------------\r\n");
-//            out.flush();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (out != null) {
-//                try {
-//                    out.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
+
     /**
      * write the info. of the motivation of all sensors to a csv file.
      * @param sensors
@@ -62,7 +30,8 @@ public class WriteRecords {
      * @author RQMa, Hanlin Zhang
      */
     @SuppressWarnings("unused")
-	public static void Write(Sensor[]sensors , Sensor sensor_latest, Sensor result, String filepath, String quakeGrade, double finalEnergy, String kindOfCalculation) {
+	public static void Write(Sensor[]sensors , Sensor sensor_latest, Sensor result, String filepath, 
+			String quakeGrade, double finalEnergy, String kindOfCalculation, double tensor, double b_value) {
         File file = new File(filepath);
         BufferedWriter out = null;
         BufferedWriter out1 = null;
@@ -79,13 +48,13 @@ public class WriteRecords {
 	            	for(int i=0;i<Parameters.diskName_offline.length;i++) {
 		            	out.write(Parameters.diskName_offline[i]+",");
 		            }
-            		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻");
+            		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻,张量,b值");
             	}
             	else {
             		for(int i=0;i<Parameters.diskName.length;i++) {
             			out.write((Parameters.diskName[i].replace(":/", "")+","));
 		            }
-            		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻");
+            		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻,张量,b值");
             	}
             	out.write("\r");
         	}
@@ -158,7 +127,9 @@ public class WriteRecords {
 	            }
             }
             record = record + String.valueOf(result.getLatitude())+","+String.valueOf(result.getLongtitude())+","+String.valueOf(result.getAltitude())+","
-            		+String.valueOf(result.getSecTime())+","+String.valueOf(quakeGrade)+","+String.valueOf(finalEnergy)+","+kindOfCalculation+","+String.valueOf(result.getquackTime())+"\t,";
+            		+String.valueOf(result.getSecTime())+","+String.valueOf(quakeGrade)+","
+            		+String.valueOf(finalEnergy)+","+kindOfCalculation+","+String.valueOf(result.getquackTime())+"\t,"
+            		+String.valueOf(tensor)+","+String.valueOf(b_value)+",";
             out.write(record+"\r");
             out.flush();
         } catch (IOException e) {
@@ -289,6 +260,10 @@ public class WriteRecords {
         }
     }
     
+    /**
+     * insert a null line in xlxs file.
+     * @param filepath
+     */
     public static void insertALine(String filepath) {
     	File file = new File(filepath);
         BufferedWriter out = null;

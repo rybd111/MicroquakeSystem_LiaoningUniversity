@@ -26,7 +26,7 @@ public class WriteMotiData {
 	 * @param motidata
 	 * @param filepath
 	 * @param Pos
-	 * @author Hanlin Zhang
+	 * @author Hanlin Zhang.
 	 */
 	public static void writemotidata(Vector<String> motidata,String filepath,int[] Pos) {
         
@@ -98,10 +98,10 @@ public class WriteMotiData {
 	 * 将时间列转换为空格分隔的形式，便于后续用matlab进行处理
 	 * @param motidata 激发数据，长度在前文中进行了设置
 	 * @param filepath 文件存储的绝对路径，通过parameters文件进行设置
-	 * @param line 
-	 * @param Pos 
+	 * @param line
+	 * @param Pos
 	 * @throws ParseException
-	 * @author Hanlin Zhang
+	 * @author Hanlin Zhang.
 	 */
 	public static void writemotiData(Vector<String> motidata,String filePath, int line) throws ParseException {
 		File file=new File(filePath);

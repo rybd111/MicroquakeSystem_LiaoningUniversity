@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   <body>
   	<div class="head">
-        <a href="index.jsp">首页<img src="Z:/研究生阶段/矿山/更新程序/KS_1.0.8/WebRoot/image/152569275640874.png"></a>
+        <a href="index.jsp">首页<img src="I:/研究生阶段/矿山/更新程序/MicroquakeSystem_LiaoningUniversity/KS_1.0.8/WebRoot/image/152569275640874.png"></a>
         <a href="jsp/MyJsp5.jsp">实时数据</a>
         <a href="read2.jsp">微震统计</a>
        <!--  <a href="search.jsp">特征查询</a> -->
@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<PARAM NAME="_ExtentX" VALUE="24262">
     	<PARAM NAME="_ExtentY" VALUE="20241">
     	<PARAM NAME="_StockProps" VALUE="0">
-    	<PARAM NAME="DwgFilePath" VALUE="Z:/研究生阶段/矿山/更新程序/KS_1.0.8/WebRoot/image/红阳三矿.dwg">
+    	<PARAM NAME="DwgFilePath" VALUE="I:/研究生阶段/矿山/更新程序/MicroquakeSystem_LiaoningUniversity/KS_1.0.8/WebRoot/image/红阳三矿.dwg">
     	<PARAM NAME="IsRuningAtIE" VALUE="1">
     	<PARAM NAME="EnablePrintCmd" VALUE="1">
     	<PARAM NAME="EnableOpenCmd" VALUE="1">
@@ -110,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$.ajaxSetup({cache:false});
 	$.ajaxSetup({async:false});
 	var mxOcx = document.getElementById("MxDrawXCtrl");
-	var currentPath="Z:/研究生阶段/矿山/更新程序/KS_1.0.8/WebRoot/image/";
+	var currentPath="I:/研究生阶段/矿山/更新程序/MicroquakeSystem_LiaoningUniversity/KS_1.0.8/WebRoot/image/";
 	var res;
 	
 	function catSensor(){

@@ -10,7 +10,11 @@ import java.util.Properties;
 
 import com.h2.constant.Parameters;
 
-
+/**
+ * connect to database.
+ * @author 
+ *
+ */
 public class JdbcUtil {
 	static String url = null;
 	static String username = null;
@@ -26,20 +30,20 @@ public class JdbcUtil {
 //			System.out.println(in);
 			
 //			properties.load(in);
-			properties.put("driver","com.mysql.jdbc.Driver");
+			properties.put("driver","com.mysql.cj.jdbc.Driver");
 			//properties.put("url","url=jdbc:mysql://localhost:3306/ks?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true");
 			properties.setProperty("useSSL", "false");
 			driver = properties.getProperty("driver");
 			
 //			url = properties.getProperty("url");
-			url = "jdbc:mysql://localhost:3306/ks?useSSL=false";
+			url = "jdbc:mysql://localhost:3306/ks?useSSL=false&serverTimezone=UTC";
 			//System.out.println(url);
 //			username = properties.getProperty("username");
 //			password = properties.getProperty("password");
 			username = "root";
 			password = "root";
-			System.out.println(password);
-			System.out.println(driver);
+//			System.out.println(password);
+//			System.out.println(driver);
 			
 			Class.forName(driver);
 		} catch (Exception e) {

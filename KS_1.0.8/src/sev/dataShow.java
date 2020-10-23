@@ -16,7 +16,7 @@ import com.db.DbExcute;
 import com.h2.constant.Parameters;
 
 /**
- * @author Hanlin Zhang
+ * @author Yilong Zhang, Hanlin Zhang
  */
 public class dataShow extends HttpServlet{
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

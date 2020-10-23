@@ -42,6 +42,7 @@ public class saveOri {
 	 * @param data 传入的容器数据
 	 * @param path 存储实际盘符
 	 * @param motiPos 当该行数据为激发位置时，记录为1，否则为0
+	 * @author Hanlin Zhang.
 	 */
 	@SuppressWarnings("unused")
 	public void saveOrii(Vector<String> data,String panfu,int[] motiPos,int sensorNum){

@@ -1,5 +1,6 @@
 package com.db;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Parameter;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -11,17 +12,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.tools.Tool;
+
 import com.h2.constant.Parameters;
-import com.visual.model.TableData;
-import com.visual.util.Tools_DataCommunication;
+import visual.model.TableData;
+import visual.util.Tools_DataCommunication;
 
 import bean.QuackResults;
+import javazoom.jl.decoder.JavaLayerException;
 
-//锟斤拷锟斤拷锟斤拷锟捷匡拷锟斤拷锟斤拷锟接癸拷锟斤拷
 /**
  * 2017/10/21
  * 
- * @author lemo
+ * @revision 2020-9-23
+ * @author Yilong Zhang, Hanlin Zhang, Yongliang Hu, Gang Zhang, et al.
  * 
  */
 public class DbExcute {
@@ -40,7 +44,7 @@ public class DbExcute {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
+			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
 	}
 
@@ -51,7 +55,8 @@ public class DbExcute {
 			resultSet = statement.executeQuery(sql);
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
 			JdbcUtil.releaseResources(resultSet, statement, connection);
 		}
@@ -59,13 +64,14 @@ public class DbExcute {
 	}
 
 	/***
-	 * 从数据库读取表名为：mine_quack_3_results的表 只调用了一次，在客户端程序启动时读取数据库
+	 * 在客户端程序启动时读取数据库
 	 * 
 	 * @param sql
 	 * @return
 	 * @author Sunny
 	 */
-	public ResultSet Query3(String sql) {
+	@SuppressWarnings("unchecked")
+	public ResultSet Query_3_5(String sql) {
 		try {
 			connection = JdbcUtil.getConnection();
 			statement = connection.createStatement();
@@ -80,18 +86,22 @@ public class DbExcute {
 			 */
 			while (resultSet.next()) {
 				Tools_DataCommunication.getCommunication().dataList.add(new TableData(resultSet.getString("id"),
-						resultSet.getString("quackTime"), resultSet.getString("panfu"),
+						resultSet.getString("quackTime"), resultSet.getString("kind"), resultSet.getString("panfu"),
 						resultSet.getString("xData") + "," + resultSet.getString("yData") + ","
 								+ resultSet.getString("zData"),
 						resultSet.getString("nengliang"), resultSet.getString("quackGrade"),
+						resultSet.getString("parrival"), resultSet.getString("tensor"), resultSet.getString("b_Value"),
 						new QuackResults(resultSet.getDouble("xData"), resultSet.getDouble("yData"),
 								resultSet.getDouble("zData"), resultSet.getString("quackTime"),
 								resultSet.getDouble("quackGrade"), resultSet.getDouble("Parrival"),
 								resultSet.getString("panfu"), resultSet.getDouble("duringGrade"),
-								resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), 0.0, "")));
+								resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"),
+								resultSet.getDouble("tensor"), resultSet.getString("kind"),
+								resultSet.getDouble("b_Value"))));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
 			JdbcUtil.releaseResources(resultSet, statement, connection);
 		}
@@ -134,25 +144,47 @@ public class DbExcute {
 						isadd = true;
 				}
 				if (isadd) {// 如果表新添加了数据，就把数据显示在TableView表中
+					isadd = false;
 					// 添加新数据
 					TableData data1 = new TableData(resultSet.getString("id"), resultSet.getString("quackTime"),
-							resultSet.getString("panfu"),
+							resultSet.getString("kind"), resultSet.getString("panfu"),
 							resultSet.getString("xData") + "," + resultSet.getString("yData") + ","
 									+ resultSet.getString("zData"),
 							resultSet.getString("nengliang"), resultSet.getString("quackGrade"),
+							resultSet.getString("parrival"), resultSet.getString("tensor"),
+							resultSet.getString("b_value"),
 							new QuackResults(resultSet.getDouble("xData"), resultSet.getDouble("yData"),
 									resultSet.getDouble("zData"), resultSet.getString("quackTime"),
 									resultSet.getDouble("quackGrade"), resultSet.getDouble("Parrival"),
 									resultSet.getString("panfu"), resultSet.getDouble("duringGrade"),
-									resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), 0.0, ""));
-
+									resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"),
+									resultSet.getDouble("tensor"), resultSet.getString("kind"),
+									resultSet.getDouble("b_value")));
+					/** 自动在UI界面上显示新数据操作 */
+					//更新tableview的数据链
 					Tools_DataCommunication.getCommunication().dataList.add(data1);
-
-					/** 自动在UI界面上显示新数据 */
 					Tools_DataCommunication.getCommunication().getmTableView().autoShowData(data1);
+					//更新最新事件的时间:
+					Tools_DataCommunication.getCommunication().getmCAD()
+							.updataNewLabel(resultSet.getString("quackTime"));
+					//播放语音
+					try {
+						Tools_DataCommunication.getCommunication().getAudioPlayer().play();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						System.out.println("没有找到提示音频文件。");
+//						e.printStackTrace();
+					} catch (JavaLayerException e) {
+						// TODO Auto-generated catch block
+						System.out.println("Java播放异常，请及时联系开发人员！");
+//						e.printStackTrace();
+					}
+					
+
 				}
 			}
 		} catch (SQLException e) {
+//			System.out.println("Error:----ks数据库中不存在该表");
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.releaseResources(resultSet, statement, connection);
@@ -166,7 +198,7 @@ public class DbExcute {
 
 	public void addElement(QuackResults aQuackResults) {
 
-		String sqlStr = "insert into " + Parameters.DatabaseName5 + " values(null,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sqlStr = "insert into " + Parameters.DatabaseName5 + " values(null,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		connection = JdbcUtil.getConnection();
 		PreparedStatement aStatement = null;
 		try {
@@ -183,14 +215,18 @@ public class DbExcute {
 			aStatement.setDouble(10, aQuackResults.getNengliang());
 			aStatement.setString(11, aQuackResults.getFilename_S());
 			aStatement.setDouble(12, aQuackResults.getTensor());
+			aStatement.setDouble(13, aQuackResults.getbvalue());
 
 			System.out.println(aStatement.execute() + "-shujuku");
 			connection.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
-			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
+			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
+		if (Tools_DataCommunication.getCommunication().isClient)
+			QueryIsadd("select * from " + Parameters.DatabaseName5);
 	}
 
 	public void addElement3(QuackResults aQuackResults) {
@@ -201,7 +237,6 @@ public class DbExcute {
 		PreparedStatement aStatement3 = null;
 		try {
 			aStatement3 = connection.prepareStatement(sqlStr3);
-
 			aStatement3.setDouble(1, aQuackResults.getxData());
 			aStatement3.setDouble(2, aQuackResults.getyData());
 			aStatement3.setDouble(3, aQuackResults.getzData());
@@ -217,7 +252,8 @@ public class DbExcute {
 			System.out.println(aStatement3.execute() + "-shujuku");
 			connection.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
 		}
@@ -266,9 +302,10 @@ public class DbExcute {
 				al.add(ob);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
-			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
+			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
 
 		for (int j = 0; j < al.size(); j++) {
@@ -289,25 +326,69 @@ public class DbExcute {
 		return newAl;
 	}
 
-	// 删锟斤拷锟斤拷锟斤拷
 	public void removeElement(String sql) {
 		update(sql);
 
 	}
 
-	// 锟斤拷锟斤拷一锟斤拷锟斤拷
 	public void createTable(String sql) {
 		update(sql);
 	}
 
-	// 删锟斤拷一锟斤拷锟斤拷
 	public void dropTable(String sql) {
 		update(sql);
 	}
 
 	public void deleteRepate(String sql) {
-		// TODO Auto-generated method stub
 		update(sql);
+	}
+
+	/**
+	 * 用于查询面板上对数据库进行查询操作的函数
+	 * 
+	 * @author Sunny
+	 * @param sql
+	 */
+	@SuppressWarnings("unchecked")
+	public void Query_panel(String sql) {
+		if (sql == null || sql == "" || sql == " ")
+			return;
+		Tools_DataCommunication.getCommunication().dataList_QueryPanel.clear();
+		try {
+			connection = JdbcUtil.getConnection();
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			/***
+			 * @param eventIndex 事件序号
+			 * @param eventTime  触发时间
+			 * @param eventLoca  触发台站
+			 * @param eventPos   定位坐标
+			 * @param energy     能量
+			 * @param grade      震级
+			 */
+			while (resultSet.next()) {
+				Tools_DataCommunication.getCommunication().dataList_QueryPanel
+						.add(new TableData(resultSet.getString("id"), resultSet.getString("quackTime"),
+								resultSet.getString("kind"), resultSet.getString("panfu"),
+								resultSet.getString("xData") + "," + resultSet.getString("yData") + ","
+										+ resultSet.getString("zData"),
+								resultSet.getString("nengliang"), resultSet.getString("quackGrade"),
+								resultSet.getString("parrival"), resultSet.getString("tensor"),
+								resultSet.getString("b_value"),
+								new QuackResults(resultSet.getDouble("xData"), resultSet.getDouble("yData"),
+										resultSet.getDouble("zData"), resultSet.getString("quackTime"),
+										resultSet.getDouble("quackGrade"), resultSet.getDouble("Parrival"),
+										resultSet.getString("panfu"), resultSet.getDouble("duringGrade"),
+										resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"),
+										resultSet.getDouble("tensor"), resultSet.getString("kind"),
+										resultSet.getDouble("b_value"))));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
+		} finally {
+			JdbcUtil.releaseResources(resultSet, statement, connection);
+		}
 	}
 
 }

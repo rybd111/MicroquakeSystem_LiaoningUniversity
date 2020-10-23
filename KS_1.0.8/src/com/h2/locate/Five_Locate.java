@@ -13,6 +13,7 @@ import com.h2.backupData.WriteRecords;
 import com.h2.backupData.writeToDisk;
 import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
+import utils.Tensor;
 import com.h2.thread.ThreadStep3;
 import com.h2.tool.Location;
 import com.h2.tool.Location2;
@@ -20,6 +21,7 @@ import com.h2.tool.PSO;
 import com.h2.tool.calDuringTimePar;
 import com.mathworks.toolbox.javabuilder.MWException;
 
+import b_pro.BClass;
 import bean.QuackResults;
 import utils.StringToDateTime;
 import utils.TimeDifferent;
@@ -38,11 +40,11 @@ public class Five_Locate {
 	 * @return the information of space-time strength. 
 	 * @throws ParseException
 	 * @throws IOException
-	 * @author Baishuo Han, Hanlin Zhang.
+	 * @author Baishuo Han, Hanlin Zhang, Gang Zhang.
 	 * @throws MWException
 	 */
 	@SuppressWarnings("unused")
-	public static String five(Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
+	public static String five(Sensor[] allsensors, Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
 			DbExcute aDbExcute, int motinum) throws ParseException, IOException, MWException {
 		
 		String outString=" ";
@@ -91,6 +93,27 @@ public class Five_Locate {
 		finalEnergy = one_dim_array_max_min.mindouble(energy);
 		finalClass = one_dim_array_max_min.getMethod_4(class1);
 		
+		//矩张量计算
+		Tensor tensors=new Tensor();
+		Object b=tensors.moment_tensor(allsensors, sensors1, location_refine);
+		double tensor_c=Double.parseDouble(b.toString());
+//		System.out.println(c);
+		
+		//求b值
+		Object [] earthQuakeFinal1=new Object[1];
+		earthQuakeFinal1[0]=earthQuakeFinal;	//事件的震级
+//				Object [] SecTime=new Object[1];
+//				SecTime[0]=location_refine.getSecTime();//p波到时
+//		System.out.println("事件震级+"+earthQuakeFinal1[0]);
+		
+		double zjmax=3.5;//最大震级
+		double zjmin=0.1;//最小震级
+		BClass bclass=new BClass();
+		Object[] bb=bclass.b_pro(1,earthQuakeFinal1,zjmax,zjmin);
+		double b_value=Double.parseDouble(bb[0].toString());//b值
+		aQuackResults.setbvalue(b_value);
+//		System.out.println("b值"+b_value);
+		
 //		System.out.println("该事件的分类为："+finalClass);
 		
 		//calculate the during grade with 5 sensors.
@@ -116,14 +139,17 @@ public class Five_Locate {
 			//If the difference between the current calculated time and the last time is more than 1 day, the storage file is changed to a new.
 			if(dif>=1) {
 //				WriteRecords.insertALine(Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv");
-				WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv",quakeString, finalEnergy, "五台站");
+				WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+
+						"_QuakeRecords.csv",quakeString, finalEnergy, "五台站",
+						tensor_c, b_value);
 			}
 			else {
 //				WriteRecords.insertALine(Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv");
-				WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv",quakeString, finalEnergy, "五台站");
+				WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+
+						"_QuakeRecords.csv",quakeString, finalEnergy, "五台站",
+						tensor_c, b_value);
 			}
 		}
-		
 		
 		aQuackResults.setxData(Double.parseDouble(nf.format(location_refine.getLatitude())));
 		aQuackResults.setyData(Double.parseDouble(nf.format(location_refine.getLongtitude())));
@@ -135,7 +161,7 @@ public class Five_Locate {
 		aQuackResults.setPanfu(sensors1[0].getpanfu());//盘符
 		aQuackResults.setNengliang(finalEnergy);//能量，待解决
 		aQuackResults.setFilename_S(sensors1[0].getFilename());//文件名，当前第一个台站的文件名，其他台站需要进一步改变第一个字符为其他台站，则为其他台站的文件名。
-		aQuackResults.setTensor(0);//矩张量
+		aQuackResults.setTensor(tensor_c);//矩张量
 		aQuackResults.setKind("five");
 		
 		//output the five locate consequence.

@@ -8,6 +8,11 @@ import java.util.Date;
 
 import bean.QuackResults;
 
+/**
+ * test database connection.
+ * @author Administrator
+ *
+ */
 public class Main {
 	public static void main(String[] args) {
 		/*DbExcute aDbExcute =new DbExcute();
@@ -29,8 +34,8 @@ public class Main {
 		
         String time = formatDateTime.format(date);
         Timestamp timestamp =Timestamp.valueOf(time);
-        QuackResults aQuackResults =new QuackResults(15000, 10, 25, "", 5.2, 0.2, " ", 0.0,0.0, " ",0.0," ");
-        QuackResults aQuackResults3 =new QuackResults(4595388.504, 41518099.807, 22.776, "", 5.2, 0.2, " ", 0.0,0.0, " ",0.0,"");
+        QuackResults aQuackResults =new QuackResults(15000, 10, 25, "", 5.2, 0.2, " ", 0.0,0.0, " ",0.0," ",0.0);
+        QuackResults aQuackResults3 =new QuackResults(4595388.504, 41518099.807, 22.776, "", 5.2, 0.2, " ", 0.0,0.0, " ",0.0,"",0.0);
         DbExcute aDbExcute =new DbExcute();
 //        aDbExcute.addElement(aQuackResults);
         

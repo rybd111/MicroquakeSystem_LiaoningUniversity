@@ -2,12 +2,16 @@ package bean;
 
 import java.util.Vector;
 
+/**
+ * The vector exchange class using in procedure.
+ * @author Yilong Zhang, Hanlin Zhang.
+ */
 public class DataRec {
-
+	
 	public Vector<String> beforeVector;
 	public Vector<String> nowVector;
 	public Vector<String> afterVector;
-
+	
 	public DataRec(Vector<String> beforeVector, Vector<String> nowVector,
 			Vector<String> afterVector) {
 		super();
@@ -16,13 +20,12 @@ public class DataRec {
 		this.afterVector = afterVector;
 	}
 	
-	//三个缓冲区，用于交换数据
+	/**Three buffers to swap data.*/
 	public void DataSwap(Vector<String> temp ){	
 		beforeVector=nowVector;
 		nowVector=afterVector;
 		afterVector=temp;
 	}
-	
 	
 	public Vector<String> getBeforeVector() {
 		return beforeVector;
