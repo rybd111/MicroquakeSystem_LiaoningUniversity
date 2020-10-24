@@ -19,6 +19,10 @@ public class MyTableView {
 
 	private ArrayList<String> list_db = new ArrayList<String>();
 	private ComboBox<String> mComboBox;
+	public ComboBox<String> getmComboBox() {
+		return mComboBox;
+	}
+
 	private Label mEventLabel;
 
 	public MyTableView(TableView<TableData> tv, ComboBox<String> mComboBox, Label mEventLabel) {

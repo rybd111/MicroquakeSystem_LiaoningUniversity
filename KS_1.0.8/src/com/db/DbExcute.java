@@ -161,13 +161,13 @@ public class DbExcute {
 									resultSet.getDouble("tensor"), resultSet.getString("kind"),
 									resultSet.getDouble("b_value")));
 					/** 自动在UI界面上显示新数据操作 */
-					//更新tableview的数据链
+					// 更新tableview的数据链
 					Tools_DataCommunication.getCommunication().dataList.add(data1);
 					Tools_DataCommunication.getCommunication().getmTableView().autoShowData(data1);
-					//更新最新事件的时间:
+					// 更新最新事件的时间:
 					Tools_DataCommunication.getCommunication().getmCAD()
 							.updataNewLabel(resultSet.getString("quackTime"));
-					//播放语音
+					// 播放语音
 					try {
 						Tools_DataCommunication.getCommunication().getAudioPlayer().play();
 					} catch (FileNotFoundException e) {
@@ -179,7 +179,6 @@ public class DbExcute {
 						System.out.println("Java播放异常，请及时联系开发人员！");
 //						e.printStackTrace();
 					}
-					
 
 				}
 			}
@@ -226,7 +225,9 @@ public class DbExcute {
 			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
 		if (Tools_DataCommunication.getCommunication().isClient)
-			QueryIsadd("select * from " + Parameters.DatabaseName5);
+			if (Parameters.DatabaseName5.equals(Tools_DataCommunication.getCommunication().getmTableView()
+					.getmComboBox().getSelectionModel().getSelectedItem()))
+				QueryIsadd("select * from " + Parameters.DatabaseName5);
 	}
 
 	public void addElement3(QuackResults aQuackResults) {
@@ -257,8 +258,8 @@ public class DbExcute {
 		} finally {
 			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
 		}
-		if (Tools_DataCommunication.getCommunication().isClient)
-			QueryIsadd("select * from " + Parameters.DatabaseName3);
+//		if (Tools_DataCommunication.getCommunication().isClient)
+//			QueryIsadd("select * from " + Parameters.DatabaseName3);
 	}
 
 	public ArrayList<String> getData(String paras[]) {

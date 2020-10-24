@@ -26,7 +26,6 @@
             <Button layoutX="236.0" layoutY="10.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onClickQuery" prefHeight="28.0" prefWidth="52.0" text="查询" />
             <Button layoutX="62.0" layoutY="10.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#oClickPreferences" prefHeight="28.0" prefWidth="52.0" text="设置" />
             <Button minHeight="-Infinity" mnemonicParsing="false" onAction="#onClickHelp" prefHeight="28.0" prefWidth="52.0" style="-fx-background-image: url(Indx.png);" text="帮助" />
-            <Button layoutX="301.0" layoutY="10.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onClickTest" prefHeight="28.0" prefWidth="52.0" style="-fx-background-image: url(Indx.png);" text="Test" />
          </children>
       </HBox>
       <SplitPane fx:id="mSplitpaneSum" dividerPositions="0.5" layoutY="77.0" prefHeight="823.0" prefWidth="1077.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="58.0">
