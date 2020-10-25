@@ -10,9 +10,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-
-import com.h2.tool.particle;
-
 import javafx.scene.chart.XYChart;
 import visual.util.Tools_DataCommunication;
 /**
