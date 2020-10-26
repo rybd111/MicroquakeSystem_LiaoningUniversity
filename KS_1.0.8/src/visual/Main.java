@@ -30,7 +30,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-  
+
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/UI.fxml"));
 //		//获得RootLayout对象
@@ -40,7 +40,8 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("CS界面-辽宁大学");
 		primaryStage.setMinHeight(914);
-		primaryStage.getIcons().add(new Image(new FileInputStream(System.getProperty("user.dir")+"\\resource\\lndx.png")));
+		primaryStage.getIcons()
+				.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
 		primaryStage.show();
 
 		/** 监听窗口关闭操作 */

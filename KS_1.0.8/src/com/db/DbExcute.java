@@ -19,6 +19,7 @@ import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
 
 import bean.QuackResults;
+import javafx.application.Platform;
 import javazoom.jl.decoder.JavaLayerException;
 
 /**
@@ -146,7 +147,7 @@ public class DbExcute {
 				if (isadd) {// 如果表新添加了数据，就把数据显示在TableView表中
 					isadd = false;
 					// 添加新数据
-					TableData data1 = new TableData(resultSet.getString("id"), resultSet.getString("quackTime"),
+					TableData newdata = new TableData(resultSet.getString("id"), resultSet.getString("quackTime"),
 							resultSet.getString("kind"), resultSet.getString("panfu"),
 							resultSet.getString("xData") + "," + resultSet.getString("yData") + ","
 									+ resultSet.getString("zData"),
@@ -161,12 +162,6 @@ public class DbExcute {
 									resultSet.getDouble("tensor"), resultSet.getString("kind"),
 									resultSet.getDouble("b_value")));
 					/** 自动在UI界面上显示新数据操作 */
-					// 更新tableview的数据链
-					Tools_DataCommunication.getCommunication().dataList.add(data1);
-					Tools_DataCommunication.getCommunication().getmTableView().autoShowData(data1);
-					// 更新最新事件的时间:
-					Tools_DataCommunication.getCommunication().getmCAD()
-							.updataNewLabel(resultSet.getString("quackTime"));
 					// 播放语音
 					try {
 						Tools_DataCommunication.getCommunication().getAudioPlayer().play();
@@ -179,7 +174,17 @@ public class DbExcute {
 						System.out.println("Java播放异常，请及时联系开发人员！");
 //						e.printStackTrace();
 					}
-
+					/** 将数据更新到UI界面上 */
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							// 更新tableview的数据链
+							Tools_DataCommunication.getCommunication().dataList.add(newdata);
+							Tools_DataCommunication.getCommunication().getmTableView().autoShowData(newdata);
+							// 更新最新事件的时间:
+							Tools_DataCommunication.getCommunication().getmCAD().updataNewLabel(newdata.getEventTime());
+						}
+					});
 				}
 			}
 		} catch (SQLException e) {

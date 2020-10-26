@@ -200,7 +200,8 @@ public class Tools_DataCommunication {
 				stage.getIcons().add(new Image(new FileInputStream(System.getProperty("user.dir")+"\\resource\\lndx.png")));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("输出控制台没有找到窗口图片");
+//				e.printStackTrace();
 			}
 			stage.show();
 			/** 绑定输出流 */
