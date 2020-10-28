@@ -68,9 +68,9 @@
                      <items>
                         <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="30.0" prefWidth="98.0" style="-fx-border-color: #000000;">
                            <children>
-                              <Label layoutX="36.0" layoutY="4.0" prefHeight="30.0" prefWidth="98.0" text="    时间" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Label alignment="CENTER" layoutX="36.0" layoutY="4.0" prefHeight="30.0" prefWidth="98.0" text="时间序列流" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <font>
-                                    <Font size="21.0" />
+                                    <Font size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -479,6 +479,7 @@
       </TextField>
       <Slider fx:id="mSlider_P" layoutX="888.0" layoutY="30.0" max="90000.0" prefHeight="28.0" prefWidth="220.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="30.0" />
       <Label layoutX="707.0" layoutY="24.0" prefHeight="28.0" prefWidth="90.0" text="调整P波到时" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="30.0" />
-      <Button layoutX="610.0" layoutY="29.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onSaveP" prefHeight="28.0" prefWidth="52.0" text="保存" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
+      <Button layoutX="610.0" layoutY="29.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onSaveP" prefHeight="28.0" prefWidth="50.0" text="保存" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
+      <Button layoutX="542.0" layoutY="30.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onCalculate" prefHeight="28.0" prefWidth="83.0" text="重新定位" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="30.0" />
    </children>
 </AnchorPane>

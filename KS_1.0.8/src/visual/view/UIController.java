@@ -234,7 +234,11 @@ public class UIController {
 		mSlider_upper.setValue(90000.0);
 		System.out.println("还原");
 	}
-
+	@FXML
+	void onCalculate(ActionEvent event) {// 重新定位
+		System.out.println("点击重新定位功能");
+		
+	}
 	@FXML
 	void onSaveP(ActionEvent event) {// 保存P波到时
 		System.out.println("保存P波到时");
