@@ -2,23 +2,17 @@ package visual.view;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.ResourceBundle;
-
 import org.eclipse.swt.widgets.Display;
-
 import com.db.DbExcute;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
-
 import bean.QuackResults;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -26,30 +20,24 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mutiThread.MainThread;
 import visual.Main;
-import visual.MainFrame;
 import visual.Preferences;
-import visual.disasterCheck;
-import visual.historyQuery;
 
 public class UIController {
 	@FXML
@@ -155,7 +143,7 @@ public class UIController {
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.setTitle("实时监测");
-		stage.getIcons().add(new Image(Main.class.getResourceAsStream("view/lndx.png")));
+		stage.getIcons().add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
 		stage.setResizable(false);// 禁止对窗口进行拉伸操作！
 		stage.show();
 		/** 监听窗口关闭操作 */
@@ -188,7 +176,7 @@ public class UIController {
 	void onClickHelp(ActionEvent event) {// 帮助
 		try {
 			// 打开当前文件
-			Desktop.getDesktop().open(new File("C:\\Users\\Sunny\\Desktop\\说明"));
+			Desktop.getDesktop().open(new File(System.getProperty("user.dir") + "\\resource\\需求文档.docx"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -203,11 +191,12 @@ public class UIController {
 		loader.setLocation(Main.class.getResource("view/QueryPanel.fxml"));
 //		//获得RootLayout对象
 		AnchorPane root = (AnchorPane) loader.load();
+		QueryPanelController controller = loader.getController();
 		Scene scene = new Scene(root);
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.setTitle("查询面板");
-		stage.getIcons().add(new Image(Main.class.getResourceAsStream("view/lndx.png")));
+		stage.getIcons().add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
 		stage.setResizable(false);// 禁止对窗口进行拉伸操作！
 		stage.show();
 
@@ -215,10 +204,13 @@ public class UIController {
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
-				Tools_DataCommunication.getCommunication().getmCAD().getController().deleteALL();
+//				if(controller.getMyThread()!=null)
+//					controller.getMyThread().interrupt();
+//				Tools_DataCommunication.getCommunication().getmCAD().getController().deleteALL();
 				Tools_DataCommunication.getCommunication().dataList_QueryPanel.clear();
 				mTableView.setItems(Tools_DataCommunication.getCommunication().dataList);
 				System.out.println("查询界面关闭");
+				Tools_DataCommunication.getCommunication().getmCAD().getController().deleteALL();
 			}
 		});
 	}
@@ -230,10 +222,10 @@ public class UIController {
 		DateFormat formatDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time = formatDateTime.format(new Date());
 
-		QuackResults aQuackResults3 = new QuackResults(1, 1, 1, time, 5.2, 0.2, " ", 0.0, 0.0,
-				"D:/data/ConstructionData/5data/25613 2020-05-01 09-33-15`05.csv", 0.0, "five",0.0);
+		QuackResults aQuackResults = new QuackResults(1, 1, 1, time, 5.2, 0.2, " ", 0.0, 0.0,
+				"D:/data/ConstructionData/5data/25613 2020-05-01 09-33-15`05.csv", 0.0, "five", 123);
 		DbExcute aDbExcute = new DbExcute();
-		aDbExcute.addElement3(aQuackResults3);
+		aDbExcute.addElement(aQuackResults);
 	}
 
 	@FXML
@@ -241,6 +233,33 @@ public class UIController {
 		mSlider_lower.setValue(0.0);
 		mSlider_upper.setValue(90000.0);
 		System.out.println("还原");
+	}
+
+	@FXML
+	void onCalculate(ActionEvent event) throws IOException {// 重新定位
+		System.out.println("点击重新定位功能");
+
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/RepositionPanel.fxml"));
+//		//获得RootLayout对象
+		AnchorPane root = (AnchorPane) loader.load();
+		RepositionPanelController controller = loader.getController();
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.setTitle("重定位面板");
+		stage.getIcons().add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
+		stage.setResizable(false);// 禁止对窗口进行拉伸操作！
+		stage.show();
+		controller.setMystage(stage);
+		/** 监听窗口关闭操作 */
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				controller.close();
+				System.out.println("555555555555555555");
+			}
+		});
 	}
 
 	@FXML

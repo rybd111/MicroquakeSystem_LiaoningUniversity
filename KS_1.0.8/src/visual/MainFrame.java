@@ -45,7 +45,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.h2.constant.ConfigToParameters;
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
 
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
@@ -55,7 +54,7 @@ public class MainFrame {
 
 	protected Shell shell;
 	private Text text;
-	
+
 	/**
 	 * Launch the application.
 	 * @param args
@@ -93,7 +92,9 @@ public class MainFrame {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
+			
 		}
+		
 		display.dispose();
 	}
 
@@ -117,8 +118,8 @@ public class MainFrame {
 		
 		//System.out.flow reset to the front text widget. Reset the direct to the text in SWT.
 		MyPrintStream mps = new MyPrintStream(System.out, text);
-		System.setOut(mps);
-		System.setErr(mps);
+//		System.setOut(mps);
+//		System.setErr(mps);
 		
 		//stop button.
 		Button button_2 = new Button(shell, SWT.NONE);

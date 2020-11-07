@@ -1,7 +1,6 @@
 package visual.controller;
 
 import java.util.ArrayList;
-
 import com.db.DbExcute;
 import com.h2.constant.Parameters;
 import visual.model.TableData;
@@ -19,6 +18,11 @@ public class MyTableView {
 
 	private ArrayList<String> list_db = new ArrayList<String>();
 	private ComboBox<String> mComboBox;
+
+	public ComboBox<String> getmComboBox() {
+		return mComboBox;
+	}
+
 	private Label mEventLabel;
 
 	public MyTableView(TableView<TableData> tv, ComboBox<String> mComboBox, Label mEventLabel) {
@@ -85,6 +89,12 @@ public class MyTableView {
 			this.tableView.setItems(Tools_DataCommunication.getCommunication().dataList);
 			Tools_DataCommunication.getCommunication().dataList.clear();
 			aDbExcute.Query_3_5(sql);
+			/** 更新label */
+			if (Tools_DataCommunication.getCommunication().dataList.size() == 0)
+				return;
+			TableData data = (TableData) Tools_DataCommunication.getCommunication().dataList
+					.get(Tools_DataCommunication.getCommunication().dataList.size() - 1);
+			Tools_DataCommunication.getCommunication().getmCAD().updataNewLabel(data.getEventTime());
 			break;
 		case Query:// 查询事件读取操作
 			this.tableView.setItems(Tools_DataCommunication.getCommunication().dataList_QueryPanel);

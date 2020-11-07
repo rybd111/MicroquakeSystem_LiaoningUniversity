@@ -1,5 +1,6 @@
 package com.db;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Parameter;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -18,6 +19,8 @@ import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
 
 import bean.QuackResults;
+import javafx.application.Platform;
+import javazoom.jl.decoder.JavaLayerException;
 
 /**
  * 2017/10/21
@@ -52,7 +55,8 @@ public class DbExcute {
 			resultSet = statement.executeQuery(sql);
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
 			JdbcUtil.releaseResources(resultSet, statement, connection);
 		}
@@ -93,7 +97,8 @@ public class DbExcute {
 								resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), resultSet.getDouble("tensor"), resultSet.getString("kind"), resultSet.getDouble("b_Value"))));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
 			JdbcUtil.releaseResources(resultSet, statement, connection);
 		}
@@ -137,9 +142,10 @@ public class DbExcute {
 				}
 				if (isadd) {// 如果表新添加了数据，就把数据显示在TableView表中
 					// 添加新数据
-					TableData data1 = new TableData(resultSet.getString("id"), resultSet.getString("quackTime"),
-							resultSet.getString("kind"),	resultSet.getString("panfu"),
-							resultSet.getString("xData") + "," + resultSet.getString("yData") + ","	+ resultSet.getString("zData"),
+					TableData newdata = new TableData(resultSet.getString("id"), resultSet.getString("quackTime"),
+							resultSet.getString("kind"), resultSet.getString("panfu"),
+							resultSet.getString("xData") + "," + resultSet.getString("yData") + ","
+									+ resultSet.getString("zData"),
 							resultSet.getString("nengliang"), resultSet.getString("quackGrade"),
 							resultSet.getString("parrival"), resultSet.getString("tensor"),resultSet.getString("b_value"),
 							new QuackResults(resultSet.getDouble("xData"), resultSet.getDouble("yData"),
@@ -149,11 +155,30 @@ public class DbExcute {
 									resultSet.getDouble("nengliang"), resultSet.getString("wenjianming"), resultSet.getDouble("tensor"), 
 									resultSet.getString("kind"), resultSet.getDouble("b_value")));
 
-					Tools_DataCommunication.getCommunication().dataList.add(data1);
-					Tools_DataCommunication.getCommunication().getmCAD()
-							.updataNewLabel(resultSet.getString("quackTime"));
-					/** 自动在UI界面上显示新数据 */
-					Tools_DataCommunication.getCommunication().getmTableView().autoShowData(data1);
+					/** 自动在UI界面上显示新数据操作 */
+					// 播放语音
+					try {
+						Tools_DataCommunication.getCommunication().getAudioPlayer().play();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						System.out.println("没有找到提示音频文件。");
+//						e.printStackTrace();
+					} catch (JavaLayerException e) {
+						// TODO Auto-generated catch block
+						System.out.println("Java播放异常，请及时联系开发人员！");
+//						e.printStackTrace();
+					}
+					/** 将数据更新到UI界面上 */
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							// 更新tableview的数据链
+							Tools_DataCommunication.getCommunication().dataList.add(newdata);
+							Tools_DataCommunication.getCommunication().getmTableView().autoShowData(newdata);
+							// 更新最新事件的时间:
+							Tools_DataCommunication.getCommunication().getmCAD().updataNewLabel(newdata.getEventTime());
+						}
+					});				
 				}
 			}
 		} catch (SQLException e) {
@@ -192,10 +217,15 @@ public class DbExcute {
 			System.out.println(aStatement.execute() + "-shujuku");
 			connection.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
+		if (Tools_DataCommunication.getCommunication().isClient)
+			if (Parameters.DatabaseName5.equals(Tools_DataCommunication.getCommunication().getmTableView()
+					.getmComboBox().getSelectionModel().getSelectedItem()))
+				QueryIsadd("select * from " + Parameters.DatabaseName5);
 	}
 
 	public void addElement3(QuackResults aQuackResults) {
@@ -221,12 +251,13 @@ public class DbExcute {
 			System.out.println(aStatement3.execute() + "-shujuku");
 			connection.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
 		}
-		if (Tools_DataCommunication.getCommunication().isClient)
-			QueryIsadd("select * from " + Parameters.DatabaseName3);
+//		if (Tools_DataCommunication.getCommunication().isClient)
+//			QueryIsadd("select * from " + Parameters.DatabaseName3);
 	}
 
 	public ArrayList<String> getData(String paras[]) {
@@ -270,7 +301,8 @@ public class DbExcute {
 				al.add(ob);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
@@ -347,7 +379,8 @@ public class DbExcute {
 								resultSet.getString("kind"), resultSet.getDouble("b_value"))));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error:----ks数据库中不存在该表");
+//			e.printStackTrace();
 		} finally {
 			JdbcUtil.releaseResources(resultSet, statement, connection);
 		}

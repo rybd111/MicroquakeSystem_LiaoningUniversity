@@ -19,13 +19,21 @@ import mutiThread.MainThread;
  *
  */
 public class ParametersToConfig {
+	private String ss[] = new String[7];
 	private String filePath = "";
 	private StringBuffer bufAll = new StringBuffer(); // 保存修改过后的所有内容，不断增加
 
 	public ParametersToConfig() throws IOException {
+		ss[0] = "D:/data/ConstructionData/20200711/Testr/";
+		ss[1] = "D:/data/ConstructionData/20200711/Testt/";
+		ss[2] = "D:/data/ConstructionData/20200711/Testu/";
+		ss[3] = "D:/data/ConstructionData/20200711/Testw/";
+		ss[4] = "D:/data/ConstructionData/20200711/Testx/";
+		ss[5] = "D:/data/ConstructionData/20200711/Testy/";
+		ss[6] = "D:/data/ConstructionData/20200711/Testz/";
 		String j = System.getProperty("user.dir");// get the procedure absolute path.
-		this.filePath = j + "/Config.ini";// get the config file.
-//		System.out.println(filePath);
+		this.filePath = j + "/resource/config.ini";// get the config file.
+		System.out.println("111111111111111111111111111111111"+filePath);
 		save(this.filePath);
 	}
 
@@ -43,7 +51,8 @@ public class ParametersToConfig {
 		File file = new File(Path);
 		// (文件完整路径),编码格式
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "GBK"));// GBK
-		String line = null;
+		String line = reader.readLine();
+		
 		while ((line = reader.readLine()) != null) {// when the procedure read the last line in csv file, the length of
 													// it will become 1.
 			if (line.length() > 1) { // this line has content.
@@ -116,22 +125,10 @@ public class ParametersToConfig {
 					/** fileStr */
 					if (item[0].equals("fileStr")) {
 //						MainThread.fileStr[0] = item[1];
-						buf.append("fileStr = " + MainThread.fileStr[0] + "\n");
-						while ((line = reader.readLine()) != null) {
-							item = line.split("=");
-							if (!item[0].equals("")) {
-								item[0] = item[0].replaceAll(" ", "");
-								item[1] = item[1].replaceAll(" ", "");
-								try {
-									if (item[0].equals("fileStr") && i < Parameters.SensorNum) {
-										buf.append("fileStr = " + MainThread.fileStr[i] + "\n");
-										i++;
-									}
-								} catch (Exception e) {
-									System.out.println("主路径个数超限错误！");
-								}
-							} else
-								break;
+						buf.append("fileStr = " + ss[0] + "\n");
+						while (i < this.ss.length) {
+							buf.append("fileStr = " + this.ss[i] + "\n");
+							i++;
 						}
 						buf.append("\n");
 					}
@@ -279,7 +276,7 @@ public class ParametersToConfig {
 		for (int i = 0; i < s.length; i++) {
 			temp += s[i].toString().replace(" ", ",");
 		}
-		System.out.print("11:    "+temp);
+		System.out.print("11:    " + temp);
 		return temp;
 	}
 }

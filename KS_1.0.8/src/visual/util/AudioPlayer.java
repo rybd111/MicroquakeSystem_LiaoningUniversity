@@ -24,7 +24,7 @@ public class AudioPlayer {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, JavaLayerException {
-		AudioPlayer audioPlayer = new AudioPlayer(new File(System.getProperty("user.dir") + "\\PromptTone.mp3"));
+		AudioPlayer audioPlayer = new AudioPlayer(new File(System.getProperty("user.dir") + "\\resource\\PromptTone.mp3"));
 		audioPlayer.play();
 	}
 }

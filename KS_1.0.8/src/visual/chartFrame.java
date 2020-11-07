@@ -16,10 +16,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.time.Millisecond;
 import org.jfree.data.time.Second;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
 //import org.jfree.data.time.TimeSeries;
 //import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYSeries;
@@ -30,19 +27,15 @@ import com.h2.constant.Parameters;
 
 import mutiThread.MainThread;
 
-/**
- * 
- * @author Administrator
- *
- */
 public class chartFrame extends Thread{
 	
 	public boolean exitVariable = false;
+//	private TimeSeries timeSeries;
 	private XYSeries timeSeries;
 	private int number = 0;
 	private JFrame Disaster;
 	private Shell shlHistory;
-	
+	//设置Linechart表的位置
 	public JPanel chartCon(int x, int y,int num, String chartTitle, String yaxisName) {
 		//第一个参数为图例，第二个参数为表标题，第三个为y轴名称
 		JFreeChart chart = createChart("", chartTitle, yaxisName);
@@ -93,20 +86,20 @@ public class chartFrame extends Thread{
 	@SuppressWarnings("deprecation")
 	private JFreeChart createChart(String chartContent, String title, String yaxisName) {
 		//创建时序图对象
-//		timeSeries = new TimeSeries(chartContent, Millisecond.class);
+//		timeSeries = new TimeSeries(chartContent, Second.class);
 		timeSeries = new XYSeries(yaxisName);
 		XYSeriesCollection timeseriescollection = new XYSeriesCollection(timeSeries);
 //		TimeSeriesCollection timeseriescollection = new TimeSeriesCollection(timeSeries);
-		JFreeChart jfreechart = ChartFactory.createTimeSeriesChart(title,"time(s)", yaxisName, timeseriescollection, false, true, false);
+		JFreeChart jfreechart = ChartFactory.createTimeSeriesChart(title,"time(s)", yaxisName, timeseriescollection, true, true, false);
 		XYPlot xyplot = jfreechart.getXYPlot();
 		//纵坐标设定
 		ValueAxis valueaxis = xyplot.getDomainAxis();
 		//自动设置数据轴数据范围
 		valueaxis.setAutoRange(true);
 		//数据轴固定数据范围 30s
-		valueaxis.setFixedAutoRange(50000);
-//		valueaxis = xyplot.getRangeAxis();
-//		valueaxis.setRange(0.0D,200D);  
+		valueaxis.setFixedAutoRange(5000D);
+		valueaxis = xyplot.getRangeAxis();
+		//valueaxis.setRange(0.0D,200D);  
 		return jfreechart;
 	}
 	
@@ -114,19 +107,14 @@ public class chartFrame extends Thread{
 	public void run() {
 		int count = 1;
 		while (true) {
-			if(count>=MainThread.aDataRec[number].afterVector.size()) {
-				count=0;
+//			timeSeries.add(new Second(), randomNum());
+			timeSeries.add(count, historyData(count));
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-//			timeSeries.addOrUpdate(new Millisecond(), historyData(count));
-			if(count%(Parameters.FREQUENCY+200)==0) {
-				timeSeries.add(count, historyData(count));
-			}
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
 			count++;
 			if(exitVariable==true) {
 	        	break;
@@ -134,10 +122,10 @@ public class chartFrame extends Thread{
 		}
 	}
 	//random update.
-	private long randomNum() {
-		System.out.println((Math.random() * 20));
-		return (long) (Math.random() * 20);
-	}
+//	private long randomNum() {
+//		System.out.println((Math.random() * 20));
+//		return (long) (Math.random() * 20);
+//	}
 	
 	public int historyData(int series) {
 		//get the data from history records.
@@ -145,7 +133,8 @@ public class chartFrame extends Thread{
 		if(MainThread.aDataRec[number].afterVector!=null) {
 			Vector<String> data = MainThread.aDataRec[number].afterVector;
 			int dataItem = Integer.valueOf(data.get(series).split(" ")[5]);
-//			System.out.println("序号："+series);
+//			System.out.println(data.get(series).split(" ")[6].substring(10));
+//			System.out.println(dataItem);
 			return dataItem;
 		}
 		else {

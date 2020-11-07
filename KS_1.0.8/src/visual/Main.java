@@ -1,9 +1,9 @@
 package visual;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import com.h2.constant.ConfigToParameters;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -30,7 +30,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-  
+
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/UI.fxml"));
 //		//获得RootLayout对象
@@ -40,7 +40,8 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("CS界面-辽宁大学");
 		primaryStage.setMinHeight(914);
-		primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("view/lndx.png")));
+		primaryStage.getIcons()
+				.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
 		primaryStage.show();
 
 		/** 监听窗口关闭操作 */
@@ -84,7 +85,7 @@ public class Main extends Application {
 		// 标记已启动UI界面
 		Tools_DataCommunication.getCommunication().isClient = true;
 		// 读取配置文件
-		ConfigToParameters c = new ConfigToParameters();
+		ConfigToParameters c = new ConfigToParameters(System.getProperty("user.dir") + "\\resource\\config.ini");
 		// 启动JavaFX程序
 		launch(args);
 	}

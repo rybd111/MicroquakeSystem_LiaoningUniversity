@@ -89,7 +89,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static int SensorNum =6;
+	public static int SensorNum =4;
 	/**
 	 * 从0-5依次为各个盘符的背景噪声，背景噪声必须在传感器布置到矿区固定后，才能通过长时间观察确定
 	 * 这个顺序必须与启动时的传感器序号顺序一致

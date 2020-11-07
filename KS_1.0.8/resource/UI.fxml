@@ -32,15 +32,15 @@
         <items>
             <SplitPane fx:id="mSplitpane" dividerPositions="0.5011904761904762" maxWidth="860.0" minWidth="450.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                <items>
-                  <AnchorPane fx:id="mGreenPane" maxHeight="540.0" minHeight="240.0" prefHeight="447.0" prefWidth="573.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;">
+                  <AnchorPane fx:id="mGreenPane" maxHeight="540.0" minHeight="240.0" prefHeight="447.0" prefWidth="573.0" style="-fx-background-color: #00CD00; -fx-border-color: #000000;">
                      <children>
-                        <Label fx:id="mLabel_neweve" layoutX="178.0" layoutY="3.0" prefHeight="25.0" prefWidth="568.0" style="-fx-border-color: #000000;" text="最新事件：2020-01-02,10:21:29.679" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Label fx:id="mLabel_neweve" layoutX="178.0" layoutY="3.0" prefHeight="25.0" prefWidth="568.0" style="-fx-border-color: #000000;" text="最新事件：2020-01-02,10:21:29.679" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <BorderPane fx:id="mBorderPane" layoutX="11.0" layoutY="32.0" prefHeight="336.0" prefWidth="545.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="31.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="mYellowPane" prefHeight="394.0" prefWidth="527.0" style="-fx-border-color: #000000;">
                      <children>
-                        <TableView fx:id="mTableView" layoutX="3.0" layoutY="29.0" prefHeight="382.0" prefWidth="569.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+                        <TableView fx:id="mTableView" layoutX="3.0" layoutY="29.0" prefHeight="382.0" prefWidth="569.0" style="-fx-background-color: #FFC125;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                           <columns>
                             <TableColumn fx:id="eventIndex" prefWidth="66.0" text="事件序号" />
                             <TableColumn fx:id="eventTime" prefWidth="66.0" text="触发时间" />
@@ -68,9 +68,9 @@
                      <items>
                         <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="30.0" prefWidth="98.0" style="-fx-border-color: #000000;">
                            <children>
-                              <Label alignment="CENTER" layoutX="36.0" layoutY="4.0" prefHeight="30.0" prefWidth="98.0" text="时间序列流" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Label layoutX="36.0" layoutY="4.0" prefHeight="30.0" prefWidth="98.0" text="    时间" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <font>
-                                    <Font size="18.0" />
+                                    <Font size="21.0" />
                                  </font>
                               </Label>
                            </children>
@@ -81,14 +81,14 @@
                   <HBox layoutX="314.0" layoutY="2.0" prefHeight="27.0" prefWidth="192.0" spacing="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Button layoutX="442.0" mnemonicParsing="false" onAction="#onRestore" prefHeight="27.0" prefWidth="64.0" style="-fx-border-color: #000000;" text="还原" />
-                        <Label prefHeight="32.0" prefWidth="49.0" text="lower" textFill="WHITE" />
+                        <Label prefHeight="32.0" prefWidth="49.0" text="lower" />
                         <Slider fx:id="mSlider_lower" layoutX="178.0" layoutY="10.0" max="90000.0" prefHeight="32.0" prefWidth="106.0" />
                         <TextField fx:id="mText_lower" layoutX="394.0" layoutY="10.0" prefHeight="33.0" prefWidth="66.0">
                            <font>
                               <Font size="11.0" />
                            </font>
                         </TextField>
-                        <Label layoutX="77.0" layoutY="10.0" prefHeight="32.0" prefWidth="49.0" text="upper" textFill="WHITE" />
+                        <Label layoutX="77.0" layoutY="10.0" prefHeight="32.0" prefWidth="49.0" text="upper" />
                         <Slider fx:id="mSlider_upper" layoutX="129.0" layoutY="10.0" max="90000.0" prefHeight="32.0" prefWidth="106.0" value="90000.0" />
                         <TextField fx:id="mText_upper" layoutX="238.0" layoutY="10.0" prefHeight="33.0" prefWidth="66.0">
                            <font>
@@ -102,24 +102,24 @@
                           <items>
                             <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="73.0" prefWidth="96.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T1" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T1" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -142,24 +142,24 @@
                            <items>
                               <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="73.0" prefWidth="96.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T2" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T2" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -183,24 +183,24 @@
                            <items>
                               <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="73.0" prefWidth="96.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T3" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T3" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -224,24 +224,24 @@
                            <items>
                               <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="73.0" prefWidth="96.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T4" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T4" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -265,24 +265,24 @@
                            <items>
                               <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="73.0" prefWidth="96.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T5" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T5" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -306,24 +306,24 @@
                            <items>
                               <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="73.0" prefWidth="96.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T6" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T6" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -347,24 +347,24 @@
                            <items>
                               <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="73.0" prefWidth="96.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T7" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T7" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -388,24 +388,24 @@
                            <items>
                               <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="73.0" prefWidth="96.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T8" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T8" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -429,24 +429,24 @@
                            <items>
                               <AnchorPane maxWidth="98.0" minHeight="-Infinity" minWidth="98.0" prefHeight="73.0" prefWidth="96.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T9" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+                                    <Label alignment="CENTER" layoutX="14.0" layoutY="29.0" prefHeight="73.0" prefWidth="38.0" style="-fx-background-color: #00BFFF; -fx-border-color: #000000;" text="T9" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <VBox layoutX="45.0" prefHeight="73.0" prefWidth="64.0" style="-fx-background-color: #00BFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <Label layoutX="35.0" layoutY="7.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Z-垂直" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="25.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="X-东西" textAlignment="CENTER" textFill="WHITE">
+                                          <Label layoutX="33.0" layoutY="47.0" prefHeight="27.0" prefWidth="114.0" style="-fx-border-color: #000000;" text="Y-北南" textAlignment="CENTER">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -479,7 +479,6 @@
       </TextField>
       <Slider fx:id="mSlider_P" layoutX="888.0" layoutY="30.0" max="90000.0" prefHeight="28.0" prefWidth="220.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="30.0" />
       <Label layoutX="707.0" layoutY="24.0" prefHeight="28.0" prefWidth="90.0" text="调整P波到时" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="30.0" />
-      <Button layoutX="610.0" layoutY="29.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onSaveP" prefHeight="28.0" prefWidth="50.0" text="保存" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
-      <Button layoutX="542.0" layoutY="30.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onCalculate" prefHeight="28.0" prefWidth="83.0" text="重新定位" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="30.0" />
+      <Button layoutX="610.0" layoutY="29.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#onSaveP" prefHeight="28.0" prefWidth="52.0" text="保存" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
    </children>
 </AnchorPane>

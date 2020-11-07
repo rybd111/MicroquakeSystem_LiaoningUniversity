@@ -129,7 +129,7 @@ public class Preferences extends ApplicationWindow {
 //				restoreValue(t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7, t1_8, t1_9, t1_10, t1_11, t1_12, t1_13, t1_14,
 //						t1_15, t1_16, t1_17, t1_18, t1_19, t3_2, t3_31, t3_32, t2_2, t2_31, t2_32, t4_1, t4_2, t4_3,
 //						t4_4, t4_5, t4_6, t4_7);
-				String initPath = System.getProperty("user.dir") + "/InitConfig.ini";
+				String initPath = System.getProperty("user.dir") + "/resource/InitConfig.ini";
 //				System.out.println(initPath);
 				try {
 					ConfigToParameters c = new ConfigToParameters(initPath);

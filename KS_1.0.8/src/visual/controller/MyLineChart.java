@@ -35,7 +35,7 @@ import javafx.scene.layout.VBox;
  *
  */
 public class MyLineChart {
-	/**CSV文件路径*/
+	/** CSV文件路径 */
 	private String filePath = null;
 
 	private Slider mSlider_P;
@@ -51,6 +51,7 @@ public class MyLineChart {
 	private VBox mVBoxLineChart;
 
 	private int tIndex = 0;
+
 	public int gettIndex() {
 		return tIndex;
 	}
@@ -135,23 +136,24 @@ public class MyLineChart {
 	}
 
 	public void setLineChart(int time, String path) {
-		
+
 		// 清空波形图最大Y值数组
 		Tools_DataCommunication.getCommunication().clearchartYmax();
 		// 放大缩小波形图还原到初始值
 		this.mSlider_lower.setValue(0.00);
 		this.mSlider_upper.setValue(90000.00);
 		System.out.println("读取CSV文件路径为：" + path);
-		if (path == null || path == "" || path == " " || path.length() <= 0) {
-			System.out.println("路径为空，绘制波形图失败！");
-			return;
-		}
-		this.filePath=path;
+//		if (path == null || path == "" || path == " " || path.length() <= 0) {
+//			System.out.println("路径为空，绘制波形图失败！");
+//			return;
+//		}
+		this.filePath = path;
 		ReadCSV r = new ReadCSV(this.filePath);
 		try {
 			Tools_DataCommunication.getCommunication().list = r.readContents(time);// s
 		} catch (NumberFormatException | IOException e) {
-			e.printStackTrace();
+			System.out.println("路径为空，绘制波形图失败！");
+			return;
 		}
 
 		clearSeries();
@@ -223,7 +225,7 @@ public class MyLineChart {
 			tempt = Tools_DataCommunication.getCommunication().chartYmax[i];
 			for (int j = 0; j < Tools_DataCommunication.getCommunication().list.get(0 + 3 * i).size(); j++) {
 				if (j == Tools_DataCommunication.getCommunication().P_array[i]) {
-					XYChart.Data<Number, Number> temp1 = new XYChart.Data<>(j, 0);
+					XYChart.Data<Number, Number> temp1 = new XYChart.Data<>(j, 4 * tempt);
 					XYChart.Data<Number, Number> temp2 = new XYChart.Data<>(j, 6 * tempt);
 					pArray.get(i).getData().addAll(temp1, temp2);
 				}
@@ -232,11 +234,11 @@ public class MyLineChart {
 				if (j % 100 != 0)
 					continue;
 				XYChart.Data<Number, Number> data1 = new XYChart.Data<>(j,
-						Tools_DataCommunication.getCommunication().list.get(0 + 3 * i).get(j) + 1 * tempt);
+						Tools_DataCommunication.getCommunication().list.get(0 + 3 * i).get(j) + 1 * tempt);//X
 				XYChart.Data<Number, Number> data2 = new XYChart.Data<>(j,
-						Tools_DataCommunication.getCommunication().list.get(1 + 3 * i).get(j) + 3 * tempt);
+						Tools_DataCommunication.getCommunication().list.get(1 + 3 * i).get(j) + 3 * tempt);//Y
 				XYChart.Data<Number, Number> data3 = new XYChart.Data<>(j,
-						Tools_DataCommunication.getCommunication().list.get(2 + 3 * i).get(j) + 5 * tempt);
+						Tools_DataCommunication.getCommunication().list.get(2 + 3 * i).get(j) + 5 * tempt);//Z
 				T_seriesZ.get(0 + 3 * i).getData().add(data1);// x
 				T_seriesZ.get(1 + 3 * i).getData().add(data2);// y
 				T_seriesZ.get(2 + 3 * i).getData().add(data3);// z
@@ -287,6 +289,8 @@ public class MyLineChart {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				mText_P.setText(String.format("%.2f", newValue));
 				if (tIndex == 0)
+					return;
+				if (tIndex - 1 >= Tools_DataCommunication.getCommunication().fileSS.length())
 					return;
 				double temp = pArray.get(tIndex - 1).getData().get(1).getYValue().doubleValue();
 				pArray.get(tIndex - 1).getData().clear();
@@ -433,7 +437,9 @@ public class MyLineChart {
 				if (Tools_DataCommunication.getCommunication().P_array == null)
 					return;
 				tIndex = i + 1;
-				mSlider_P.setValue(Tools_DataCommunication.getCommunication().P_array[i]);
+				if (i < Tools_DataCommunication.getCommunication().fileSS.length())
+					mSlider_P.setValue(Tools_DataCommunication.getCommunication().P_array[i]);
+
 			}
 		});
 	}
@@ -455,9 +461,9 @@ public class MyLineChart {
 		});
 	}
 
-	/**保存更改过后的P波到时位置*/
+	/** 保存更改过后的P波到时位置 */
 	public void saveP() {
-		saveCSV sa=new saveCSV(this.filePath, pArray);
+		saveCSV sa = new saveCSV(this.filePath, pArray);
 		try {
 			sa.save();
 		} catch (NumberFormatException e) {

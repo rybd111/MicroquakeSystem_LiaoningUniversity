@@ -1,6 +1,8 @@
 package visual.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import com.h2.constant.Parameters;
 import com.teamdev.jxbrowser.chromium.Browser;
@@ -76,7 +78,7 @@ public class Tools_DataCommunication {
 	}
 
 	/** 获取控制播放提示音类 */
-	private AudioPlayer audioPlayer = new AudioPlayer(new File(System.getProperty("user.dir") + "\\PromptTone.mp3"));
+	private AudioPlayer audioPlayer = new AudioPlayer(new File(System.getProperty("user.dir") + "\\resource\\PromptTone.mp3"));
 
 	/** 播放提示音 */
 	public AudioPlayer getAudioPlayer() {
@@ -194,7 +196,13 @@ public class Tools_DataCommunication {
 			stage = new Stage();
 			stage.setScene(scene);
 			stage.setTitle("输出控制台");
-			stage.getIcons().add(new Image(Main.class.getResourceAsStream("view/lndx.png")));
+			try {
+				stage.getIcons().add(new Image(new FileInputStream(System.getProperty("user.dir")+"\\resource\\lndx.png")));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				System.out.println("输出控制台没有找到窗口图片");
+//				e.printStackTrace();
+			}
 			stage.show();
 			/** 绑定输出流 */
 			MyPrintStream mps = new MyPrintStream(System.out, console);

@@ -27,10 +27,15 @@ import visual.util.Tools_DataCommunication.tableViewType;
  *
  */
 public class QueryPanelController {
-	
+	private Thread myThread = null;
+
+	public Thread getMyThread() {
+		return myThread;
+	}
+	private MyTableView mytable = null;
 	@FXML
 	private ComboBox<String> select_db;// 数据库选择
-	
+
 	@FXML
 	private TextField query_grade;// 震级
 	@FXML
@@ -71,8 +76,8 @@ public class QueryPanelController {
 				sql = "select * from " + db_tablename + " where quackTime between '" + db_startTime + "' and '"
 						+ db_endTime + "' and quackGrade >= " + db_grade + " and nengliang >= " + db_energy;// 震级和能量都不为空
 			else
-			sql = "select * from " + db_tablename + " where quackTime between '" + db_startTime + "' and '" + db_endTime
-					+ "' and quackGrade >= " + db_grade;// 震级不为空，能量为空
+				sql = "select * from " + db_tablename + " where quackTime between '" + db_startTime + "' and '"
+						+ db_endTime + "' and quackGrade >= " + db_grade;// 震级不为空，能量为空
 		} else {
 			if (db_energy != null && !db_energy.equals("") && !db_energy.equals(" "))
 				sql = "select * from " + db_tablename + " where quackTime between '" + db_startTime + "' and '"
@@ -83,8 +88,10 @@ public class QueryPanelController {
 		}
 
 		System.out.println("对数据库操作的SQL语句为：" + sql);
-		DbExcute aDbExcute = new DbExcute();
-		aDbExcute.Query_panel(sql);
+//		Tools_DataCommunication.getCommunication().dataList_QueryPanel.clear();
+//		DbExcute aDbExcute = new DbExcute();
+//		aDbExcute.Query_panel(sql);
+		mytable.setTableViewData(sql,tableViewType.Query);
 		System.out.println("===============================================");
 		/** 在CAD图纸上绘制按照约束条件查询到的所有的定位点 */
 		ObservableList data = Tools_DataCommunication.getCommunication().dataList_QueryPanel;
@@ -92,13 +99,39 @@ public class QueryPanelController {
 			return;
 		MyCAD cad = Tools_DataCommunication.getCommunication().getmCAD();
 		cad.getController().deleteALL();
-		TableData tabledata = null;
-		for (int i = 0; i < data.size(); i++) {
-			tabledata = (TableData) data.get(i);
-			Tools_DataCommunication.getCommunication().getmCAD().getController().ShowcircleALL(
-					tabledata.getQuackResults().getxData(), tabledata.getQuackResults().getyData(),
-					Tools_DataCommunication.getCommunication().circleRadius);
-		}
+//		TableData tabledata = null;
+//		for (int i = 0; i < data.size(); i++) {
+//			tabledata = (TableData) data.get(i);
+//			Tools_DataCommunication.getCommunication().getmCAD().getController().ShowcircleALL(
+//					tabledata.getQuackResults().getxData(), tabledata.getQuackResults().getyData(),
+//					Tools_DataCommunication.getCommunication().circleRadius);
+//		}
+		if (myThread != null)
+			myThread.interrupt();
+		Tools_DataCommunication.getCommunication().getmCAD().getController().deleteALL();
+		this.myThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				TableData tabledata = null;
+				for (int i = 0; i < data.size(); i++) {
+					try {
+						Thread.sleep(2000);
+//						System.out.println("2222222");
+						tabledata = (TableData) data.get(i);
+						Tools_DataCommunication.getCommunication().getmCAD().getController().ShowcircleALL(
+								tabledata.getQuackResults().getxData(), tabledata.getQuackResults().getyData(),
+								Tools_DataCommunication.getCommunication().circleRadius);
+					} catch (InterruptedException e) {
+						System.out.println("======Info:绘制查询CAD定位点线程被正常中断。------QueryPanelController========");
+//						e.printStackTrace();
+					}
+					catch (Exception e) {
+						// TODO: handle exception
+					}
+				}
+			}
+		});
+		this.myThread.start();
 	}
 
 	private ArrayList<String> list_db = new ArrayList<String>();
@@ -107,6 +140,7 @@ public class QueryPanelController {
 
 	@FXML
 	void initialize() {
+		mytable = Tools_DataCommunication.getCommunication().getmTableView();
 		/** 数据库选择 */
 		db_addcomboBoxdata();
 		initComboBox(select_db, list_db);
@@ -150,12 +184,16 @@ public class QueryPanelController {
 	}
 
 	private void initComboBox(ComboBox<String> c, ArrayList<String> data) {
-		MyTableView mytable=Tools_DataCommunication.getCommunication().getmTableView();
+		
 		c.getItems().addAll(data);
 		c.getSelectionModel().select(0);
 		c.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (myThread != null)
+					myThread.interrupt();
+				Tools_DataCommunication.getCommunication().dataList_QueryPanel.clear();
+				Tools_DataCommunication.getCommunication().getmCAD().getController().deleteALL();
 				// TODO：对更改选中Item的监听
 				if (newValue.equals(Parameters.DatabaseName3))
 					mytable.setTableViewData("select * from " + Parameters.DatabaseName3, tableViewType.Query);
@@ -169,8 +207,8 @@ public class QueryPanelController {
 					mytable.setTableViewData("select * from " + Parameters.DatabaseName5, tableViewType.Query);
 				else if (newValue.equals(Parameters.DatabaseName5_updated))
 					mytable.setTableViewData("select * from " + Parameters.DatabaseName5_updated, tableViewType.Query);
-				System.out.println("oldValue:  " + oldValue);
-				System.out.println("newValue:  " + newValue);
+//				System.out.println("oldValue:  " + oldValue);
+//				System.out.println("newValue:  " + newValue);
 			}
 		});
 	}
