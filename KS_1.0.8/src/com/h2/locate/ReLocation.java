@@ -32,7 +32,6 @@ public class ReLocation {
 		if(senserInformation.length<3)
 		{
 			System.out.println("激发传感器个数小于3，无法计算");
-
 		}
 		else {
 				Sensor[] sensors1 = new Sensor[senserInformation.length];
