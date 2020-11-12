@@ -55,8 +55,20 @@ public class TimeDifferent {
 		
 		//there are four situations. 1 greater than 0 or greater than 1. 2 smaller than 0 or smaller than -1.
 		if(distanceB<-1 || distanceB>1) {
-			d.setTime(d.getTime()+(int)distanceB*1000);
-			consequence = simpleDateFormat.format(d)+"."+String.valueOf(distanceB).split("\\.")[1];
+				if(distanceB<-1 ) {
+					int distanceBint=(int)distanceB;
+					double distancefloat=distanceB-distanceBint;
+					d.setTime(d.getTime()+distanceBint*1000);
+					distancefloat=distancefloat+1;
+					d.setTime(d.getTime()-1*1000);
+					consequence = simpleDateFormat.format(d)+"."+String.valueOf(distancefloat).split("\\.")[1];
+				}
+				else {
+					int distanceBint=(int)distanceB;
+					double distancefloat=distanceB-distanceBint;
+					d.setTime(d.getTime()+distanceBint*1000);
+					consequence = simpleDateFormat.format(d)+"."+String.valueOf(distancefloat).split("\\.")[1];
+				}
 		}
 		else if(distanceB>0){
 			consequence = simpleDateFormat.format(d)+"."+String.valueOf(distanceB).split("\\.")[1];
