@@ -21,7 +21,7 @@ public class ReLocation {
 	/**
 	 * @param senserInformation 传感器信息（到时,x,y,z）.
 	 * @param kind 算法类型.("Five_Locate","PSO_Locate")
-	 * @param absolutetime  绝对时间.
+	 * @param absolutetime  绝对时间，为波形文件名中的绝对时间.
 	 * @return String[x,y,z,parrival,intequackTime]
 	 * @throws MWException.
 	 * @throws ParseException.
@@ -39,11 +39,11 @@ public class ReLocation {
 				
 				for(int i=0;i<senserInformation.length;i++)
 				{
-				sensors1[i]=new Sensor();	
-				sensors1[i].setSecTime(senserInformation[i][0]);//到时
-				sensors1[i].setLatitude(senserInformation[i][1]);//x
-				sensors1[i].setLongtitude(senserInformation[i][2]);//y
-				sensors1[i].setAltitude(senserInformation[i][3]);//z
+					sensors1[i]=new Sensor();	
+					sensors1[i].setSecTime(senserInformation[i][0]);//到时
+					sensors1[i].setLatitude(senserInformation[i][1]);//x
+					sensors1[i].setLongtitude(senserInformation[i][2]);//y
+					sensors1[i].setAltitude(senserInformation[i][3]);//z
 				}
 				sensors1[0].setAbsoluteTime(absolutetime);//绝对时间
 				if(kind=="Five_Locate")
