@@ -89,10 +89,6 @@ public class ConfigToParameters {
 		            if(item[0].equals("ShortCompareLongAdjust")) {
 		            	Parameters.ShortCompareLongAdjust = Double.parseDouble(item[1]);
 		            }
-		            /**afterRange_Threshold456*/
-		            if(item[0].equals("afterRange_Threshold456")) {
-		            	Parameters.afterRange_Threshold456 = Double.parseDouble(item[1]);
-		            }
 		            /**afterRange_ThresholdMin*/
 		            if(item[0].equals("afterRange_ThresholdMin")) {
 		            	Parameters.afterRange_ThresholdMin = Double.parseDouble(item[1]);

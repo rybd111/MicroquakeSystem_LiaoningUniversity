@@ -78,10 +78,6 @@ public class ParametersToConfig {
 					if (item[0].equals("ShortCompareLongAdjust")) {
 						buf.append("ShortCompareLongAdjust = " + Parameters.ShortCompareLongAdjust + "\n");
 					}
-					/** afterRange_Threshold456 */
-					if (item[0].equals("afterRange_Threshold456")) {
-						buf.append("afterRange_Threshold456 = " + Parameters.afterRange_Threshold456);
-					}
 					/** afterRange_ThresholdMin */
 					if (item[0].equals("afterRange_ThresholdMin")) {
 						buf.append("afterRange_ThresholdMin = " + Parameters.afterRange_ThresholdMin);

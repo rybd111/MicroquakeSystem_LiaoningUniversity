@@ -117,7 +117,7 @@ public class SensorTool
 		boolean flag=false;
 //		System.out.println(data.size());
 		//the hop number is 100, i starts from the first data of the first sliding window to the first data of the last sliding window.
-		for(int i=0;i<data.size()-Parameters.N-Parameters.refineRange;i+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
+		for(int i=Parameters.refineRange*2;i<data.size()-Parameters.N-Parameters.refineRange;i+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
 		{
 			if(!sensor.isSign())
 			{
@@ -309,14 +309,21 @@ public class SensorTool
 		double sumA = 0.0;
 		double sumB = 0.0;
 		double average = 0.0;
+		double average_before=0.0;
 		
-
+		//计算后面范围和前面范围内的平均值是否满足要求，前面均值保证了前面数据没有较大波动，后期可以改成其他指标。
 		for(int i=0;i<Parameters.afterRange;i++) {//the scope of the diagnosing.
 			average+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
 		}
-		average = average/Parameters.afterRange;
+//		if(lineSeries>)
+		for(int i=0;i<Parameters.beforeRange;i++) {
+			average_before+=Math.abs(Integer.parseInt(data.get(lineSeries-i).split(" ")[5]));
+		}
 		
-		if(average>=Parameters.afterRange_ThresholdMin) {
+		average = average/Parameters.afterRange;
+		average_before = average_before/Parameters.beforeRange;
+		
+		if(average>=Parameters.afterRange_ThresholdMin && average_before<=Parameters.beforeRange_Threshold) {
 			// we will find the next condition.
 			for(int i=0;i<Parameters.refineRange;i++) {
 				sumA+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));

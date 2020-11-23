@@ -186,10 +186,6 @@ public class Preferences extends ApplicationWindow {
 		l1_4.setBounds(10, 100, 152, 20);
 		l1_4.setText("粗略探视阈值");
 
-		t1_4 = new Text(composite, SWT.BORDER);
-		t1_4.setBounds(168, 97, 104, 26);
-		t1_4.setText(String.valueOf(Parameters.afterRange_Threshold456));
-
 		Label l1_5 = new Label(composite, SWT.NONE);
 		l1_5.setBounds(10, 129, 152, 20);
 		l1_5.setText("精细探视点数");
@@ -721,7 +717,6 @@ public class Preferences extends ApplicationWindow {
 		t1_1.setText(String.valueOf(Parameters.distanceToSquareWave));
 		t1_2.setText(String.valueOf(Parameters.ShortCompareLong));
 		t1_3.setText(String.valueOf(Parameters.afterRange));
-		t1_4.setText(String.valueOf(Parameters.afterRange_Threshold456));
 		t1_5.setText(String.valueOf(Parameters.refineRange));
 		t1_6.setText(String.valueOf(Parameters.refineRange_ThresholdMin));
 		t1_7.setText(String.valueOf(Parameters.SensorNum));
@@ -765,7 +760,6 @@ public class Preferences extends ApplicationWindow {
 		Parameters.distanceToSquareWave = Double.parseDouble(t1_1.getText());
 		Parameters.ShortCompareLong = Double.parseDouble(t1_2.getText());
 		Parameters.afterRange = Integer.parseInt(t1_3.getText());
-		Parameters.afterRange_Threshold456 = Double.parseDouble(t1_4.getText());
 		Parameters.refineRange = Integer.parseInt(t1_5.getText());
 		Parameters.refineRange_ThresholdMin = Double.parseDouble(t1_6.getText());
 		Parameters.SensorNum = Integer.parseInt(t1_7.getText());

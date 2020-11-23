@@ -50,10 +50,13 @@ public class Parameters
 	public static double ShortCompareLong = 1.5;
 	public static double ShortCompareLongAdjust=1.4;
 
+	public static int beforeRange = (Parameters.FREQUENCY+200)/10;
 	public static int afterRange = (Parameters.FREQUENCY+200)/10;
 	public static int refineRange = (int) ((Parameters.FREQUENCY+200)*1.2);
+	
 //	public static final double afterRange_Threshold123 = 1000;
-	public static double afterRange_Threshold456 = 500;
+//	public static double afterRange_Threshold456 = 500;
+	public static double beforeRange_Threshold = 50000;
 	public static double afterRange_ThresholdMin = 500;
 	public static double afterRange_ThresholdMax = 1000;
 	public static double refineRange_ThresholdMin = 500;
@@ -89,7 +92,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static int SensorNum =4;
+	public static int SensorNum =6;
 	/**
 	 * 从0-5依次为各个盘符的背景噪声，背景噪声必须在传感器布置到矿区固定后，才能通过长时间观察确定
 	 * 这个顺序必须与启动时的传感器序号顺序一致
