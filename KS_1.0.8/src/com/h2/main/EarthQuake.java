@@ -89,13 +89,22 @@ public class EarthQuake {
 				judgeMotiData.addElement(sensorData[i][0].get(k));
 			
 			judgeMotiData.addAll(sensorData[i][1]);
+			
+//			for(int k=0;k<(Parameters.FREQUENCY+200)*3;k++) {
+//				judgeMotiData.addElement(sensorData[i][2].get(k));
+//			}
 //			String jing = judgeMotiData.get(0).split(" ")[6];
 //			if(jing.equals("2020-07-2815:27:45")) {
 //				System.out.println();
 //			}
 			//experience.
 //			sensors[i].setTenVectorData(judgeMotiData);
-			
+			//写入txt
+//			if(i==5) {
+//				String temp = judgeMotiData.get(i).split(" ")[6].replaceAll("-", "");
+//				temp = temp.replaceAll(":", "");
+//				writeToDisk.write_array("E:/"+temp+".txt", judgeMotiData);
+//			}
 			SensorTool.motivate(judgeMotiData, sensors[i],i);//存储了激发时间和激发的标志位
 			judgeMotiData.clear();
 		}
