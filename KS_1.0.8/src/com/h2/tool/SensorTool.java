@@ -316,14 +316,15 @@ public class SensorTool
 			average+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
 		}
 //		if(lineSeries>)
-		for(int i=0;i<Parameters.beforeRange;i++) {
-			average_before+=Math.abs(Integer.parseInt(data.get(lineSeries-i).split(" ")[5]));
-		}
+//		for(int i=0;i<Parameters.beforeRange;i++) {
+//			average_before+=Math.abs(Integer.parseInt(data.get(lineSeries-i).split(" ")[5]));
+//		}
 		
 		average = average/Parameters.afterRange;
-		average_before = average_before/Parameters.beforeRange;
+//		average_before = average_before/Parameters.beforeRange;
 		
-		if(average>=Parameters.afterRange_ThresholdMin && average_before<=Parameters.beforeRange_Threshold) {
+//		if(average>=Parameters.afterRange_ThresholdMin && average_before<=Parameters.beforeRange_Threshold) {
+		if(average>=Parameters.afterRange_ThresholdMin) {
 			// we will find the next condition.
 			for(int i=0;i<Parameters.refineRange;i++) {
 				sumA+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
