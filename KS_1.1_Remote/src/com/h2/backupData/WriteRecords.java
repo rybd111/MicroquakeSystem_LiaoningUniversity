@@ -290,6 +290,8 @@ public class WriteRecords {
                 }
             }
         }
+        
+        System.out.println("单台记录写入完毕："+sensors[0].getAbsoluteTime()+"\t"+sensors[0].getFudu()+"\t"+sensors[0].getFilename()+"\t"+"0"+"\t");
     }
     
     public static void insertALine(String filepath) {

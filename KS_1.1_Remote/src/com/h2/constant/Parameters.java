@@ -178,7 +178,7 @@ public class Parameters
 	public static String AbsolutePath_CSV3 = "D:/data/ConstructionData/3moti/";
 	public static String AbsolutePath_CSV5 = "D:/data/ConstructionData/5moti/";
 	public static String AbsolutePath_allMotiTime_record = "D:/data/ConstructionData/TimeRecords.csv";
-	public static String AbsolutePath_recordsOfOneSensor = "D:/";
+	public static String AbsolutePath_recordsOfOneSensor = "E:/";
 	public static String AbsolutePath_wave = "D:/data/";
 	/**
 	 * 1分钟的数据存放位置
