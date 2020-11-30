@@ -17,7 +17,8 @@ public class Parameters
 	 * 传感器的采样频率，单位是hz/s，文档中是10k，表示每秒有10000条数据
 	 */
 	public static int FREQUENCY = 4800;// 单位hz/s
-	public static double distanceToSquareWave = 0.2;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
+	public static int readLen = 10;
+	public static double distanceToSquareWave = 0.17;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
 	/**
 	 * 用于单位转换，采样频率是秒，长短时窗的单位是毫秒
 	 */
@@ -47,19 +48,27 @@ public class Parameters
 	/**
 	 * 短时窗平均值与长时窗平均值的比值大于2.5，上次矫正
 	 */
-	public static double ShortCompareLong = 2;
+	public static double ShortCompareLong = 1.5;
 	public static double ShortCompareLongAdjust=1.4;
 
+	public static int beforeRange = (Parameters.FREQUENCY+200)/10;
 	public static int afterRange = (Parameters.FREQUENCY+200)/10;
-	public static int refineRange = (Parameters.FREQUENCY+200);
+	public static int refineRange = (int) ((Parameters.FREQUENCY+200)*1.2);
+	
 //	public static final double afterRange_Threshold123 = 1000;
-	public static double afterRange_Threshold456 = 1000;
-	public static double refineRange_Threshold456 = 0;
+//	public static double afterRange_Threshold456 = 500;
+	public static double beforeRange_Threshold = 50000;
+	public static double afterRange_ThresholdMin = 500;
+	public static double afterRange_ThresholdMax = 1000;
+	public static double refineRange_ThresholdMin = 500;
+	public static double refineRange_ThresholdMax = 2000;
+	
+	public static double refineRange_variance = 0.0;
 	
 	/**
 	 * 距离其他传感器的传输花费时间，大于1s则认为不时同时发生的事件，但要根据实际点之间的距离和波速进行调整。
 	 */
-	public static int IntervalToOtherSensors=5;
+	public static int IntervalToOtherSensors=2;
 	/**
 	 * when it is true, then the time interval among all sensors are turn on.
 	 */
@@ -96,15 +105,15 @@ public class Parameters
 	 * 传感器的信息 经度，维度，海拔，坐标为CAD单位，需在程序运行前设置
 	 */
 	public static final double[][] SENSORINFO = {
-			{ 41518099.807,4595388.504,22.776 },//T
-			{ 41518060.298,4594304.927,21.926  },//U
-			{ 41520207.356,4597983.404,22.661  },//W
-			{ 41520815.875,4597384.576,25.468  },//X
-			{ 41519304.125,4595913.485,23.921  },//Z
-			{ 41519926.476,4597275.978,20.705  },//Y
-			{ 41516707.440,4593163.619,22.564  },//V
-			{ 41516836.655,4596627.472,21.545  },//S
-			{ 41517290.0374,4599537.3261,24.5649  }//R
+			{ 41518099.807,4595388.504,22.776 },//T 杨甸子
+			{ 41518060.298,4594304.927,21.926  },//U 树碑子
+			{ 41520207.356,4597983.404,22.661  },//W 北青堆子
+			{ 41520815.875,4597384.576,25.468  },//X 车队
+			{ 41519304.125,4595913.485,23.921  },//Z 工业广场
+			{ 41519926.476,4597275.978,20.705  },//Y 火药库
+			{ 41516707.440,4593163.619,22.564  },//V 南风井
+			{ 41516836.655,4596627.472,21.545  },//S 蒿子屯
+			{ 41517290.0374,4599537.3261,24.5649  }//R 李大人
 	};//从上起为牛家村、洗煤厂、香山矿、王家村、十一矿工业广场老办公楼西南角花坛、西风井、打钻工区
 	public static final String region = "红阳";
 	/**
@@ -163,6 +172,7 @@ public class Parameters
 	 * when we will store record of each event, we need to set this variable to 1.
 	 */
 	public static int isStorageEventRecord = 0;
+	public static int isDelay = 0;
 	/**
 	 * 设置三台站、五台站txt存储路径
 	 * 默认为：D://ConstructionData//3moti//
@@ -187,11 +197,11 @@ public class Parameters
 	/**
 	 * 5台站、3台站存入的数据库表名
 	 */
-	public static final String DatabaseName5 = "mine_quack_5_results";
-	public static final String DatabaseName5_updated = "mine_quack_5_results_updated";
-	public static final String DatabaseName4 = "mine_quack_4_results";
-	public static final String DatabaseName3 = "mine_quack_3_results";
-	public static final String DatabaseName3_updated = "mine_quack_3_results_updated";
+	public static  String DatabaseName5 = "mine_quack_results";
+	public static  String DatabaseName5_updated = "mine_quack_5_results_updated";
+	public static  String DatabaseName4 = "mine_quack_4_results";
+	public static  String DatabaseName3 = "mine_quack_3_results";
+	public static  String DatabaseName3_updated = "mine_quack_3_results_updated";
 	/**
 	 * 测试重复变量，当出现重复盘符时，该变量起作用。
 	 * @description
@@ -236,12 +246,12 @@ public class Parameters
 	 * There are two regions we distribute called datong, pingdingshan.
 	 * */
 	private static String [] station= {"hongyang","datong","pingdingshan"};
-	public static final String region_offline =station[0];
+	public static String region_offline =station[0];
 	/**
 	 * the time to read when procedure start.
 	 */
-//	public static final String timeStr = "170214123000";
-	public static final String timeStr = "200214130000";
+//	public static final String timeStr = "200214123000";
+	public static String timeStr = "190711080000";
 	/**the data file must store in a fold which name ends with "1" or "2" or "3" or "4" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 * */

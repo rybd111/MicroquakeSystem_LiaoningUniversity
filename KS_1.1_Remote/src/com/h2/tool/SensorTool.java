@@ -45,6 +45,7 @@ public class SensorTool
 			for (int i = 0; i < count; i++)
 			{
 				sensors[i]=new Sensor();
+				sensors[i].SetSensorSeries(i);
 				(sensors[i]).setLatitude(Parameters.SENSORINFO[k[i]][0]-Parameters.SENSORINFO[k[0]][0]);
 //				(sensors[i]).setLatitude(Parameters.SENSORINFO[k[i]][0]);
 				(sensors[i]).setLongtitude(Parameters.SENSORINFO[k[i]][1]-Parameters.SENSORINFO[k[0]][1]);
@@ -64,6 +65,7 @@ public class SensorTool
 				for (int i = 0; i < count; i++)
 				{
 					sensors[i]=new Sensor();
+					sensors[i].SetSensorSeries(i);
 					//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
 					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_hongyang[k[i]][0]-Parameters.SENSORINFO_offline_hongyang[k[0]][0]);
 //					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_hongyang[k[i]][0]);
@@ -77,6 +79,7 @@ public class SensorTool
 				for (int i = 0; i < count; i++)
 				{
 					sensors[i]=new Sensor();
+					sensors[i].SetSensorSeries(i);
 					//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
 					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_datong[k[i]][0]-Parameters.SENSORINFO_offline_datong[k[0]][0]);
 					(sensors[i]).setLongtitude(Parameters.SENSORINFO_offline_datong[k[i]][1]-Parameters.SENSORINFO_offline_datong[k[0]][1]);
@@ -87,6 +90,7 @@ public class SensorTool
 				for (int i = 0; i < count; i++)
 				{
 					sensors[i]=new Sensor();
+					sensors[i].SetSensorSeries(i);
 					//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
 					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_pingdingshan[k[i]][0]-Parameters.SENSORINFO_offline_pingdingshan[k[0]][0]);
 					(sensors[i]).setLongtitude(Parameters.SENSORINFO_offline_pingdingshan[k[i]][1]-Parameters.SENSORINFO_offline_pingdingshan[k[0]][1]);
@@ -111,9 +115,9 @@ public class SensorTool
 	{
 		int lineSeries = 0;
 		boolean flag=false;
-		
+//		System.out.println(data.size());
 		//the hop number is 100, i starts from the first data of the first sliding window to the first data of the last sliding window.
-		for(int i=0;i<data.size()-Parameters.N-Parameters.refineRange;i+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
+		for(int i=Parameters.refineRange*2;i<data.size()-Parameters.N-Parameters.refineRange;i+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
 		{
 			if(!sensor.isSign())
 			{
@@ -125,20 +129,24 @@ public class SensorTool
 					if(Parameters.motivationDiagnose==1) {
 						flag=getAverage(data,lineSeries,th);
 						if(flag==true) {
-							//set the flag signal.
-							sensor.setSign(true);
-							
-							//there set the position(series) in now vector, it means the relative position in 10s vector.
-							sensor.setlineSeries(lineSeries);
-							System.out.println("激发位置："+"  "+sensor.getlineSeries());
-							//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
-							sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
-							
-							//Set the absolute time in GPS time.
-							sensor.setAbsoluteTime(relativeStatus.PArrivalTime(data, sensor,th));
-							
-							//we obtain the time of the first time of the now vector.
-							sensor.setTime(data.get(lineSeries).split(" ")[6]);
+//							System.out.println(standard);
+//							if(lineSeries < standard) {//判断是否再后面激发，如果在后面激发，则在下个窗口进行计算。
+								//set the flag signal.
+								sensor.setSign(true);
+								
+								//there set the position(series) in now vector, it means the relative position in 10s vector.
+								sensor.setlineSeries(lineSeries-Parameters.refineRange*2);
+								
+//								System.out.println("激发位置："+"  "+sensor.getlineSeries());
+								//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
+								sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
+								
+								//Set the absolute time in GPS time.
+								sensor.setAbsoluteTime(relativeStatus.PArrivalTime(data, sensor,th));
+								
+								//we obtain the time of the first time of the now vector.
+								sensor.setTime(data.get(lineSeries).split(" ")[6]);
+//							}
 						}
 					}
 					else {
@@ -298,44 +306,111 @@ public class SensorTool
 	public static boolean getAverage(Vector<String> data, int lineSeries,int th) {
 		double maxA = 0.0;
 		double sumA = 0.0;
+		double sumB = 0.0;
 		double average = 0.0;
-
+		double average_before=0.0;
+		
+		//计算后面范围和前面范围内的平均值是否满足要求，前面均值保证了前面数据没有较大波动，后期可以改成其他指标。
 		for(int i=0;i<Parameters.afterRange;i++) {//the scope of the diagnosing.
 			average+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
 		}
+//		if(lineSeries>)
+//		for(int i=0;i<Parameters.beforeRange;i++) {
+//			average_before+=Math.abs(Integer.parseInt(data.get(lineSeries-i).split(" ")[5]));
+//		}
+		
 		average = average/Parameters.afterRange;
-		if(average>=Parameters.afterRange_Threshold456) {
-			if(Parameters.offline==true) {
-//				System.out.println(MainThread.fileParentPackage[th]+"在"+Parameters.afterRange/(Parameters.FREQUENCY+200)+"秒内的平均振幅为："+average);
-				// we will find the next condition.
-				for(int i=0;i<Parameters.refineRange;i++) {
-					sumA+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
-				}
-				sumA = sumA/Parameters.refineRange;
-				if(sumA>=Parameters.refineRange_Threshold456) {
-					System.out.println(MainThread.fileParentPackage[th]+"在"+Parameters.afterRange/(Parameters.FREQUENCY+200)+"秒内的平均振幅为_"+sumA);
-					return true;
-				}
-				else
-					return false;
+//		average_before = average_before/Parameters.beforeRange;
+		
+//		if(average>=Parameters.afterRange_ThresholdMin && average_before<=Parameters.beforeRange_Threshold) {
+		if(average>=Parameters.afterRange_ThresholdMin) {
+			// we will find the next condition.
+			for(int i=0;i<Parameters.refineRange;i++) {
+				sumA+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
 			}
-			else {
-//				System.out.println(MainThread.fileStr[th]+"在"+Parameters.afterRange_Threshold456/(Parameters.FREQUENCY+200)+"秒内的平均振幅为："+average);
-				// we will find the next condition.
-				for(int i=0;i<Parameters.refineRange;i++) {
-					sumA+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
+			sumA = sumA/Parameters.refineRange;
+			//first we set the min value, and restrict the motivation position after Parameters.afterRange.
+			if(sumA>=Parameters.refineRange_ThresholdMin && lineSeries-Parameters.afterRange>0) {
+//			if(sumA>=Parameters.refineRange_ThresholdMin) {
+				for(int i=Parameters.afterRange;i>0;i--) {
+					sumB += Math.abs(Integer.parseInt(data.get(Parameters.refineRange-i+lineSeries).split(" ")[5]));
 				}
-				sumA = sumA/Parameters.refineRange;
-				if(sumA>=Parameters.refineRange_Threshold456) {
-					System.out.println(MainThread.fileStr[th]+"在"+Parameters.afterRange/(Parameters.FREQUENCY+200)+"秒内的平均振幅为_"+sumA);
-					return true;
+				sumB = sumB/Parameters.afterRange;
+//				System.out.println(MainThread.fileStr[th]+"后10个元素的均值为："+sumB);
+				if(sumB>Parameters.refineRange_ThresholdMax) {
+					//use the max threshold to diagnose for the first diagnosing according to the min value, so we should diagnose it through max value.
+					if(sumA>=Parameters.refineRange_ThresholdMax) {
+						//use large model diagnosing.
+						if(average>=Parameters.afterRange_ThresholdMax) {
+							sumB=0.0;
+							//get the noise value.
+							for(int i=-1*Parameters.afterRange;i<0;i++) {
+								sumB+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
+							}
+							sumB=sumB/Parameters.afterRange;
+							//minus the noise value of each point in the refine range.
+							sumA=0.0;
+							for(int i=0;i<Parameters.refineRange;i++) {
+								sumA += Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]))-4*Math.abs(sumB);
+							}
+							sumA = sumA/Parameters.refineRange;
+							if(sumA>=Parameters.refineRange_ThresholdMax) {
+								if(Parameters.offline==true)
+									System.out.println("large"+MainThread.fileParentPackage[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA+"noise"+sumB);
+								else
+									System.out.println("large"+MainThread.fileStr[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+								return true;
+							}
+							return false;
+						}
+						return false;
+					}
+					else {
+						return false;
+					}
 				}
-				else
+				else {
+					sumB=0.0;
+					//get the noise value.
+					for(int i=-1*Parameters.afterRange;i<0;i++) {
+						sumB+=Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]));
+					}
+					sumB=sumB/Parameters.afterRange;
+					//minus the noise value of each point in the refine range.
+					sumA=0.0;
+					for(int i=0;i<Parameters.refineRange;i++) {
+						sumA += Math.abs(Integer.parseInt(data.get(i+lineSeries).split(" ")[5]))-2*Math.abs(sumB);
+					}
+					sumA = sumA/Parameters.refineRange;
+					if(sumA>=Parameters.refineRange_ThresholdMin) {
+						if(Parameters.offline==true)
+							System.out.println("small"+MainThread.fileParentPackage[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+						else
+							System.out.println("small"+MainThread.fileStr[th]+"在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+						return true;
+					}
 					return false;
+				}
 			}
+			else
+				return false;
 		}
 		else {
 			return false;
 		}
+	}
+	
+	public static double Variance(int[] x) { 
+		int m=x.length;
+		double sum=0;
+		for(int i=0;i<m;i++){//求和
+			sum+=x[i];
+		}
+		double dAve=sum/m;//求平均值
+		double dVar=0;
+		for(int i=0;i<m;i++){//求方差
+			dVar+=(x[i]-dAve)*(x[i]-dAve);
+		}
+		return dVar/m;
 	}
 }

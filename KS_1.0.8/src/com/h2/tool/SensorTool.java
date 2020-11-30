@@ -129,7 +129,6 @@ public class SensorTool
 					if(Parameters.motivationDiagnose==1) {
 						flag=getAverage(data,lineSeries,th);
 						if(flag==true) {
-							int standard = data.size()-Parameters.refineRange*2;
 //							System.out.println(standard);
 //							if(lineSeries < standard) {//判断是否再后面激发，如果在后面激发，则在下个窗口进行计算。
 								//set the flag signal.
@@ -143,8 +142,8 @@ public class SensorTool
 								sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
 								
 								//Set the absolute time in GPS time.
-								sensor.setAbsoluteTime(relativeStatus.PArrivalTime(data, sensor,th));
-								
+								sensor.setAbsoluteTime(relativeStatus.PArrivalTime(data, sensor, th));
+
 								//we obtain the time of the first time of the now vector.
 								sensor.setTime(data.get(lineSeries).split(" ")[6]);
 //							}

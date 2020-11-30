@@ -16,6 +16,7 @@ import com.h2.tool.SensorTool;
 public class Sensor {
 	public Sensor() {
 		this.sensorNum=0;
+		this.sensorSeries = 0;
 		this.sign = false;// 标识是否激发
 		this.time = "000000000000";// 激发的时间
 		this.quackTime="000000000000";//发震时刻
@@ -23,6 +24,7 @@ public class Sensor {
 		this.EarthClassFinal = 0;//M平均值之前的求和
 		this.duringTime = 0.0;
 		this.eachEnergy = 0.0;
+		this.class1 = 0;
 		
 		this.Altitude = 0;// 海拔z
 		this.Longtitude = 0;// 经度y
@@ -41,6 +43,31 @@ public class Sensor {
 		crestortrough=null;//判断激发后对其进行赋值
 	}
 
+	public void AddCoor() {
+		if(Parameters.offline == false) {
+			this.Latitude = Latitude+Parameters.SENSORINFO[SensorTool.baseCoordinate][0];
+			this.Longtitude = Longtitude+Parameters.SENSORINFO[SensorTool.baseCoordinate][1];
+			this.Altitude = Altitude+Parameters.SENSORINFO[SensorTool.baseCoordinate][2];
+		}
+		else if(Parameters.offline == true) {
+			if(Parameters.region_offline=="hongyang") {
+				this.Latitude = Latitude + Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][0];
+				this.Longtitude = Longtitude + Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][1];
+				this.Altitude = Altitude+Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][2];
+			}
+			if(Parameters.region_offline=="datong") {
+				this.Latitude = Latitude + Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][0];
+				this.Longtitude = Longtitude + Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][1];
+				this.Altitude = Altitude+Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][2];
+			}
+			if(Parameters.region_offline=="pingdingshan") {
+				this.Latitude = Latitude + Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][0];
+				this.Longtitude = Longtitude + Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][1];
+				this.Altitude = Altitude+Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][2];
+			}
+		}
+	}
+	
 	@SuppressWarnings("unused")
 	@Override
 	/**
@@ -86,9 +113,41 @@ public class Sensor {
 		return "Error";
 	}
 	
+	public String toString_NOadd() {
+		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
+		nf.setGroupingUsed(false);
+		if(Parameters.offline == false) {
+			return nf.format(Latitude) + " "
+			     + nf.format(Longtitude) + " "
+			     + nf.format(Altitude);
+		}
+		else if(Parameters.offline == true) {
+			if(Parameters.region_offline=="hongyang") {
+				return nf.format(Latitude) + " "
+				     + nf.format(Longtitude) + " "
+				     + nf.format(Altitude);
+			}
+			if(Parameters.region_offline=="datong") {
+				return nf.format(Latitude) + " "
+				     + nf.format(Longtitude) + " "
+				     + nf.format(Altitude);
+			}
+			if(Parameters.region_offline=="pingdingshan") {
+				return nf.format(Latitude) + " "
+				     + nf.format(Longtitude) + " "
+				     + nf.format(Altitude);
+			}
+		}
+		return "Error";
+	}
+	
 	//get each sensor's series number to mark them.
 	public void setSensorNum(int i) {this.sensorNum=i;}
 	public int getSensorNum() {return sensorNum;}
+	
+	//get each sensor's series number to mark absolute path.
+	public void SetSensorSeries(int i) {this.sensorSeries = i;}
+	public int getSensorSeries() {return this.sensorSeries;}
 	
 	//get near quake grade of each sensor.
 	public double getEarthClassFinal() {return EarthClassFinal;}
@@ -101,6 +160,9 @@ public class Sensor {
 	//get energy of each sensor.
 	public double getEnergy() {return eachEnergy;}
 	public void setEnergy(double eachEnergy) {this.eachEnergy = eachEnergy;}
+	
+	public int getClass1() {return class1;}
+	public void setClass1(int class1) {this.class1 = class1;}
 	
 	//sign this sensor is not motivation.
 	public boolean isSign() {return sign;}
@@ -136,9 +198,13 @@ public class Sensor {
 
 	//15s data.
 	public Vector<String> getCutVectorData() {return motidata;}
-	public void setCutVectorData(Vector<String> motidata) {this.motidata = motidata;}
+	public void setCutVectorData(Vector<String> motidata) {this.motidata = (Vector<String>) motidata.clone();}
+	
+	//10s data.
+	public Vector<String> getTenVectorData() {return tendata;}
+	public void setTenVectorData(Vector<String> tendata) {this.motidata = (Vector<String>) tendata.clone();}
 
-	//获取幅度
+	//获取幅度le
 	public double getFudu() {return fudu;}
 	public void setFudu(double fudu) {this.fudu = fudu;}
 	
@@ -175,6 +241,9 @@ public class Sensor {
 	public CrestorTrough getCrestortrough() {return crestortrough;}
 	public void setCrestortrough(CrestorTrough crestortrough) {this.crestortrough = crestortrough;}
 	
+	//初动极值
+	public void setInitialextremum(double Initialextremum) {this.Initialextremum=Initialextremum;}
+	public double getInitialextremum() {return Initialextremum;}
 	
 	/**
 	 * 标识是否被激发
@@ -255,10 +324,10 @@ public class Sensor {
 	 * 持续时间震级
 	 */
 	private double duringTime;
-	/**
-	 * energy.
-	 */
+	/**energy*/
 	private double eachEnergy;
+	/**class of data*/
+	private int class1;
 	/**
 	 * 存储激发的盘符
 	 */
@@ -272,8 +341,15 @@ public class Sensor {
 	 */
 	private int sensorNum;
 	/**
+	 * the series of the sensor.
+	 */
+	private int sensorSeries;
+	/**
 	 * the motivation data of the current sensor.
 	 */
 	private Vector<String> motidata;
-	
+	/**the size of calculation window.*/
+	private Vector<String> tendata;
+	/**the initialization exvalue*/
+	private double Initialextremum;
 }

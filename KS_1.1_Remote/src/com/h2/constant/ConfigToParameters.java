@@ -81,14 +81,6 @@ public class ConfigToParameters {
 		            if(item[0].equals("ShortCompareLongAdjust")) {
 		            	Parameters.ShortCompareLongAdjust = Double.parseDouble(item[1]);
 		            }
-		            /**afterRange_Threshold456*/
-		            if(item[0].equals("afterRange_Threshold456")) {
-		            	Parameters.afterRange_Threshold456 = Double.parseDouble(item[1]);
-		            }
-		            /**refineRange_Threshold456*/
-		            if(item[0].equals("refineRange_Threshold456")) {
-		            	Parameters.refineRange_Threshold456 = Double.parseDouble(item[1]);
-		            }
 		            /**IntervalToOtherSensors*/
 		            if(item[0].equals("IntervalToOtherSensors")) {
 		            	Parameters.IntervalToOtherSensors = Integer.parseInt(item[1]);
