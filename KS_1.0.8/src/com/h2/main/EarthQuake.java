@@ -109,7 +109,6 @@ public class EarthQuake {
 			judgeMotiData.clear();
 		}
 		
-		
 		//we will diagnose there has a motivational sensor or not to reduce the complexity.
 		Sensor sensor_latest = new Sensor();
 		for(int i=0;i<sensors.length;i++) {

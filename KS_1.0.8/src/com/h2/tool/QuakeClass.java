@@ -40,7 +40,7 @@ public class QuakeClass
 	 * @throws MWException 
 	 */
 	@SuppressWarnings("unused")
-	public static void SensorMaxFudu(Sensor sen, Vector<String> data, int th) throws ParseException, MWException
+	public static void SensorMaxFudu(Sensor sen, int th) throws ParseException, MWException
 	{
 
 		//store the data cutting from 30s data.
@@ -56,7 +56,7 @@ public class QuakeClass
 		
 		//calculate the quack grade of each sensor.
 		// 1：先扫一遍10秒的数据，确定用哪一个通道,顺便确定通道的最大值
-		boolean flag = getFlag(motiPreLa, sen, th);
+		boolean flag = getFlag(motiPreLa, sen);
 		
 		// 3：计算最大振幅,并将结果存入传感器
 		sen.setFudu(getBTime(sen, flag, motiPreLa, th));// 单位是秒
@@ -191,7 +191,7 @@ public class QuakeClass
 	 * @author Baishuo Han.
 	 */
 	@SuppressWarnings("unused")
-	private static boolean getFlag(Vector<String> data, Sensor sen, int th)
+	private static boolean getFlag(Vector<String> data, Sensor sen)
 	{
 		boolean flag = false;//标识
 		String[] inte = new String[7];

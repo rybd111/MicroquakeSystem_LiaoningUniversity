@@ -68,7 +68,7 @@ public class EarthQuake {
 		//the number of data must enough to calculate which satisfied to 10s, or it will appear mistake consequence for the current data.
 		for (Vector<String>[] vectors : ssen) {
 			for (Vector<String> vector : vectors) {
-				if (vector.size() < Parameters.FREQUENCY * 10)	return " ";//this function must be return a String to foreground.
+				if (vector.size() < Parameters.FREQUENCY * Parameters.readLen)	return " ";//this function must be return a String to foreground.
 			}
 		}
 
@@ -84,9 +84,26 @@ public class EarthQuake {
 		//Set every sensor's motivation flag to indicate the sensor is inspired or not.
 		for (int i = 0; i < Parameters.SensorNum; i++) {
 			//add extra data used to judge sensor's motivation status.
+			for(int k=sensorData[i][0].size()-(Parameters.refineRange*2);k<sensorData[i][0].size();k++)
+				judgeMotiData.addElement(sensorData[i][0].get(k));
+			
 			judgeMotiData.addAll(sensorData[i][1]);
-//			for(int i=0;i<Parameters.refineRange;i++)
-//				judgeMotiData.addElement(sensorData[bei][2].get(i));
+			
+//			for(int k=0;k<(Parameters.FREQUENCY+200)*3;k++) {
+//				judgeMotiData.addElement(sensorData[i][2].get(k));
+//			}
+//			String jing = judgeMotiData.get(0).split(" ")[6];
+//			if(jing.equals("2020-07-2815:27:45")) {
+//				System.out.println();
+//			}
+			//experience.
+			sensors[i].setTenVectorData(judgeMotiData);
+			//写入txt
+//			if(i==5) {
+//				String temp = judgeMotiData.get(0).split(" ")[6].replaceAll("-", "");
+//				temp = temp.replaceAll(":", "");
+//				writeToDisk.write_array("E:/"+temp+".txt", judgeMotiData);
+//			}
 			SensorTool.motivate(judgeMotiData, sensors[i],i);//存储了激发时间和激发的标志位
 			judgeMotiData.clear();
 		}
@@ -97,12 +114,13 @@ public class EarthQuake {
 			if(sensors[i].getSecTime()!=0)
 				sensor_latest = sensors[i];
 		}
- 		int countNumber = 0;
-		if(sensor_latest.getSecTime()!=0) {
+		int countNumber = 0;
+		if(sensor_latest!=null) {
 			//calculate the number of motivation sensors, and save the series to the l array.
 			//Meanwhile, we will move the position to the absolute position in 30 seconds, which is point to the position in the now Vector. It's used to cut the motiData and used to calculate during quake magnitude.
 			
 			int[] l = new int[Parameters.SensorNum];
+			int[] l1 = new int[Parameters.SensorNum];
 			for (int i=0;i<Parameters.SensorNum;i++){
 				if (sensors[i].isSign()) {
 					sensors[i].setSensorNum(i);
@@ -110,10 +128,11 @@ public class EarthQuake {
 						for(int j=0;j<Parameters.diskName.length;j++) {
 							if(MainThread.fileStr[i].equals(Parameters.diskName[j])) {
 								if(Parameters.initPanfu[j]==0) {
-									l[countNumber]=i;//record the number of motivated sensors.
+									l[i]=i+1;//record the number of motivated sensors.
+									l1[countNumber]=i;
 									countNumber++;
 									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
-									System.out.println("激发台站"+MainThread.fileStr[i]);
+									System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
 									Parameters.initPanfu[j]=1;
 								}
 							}
@@ -123,10 +142,11 @@ public class EarthQuake {
 						for(int j=0;j<Parameters.diskName_offline.length;j++) {
 							if(MainThread.fileParentPackage[i].replace("Test", "").equals(Parameters.diskName_offline[j])) {
 								if(Parameters.initPanfu[j]==0) {
-									l[countNumber]=i;//record the number of motivated sensors.
+									l[i]=i+1;//record the number of motivated sensors.
+									l1[countNumber]=i;
 									countNumber++;
 									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
-									System.out.println("激发台站"+MainThread.fileParentPackage[i]);
+									System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
 									Parameters.initPanfu[j]=1;
 								}
 							}
@@ -147,12 +167,12 @@ public class EarthQuake {
 			
 				//merge l to avoid the series array l appearing two series number repetition.
 				for(int i=0;i<Parameters.SensorNum;i++) {
-					if(l[i]==0&&i==0) {
-						newl[count] = l[i];
+					if(l1[i]==0&&i==0) {
+						newl[count] = l1[i];
 						count++;
 					}
-					else if(l[i]!=0) {
-						newl[count] = l[i];
+					else if(l1[i]!=0) {
+						newl[count] = l1[i];
 						count++;
 					}
 				}
@@ -198,6 +218,7 @@ public class EarthQuake {
 //			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && EarthQuake.realMoti==true) {
 				writeToDisk.saveAllMotivationSensors(countNumber, sensors1, panfu);
 //			}
+				//因为没有其他传感器，所以取第一个传感器。
 				QuakeClass.SensorMaxFudu(sensors1[0], 0);
 //				QuakeClass.getOneEarthQuakeGrade(s, s2);
 //			if(countNumber >= 5 && EarthQuake.realMoti==true) {

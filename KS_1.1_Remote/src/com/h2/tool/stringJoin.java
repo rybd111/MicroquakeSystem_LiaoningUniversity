@@ -30,6 +30,14 @@ public class stringJoin {
 		return joinS;
 	}
 	
+	/**
+	 * 
+	 * @param S
+	 * @param sensors
+	 * @return
+	 * @author Hanlin Zhang
+	 * @date revision 2020年11月30日
+	 */
 	public static String SJoin_Array(String[] S, Sensor[] sensors) {
 		
 		String joinS="";

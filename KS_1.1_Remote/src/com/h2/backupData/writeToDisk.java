@@ -1,5 +1,8 @@
 package com.h2.backupData;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Vector;
@@ -14,6 +17,37 @@ import com.h2.tool.stringJoin;
 import mutiThread.MainThread;
 
 public class writeToDisk {
+	
+	/**
+	 * write a array to disk.
+	 * @param filePath
+	 * @param interSet
+	 * @author Hanlin Zhang
+	 * @throws IOException 
+	 * @date revision 2020年10月25日
+	 */
+	public static void write_array(String filePath, Vector<String> A) throws IOException {
+		File file=new File(filePath);
+		BufferedWriter out = null;
+		if(!file.exists())file.createNewFile();
+		
+		try {
+        	out = new BufferedWriter(new FileWriter(filePath, true));
+		} catch (IOException e1) {e1.printStackTrace();}
+		
+		for(int i=0;i<A.size();i++) {
+			try {
+	        	out.write(i+" ");
+	        	out.write(A.get(i).split(" ")[5]);
+	        	out.write("\n");
+			}
+			catch (IOException e1) {e1.printStackTrace();}
+		}
+		
+		if(out != null){
+			out.close();
+		}
+	}
 	@SuppressWarnings("unused")
 	public static void writeToTxt(Sensor sen, int motiNum, String panfu, int th, Vector<String> motiPreLa) throws ParseException {
 		//获取激发时间，以秒为单位
@@ -117,27 +151,26 @@ public class writeToDisk {
 //			if(motiNum>3){
 				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_wave+panfu+motiDate+".csv", lineInNewData, sen);
 				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv");//文件名
+					sen[i].setFilename_S(Parameters.AbsolutePath_wave+panfu+motiDate+".csv");//文件名
 //			}
-
 			if(motiNum==3){
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv", lineInNewData, sen);
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_wave+panfu+motiDate+".csv", lineInNewData, sen);
 				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv");//文件名
+					sen[i].setFilename_S(Parameters.AbsolutePath_wave+panfu+motiDate+".csv");//文件名
 			}
 			
 		}
 		else {
 			
 //			if (motiNum == 3) {
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3_offline+panfu+motiDate+".csv", lineInNewData, sen);
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_wave+panfu+motiDate+".csv", lineInNewData, sen);
 				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_CSV3_offline+panfu+motiDate+".csv");//文件名
+					sen[i].setFilename_S(Parameters.AbsolutePath_wave+panfu+motiDate+".csv");//文件名
 //			}
 			if (motiNum > 3) {
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5_offline+panfu+motiDate+".csv", lineInNewData, sen);
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_wave+panfu+motiDate+".csv", lineInNewData, sen);
 				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_CSV5_offline+panfu+motiDate+".csv");//文件名
+					sen[i].setFilename_S(Parameters.AbsolutePath_wave+panfu+motiDate+".csv");//文件名
 			}
 			
 		}

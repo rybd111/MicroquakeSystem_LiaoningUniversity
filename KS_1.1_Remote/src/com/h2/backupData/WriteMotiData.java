@@ -163,11 +163,18 @@ public class WriteMotiData {
 		
 		minsize=one_dim_array_max_min.minint(totalMotiSize);
 		
-		try {
-        	out = new BufferedWriter(new FileWriter(file, true));
-		} catch (IOException e1) {e1.printStackTrace();}
+		
         try {
         	if(!file.exists())file.createNewFile();
+        	else if(file.exists()){
+        		String[] pre = filePath.split("\\.");
+        		filePath = pre[0]+"-same."+pre[1];
+        		file = new File(filePath);
+        		out = new BufferedWriter(new FileWriter(file, true));
+        	}
+        	try {
+            	out = new BufferedWriter(new FileWriter(file, true));
+    		} catch (IOException e1) {e1.printStackTrace();}
         	if(Parameters.offline==true) {
 	        	for(int j=0;j<minsize;j++) {
 	        	   

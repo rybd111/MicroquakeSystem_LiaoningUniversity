@@ -181,8 +181,8 @@ public class WriteRecords {
      * @author RQMa, Hanlin Zhang.
      */
     @SuppressWarnings("unused")
-	public static void WriteSeveralMotiTime(Sensor[]sensors, String filepath) {
-        filepath = filepath+sensors[0].getpanfu()+".txt";
+	public static void WriteSeveralMotiTime(Sensor[] s, String filepath) {
+        filepath = filepath+s[0].getpanfu()+".txt";
     	File file = new File(filepath);
         BufferedWriter out = null;
         String record="";
@@ -193,91 +193,13 @@ public class WriteRecords {
         		
             	file.createNewFile();
             	//write the head of the excel.
-//            	out.write("最早到时,");
-//            	if(Parameters.offline==true) {
-//	            	for(int i=0;i<Parameters.diskName_offline.length;i++) {
-//		            	out.write(Parameters.diskName_offline[i]+",");
-//		            }
-////	            	out.write("发震时刻,");
-//            	}
-//            	else {
-//            		for(int i=0;i<Parameters.diskName.length;i++) {
-//		            	out.write((Parameters.diskName[i].replace(":/", "")+","));
-//		            }
-////            		out.write("发震时刻,");
-//            	}
-//            	out.write("\r\n");
         	}
         	//record the quack time of each event.
             int lastk=0;
-            record = sensors[0].getAbsoluteTime()+"\t"+Parameters.panfuName+
-            		"\t"+sensors[0].getFilename()+"\t"+"0"+"\t";
+            //依次为：绝对时间、盘符名、波形绝对路径、初动极值
+            record = s[0].getAbsoluteTime()+"\t"+Parameters.panfuName+
+            		"\t"+s[0].getFilename()+"\t"+s[0].getInitialextremum()+"\t";
             
-            
-
-//            if(Parameters.offline==true) {
-//	            for (int i = 0; i < Parameters.diskName_offline.length; i++) {
-//	            	for(int j=0;j<sensors.length;j++) {
-//	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
-//	            		if(i1.equals(Parameters.diskName_offline[i]) && sensors[j].isSign()) {
-//	            			if(flag1==true) {
-//		            			for(int k=0;k<i;k++) {
-//		            				record = record+",";
-//		            				lastk=k+1;
-//		            			}
-//		            			flag1=false;
-//	            			}
-//	            			else {
-//	            				if(lastk+1<i)
-//		            				for(int k=lastk+1;k<i;k++) {
-//			            				record = record+",";
-//			            				lastk=k+1;
-//			            			}
-//	            				else
-//	            					lastk++;
-//	            			}
-//	            			record = record+String.valueOf(sensors[j].getSecTime())+",";
-//	            		}
-//	            	}
-//	            }
-//	            //count the number of commas.
-//	            if(record.split(",").length<=(Parameters.diskName_offline.length+1)) {
-//	            	for(int i=record.split(",").length;i<Parameters.diskName_offline.length+1;i++) {
-//	            		record = record+",";
-//	            	}
-//	            }
-//            }
-//            else {
-//            	for (int i = 0; i < Parameters.diskName.length; i++) {
-//	            	for(int j=0;j<sensors.length;j++) {
-//	            		if(MainThread.fileStr[sensors[j].getSensorNum()].equals(Parameters.diskName[i])&&sensors[j].isSign()) {
-//	            			if(flag1==true) {
-//		            			for(int k=0;k<i;k++) {
-//		            				record = record+",";
-//		            				lastk=k+1;
-//		            			}
-//		            			flag1=false;
-//	            			}
-//	            			else {
-//	            				if(lastk+1<i)
-//		            				for(int k=lastk+1;k<i;k++) {
-//			            				record = record+",";
-//			            				lastk=k+1;
-//			            			}
-//	            				else
-//	            					lastk++;
-//	            			}
-//	            			record = record+String.valueOf(sensors[j].getSecTime())+",";
-//	            		}
-//	            	}
-//	            }
-//            	//count the number of commas.
-//	            if(record.split(",").length<=(Parameters.diskName.length+1)) {
-//	            	for(int i=record.split(",").length;i<Parameters.diskName.length+1;i++) {
-//	            		record = record+",";
-//	            	}
-//	            }
-//            }
             out.write(record+"\r\n");
             out.flush();
        } catch (IOException e) {
@@ -292,7 +214,7 @@ public class WriteRecords {
             }
         }
         
-        System.out.println("单台记录写入完毕："+sensors[0].getAbsoluteTime()+"\t"+sensors[0].getFudu()+"\t"+sensors[0].getFilename()+"\t"+"0"+"\t");
+        System.out.println("单台记录写入完毕："+s[0].getAbsoluteTime()+"\t"+s[0].getFilename()+"\t"+s[0].getInitialextremum()+"\t"+s[0].getFilename()+"\t");
     }
     
     public static void insertALine(String filepath) {
