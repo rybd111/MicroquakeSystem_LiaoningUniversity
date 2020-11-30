@@ -14,7 +14,7 @@ import tensor_pro.Tensor_Pro_Class;
 public class Tensor {
 	public static  Object moment_tensor(Sensor[] sensors,Sensor[] sensor1,Sensor location_refine) throws MWException{
 		double density=2650;//岩石密度
-	    double velocity=3850;//波速
+	    double velocity=Parameters.C;//波速
 		int count=Parameters.SensorNum;
 		double [][] a=new double[sensors.length][4];//a为二维数组，包括传感器编号，x，y，z
 		double [][] tongdao=new double[sensor1.length][2];

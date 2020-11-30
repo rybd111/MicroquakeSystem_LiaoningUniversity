@@ -26,6 +26,9 @@ public class testEnvironment {
 		SUM s = new SUM();
 		Object[] conse = s.testEnvironment(1, a, b);
 		System.out.println("consequence:" + conse[0].toString());
+		if(conse[0].toString().equals("2")) {
+			System.out.println("环境配置正确");
+		}
 	}
 
 }

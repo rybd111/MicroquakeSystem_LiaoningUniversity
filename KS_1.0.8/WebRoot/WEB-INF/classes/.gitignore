@@ -1,4 +1,3 @@
-/org/
 /META-INF/
 /bean/
 /com/
@@ -8,4 +7,9 @@
 /logback.xml
 /mianThread/
 /mutiThread/
+/org/
+/sev/
+/testKS/
+/utils/
 /visual/
+/visual_data/
