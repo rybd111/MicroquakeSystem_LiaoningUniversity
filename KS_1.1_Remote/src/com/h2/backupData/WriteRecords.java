@@ -210,7 +210,8 @@ public class WriteRecords {
         	}
         	//record the quack time of each event.
             int lastk=0;
-            record = sensors[0].getAbsoluteTime()+"\t"+sensors[0].getFudu()+"\t"+sensors[0].getFilename()+"\t"+"0"+"\t";
+            record = sensors[0].getAbsoluteTime()+"\t"+Parameters.panfuName+
+            		"\t"+sensors[0].getFilename()+"\t"+"0"+"\t";
             
             
 

@@ -67,6 +67,9 @@ public class ConfigToParameters {
 //		            System.out.println("value of variable:"+item[1]);
 		            //save new value to Parameters.
 		            /**distanceToSquareWave*/
+	            	if(item[0].equals("panfuName")) {
+	            		Parameters.panfuName = item[1];
+	            	}
 	            	if(item[0].equals("FREQUENCY")) {
 		            	Parameters.FREQUENCY = Integer.parseInt(item[1]);
 		            }

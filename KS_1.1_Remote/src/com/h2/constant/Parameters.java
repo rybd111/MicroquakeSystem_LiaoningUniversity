@@ -8,7 +8,10 @@ import mutiThread.MainThread;
  */
 public class Parameters
 {
-
+	
+	/**指示当前盘符是哪个测点*/
+	public static String panfuName = "w";
+	
 	/**长时窗的时长，单位是毫秒*/
 	public static final int LONGTIMEWINDOW = 50;// 单位是毫秒
 	/**短时窗的时长，单位是毫秒*/
