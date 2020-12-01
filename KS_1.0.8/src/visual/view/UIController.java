@@ -38,8 +38,10 @@ import javafx.stage.WindowEvent;
 import mutiThread.MainThread;
 import visual.Main;
 import visual.Preferences;
+import visual.controller.MyLineChart;
 
 public class UIController {
+	public Stage myStage = null;
 	@FXML
 	private SplitPane mSplitpaneSum;
 
@@ -84,6 +86,9 @@ public class UIController {
 	public VBox getmVBoxLineChart() {
 		return mVBoxLineChart;
 	}
+
+//---------------------------其他窗口对象-------------
+	public Stage RepositionPanelStage = null;
 
 	@FXML
 	private Slider mSlider_P;
@@ -238,35 +243,43 @@ public class UIController {
 	@FXML
 	void onCalculate(ActionEvent event) throws IOException {// 重新定位
 		System.out.println("点击重新定位功能");
-
+		if (RepositionPanelStage != null) {
+			RepositionPanelStage.close();
+		}
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/RepositionPanel.fxml"));
 //		//获得RootLayout对象
 		AnchorPane root = (AnchorPane) loader.load();
 		RepositionPanelController controller = loader.getController();
+		Tools_DataCommunication.getCommunication().repositionPanelController = controller;
 		Scene scene = new Scene(root);
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		stage.setTitle("重定位面板");
-		stage.getIcons().add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
-		stage.setResizable(false);// 禁止对窗口进行拉伸操作！
-		stage.show();
-		controller.setMystage(stage);
+		RepositionPanelStage = new Stage();
+		RepositionPanelStage.setScene(scene);
+		RepositionPanelStage.setTitle("重定位面板");
+		RepositionPanelStage.getIcons()
+				.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
+		RepositionPanelStage.setResizable(false);// 禁止对窗口进行拉伸操作！
+		if (myStage != null) {
+			RepositionPanelStage.setX(myStage.getX() - 295);
+			RepositionPanelStage.setY(myStage.getY());
+		}
+		RepositionPanelStage.show();
+		controller.setMystage(RepositionPanelStage);
 		/** 监听窗口关闭操作 */
-		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		RepositionPanelStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
 				controller.close();
-				System.out.println("555555555555555555");
 			}
 		});
 	}
 
 	@FXML
-	void onSaveP(ActionEvent event) {// 保存P波到时
-		System.out.println("保存P波到时");
+	void onSaveP(ActionEvent event) {// 保存
+		System.out.println("保存");
 		if (Tools_DataCommunication.getCommunication().csvPath == null
-				|| Tools_DataCommunication.getCommunication().getmChart().gettIndex() == 0)
+				|| Tools_DataCommunication.getCommunication().getmChart().gettIndex() == 0
+				|| Tools_DataCommunication.getCommunication().reLocateData == null)
 			return;
 		// 弹出对话框
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -275,7 +288,12 @@ public class UIController {
 		alert.setContentText("该操作不可恢复！！！");
 		alert.showAndWait().ifPresent(response -> {
 			if (response == ButtonType.OK) {
-				Tools_DataCommunication.getCommunication().getmChart().saveP();
+				MyLineChart myLineChart = Tools_DataCommunication.getCommunication().getmChart();
+				QuackResults data = Tools_DataCommunication.getCommunication().reLocateData.getQuackResults();
+				myLineChart.updata(data.getxData(), data.getyData(), data.getzData(), data.getParrival(),
+						data.getQuackTime(),
+						Integer.parseInt(Tools_DataCommunication.getCommunication().reLocateData.getEventIndex()));
+				myLineChart.saveP();
 				System.out.println("保存成功");
 			}
 		});

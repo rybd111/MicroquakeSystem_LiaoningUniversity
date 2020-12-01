@@ -6,12 +6,14 @@ import com.h2.constant.Parameters;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
 import visual.util.Tools_DataCommunication.tableViewType;
+import visual.view.RepositionPanelController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class MyTableView {
 	private TableView<TableData> tableView = null;
@@ -55,6 +57,10 @@ public class MyTableView {
 				Tools_DataCommunication.getCommunication().getmCAD().exeJS(newValue.getQuackResults().getxData(),
 						newValue.getQuackResults().getyData(), Tools_DataCommunication.getCommunication().circleRadius,
 						newValue.getQuackResults().getKind());
+				/** 激活重定位面板的定位台站 */
+				Tools_DataCommunication.getCommunication().reLocateData = newValue;
+				if (Tools_DataCommunication.getCommunication().repositionPanelController != null)
+					Tools_DataCommunication.getCommunication().repositionPanelController.setAble();
 			}
 		});
 		InitTableViewData();

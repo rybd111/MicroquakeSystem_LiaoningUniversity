@@ -33,11 +33,13 @@ public class saveCSV {
 		this.pArray=pArray;
 	}
 	public void save() throws NumberFormatException, IOException {
+		//保存P波到时到CSV文件中
 		readContents(Tools_DataCommunication.getCommunication().readTime);
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));// GBK
 		writer.write(bufAll.toString());
 		if (writer != null)
 			writer.close();
+		//将
 	}
 	private void readContents(int num) throws NumberFormatException, IOException {
 		 NumberFormat nf = NumberFormat.getNumberInstance();

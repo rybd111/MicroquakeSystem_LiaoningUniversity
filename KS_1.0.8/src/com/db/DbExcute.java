@@ -44,7 +44,7 @@ public class DbExcute {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
+			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
 		}
 	}
 

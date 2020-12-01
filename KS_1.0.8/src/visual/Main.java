@@ -36,6 +36,8 @@ public class Main extends Application {
 //		//获得RootLayout对象
 		AnchorPane root = (AnchorPane) loader.load();
 		UIController controller = (UIController) loader.getController();
+		controller.myStage=primaryStage;
+		Tools_DataCommunication.getCommunication().setController(controller);
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("CS界面-辽宁大学");
@@ -43,7 +45,8 @@ public class Main extends Application {
 		primaryStage.getIcons()
 				.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
 		primaryStage.show();
-
+		System.out.println(primaryStage.getX());
+		System.out.println(primaryStage.getY());
 		/** 监听窗口关闭操作 */
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
@@ -61,7 +64,18 @@ public class Main extends Application {
 				});
 			}
 		});
+		/**监听Stage的位置XY*/
+		primaryStage.xProperty().addListener(new ChangeListener<Number>() {
 
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				if (controller.RepositionPanelStage == null)
+					return;
+//				System.out.println("x=" + primaryStage.getX() + ",  y=" + primaryStage.getY());
+				controller.RepositionPanelStage.setX(primaryStage.getX()-295);
+				controller.RepositionPanelStage.setY(primaryStage.getY());
+			}
+		});
 		/** 监听窗口最大化及还原窗口操作 */
 		primaryStage.maximizedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override

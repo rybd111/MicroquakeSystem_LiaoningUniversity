@@ -13,6 +13,7 @@ import visual.controller.MyTableView;
 import visual.model.MyPrintStream;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication.tableViewType;
+import visual.view.RepositionPanelController;
 import visual.view.UIController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -78,7 +79,8 @@ public class Tools_DataCommunication {
 	}
 
 	/** 获取控制播放提示音类 */
-	private AudioPlayer audioPlayer = new AudioPlayer(new File(System.getProperty("user.dir") + "\\resource\\PromptTone.mp3"));
+	private AudioPlayer audioPlayer = new AudioPlayer(
+			new File(System.getProperty("user.dir") + "\\resource\\PromptTone.mp3"));
 
 	/** 播放提示音 */
 	public AudioPlayer getAudioPlayer() {
@@ -138,6 +140,7 @@ public class Tools_DataCommunication {
 	public int readTime = 18;// s
 	/*** 当前显示波形图的文件路径 */
 	public String csvPath = null;
+	public TableData reLocateData = null;
 	/** 存放P波到时的位置 */
 	public double[] P_array = null;
 	/** 获取CSV文件的文件名台站 */
@@ -168,7 +171,10 @@ public class Tools_DataCommunication {
 	}
 
 //	public boolean isInitWidthandHigth = true;
-
+//============================================================================================================================
+	/** 获取重定位控制类 */
+	public RepositionPanelController repositionPanelController = null;
+	public String[] reLocationResultString=null;
 	/**
 	 * =======================================屏幕自适应解决方案===========================================================================================
 	 */
@@ -197,7 +203,8 @@ public class Tools_DataCommunication {
 			stage.setScene(scene);
 			stage.setTitle("输出控制台");
 			try {
-				stage.getIcons().add(new Image(new FileInputStream(System.getProperty("user.dir")+"\\resource\\lndx.png")));
+				stage.getIcons()
+						.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				System.out.println("输出控制台没有找到窗口图片");

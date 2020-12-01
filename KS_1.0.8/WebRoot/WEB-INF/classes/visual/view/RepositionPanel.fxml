@@ -7,96 +7,72 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="510.0" prefWidth="732.0" style="-fx-background-color: #00BFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="visual.view.RepositionPanelController">
+<AnchorPane prefHeight="914.0" prefWidth="278.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="visual.view.RepositionPanelController">
    <children>
-      <HBox layoutX="233.0" layoutY="439.0" spacing="30.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0">
+      <HBox layoutX="152.0" layoutY="332.0" spacing="30.0" AnchorPane.bottomAnchor="548.0" AnchorPane.rightAnchor="-1.0">
          <children>
             <Button layoutX="233.0" layoutY="439.0" mnemonicParsing="false" onAction="#onSure" text="确认">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
             <Button layoutX="319.0" layoutY="439.0" mnemonicParsing="false" onAction="#onCancel" text="取消">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
          </children>
       </HBox>
-      <VBox fx:id="mRadioBVox" layoutX="73.0" layoutY="71.0" prefHeight="255.0" prefWidth="218.0" spacing="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <VBox fx:id="mCheckVBox" layoutX="438.0" layoutY="31.0" spacing="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
-            <Label layoutX="91.0" layoutY="289.0" prefHeight="48.0" prefWidth="218.0" text="请选择一种定位算法:" textFill="WHITE" AnchorPane.topAnchor="289.0">
+            <Label layoutX="225.0" layoutY="82.0" prefHeight="29.0" prefWidth="274.0" text="请选择参与定位的台站:" AnchorPane.topAnchor="82.0">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
-            <RadioButton layoutX="92.0" layoutY="348.0" mnemonicParsing="false" text="3台站" textFill="WHITE" AnchorPane.topAnchor="348.0">
+            <CheckBox layoutX="235.0" layoutY="117.0" mnemonicParsing="false" text="T 杨甸子" AnchorPane.topAnchor="117.0">
                <font>
-                  <Font size="22.0" />
-               </font>
-            </RadioButton>
-            <RadioButton layoutX="92.0" layoutY="398.0" mnemonicParsing="false" text="5台站" textFill="WHITE" AnchorPane.topAnchor="398.0">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </RadioButton>
-            <RadioButton layoutX="98.0" layoutY="448.0" mnemonicParsing="false" text="PSO" textFill="WHITE" AnchorPane.topAnchor="448.0">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </RadioButton>
-         </children>
-      </VBox>
-      <VBox fx:id="mCheckVBox" layoutX="438.0" layoutY="31.0" spacing="10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
-         <children>
-            <Label layoutX="225.0" layoutY="82.0" prefHeight="29.0" prefWidth="274.0" text="请选择参与定位的台站:" textFill="WHITE" AnchorPane.topAnchor="82.0">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-            <CheckBox layoutX="235.0" layoutY="117.0" mnemonicParsing="false" text="T 杨甸子" textFill="WHITE" AnchorPane.topAnchor="117.0">
-               <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </CheckBox>
-            <CheckBox layoutX="235.0" layoutY="157.0" mnemonicParsing="false" text="U 树碑子" textFill="WHITE" AnchorPane.topAnchor="157.0">
+            <CheckBox layoutX="235.0" layoutY="157.0" mnemonicParsing="false" text="U 树碑子" AnchorPane.topAnchor="157.0">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </CheckBox>
-            <CheckBox layoutX="235.0" layoutY="197.0" mnemonicParsing="false" text="W 北青堆子" textFill="WHITE" AnchorPane.topAnchor="197.0">
+            <CheckBox layoutX="235.0" layoutY="197.0" mnemonicParsing="false" text="W 北青堆子" AnchorPane.topAnchor="197.0">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </CheckBox>
-            <CheckBox layoutX="235.0" layoutY="237.0" mnemonicParsing="false" text="X 车队" textFill="WHITE" AnchorPane.topAnchor="237.0">
+            <CheckBox layoutX="235.0" layoutY="237.0" mnemonicParsing="false" text="X 车队" AnchorPane.topAnchor="237.0">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </CheckBox>
-            <CheckBox layoutX="235.0" layoutY="277.0" mnemonicParsing="false" text="Z 工业广场" textFill="WHITE" AnchorPane.topAnchor="277.0">
+            <CheckBox layoutX="235.0" layoutY="277.0" mnemonicParsing="false" text="Z 工业广场" AnchorPane.topAnchor="277.0">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </CheckBox>
-            <CheckBox layoutX="235.0" layoutY="317.0" mnemonicParsing="false" text="Y 火药库" textFill="WHITE" AnchorPane.topAnchor="317.0">
+            <CheckBox layoutX="235.0" layoutY="317.0" mnemonicParsing="false" text="Y 火药库" AnchorPane.topAnchor="317.0">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </CheckBox>
-            <CheckBox layoutX="235.0" layoutY="357.0" mnemonicParsing="false" text="V 南风井" textFill="WHITE" AnchorPane.topAnchor="357.0">
+            <CheckBox layoutX="235.0" layoutY="357.0" mnemonicParsing="false" text="V 南风井" AnchorPane.topAnchor="357.0">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </CheckBox>
-            <CheckBox layoutX="235.0" layoutY="397.0" mnemonicParsing="false" text="S 蒿子屯" textFill="WHITE" AnchorPane.topAnchor="397.0">
+            <CheckBox layoutX="235.0" layoutY="397.0" mnemonicParsing="false" text="S 蒿子屯" AnchorPane.topAnchor="397.0">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </CheckBox>
-            <CheckBox layoutX="235.0" layoutY="437.0" mnemonicParsing="false" text="R 李大人" textFill="WHITE" AnchorPane.topAnchor="437.0">
+            <CheckBox layoutX="235.0" layoutY="437.0" mnemonicParsing="false" text="R 李大人" AnchorPane.topAnchor="437.0">
                <font>
-                  <Font size="22.0" />
+                  <Font size="16.0" />
                </font>
             </CheckBox>
          </children>

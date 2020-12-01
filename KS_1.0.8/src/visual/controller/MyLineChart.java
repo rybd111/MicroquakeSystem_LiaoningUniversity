@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.eclipse.swt.events.PaintEvent;
 
+import com.db.DbExcute;
 import com.h2.constant.Parameters;
 import visual.model.ReadCSV;
 import visual.model.saveCSV;
@@ -74,6 +75,11 @@ public class MyLineChart {
 	private ArrayList<XYChart.Series<Number, Number>> T_seriesZ = new ArrayList<XYChart.Series<Number, Number>>();
 	/** P波到时 */
 	private ArrayList<XYChart.Series<Number, Number>> pArray = new ArrayList<XYChart.Series<Number, Number>>();
+
+	public ArrayList<XYChart.Series<Number, Number>> getpArray() {
+		return pArray;
+	}
+
 	/** 时间坐标轴 */
 	private NumberAxis timerXaxis = new NumberAxis(0, 18 * 5000, 5000);
 	private NumberAxis timerYaxis = new NumberAxis();
@@ -234,11 +240,11 @@ public class MyLineChart {
 				if (j % 100 != 0)
 					continue;
 				XYChart.Data<Number, Number> data1 = new XYChart.Data<>(j,
-						Tools_DataCommunication.getCommunication().list.get(0 + 3 * i).get(j) + 1 * tempt);//X
+						Tools_DataCommunication.getCommunication().list.get(0 + 3 * i).get(j) + 1 * tempt);// X
 				XYChart.Data<Number, Number> data2 = new XYChart.Data<>(j,
-						Tools_DataCommunication.getCommunication().list.get(1 + 3 * i).get(j) + 3 * tempt);//Y
+						Tools_DataCommunication.getCommunication().list.get(1 + 3 * i).get(j) + 3 * tempt);// Y
 				XYChart.Data<Number, Number> data3 = new XYChart.Data<>(j,
-						Tools_DataCommunication.getCommunication().list.get(2 + 3 * i).get(j) + 5 * tempt);//Z
+						Tools_DataCommunication.getCommunication().list.get(2 + 3 * i).get(j) + 5 * tempt);// Z
 				T_seriesZ.get(0 + 3 * i).getData().add(data1);// x
 				T_seriesZ.get(1 + 3 * i).getData().add(data2);// y
 				T_seriesZ.get(2 + 3 * i).getData().add(data3);// z
@@ -294,7 +300,7 @@ public class MyLineChart {
 					return;
 				double temp = pArray.get(tIndex - 1).getData().get(1).getYValue().doubleValue();
 				pArray.get(tIndex - 1).getData().clear();
-				XYChart.Data<Number, Number> data1 = new XYChart.Data<Number, Number>(newValue, 0);
+				XYChart.Data<Number, Number> data1 = new XYChart.Data<Number, Number>(newValue, temp/1.5);
 				XYChart.Data<Number, Number> data2 = new XYChart.Data<Number, Number>(newValue, temp);
 				pArray.get(tIndex - 1).getData().addAll(data1, data2);
 			}
@@ -461,7 +467,7 @@ public class MyLineChart {
 		});
 	}
 
-	/** 保存更改过后的P波到时位置 */
+	/** 保存更改过后的P波到时位置CSV */
 	public void saveP() {
 		saveCSV sa = new saveCSV(this.filePath, pArray);
 		try {
@@ -473,5 +479,15 @@ public class MyLineChart {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void updata(double x, double y, double z, double parrival, String quackTime, int whereID) {
+//		System.out.println(
+//				"----------：x=" + x + ", y=" + y + ", z=" + z + ", parrival=" + parrival + ", quackTime=" + quackTime);
+		DbExcute aDbExcute = new DbExcute();
+		String sql = "UPDATE `" + Parameters.DatabaseName5 + "` SET xData='" + x + "', yData='" + y + "', zData='" + z
+				+ "', parrival='" + parrival + "',quackTime='" + quackTime + "' where id='" + whereID + "';";
+		System.out.println(sql);
+		aDbExcute.update(sql);
 	}
 }
