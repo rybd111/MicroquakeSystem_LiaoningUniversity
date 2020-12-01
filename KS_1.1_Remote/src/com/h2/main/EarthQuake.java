@@ -2,32 +2,15 @@
 package com.h2.main;
 
 import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
-import java.math.*;
-import utils.StringToDateTime;
-import bean.QuackResults;
-import java.beans.*;
 import mutiThread.MainThread;
 
-import com.db.DbExcute;
-import com.h2.backupData.WriteMotiData;
 import com.h2.backupData.WriteRecords;
-import com.h2.backupData.recordNegativeGrade;
 import com.h2.backupData.writeToDisk;
 import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
-import com.h2.locate.Five_Locate;
-import com.h2.locate.MajorEvent_locate;
-import com.h2.locate.Three_Locate;
 import com.h2.thread.ThreadStep3;
-import com.h2.tool.CrestorTrough;
-import com.h2.tool.Doublelocate;
-import com.h2.tool.Location;
-import com.h2.tool.Location2;
 import com.h2.tool.QuakeClass;
 import com.h2.tool.SensorTool;
-import com.h2.tool.Triplelocate;
-import com.h2.tool.calDuringTimePar;
 import com.h2.tool.relativeStatus;
 import com.h2.tool.stringJoin;
 
@@ -45,12 +28,6 @@ public class EarthQuake {
 	
 	/**Return computation results String.*/
 	public static String outString = "";
-	
-	/**Used to execute the sql of database.*/
-	static DbExcute aDbExcute =new DbExcute();
-
-	/**store the computation consequence of every location methods.*/
-	static QuackResults aQuackResults=new QuackResults();
 	
 	/**indicate the motivation is not a real valid motivation, if this is a real motivation it will become true, or it will be set to false.*/
 	public static boolean realMoti = true;

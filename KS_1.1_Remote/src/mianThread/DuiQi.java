@@ -1,22 +1,15 @@
 package mianThread;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
-
 import com.h2.constant.Parameters;
-import com.yang.readFile.FindNewHFMED;
 import com.yang.readFile.FindNewFile;
 import com.yang.readFile.findNew;
 import com.yang.readFile.ReadData;
 import com.yang.readFile.ReadDataSegmentHead;
-
 import utils.DateArrayToIntArray;
-import bean.Location;
 import controller.ADMINISTRATOR;
-import controller.SensorDataReadForDuiQi;
 import mutiThread.MainThread;
 
 /**
