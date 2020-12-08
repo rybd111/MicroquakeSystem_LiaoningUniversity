@@ -157,9 +157,10 @@ public class WriteRecords {
 	            	}
 	            }
             }
+            out.write(record+"\r");
             record = record + String.valueOf(result.getLatitude())+","+String.valueOf(result.getLongtitude())+","+String.valueOf(result.getAltitude())+","
             		+String.valueOf(result.getSecTime())+","+String.valueOf(quakeGrade)+","+String.valueOf(finalEnergy)+","+kindOfCalculation+","+String.valueOf(result.getquackTime())+"\t,";
-            out.write(record+"\r");
+            
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -197,10 +198,9 @@ public class WriteRecords {
         	//record the quack time of each event.
             int lastk=0;
             //依次为：绝对时间、盘符名、波形绝对路径、初动极值
+            out.write(record+"\r\n");
             record = s[0].getAbsoluteTime()+"\t"+Parameters.panfuName+
             		"\t"+s[0].getFilename()+"\t"+s[0].getInitialextremum()+"\t";
-            
-            out.write(record+"\r\n");
             out.flush();
        } catch (IOException e) {
             e.printStackTrace();
