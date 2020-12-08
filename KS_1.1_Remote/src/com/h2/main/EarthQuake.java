@@ -193,7 +193,7 @@ public class EarthQuake {
 			
 			//write the motivation data on the disk. 
 //			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && EarthQuake.realMoti==true) {
-				writeToDisk.saveAllMotivationSensors(countNumber, sensors1, panfu);
+				writeToDisk.saveAllMotivationSensors(countNumber, sensors1);
 //			}
 				//因为没有其他传感器，所以取第一个传感器。
 				QuakeClass.SensorMaxFudu(sensors1[0], 0);

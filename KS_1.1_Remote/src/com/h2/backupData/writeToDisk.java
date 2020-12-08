@@ -125,12 +125,13 @@ public class writeToDisk {
 	 * @throws ParseException 
 	 */
 	@SuppressWarnings("unused")
-	public static void writeToCSV(Sensor[] sen, int motiNum, String motiDate, String panfu) throws ParseException, IOException {
+	public static void writeToCSV(Sensor[] sen, int motiNum, String motiDate) throws ParseException, IOException {
 		
 		//the name of write file - the most early time in all motivated sensors.
 		motiDate=motiDate.replace(":","-");//替换掉时间中的:
 		motiDate=motiDate.replace(".", "`");//替换掉时间中的.
 		
+		String writePath = Parameters.AbsolutePath_wave+Parameters.panfuName+" "+motiDate+".csv";
 		//set new motivation position.
 		int[] lineInNewData = new int[sen.length];
 		for(int i=0;i<sen.length;i++) {
@@ -149,37 +150,36 @@ public class writeToDisk {
 		if(Parameters.offline==false) {
 			
 //			if(motiNum>3){
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_wave+panfu+motiDate+".csv", lineInNewData, sen);
+				WriteMotiData.writeToCSV(MOTIDATA, writePath, lineInNewData, sen);
 				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_wave+panfu+motiDate+".csv");//文件名
+					sen[i].setFilename_S(writePath);//文件名
 //			}
 			if(motiNum==3){
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_wave+panfu+motiDate+".csv", lineInNewData, sen);
+				WriteMotiData.writeToCSV(MOTIDATA, writePath, lineInNewData, sen);
 				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_wave+panfu+motiDate+".csv");//文件名
+					sen[i].setFilename_S(writePath);//文件名
 			}
 			
 		}
 		else {
 			
 //			if (motiNum == 3) {
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_wave+panfu+motiDate+".csv", lineInNewData, sen);
+				WriteMotiData.writeToCSV(MOTIDATA, writePath, lineInNewData, sen);
 				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_wave+panfu+motiDate+".csv");//文件名
+					sen[i].setFilename_S(writePath);//文件名
 //			}
 			if (motiNum > 3) {
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_wave+panfu+motiDate+".csv", lineInNewData, sen);
+				WriteMotiData.writeToCSV(MOTIDATA, writePath, lineInNewData, sen);
 				for(int i=0;i<sen.length;i++)
-					sen[i].setFilename_S(Parameters.AbsolutePath_wave+panfu+motiDate+".csv");//文件名
+					sen[i].setFilename_S(writePath);//文件名
 			}
-			
 		}
 	}
 	
 	@SuppressWarnings("unused")
-	public static void saveAllMotivationSensors(int countNumber, Sensor [] sensors, String panfu) throws ParseException, IOException {
+	public static void saveAllMotivationSensors(int countNumber, Sensor [] sensors) throws ParseException, IOException {
 			//the name of csv file is named by the first data's date in seconds.
-			writeToDisk.writeToCSV(sensors, countNumber, sensors[0].getAbsoluteTime(), panfu+" ");
+			writeToDisk.writeToCSV(sensors, countNumber, sensors[0].getAbsoluteTime());
 	}
 	
 }

@@ -20,7 +20,6 @@ import com.h2.thread.ThreadStep3;
 import com.mathworks.toolbox.javabuilder.MWArray;
 import com.mathworks.toolbox.javabuilder.MWException;
 
-import Energy_matlab.Energy_;
 import mutiThread.MainThread;
 import utils.Data2Object_MATLAB;
 
@@ -577,31 +576,4 @@ public class QuakeClass
 	/** the earth radius.*/
 	private static final double EARTH_RADIUS = 6378137;
 	
-	/**
-	 * calculate the energy of one sensor.
-	 * @param a
-	 * @return Energy of a wave from one sensor.
-	 * @throws MWException
-	 * @author Hanlin Zhang.
-	 */
-	public static double Energy_MATLAB(Vector<String> a) throws MWException {
-		String inte[];
-		boolean flag=false;
-		int channel=5;
-		
-		for (int i = 0; i < a.size(); i++){
-			inte = a.get(i).split(" ");
-			if(Parameters.TongDaoDiagnose==1) {//若有6个通道，判断才有意义
-				if (testValue(inte[4]) || testValue(inte[3])){
-					channel=2;
-				}
-			}
-		}
-		
-		Object aObject=Data2Object_MATLAB.data2Object(a, channel);
-		Energy_ calEnergy = new Energy_();
-		Object energy[] = calEnergy.Energy(1, aObject);
-		
-		return Double.parseDouble(energy[0].toString());
-	}
 }

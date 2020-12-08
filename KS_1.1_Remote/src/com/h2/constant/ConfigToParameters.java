@@ -70,6 +70,9 @@ public class ConfigToParameters {
 	            	if(item[0].equals("panfuName")) {
 	            		Parameters.panfuName = item[1];
 	            	}
+	            	if(item[0].equals("AbsolutePath_recordsOfOneSensor")) {
+	            		Parameters.AbsolutePath_recordsOfOneSensor = item[1];
+	            	}
 	            	if(item[0].equals("FREQUENCY")) {
 		            	Parameters.FREQUENCY = Integer.parseInt(item[1]);
 		            }

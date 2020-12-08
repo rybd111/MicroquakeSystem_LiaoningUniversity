@@ -182,7 +182,7 @@ public class WriteRecords {
      */
     @SuppressWarnings("unused")
 	public static void WriteSeveralMotiTime(Sensor[] s, String filepath) {
-        filepath = filepath+s[0].getpanfu()+".txt";
+        filepath = filepath+Parameters.panfuName+".txt";
     	File file = new File(filepath);
         BufferedWriter out = null;
         String record="";
@@ -214,7 +214,8 @@ public class WriteRecords {
             }
         }
         
-        System.out.println("单台记录写入完毕："+s[0].getAbsoluteTime()+"\t"+s[0].getFilename()+"\t"+s[0].getInitialextremum()+"\t"+s[0].getFilename()+"\t");
+        System.out.println("单台记录写入完毕："+s[0].getAbsoluteTime()+"\t"+
+        s[0].getInitialextremum()+"\t"+s[0].getFilename());
     }
     
     public static void insertALine(String filepath) {
