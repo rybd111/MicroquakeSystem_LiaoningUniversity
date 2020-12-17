@@ -59,7 +59,7 @@ public class QuakeClass
 		boolean flag = getFlag(motiPreLa, sen);
 		
 		// 3：计算最大振幅,并将结果存入传感器
-		sen.setFudu(getBTime(sen, flag, motiPreLa, th));// 单位是秒
+		sen.setFudu(getBTime(sen, flag, motiPreLa, th));//单位是秒
 		
 		//计算持续时间震级		
 //		sen.setDuring(calDuringTime(motiPreLa, sen, th));//持续时间，取lg，然后直接存入duringTime中，作为一个参数使用

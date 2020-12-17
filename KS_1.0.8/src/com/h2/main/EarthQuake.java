@@ -72,7 +72,7 @@ public class EarthQuake {
 				if (vector.size() < Parameters.FREQUENCY * Parameters.readLen)	return " ";//this function must be return a String to foreground.
 			}
 		}
-
+		
 		//We must initialize the Sensor object, when the procedure first use.
 		Sensor[] sensors = SensorTool.initSensorInfo(Parameters.SensorNum,MainThread.fileStr);
 		

@@ -198,9 +198,10 @@ public class WriteRecords {
         	//record the quack time of each event.
             int lastk=0;
             //依次为：绝对时间、盘符名、波形绝对路径、初动极值
-            out.write(record+"\r\n");
+            out.write("\r\n");
             record = s[0].getAbsoluteTime()+"\t"+Parameters.panfuName+
-            		"\t"+s[0].getFilename()+"\t"+s[0].getInitialextremum()+"\t";
+            		"\t"+s[0].getFilename()+"\t"+s[0].getInitialextremum()+"\t"+s[0].getlineSeries()+"\t"+s[0].getTime();
+            out.write(record);
             out.flush();
        } catch (IOException e) {
             e.printStackTrace();
@@ -215,7 +216,7 @@ public class WriteRecords {
         }
         
         System.out.println("单台记录写入完毕："+s[0].getAbsoluteTime()+"\t"+
-        s[0].getInitialextremum()+"\t"+s[0].getFilename());
+        		s[0].getInitialextremum()+"\t"+s[0].getFilename()+"\t"+s[0].getlineSeries()+"\t"+s[0].getTime());
     }
     
     public static void insertALine(String filepath) {
