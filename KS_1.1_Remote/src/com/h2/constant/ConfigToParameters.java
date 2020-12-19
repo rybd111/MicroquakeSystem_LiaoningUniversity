@@ -258,6 +258,9 @@ public class ConfigToParameters {
 		            	if(item[1].equals("false"))
 		            		Parameters.offline = false;
 		            }
+		            if(item[0].equals("timeStr")) {
+		            	Parameters.timeStr = item[1];
+		            }
 	            }
             }
         }
