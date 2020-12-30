@@ -67,7 +67,6 @@ public class MainThread extends Thread{
     	ADMINISTRATOR manager = new ADMINISTRATOR();
     	
     	/**when we need to read data offline, we can use the absolute path as follows.*/
-
 //    	 fileStr[0] = "x:/红阳三矿/201911/Tests/";
 //         fileStr[1] = "x:/红阳三矿/201911/Testt/";
 //         fileStr[2] = "x:/红阳三矿/201911/Testu/";
