@@ -202,12 +202,6 @@ public class ParametersToConfig {
 					if (item[0].equals("DatabaseName5")) {
 						buf.append("DatabaseName5 = " + Parameters.DatabaseName5);
 					}
-					if (item[0].equals("DatabaseName4")) {
-						buf.append("DatabaseName4 = " + Parameters.DatabaseName4);
-					}
-					if (item[0].equals("DatabaseName3")) {
-						buf.append("DatabaseName3 = " + Parameters.DatabaseName3 + "\n");
-					}
 					/** Adjust */
 					if (item[0].equals("Adjust")) {
 						if (Parameters.Adjust == true)

@@ -141,22 +141,8 @@ public class MyTableView {
 	 */
 	private void db_addcomboBoxdata() {
 
-		if (Parameters.DatabaseName3 != null && Parameters.DatabaseName3 != "" && Parameters.DatabaseName3 != " ")
-			list_db.add(Parameters.DatabaseName3);
-
-		if (Parameters.DatabaseName3_updated != null && Parameters.DatabaseName3_updated != ""
-				&& Parameters.DatabaseName3_updated != " ")
-			list_db.add(Parameters.DatabaseName3_updated);
-
-		if (Parameters.DatabaseName4 != null && Parameters.DatabaseName4 != "" && Parameters.DatabaseName4 != " ")
-			list_db.add(Parameters.DatabaseName4);
-
 		if (Parameters.DatabaseName5 != null && Parameters.DatabaseName5 != "" && Parameters.DatabaseName5 != " ")
 			list_db.add(Parameters.DatabaseName5);
-
-		if (Parameters.DatabaseName5_updated != null && Parameters.DatabaseName5_updated != ""
-				&& Parameters.DatabaseName5_updated != " ")
-			list_db.add(Parameters.DatabaseName5_updated);
 	}
 
 	private void initComboBox(ComboBox<String> c, ArrayList<String> data) {
@@ -166,18 +152,8 @@ public class MyTableView {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO：对更改选中Item的监听
-				if (newValue.equals(Parameters.DatabaseName3))
-					setTableViewData("select * from " + Parameters.DatabaseName3, tableViewType.Normal);
-				else if (newValue.equals(Parameters.DatabaseName3_updated))
-					setTableViewData("select * from " + Parameters.DatabaseName3_updated, tableViewType.Normal);
-				else if (newValue.equals(Parameters.DatabaseName3_updated))
-					setTableViewData("select * from " + Parameters.DatabaseName3_updated, tableViewType.Normal);
-				else if (newValue.equals(Parameters.DatabaseName4))
-					setTableViewData("select * from " + Parameters.DatabaseName4, tableViewType.Normal);
-				else if (newValue.equals(Parameters.DatabaseName5))
+				if (newValue.equals(Parameters.DatabaseName5))
 					setTableViewData("select * from " + Parameters.DatabaseName5, tableViewType.Normal);
-				else if (newValue.equals(Parameters.DatabaseName5_updated))
-					setTableViewData("select * from " + Parameters.DatabaseName5_updated, tableViewType.Normal);
 			}
 		});
 	}

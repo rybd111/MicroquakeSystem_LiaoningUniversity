@@ -124,7 +124,7 @@ public class Tools_DataCommunication {
 	public void ShowTableView(TableView<TableData> mTableView, ComboBox<String> mComboBox, Label mEventLabel) {
 
 		this.mTableView = new MyTableView(mTableView, mComboBox, mEventLabel);
-		this.mTableView.setTableViewData("select * from " + Parameters.DatabaseName3, tableViewType.Normal);
+		this.mTableView.setTableViewData("select * from " + Parameters.DatabaseName5, tableViewType.Normal);
 
 		mTableView.setItems(dataList);
 	}

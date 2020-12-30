@@ -431,7 +431,11 @@ public class MainThread extends Thread{
     }
 }
 
-
+/**
+ * Read data from original data file.
+ * But we can not read different format for different format data file.
+ * @author Hanlin Zhang
+ */
 class readTask implements Runnable{
     private CountDownLatch downLatch;
     private int sensorID;
