@@ -230,12 +230,6 @@ public class ConfigToParameters {
 		            if(item[0].equals("DatabaseName5")) {
 		            	Parameters.DatabaseName5 = item[1];
 		            }
-		            if(item[0].equals("DatabaseName4")) {
-		            	Parameters.DatabaseName4 = item[1];
-		            }
-		            if(item[0].equals("DatabaseName3")) {
-		            	Parameters.DatabaseName3 = item[1];
-		            }
 		            /**Adjust*/
 		            if(item[0].equals("Adjust")) {
 		            	if(item[1].equals("true"))

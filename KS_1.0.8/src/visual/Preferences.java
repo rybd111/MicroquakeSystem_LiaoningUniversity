@@ -471,9 +471,6 @@ public class Preferences extends ApplicationWindow {
 		t4_5.setBounds(112, 234, 454, 26);
 		t4_5.setText(Parameters.AbsolutePath_CSV5);
 
-		t4_6 = new Text(composite_1, SWT.BORDER);
-		t4_6.setBounds(112, 263, 454, 26);
-		t4_6.setText(Parameters.DatabaseName3);
 
 		Label l4_4 = new Label(composite_1, SWT.NONE);
 		l4_4.setBounds(10, 266, 97, 20);
@@ -746,7 +743,6 @@ public class Preferences extends ApplicationWindow {
 		t4_3.setText(Parameters.AbsolutePath_allMotiTime_record);
 		t4_4.setText(Parameters.AbsolutePath_CSV3);
 		t4_5.setText(Parameters.AbsolutePath_CSV5);
-		t4_6.setText(Parameters.DatabaseName3);
 		t4_7.setText(Parameters.DatabaseName5);
 
 	}
@@ -789,7 +785,6 @@ public class Preferences extends ApplicationWindow {
 		Parameters.AbsolutePath_allMotiTime_record = t4_3.getText();
 		Parameters.AbsolutePath_CSV3 = t4_4.getText();
 		Parameters.AbsolutePath_CSV5 = t4_5.getText();
-		Parameters.DatabaseName3 = t4_6.getText();
 		Parameters.DatabaseName5 = t4_7.getText();
 	}
 }

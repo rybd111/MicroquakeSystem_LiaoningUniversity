@@ -133,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			if (!mxOcx.IsIniting()) {
 				clearInterval(mxtime);
 				// 控件初始化完成，需要在启动做的事，在这里做
-
+				
 				//mxOcx.setCurrentLayout("布局名")
 
 			}

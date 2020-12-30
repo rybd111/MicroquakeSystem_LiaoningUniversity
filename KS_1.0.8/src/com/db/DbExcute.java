@@ -228,38 +228,6 @@ public class DbExcute {
 				QueryIsadd("select * from " + Parameters.DatabaseName5);
 	}
 
-	public void addElement3(QuackResults aQuackResults) {
-
-//		String sqlStr = "insert into mine_quack_results values(null,?,?,?,?,?)";
-		String sqlStr3 = "insert into " + Parameters.DatabaseName3 + " values(null,?,?,?,?,?,?,?,?,?,?)";
-		connection = JdbcUtil.getConnection();
-		PreparedStatement aStatement3 = null;
-		try {
-			aStatement3 = connection.prepareStatement(sqlStr3);
-			aStatement3.setDouble(1, aQuackResults.getxData());
-			aStatement3.setDouble(2, aQuackResults.getyData());
-			aStatement3.setDouble(3, aQuackResults.getzData());
-			aStatement3.setString(4, aQuackResults.getQuackTime());
-			aStatement3.setDouble(5, aQuackResults.getQuackGrade());
-			aStatement3.setDouble(6, aQuackResults.getParrival());
-			aStatement3.setString(7, aQuackResults.getPanfu());
-			aStatement3.setDouble(8, aQuackResults.getDuringGrade());
-			aStatement3.setDouble(9, aQuackResults.getNengliang());
-			aStatement3.setString(10, aQuackResults.getFilename_S());
-			aStatement3.setDouble(11, aQuackResults.getTensor());
-			aStatement3.setString(12, aQuackResults.getKind());
-			System.out.println(aStatement3.execute() + "-shujuku");
-			connection.close();
-		} catch (SQLException e) {
-			System.out.println("Error:----ks数据库中不存在该表");
-//			e.printStackTrace();
-		} finally {
-			JdbcUtil.close(connection, (com.mysql.jdbc.Statement) statement, resultSet);
-		}
-//		if (Tools_DataCommunication.getCommunication().isClient)
-//			QueryIsadd("select * from " + Parameters.DatabaseName3);
-	}
-
 	public ArrayList<String> getData(String paras[]) {
 		// String sql="select * from mine_quack_results where 1=?";
 

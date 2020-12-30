@@ -37,9 +37,7 @@ public class Main {
         QuackResults aQuackResults =new QuackResults(15000, 10, 25, "", 5.2, 0.2, " ", 0.0,0.0, " ",0.0," ",0.0);
         QuackResults aQuackResults3 =new QuackResults(4595388.504, 41518099.807, 22.776, "", 5.2, 0.2, " ", 0.0,0.0, " ",0.0,"",0.0);
         DbExcute aDbExcute =new DbExcute();
-//        aDbExcute.addElement(aQuackResults);
-        
-        aDbExcute.addElement3(aQuackResults3);
+        aDbExcute.addElement(aQuackResults);
         //System.out.println(timestamp.toString());
         //去锟斤拷
 //        String sqlstr2 ="delete from mine_quack_results  where id in (select id from (select id from mine_quack_results where quackTime in (select quackTime from mine_quack_results group by quackTime having count(quackTime)>1)"+ 

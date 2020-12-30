@@ -27,8 +27,8 @@ public class Serv1 extends HttpServlet {
 		
 		String[] paras={startDate,closeDate,level,energy};
 		DbExcute aDbExcute =new DbExcute();
-		String sqlstr2 ="delete from "+Parameters.DatabaseName3+"  where id in (select id from (select id from "+Parameters.DatabaseName3+" where quackTime in (select quackTime from "+Parameters.DatabaseName3+" group by quackTime having count(quackTime)>1)"+ 
-		        "and id not in(select min(id) from "+Parameters.DatabaseName3+" group by quackTime having count(quackTime)>1)) as tmpresult) ";
+		String sqlstr2 ="delete from "+Parameters.DatabaseName5+"  where id in (select id from (select id from "+Parameters.DatabaseName5+" where quackTime in (select quackTime from "+Parameters.DatabaseName5+" group by quackTime having count(quackTime)>1)"+ 
+		        "and id not in(select min(id) from "+Parameters.DatabaseName5+" group by quackTime having count(quackTime)>1)) as tmpresult) ";
 		aDbExcute.deleteRepate(sqlstr2);
 		ArrayList<String> al=aDbExcute.getData(paras);
 		

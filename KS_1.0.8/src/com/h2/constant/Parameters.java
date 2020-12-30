@@ -1,37 +1,123 @@
 package com.h2.constant;
 
-import mutiThread.MainThread;
-
 /**
  * The constant and partial static variable used in this procedure.
  * @author Yilong Zhang, Baishuo Han, Hanlin Zhang, RQ Ma, Rui Cao, et al.
+ * @modified 2020-12-30
  */
 public class Parameters
 {
+	
+//---------------------need to modify when we distribute on the central machine in different locations.-------------------------- 
+	/**
+	 * 传感器的采样频率，单位是hz/s，文档中是10k，表示每秒有10000条数据
+	 * 一般设置为：实际频率-200，比如实际频率为5k，则我们设置频率为4800
+	 */
+	public static int FREQUENCY = 4800;// 单位hz/s
+	/**
+	 * 第一个GPS波形左端到时间线的时间距离（秒），所以当部署时，需要查看各个测点方波起始处是否为整秒
+	 * 整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置
+	 * 比如当前整秒与方波相差0.3s则该变量值为0.3.
+	 */
+	public static double distanceToSquareWave = 0.17;
+	/**
+	 * 短时窗平均值与长时窗平均值的比值大于1.5，此比值暂时不需要进行调整了
+	 * 在调试状态时，比值为1.4，且没有任何阈值限制，可以测试计算模块，但只能在集中式环境下测试，分布式状态下无法测试
+	 */
+	public static double ShortCompareLong = 1.5;
+	public static double ShortCompareLongAdjust=1.4;
+	/**
+	 * 设置判断激发窗口的扩展判定范围（个）
+	 * 在激发处的后面进行判断，若在阈值外，则认定为是一个事件
+	 */
+	public static int beforeRange = (Parameters.FREQUENCY+200)/10;
+	public static int afterRange = (Parameters.FREQUENCY+200)/10;
+	public static int refineRange = (int) ((Parameters.FREQUENCY+200)*1.2);
+	/**
+	 * 阈值限定激发条件，可能会误触发，需要根据各地矿区的实际情况确定
+	 */
+	public static double beforeRange_Threshold = 50000;
+	public static double afterRange_ThresholdMin = 500;
+	public static double afterRange_ThresholdMax = 1000;
+	public static double refineRange_ThresholdMin = 500;
+	public static double refineRange_ThresholdMax = 2000;
+	/**
+	 * 设置传感器的数量，通过设定主函数中的fileStr设置
+	 */
+	public static int SensorNum =6;
+	/**
+	 * 在这里写死传感器的坐标信息，主要有经度纬度海拔
+	 * 传感器的信息 经度，维度，海拔，坐标为CAD单位，需在程序运行前设置
+	 */
+	public static final double[][] SENSORINFO = {
+			{ 41518099.807,4595388.504,22.776 },//T 杨甸子
+			{ 41518060.298,4594304.927,21.926  },//U 树碑子
+			{ 41520207.356,4597983.404,22.661  },//W 北青堆子
+			{ 41520815.875,4597384.576,25.468  },//X 车队
+			{ 41519304.125,4595913.485,23.921  },//Z 工业广场
+			{ 41519926.476,4597275.978,20.705  },//Y 火药库
+			{ 41516707.440,4593163.619,22.564  },//V 南风井
+			{ 41516836.655,4596627.472,21.545  },//S 蒿子屯
+			{ 41517290.0374,4599537.3261,24.5649 }//R 李大人
+	};//从上起为牛家村、洗煤厂、香山矿、王家村、十一矿工业广场老办公楼西南角花坛、西风井、打钻工区
+	/**
+	 * 初始化盘符信息，用于持续时间震级判断、激发容器数据的保存，须与Mainthread中的fileStr数组相同
+	 * 必须与传感器数量相同，且该变量必须在每次部署到新地点后，直接修改，否则无法运行程序！！！！
+	 */
+	public static String[] diskName = { 
+			"t:/" , 
+			"u:/" , 
+			"w:/" , 
+			"x:/" , 
+			"z:/" , 
+			"y:/" , 
+			"v:/" , 
+			"s:/" , 
+			"r:/"
+			};
+	/**
+	 * when we will store data to database, we need to set this variable to 1.
+	 */
+	public static int isStorageDatabase = 1;
+	/**
+	 * when we will store all motivation sensor data to csv file, we need to set this variable to 1.
+	 */
+	public static int isStorageAllMotivationCSV = 1;
+	/**
+	 * when we will store record of each event, we need to set this variable to 1.
+	 */
+	public static int isStorageEventRecord = 1;
+	/**
+	 * 当程序出现紊乱时，需要进行延迟处理，以使程序能够延迟启动，避免出现频繁请求，浪费流量
+	 */
+	public static int isDelay = 0;
+	/**
+	 * 5台站、3台站存入的数据库表名
+	 */
+	public static  String DatabaseName5 = "mine_quack_results";
+	
+	
+	
+	
+	
+//-------------------------do not need to modified when distribute in different locations-------------------------------------------------------------------------
 	/**长时窗的时长，单位是毫秒*/
 	public static final int LONGTIMEWINDOW = 50;// 单位是毫秒
 	/**短时窗的时长，单位是毫秒*/
 	public static final int SHORTTIMEWINDOW = 10;// 单位是毫秒
 	/**
-	 * 传感器的采样频率，单位是hz/s，文档中是10k，表示每秒有10000条数据
+	 * 读取数据的长度（秒）
 	 */
-	public static int FREQUENCY = 4800;// 单位hz/s
 	public static int readLen = 10;
-	public static double distanceToSquareWave = 0.17;//整秒时间是否是方波由低电平到高电平的位置，不是则看刘老师软件中整秒距离方波由低到高电平的秒数，写入该位置，比如当前整秒与方波相差0.3s则该变量值为0.3.
 	/**
 	 * 用于单位转换，采样频率是秒，长短时窗的单位是毫秒
 	 */
 	private static final int TEMP = 1000;// 单位转换
 	/**
-	 * 用于通道转换中使用的阈值，HEAD表示通道上限与下限
+	 * 用于通道转换中使用的阈值，HEAD表示通道上限与下限，超过上限或下限，则转换大量程通道进行判断与计算
 	 */
 	public static final int HEAD = 32767;
 	public static final int TAIL = -32768;
-	
-	/**
-	 * 存储虚窗口的数据，虚窗口保存上一个10秒数据中的后5秒数据，这个数用于跳过前边的数据
-	 */
-//	public static final int COUNT5sRECORD = 5 * FREQUENCY;
 	/**
 	 * 长时窗采样点个数
 	 */
@@ -45,25 +131,9 @@ public class Parameters
 	 */
 	public static final int N = (LONGTIMEWINDOW + SHORTTIMEWINDOW) * (FREQUENCY+200) / TEMP;
 	/**
-	 * 短时窗平均值与长时窗平均值的比值大于2.5，上次矫正
+	 * 方差，计算持续时间和持续震级时使用
 	 */
-	public static double ShortCompareLong = 1.5;
-	public static double ShortCompareLongAdjust=1.4;
-
-	public static int beforeRange = (Parameters.FREQUENCY+200)/10;
-	public static int afterRange = (Parameters.FREQUENCY+200)/10;
-	public static int refineRange = (int) ((Parameters.FREQUENCY+200)*1.2);
-	
-//	public static final double afterRange_Threshold123 = 1000;
-//	public static double afterRange_Threshold456 = 500;
-	public static double beforeRange_Threshold = 50000;
-	public static double afterRange_ThresholdMin = 500;
-	public static double afterRange_ThresholdMax = 1000;
-	public static double refineRange_ThresholdMin = 500;
-	public static double refineRange_ThresholdMax = 2000;
-	
 	public static double refineRange_variance = 0.0;
-	
 	/**
 	 * 距离其他传感器的传输花费时间，大于1s则认为不时同时发生的事件，但要根据实际点之间的距离和波速进行调整。
 	 */
@@ -90,36 +160,15 @@ public class Parameters
 	 */
 	public static final double S=C/Math.sqrt(3);
 	/**
-	 * 设置传感器的数量，通过设定主函数中的fileStr设置
-	 */
-	public static int SensorNum =6;
-	/**
 	 * 从0-5依次为各个盘符的背景噪声，背景噪声必须在传感器布置到矿区固定后，才能通过长时间观察确定
 	 * 这个顺序必须与启动时的传感器序号顺序一致
 	 */
 	public static final double backGround[] ={29.0,17.0,12.5,5.6,0};
 	public static final double backGroundVariance[] = {};
 	/**
-	 * 在这里写死传感器的坐标信息，主要有经度纬度海拔
-	 * 传感器的信息 经度，维度，海拔，坐标为CAD单位，需在程序运行前设置
-	 */
-	public static final double[][] SENSORINFO = {
-			{ 41518099.807,4595388.504,22.776 },//T 杨甸子
-			{ 41518060.298,4594304.927,21.926  },//U 树碑子
-			{ 41520207.356,4597983.404,22.661  },//W 北青堆子
-			{ 41520815.875,4597384.576,25.468  },//X 车队
-			{ 41519304.125,4595913.485,23.921  },//Z 工业广场
-			{ 41519926.476,4597275.978,20.705  },//Y 火药库
-			{ 41516707.440,4593163.619,22.564  },//V 南风井
-			{ 41516836.655,4596627.472,21.545  },//S 蒿子屯
-			{ 41517290.0374,4599537.3261,24.5649  }//R 李大人
-	};//从上起为牛家村、洗煤厂、香山矿、王家村、十一矿工业广场老办公楼西南角花坛、西风井、打钻工区
-	public static final String region = "红阳";
-	/**
 	 * 通道数量跳过字节设置，在旧设备上使用
 	 */
 	public static int WenJianTou = 284;//4通道跳过242，7通道跳过284,this variable is changed by ReadData class and 
-	
 	public static int ShuJuTou1=10;//新的设备只有10个字节的头，接下来就是数据。
 	public static int ShuJu=210;//数据占210个字节。
 	public static int Shi=10;//每次读10个字节。
@@ -128,7 +177,6 @@ public class Parameters
 	public static int YIMiaoG=15720;//一秒一共有15720个字节,算上了每帧的10个字节头
 	public static int YIMiao=15000;//一秒的数据共有15000个字节
 	public static int San=3;//3个字节进行显示
-
 	/**
 	 * The during time we set to cut the data from 30s data.
 	 */
@@ -142,11 +190,7 @@ public class Parameters
 //	public static final int TongDao=123456;
 	public static int TongDaoDiagnose=0;//If there has only one sensor's channel numbers are 4, this variable becomes 0.
 	public static int motivationDiagnose=1;//加上精细判断。
-	/**
-	 * 初始化盘符信息，用于持续时间震级判断、激发容器数据的保存，须与Mainthread中的fileStr数组相同
-	 * 必须与传感器数量相同，且该变量必须在每次部署到新地点后，直接修改，否则无法运行程序！！！！
-	 */
-	public static String[] diskName = { "t:/" , "u:/" , "w:/" , "x:/" , "z:/" , "y:/" , "v:/" , "s:/" , "r:/"};
+	
 	/**
 	 * when we will store data to txt file, we need to set this variable to 1.
 	 */
@@ -156,22 +200,13 @@ public class Parameters
 	 */
 	public static int isStorageOneMinuteData = 0;
 	/**
-	 * when we will store data to database, we need to set this variable to 1.
-	 */
-	public static int isStorageDatabase = 1;
-	/**
 	 * when we will store each motivation sensor data to csv file, we need to set this variable to 1.
 	 */
 	public static int isStorageEachMotivationCSV = 0;
 	/**
-	 * when we will store all motivation sensor data to csv file, we need to set this variable to 1.
+	 * 显示当前区域
 	 */
-	public static int isStorageAllMotivationCSV = 1;
-	/**
-	 * when we will store record of each event, we need to set this variable to 1.
-	 */
-	public static int isStorageEventRecord = 1;
-	public static int isDelay = 0;
+	public static String region="红阳";
 	/**
 	 * 设置三台站、五台站txt存储路径
 	 * 默认为：D://ConstructionData//3moti//
@@ -194,14 +229,6 @@ public class Parameters
 	 * 1分钟的数据存放位置
 	 */
 	public static final String AbsolutePathMinute = "D:/data/ConstructionData/oneMinutedata/";
-	/**
-	 * 5台站、3台站存入的数据库表名
-	 */
-	public static  String DatabaseName5 = "mine_quack_results";
-	public static  String DatabaseName5_updated = "mine_quack_5_results_updated";
-	public static  String DatabaseName4 = "mine_quack_4_results";
-	public static  String DatabaseName3 = "mine_quack_3_results";
-	public static  String DatabaseName3_updated = "mine_quack_3_results_updated";
 	/**
 	 * 测试重复变量，当出现重复盘符时，该变量起作用。
 	 * @description
@@ -245,13 +272,14 @@ public class Parameters
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.
 	 * */
-	private static String [] station= {"hongyang","datong","pingdingshan"};
+	private static String [] station= {"hongyang","datong","pingdingshan","madaotou"};
 	public static String region_offline =station[0];
 	/**
 	 * the time to read when procedure start.
 	 */
 //	public static final String timeStr = "200214123000";
 	public static String timeStr = "190711080000";
+	
 	/**the data file must store in a fold which name ends with "1" or "2" or "3" or "4" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 * */
@@ -260,14 +288,6 @@ public class Parameters
 //	public static final String[] diskName_offline = { "t" , "u" , "w" , "v" , "z" , "y" , "x"};
 	/**the location of all sensor which must be correspond with diskName_offline in sequence.*/
 	public static final double[][] SENSORINFO_offline_datong = {
-//		 { 1987, 2567, 1560.4 }, //   1号S  Test1
-//         { 2291, 2618, 1546 },   //   2号U  Test2
-//         { 1689, 2383, 1561.2 }, //   3号V  Test3
-//         { 2016, 3034, 1563.8 }, //   4号W  Test4
-//         { 928, 2763, 1544 },   //   5号X  Test5
-//         { 1940, 2400, 1562 },   //   6号Y  Test6
-//         { 1587, 2614, 1554.8 }, //   7号Z  Test7
-	         
 		{ 541689, 4422383, 1561.2 },//3号V we also need to confirm the coordination of datong for the sensors removing from the original position.
 		{ 542016, 4423034, 1563.8 },//4号W
 		{ 540928, 4422763, 1544 },//5号X
@@ -314,58 +334,5 @@ public class Parameters
 	public static final String AbsolutePath5_offline = "D:/data/ConstructionData/5moti/";
 	public static final String AbsolutePath_CSV3_offline = "D:/data/ConstructionData/3moti/";
 	public static final String AbsolutePath_CSV5_offline = "D:/data/ConstructionData/5moti/";
-	
-	/**
-	 * 程序注释需要加上前标，以防止出错无法判断出错位置
-	 * 命名规则：各部分提示符_自部分名称，如计算部分的近震震级表示为：compute_nearQuake
-	 * 各自部分的提示符：
-	 * 计算部分：compute
-	 * 	 进震震级：nearQuake
-	 *     能量：energy
-	 *   持续时间震级：duiringQuake
-	 *   三点定位：threeLocation
-	 *   五点定位：fiveLocation
-	 *   主事件定位：mainLocation
-	 *   
-	 * 读部分：read
-	 *  对齐：readDatadui
-	 *  读1s：readData
-	 *  
-	 * 衔接部分（主程序部分）：main
-	 *  启动两大步：
-	 *    查找最新文件：find
-	 *    对齐：duiqi
-	 * 
-	 * 数据库存储部分：DB
-	 *  写入：write
-	 *  查询：select
-	 *  
-	 * 前后台交互部分：sev
-	 *  查询：select
-	 *  传输：translate1~translateN
-	 *  
-	 */
-	public static final String compute_nearQuake = "compute_nearQuake";
-	public static final String compute_energy = "compute_energy";
-	public static final String compute_duiringQuake = "compute_duiringQuake";
-	public static final String compute_threeLocation = "compute_threeLocation";
-	public static final String compute_fiveLocation = "compute_fiveLocation";
-	public static final String compute_mainLocation = "compute_mainLocation";
-	
-	public static final String read_readDatadui = "read_readDatadui";
-	public static final String read_readData = "read_readData";
-	
-	public static final String main_find = "main_find";
-	public static final String main_duiqi = "main_duiqi";
-	
-	public static final String DB_write = "DB_write";
-	public static final String DB_select = "DB_select";
-	
-	public static final String sev_select = "sev_select";
-	public static final String sev_translate1 = "sev_translate1";
-	public static final String sev_translate2 = "sev_translate2";
-	public static final String sev_translate3 = "sev_translate3";
-	public static final String sev_translate4 = "sev_translate4";
-	public static final String sev_translate5 = "sev_translate5";
 
 }
