@@ -29,6 +29,7 @@ public class Parameters
 	/**
 	 * 设置判断激发窗口的扩展判定范围（个）
 	 * 在激发处的后面进行判断，若在阈值外，则认定为是一个事件
+	 * 这些参数一般情况下不用修改
 	 */
 	public static int beforeRange = (Parameters.FREQUENCY+200)/10;
 	public static int afterRange = (Parameters.FREQUENCY+200)/10;
@@ -96,10 +97,25 @@ public class Parameters
 	/**
 	 * 5台站、3台站存入的数据库表名
 	 */
-	public static  String DatabaseName5 = "mine_quack_results";
-	
-	
-	
+	public static String DatabaseName5 = "mine_quake_results";
+	/**
+	 * 远程数据库IP地址，在部署时修改，但一般情况下不用修改
+	 */
+	public static String SevIP = "localhost:3306";
+	/**
+	 * if adjust the procedure to read the second new file endwith hfmed
+	 * please turn this variable to true.
+	 */
+	public static boolean readSecond=false;
+	/**
+	 * true为调试状态，激发次数增大，且没有激发限时，便于测试数据库与相关功能的正确性和bug
+	 * false为正常运行状态，所有参数均按照当地实际参数设置
+	 */
+	public static boolean Adjust=false;
+	/**
+	 * 显示当前区域
+	 */
+	public static String region="红阳";
 	
 	
 //-------------------------do not need to modified when distribute in different locations-------------------------------------------------------------------------
@@ -206,10 +222,6 @@ public class Parameters
 	 */
 	public static int isStorageEachMotivationCSV = 0;
 	/**
-	 * 显示当前区域
-	 */
-	public static String region="红阳";
-	/**
 	 * 设置三台站、五台站txt存储路径
 	 * 默认为：D://ConstructionData//3moti//
 	 */
@@ -244,21 +256,11 @@ public class Parameters
 	 */
 	public static final int [] initPanfu = {0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0};
 	/**
-	 * true为调试状态，激发次数增大，且没有激发限时，便于测试数据库与相关功能的正确性和bug
-	 * false为正常运行状态，所有参数均按照当地实际参数设置
-	 */
-	public static boolean Adjust=false;
-	/**
 	 * true indicate we will minus a fixed value on the magnitude.
 	 * false indicate we will not minus a fixed value on the magnitude.
 	 */
 	public static boolean MinusAFixedOnMagtitude = true;
 	public static double MinusAFixedValue = 2.8;
-	/**
-	 * if adjust the procedure to read the second new file endwith hfmed
-	 * please turn this variable to true.
-	 */
-	public static boolean readSecond=false;
 	/**
 	 * plus times
 	 */
@@ -275,7 +277,7 @@ public class Parameters
 	 * There are two regions we distribute called datong, pingdingshan.
 	 * */
 	private static String [] station= {"hongyang","datong","pingdingshan","madaotou"};
-	public static String region_offline =station[0];
+	public static String region_offline =station[2];
 	/**
 	 * the time to read when procedure start.
 	 */
@@ -286,7 +288,12 @@ public class Parameters
 	 * Please modify this variable to adapt different mining area.
 	 * */
 //	public static final String[] diskName_offline = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-	public static final String[] diskName_offline = { "s" , "t" , "u" , "w" , "x" , "y" , "z" , "v" , "r"};
+	public static int diskNameNum = 0;
+	public static final String[][] diskName_offline = {
+			{ "s" , "t" , "u" , "w" , "x" , "y" , "z" , "v" , "r"},//hongyang
+			{ "v", "w", "x", "y", "z", "u", "t"},//datong
+			{ "t", "u", "w", "v", "z", "y", "x"}//pingdingshan
+	};
 //	public static final String[] diskName_offline = { "t" , "u" , "w" , "v" , "z" , "y" , "x"};
 	/**the location of all sensor which must be correspond with diskName_offline in sequence.*/
 	public static final double[][] SENSORINFO_offline_datong = {
@@ -321,7 +328,7 @@ public class Parameters
 		{ 3743713.362, 38423292.665, 139.238 }//X Test7 打钻工区
 	};
 	
-	public static final double[][] SENSORINFO_offline_shuangyashan = {
+	public static final double[][] SENSORINFO_offline_madaotou = {
 		{ 44442821, 5181516, 89.0 },//the disk name is not clear.
 		{ 44440849, 5181084, 115.8 },
 		{ 44443148, 5178624, 110.2 },

@@ -158,7 +158,7 @@ public class Five_Locate {
 		aQuackResults.setDuringGrade(0);//持续时间震级
 		aQuackResults.setParrival(location_refine.getSecTime());//P波到时，精确到毫秒
 		aQuackResults.setPanfu(sensors1[0].getpanfu());//盘符
-		aQuackResults.setNengliang(finalEnergy);//能量，待解决
+		aQuackResults.setNengliang(finalEnergy);//能量
 		aQuackResults.setFilename_S(sensors1[0].getFilename());//文件名，当前第一个台站的文件名，其他台站需要进一步改变第一个字符为其他台站，则为其他台站的文件名。
 		aQuackResults.setTensor(tensor_c);//矩张量
 		aQuackResults.setKind("five");

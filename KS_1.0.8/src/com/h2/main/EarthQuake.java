@@ -140,8 +140,8 @@ public class EarthQuake {
 						}
 					}
 					else {
-						for(int j=0;j<Parameters.diskName_offline.length;j++) {
-							if(MainThread.fileParentPackage[i].replace("Test", "").equals(Parameters.diskName_offline[j])) {
+						for(int j=0;j<Parameters.diskName_offline[Parameters.diskNameNum].length;j++) {
+							if(MainThread.fileParentPackage[i].replace("Test", "").equals(Parameters.diskName_offline[Parameters.diskNameNum][j])) {
 								if(Parameters.initPanfu[j]==0) {
 									l[i]=i+1;//record the number of motivated sensors.
 									l1[countNumber]=i;

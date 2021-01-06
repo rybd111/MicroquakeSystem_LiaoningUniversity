@@ -352,9 +352,9 @@ public class Preferences extends ApplicationWindow {
 		l3_2.setText("盘符名");
 		l3_2.setBounds(10, 65, 54, 20);
 
-		t3_2 = new Text(composite3, SWT.BORDER);
-		t3_2.setText(string_arrayToSingle_non(Parameters.diskName_offline));
-		t3_2.setBounds(70, 62, 506, 26);
+//		t3_2 = new Text(composite3, SWT.BORDER);
+//		t3_2.setText(string_arrayToSingle_non(Parameters.diskName_offline));
+//		t3_2.setBounds(70, 62, 506, 26);
 
 		Button r3_1 = new Button(composite3, SWT.CHECK);
 		r3_1.setBounds(10, 36, 93, 20);
@@ -379,7 +379,7 @@ public class Preferences extends ApplicationWindow {
 				if (c3_1.getText().equals("红阳三矿") == true)
 					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_hongyang));
 				if (c3_1.getText().equals("双鸭山") == true)
-					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_shuangyashan));
+					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_madaotou));
 			}
 		});
 		// set the content displayed in combo.
@@ -389,9 +389,9 @@ public class Preferences extends ApplicationWindow {
 		l3_3.setText("离线坐标");
 		l3_3.setBounds(10, 97, 60, 20);
 
-		t3_31 = new Text(composite3, SWT.BORDER | SWT.MULTI);
-		t3_31.setText(string_arrayToSingle(Parameters.diskName_offline));
-		t3_31.setBounds(89, 94, 33, 196);
+//		t3_31 = new Text(composite3, SWT.BORDER | SWT.MULTI);
+//		t3_31.setText(string_arrayToSingle(Parameters.diskName_offline));
+//		t3_31.setBounds(89, 94, 33, 196);
 
 		t3_32 = new Text(composite3, SWT.BORDER | SWT.MULTI);
 		t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_hongyang));
@@ -734,8 +734,8 @@ public class Preferences extends ApplicationWindow {
 		t2_31.setText(string_arrayToSingle(Parameters.diskName));
 		t2_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO));
 
-		t3_2.setText(string_arrayToSingle_non(Parameters.diskName_offline));
-		t3_31.setText(string_arrayToSingle(Parameters.diskName_offline));
+//		t3_2.setText(string_arrayToSingle_non(Parameters.diskName_offline));
+//		t3_31.setText(string_arrayToSingle(Parameters.diskName_offline));
 		t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_hongyang));
 
 		t4_1.setText(String.valueOf(Parameters.MinusAFixedOnMagtitude));

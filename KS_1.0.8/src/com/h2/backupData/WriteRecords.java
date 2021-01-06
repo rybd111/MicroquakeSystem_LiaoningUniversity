@@ -45,8 +45,8 @@ public class WriteRecords {
             	file.createNewFile();
             	out.write("最早到时,");
             	if(Parameters.offline==true) {
-	            	for(int i=0;i<Parameters.diskName_offline.length;i++) {
-		            	out.write(Parameters.diskName_offline[i]+",");
+	            	for(int i=0;i<Parameters.diskName_offline[Parameters.diskNameNum].length;i++) {
+		            	out.write(Parameters.diskName_offline[Parameters.diskNameNum][i]+",");
 		            }
             		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻,张量,b值");
             	}
@@ -63,10 +63,10 @@ public class WriteRecords {
             record = sensor_latest.getAbsoluteTime()+"\t,";
             
             if(Parameters.offline==true) {
-	            for (int i = 0; i < Parameters.diskName_offline.length; i++) {
+	            for (int i = 0; i < Parameters.diskName_offline[Parameters.diskNameNum].length; i++) {
 	            	for(int j=0;j<sensors.length;j++) {
 	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
-	            		if(i1.equals(Parameters.diskName_offline[i])) {
+	            		if(i1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i])) {
 	            			if(flag1==true) {
 		            			for(int k=0;k<i;k++) {
 		            				record = record+",";
@@ -88,8 +88,8 @@ public class WriteRecords {
 	            	}
 	            }
 	            //count the number of commas.
-	            if(record.split(",").length<=(Parameters.diskName_offline.length+1)) {
-	            	for(int i=record.split(",").length;i<Parameters.diskName_offline.length+1;i++) {
+	            if(record.split(",").length<=(Parameters.diskName_offline[Parameters.diskNameNum].length+1)) {
+	            	for(int i=record.split(",").length;i<Parameters.diskName_offline[Parameters.diskNameNum].length+1;i++) {
 	            		record = record+",";
 	            	}
 	            }
@@ -165,8 +165,8 @@ public class WriteRecords {
             	//write the head of the excel.
             	out.write("最早到时,");
             	if(Parameters.offline==true) {
-	            	for(int i=0;i<Parameters.diskName_offline.length;i++) {
-		            	out.write(Parameters.diskName_offline[i]+",");
+	            	for(int i=0;i<Parameters.diskName_offline[Parameters.diskNameNum].length;i++) {
+		            	out.write(Parameters.diskName_offline[Parameters.diskNameNum][i]+",");
 		            }
 //	            	out.write("发震时刻,");
             	}
@@ -183,10 +183,10 @@ public class WriteRecords {
             record = sensors[0].getAbsoluteTime()+"\t,";
 
             if(Parameters.offline==true) {
-	            for (int i = 0; i < Parameters.diskName_offline.length; i++) {
+	            for (int i = 0; i < Parameters.diskName_offline[Parameters.diskNameNum].length; i++) {
 	            	for(int j=0;j<sensors.length;j++) {
 	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
-	            		if(i1.equals(Parameters.diskName_offline[i]) && sensors[j].isSign()) {
+	            		if(i1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i]) && sensors[j].isSign()) {
 	            			if(flag1==true) {
 		            			for(int k=0;k<i;k++) {
 		            				record = record+",";
@@ -208,8 +208,8 @@ public class WriteRecords {
 	            	}
 	            }
 	            //count the number of commas.
-	            if(record.split(",").length<=(Parameters.diskName_offline.length+1)) {
-	            	for(int i=record.split(",").length;i<Parameters.diskName_offline.length+1;i++) {
+	            if(record.split(",").length<=(Parameters.diskName_offline[Parameters.diskNameNum].length+1)) {
+	            	for(int i=record.split(",").length;i<Parameters.diskName_offline[Parameters.diskNameNum].length+1;i++) {
 	            		record = record+",";
 	            	}
 	            }

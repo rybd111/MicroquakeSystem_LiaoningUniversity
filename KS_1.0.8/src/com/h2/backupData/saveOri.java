@@ -65,8 +65,8 @@ public class saveOri {
 			
 			String parent1 = panfu.replace("Test", "");
 			
-			for(int i=0;i<Parameters.diskName_offline.length;i++) {	
-				if(parent1.equals(Parameters.diskName_offline[i]) && Parameters.initPanfu[i]==0) {
+			for(int i=0;i<Parameters.diskName_offline[Parameters.diskNameNum].length;i++) {	
+				if(parent1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i]) && Parameters.initPanfu[i]==0) {
 //					System.out.println("写入路径为："+Parameters.AbsolutePathMinute+parent+"/");
 					WriteMotiData.writemotidata(data,Parameters.AbsolutePathMinute+panfu+"/"+this.panfu1+da+".txt",motiPos); 
 					Parameters.initPanfu[i]=1;

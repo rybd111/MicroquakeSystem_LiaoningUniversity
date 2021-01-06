@@ -12,11 +12,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.tools.Tool;
-
 import com.h2.constant.Parameters;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
+import utils.ConvertCoordinates;
 
 import bean.QuackResults;
 import javafx.application.Platform;
@@ -199,6 +198,13 @@ public class DbExcute {
 		connection = JdbcUtil.getConnection();
 		PreparedStatement aStatement = null;
 		try {
+			
+			//平顶山需要转换坐标
+			if(Parameters.region.equals("平顶山")) {
+				ConvertCoordinates c = new ConvertCoordinates(aQuackResults.getxData(), aQuackResults.getyData());
+				aQuackResults.setxData(c.getX());aQuackResults.setyData(c.getY());
+			}
+			
 			aStatement = connection.prepareStatement(sqlStr);
 			aStatement.setString(1, aQuackResults.getKind());
 			aStatement.setDouble(2, aQuackResults.getxData());

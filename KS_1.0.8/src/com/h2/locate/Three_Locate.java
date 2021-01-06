@@ -184,7 +184,7 @@ public class Three_Locate {
 				aQuackResults.setParrival(location_refine.getSecTime());//P波到时，精确到毫秒
 				aQuackResults.setPanfu(sensors1[0].getpanfu());
 				aQuackResults.setDuringGrade(0);//持续时间震级
-				aQuackResults.setNengliang(finalEnergy);//能量，待解决
+				aQuackResults.setNengliang(finalEnergy);//能量
 				aQuackResults.setFilename_S(sensors1[0].getFilename());
 				aQuackResults.setTensor(tensor_c);//矩张量
 				aQuackResults.setKind("three");
