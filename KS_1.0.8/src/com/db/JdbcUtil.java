@@ -36,7 +36,7 @@ public class JdbcUtil {
 			driver = properties.getProperty("driver");
 			
 //			url = properties.getProperty("url");
-			url = "jdbc:mysql://"+Parameters.SevIP+"/ks?useSSL=false&serverTimezone=UTC";
+			url = "jdbc:mysql://"+Parameters.SevIP+"?useSSL=false&serverTimezone=UTC";
 			//System.out.println(url);
 //			username = properties.getProperty("username");
 //			password = properties.getProperty("password");

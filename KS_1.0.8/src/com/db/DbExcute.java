@@ -192,7 +192,7 @@ public class DbExcute {
 		update(sql);
 	}
 
-	public void addElement(QuackResults aQuackResults) {
+	public boolean addElement(QuackResults aQuackResults) {
 
 		String sqlStr = "insert into " + Parameters.DatabaseName5 + " values(null,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		connection = JdbcUtil.getConnection();
@@ -203,6 +203,7 @@ public class DbExcute {
 			if(Parameters.region.equals("平顶山")) {
 				ConvertCoordinates c = new ConvertCoordinates(aQuackResults.getxData(), aQuackResults.getyData());
 				aQuackResults.setxData(c.getX());aQuackResults.setyData(c.getY());
+				System.out.println("坐标转换完毕！！！");
 			}
 			
 			aStatement = connection.prepareStatement(sqlStr);
@@ -223,8 +224,8 @@ public class DbExcute {
 			System.out.println(aStatement.execute() + "-shujuku");
 			connection.close();
 		} catch (SQLException e) {
-			System.out.println("Error:----ks数据库中不存在该表");
-//			e.printStackTrace();
+			e.printStackTrace();
+			return false;
 		} finally {
 			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
@@ -232,6 +233,7 @@ public class DbExcute {
 			if (Parameters.DatabaseName5.equals(Tools_DataCommunication.getCommunication().getmTableView()
 					.getmComboBox().getSelectionModel().getSelectedItem()))
 				QueryIsadd("select * from " + Parameters.DatabaseName5);
+		return true;
 	}
 
 	public ArrayList<String> getData(String paras[]) {

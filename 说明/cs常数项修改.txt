@@ -1,0 +1,11 @@
+Main.java 96行，18s 改成常数类中的参数。
+与频率相关的参数均使用常数类中的参数。
+MyTableView.java 142行开始到最后。修改了数据库的读取。
+MyLineChart.java 中有大量常数，尽量使用parameters.java 类中的常数项，另外488行需要修改数据库名。
+Preferences.java 根据最新的常数类将出现问题的项全部删除。
+QueryPanelController.java 166-171 185-186 数据库名修改
+ParametersToConfig.java 常数项修改
+Tools_DataCommunication.java 127行 数据库名修改
+
+
+数据库名统一修改为DatabaseName5

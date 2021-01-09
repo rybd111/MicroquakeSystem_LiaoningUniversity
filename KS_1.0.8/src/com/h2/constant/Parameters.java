@@ -101,7 +101,7 @@ public class Parameters
 	/**
 	 * 远程数据库IP地址，在部署时修改，但一般情况下不用修改
 	 */
-	public static String SevIP = "localhost:3306";
+	public static String SevIP = "localhost:3306/ks";
 	/**
 	 * if adjust the procedure to read the second new file endwith hfmed
 	 * please turn this variable to true.
@@ -115,7 +115,7 @@ public class Parameters
 	/**
 	 * 显示当前区域
 	 */
-	public static String region="红阳";
+	public static String region="平顶山";
 	
 	
 //-------------------------do not need to modified when distribute in different locations-------------------------------------------------------------------------

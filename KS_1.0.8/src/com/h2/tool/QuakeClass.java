@@ -971,11 +971,11 @@ public class QuakeClass
 		s.setAltitude(Double.parseDouble(result[2].toString()));
 		s.setSecTime(Double.parseDouble(result[3].toString()));
 		
-		System.out.print("x:"+s.getLatitude());
-		System.out.print("y:"+s.getLongtitude());
-		System.out.print("z:"+s.getAltitude());
-		System.out.print("t"+s.getSecTime());
-		System.out.println();
+//		System.out.print("x:"+s.getLatitude());
+//		System.out.print("y:"+s.getLongtitude());
+//		System.out.print("z:"+s.getAltitude());
+//		System.out.print("t"+s.getSecTime());
+//		System.out.println();
 //		System.out.print("x:"+result[0].toString());
 //		System.out.print("y:"+result[1].toString());
 //		System.out.print("z:"+result[2].toString());

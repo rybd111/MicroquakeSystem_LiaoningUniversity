@@ -47,7 +47,10 @@ public class ConvertCoordinates {
 
 
 	public static void main(String[] args) {
-		ConvertCoordinates c = new ConvertCoordinates(3745746.048,38423009.003);
+//		ConvertCoordinates c = new ConvertCoordinates(3745746.048,38423009.003);
+		ConvertCoordinates c = new ConvertCoordinates(3746837.315,38424737.254);
 		c.toString();
+//		PSO	3746837.315	-38424737.254	-485.641	2021-01-02 16:59:33.49141500000000005	1.63	-0.908585	vzu	0	624040	D:/data/ConstructionData/3moti/vzu 2021-01-02 16-59-34`4.csv	0.5359	0.1175
+
 	}
 }
