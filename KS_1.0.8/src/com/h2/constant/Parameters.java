@@ -113,7 +113,7 @@ public class Parameters
 	 */
 	public static boolean Adjust=false;
 	/**
-	 * 显示当前区域
+	 * 当前区域，必须要改，否则，有些矿区的坐标需要转换，有些不用
 	 */
 	public static String region="平顶山";
 	
