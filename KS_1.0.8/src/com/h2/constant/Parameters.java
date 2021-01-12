@@ -97,7 +97,7 @@ public class Parameters
 	/**
 	 * 5台站、3台站存入的数据库表名
 	 */
-	public static String DatabaseName5 = "mine_quake_results";
+	public static String DatabaseName5 = "mine_quake_results_pingdingshan";
 	/**
 	 * 远程数据库IP地址，在部署时修改，但一般情况下不用修改
 	 */

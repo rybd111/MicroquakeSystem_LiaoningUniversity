@@ -30,13 +30,22 @@ public class stringJoin {
 		return joinS;
 	}
 	
+	/**
+	 * Join the motivated sensor's name, and return a string.
+	 * @param S
+	 * @param sensors
+	 * This is the sorted sensor array.
+	 * @return 
+	 * A string of motivated sensors. 
+	 * @author Hanlin Zhang.
+	 */
 	public static String SJoin_Array(String[] S, Sensor[] sensors) {
 		
 		String joinS="";
+		
 		for(int i=0;i<sensors.length;i++) {
 			joinS=joinS.concat(S[sensors[i].getSensorNum()]);//extract the correspond sensor's number motivated.
 		}
-
 		return joinS;
 	}
 	

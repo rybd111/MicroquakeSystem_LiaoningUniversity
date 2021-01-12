@@ -1,8 +1,17 @@
-﻿# MicroquakeSystem_LiaoningUniversity
+# MicroquakeSystem_LiaoningUniversity
 A system about coal mine monitor.
-    集中式程序为KS_1.0.8，包括前台jsp内容，主类为multiThread包下的mainThread.java，测试程序可通过mainTest运行。
-测点程序为KS_1.1_Remote
-中心程序为KS_1.1_Center
 
-#20201208更新测点程序KS_1.1_Remote
-1添加了分布式计算所需的计算指标（盘符、绝对到时、初动极值、波形绝对路径，其中波形绝对路径需要将盘符更改为当前计算的盘符）
+    集中式程序为KS_1.0.8，包括前台jsp内容，主类为multiThread包下的mainThread.java，测试后台程序可通过mainTest运行。
+	测点程序为KS_1.1_Remote，测点程序还需精简。
+	中心程序为KS_1.1_Center，中心机程序汇总时注意汇总时间对齐。
+
+###20201208更新测点程序 KS_1.1_Remote
+	添加了分布式计算所需的计算指标（盘符、绝对到时、初动极值、波形绝对路径，其中波形绝对路径需要将盘符更改为当前计算的盘符）
+###20200111更新中心机程序内容 KS_1.0.8
+	更新了数据库服务器常量与参数类。
+	更新了数据库名，优化了CS端的数据库表显示。
+	增加了环境测试类。
+	常数类增加了区域设置，由于平顶山矿区需要坐标转换。
+	简化了配置文件。
+	数据库记录保存至服务器端数据库和本地txt各一份，以防断网时远程数据库无法获取数据。
+	封装四个主要模块（对齐，读取、激发、计算、保存）

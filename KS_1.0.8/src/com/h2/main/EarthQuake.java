@@ -63,7 +63,6 @@ public class EarthQuake {
 	 * @throws Exception
 	 * @author Baishuo Han, Hanlin Zhang.
 	 */
-	@SuppressWarnings("unused")
 	public static String runmain(Vector<String> ssen[][])	throws Exception {
 		
 		//the number of data must enough to calculate which satisfied to 10s, or it will appear mistake consequence for the current data.
@@ -124,6 +123,7 @@ public class EarthQuake {
 			int[] l1 = new int[Parameters.SensorNum];
 			for (int i=0;i<Parameters.SensorNum;i++){
 				if (sensors[i].isSign()) {
+					//the series of correspond with the name of path, which stow the motivated sensor.
 					sensors[i].setSensorNum(i);
 					if(Parameters.offline==false) {
 						for(int j=0;j<Parameters.diskName.length;j++) {
@@ -155,150 +155,50 @@ public class EarthQuake {
 					}
 				}
 			}
-			
+			//Reset the global variable.
 			for(int i=0;i<Parameters.initPanfu.length;i++)
 				Parameters.initPanfu[i]=0;
 			
-			Sensor[] sensors1 = new Sensor[countNumber];//save the sensors after sorting from short to long.
-			Sensor[] sensors2 = new Sensor[Parameters.SensorNum-countNumber];
-			Sensor[] S = new Sensor[sensors1.length+sensors2.length];
-			
-			String panfu="";
-			int[] newl = new int[countNumber];//merge l to newl.
-			int count=0;// a counter.
-			Vector<String>[] motiPreLa = new Vector[Parameters.SensorNum];
-			Vector<String>[] inteData = new Vector[Parameters.SensorNum];
+			Sensor[] S = new Sensor[sensors.length];
+			statusOfCompute status = new statusOfCompute();
 			
 			if(countNumber>2) {
-				
-				//merge l to avoid the series array l appearing two series number repetition.
-				for(int i=0;i<Parameters.SensorNum;i++) {
-					if(l1[i]==0&&i==0) {
-						newl[count] = l1[i];
-						count++;
-					}
-					else if(l1[i]!=0) {
-						newl[count] = l1[i];
-						count++;
-					}
-				}
-				
-				//Get the relative time point as second, this function is update the sensors object's setSecTime method's Sectime variable.
-				//Meanwhile, this function's return sensors is sorted.
-				sensors1 = relativeStatus.P_RelativeArrivalTime(sensors,newl,countNumber);//sort the sensors and calculate the relative P arrival time according Sectime variable.
-				
-				//storage the current motivation sensors.
-				if(Parameters.offline==false) {
-					panfu = stringJoin.SJoin_Array(MainThread.fileStr, sensors1);
-					panfu=panfu.replaceAll(":/", "");//替换掉盘符中的:/
-					for(int i=0;i<sensors1.length;i++) {
-						sensors1[i].setpanfu(panfu);//存储盘符字符串
-					}
-				}
-				else {
-					panfu = stringJoin.SJoin_Array(MainThread.fileParentPackage, sensors1);
-					panfu = panfu.replaceAll("Test", "");
-					for(int i=0;i<sensors1.length;i++) {
-						sensors1[i].setpanfu(panfu);//存储盘符字符串
-					}
-				}
-				
-				//initialization.
-				for(int i=0;i<Parameters.SensorNum;i++) {
-					motiPreLa[i] = new Vector<String>();
-					inteData[i] = new Vector<String>();
-				}
-				
-				//integrate 30s data to one Vector.
-				for(int i=0;i<countNumber;i++) {
-					inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][0]);
-					inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][1]);
-					inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][2]);
-				}
-				for(int i=0;i<countNumber;i++) {
-					motiPreLa[i] = QuakeClass.cutOdata(inteData[i], sensors1, Parameters.startTime, Parameters.endTime, sensors1[i]);
-					sensors1[i].setCutVectorData(motiPreLa[i]);
-				}
-				
-				//no motivation sensor also set to motivation data according to the first motivated sensor's time.
-				int n=countNumber;
-				for(int i=0;i<Parameters.SensorNum;i++) {
-					if(n<Parameters.SensorNum) {
-						if(l[i]==0) {
-							inteData[n].addAll(ssen[i][0]);
-							inteData[n].addAll(ssen[i][1]);
-							inteData[n].addAll(ssen[i][2]);
-							n++;
-						}
-					}
-				}
-				
-				int n1 = 0;
-				n=countNumber;
-				for(int i=0;i<Parameters.SensorNum;i++) {
-					if(sensors[i].isSign()==false) {
-						//set attributes same as the sensors0.
-						sensors[i].setlineSeries(sensors1[0].getlineSeries());
-						sensors[i].setSecTime(sensors1[0].getSecTime());
-						sensors[i].setAbsoluteTime(sensors1[0].getAbsoluteTime());
-						sensors[i].setTime(sensors1[0].getTime());
-						
-						//cut the position the same as sensors1[0] with no motivation sensors.
-						motiPreLa[n] = QuakeClass.cutOdata(inteData[n], sensors1, Parameters.startTime, Parameters.endTime, sensors[i]);
-						sensors[i].setCutVectorData(motiPreLa[n]);
-						sensors[i].setlineSeriesNew(0);
-						sensors2[n1] = sensors[i];
-						n++;n1++;
-					}
-				}
-				
-				//merge sensor1 sensor2.
-				
-				n=0;
-				for(int i=0;i<S.length;i++) {
-					if(i<sensors1.length) {
-						S[i] = sensors1[i];
-					}
-					else {
-						S[i] = sensors2[n];
-						n++;
-					}
-				}
-				
+				//stow the info of all sensors.
+				S = relativeStatus.stowInfoSensor(l, l1, countNumber, sensors, ssen, status);
 			}
 			
-			//write data along.
-//			if(countNumber>2) {
-//				writeToDisk.saveAllMotivationSensors(Parameters.SensorNum, sensors, "");
-//			}
-
-			//write the motivation data on the disk. 
+			/**
+			 * panfu is the combination of motivated and unmotivated sensor split with " ".
+			 * countNumber is the number of motivation sensor.
+			 * S is the array of the Sensor class's object.
+			 * THIS FUNTION IS TO WIRTE THE MOTIVATION DATA ON THE DISK.
+			 */
 			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && EarthQuake.realMoti==true) {
-				writeToDisk.saveAllMotivationSensors(countNumber, S, panfu);
+				writeToDisk.saveAllMotivationSensors(countNumber, S, status.getPanfu());
 			}
 			
 			if(countNumber >= 5 && EarthQuake.realMoti==true) {
 				//write to a txt file to indicate the motivation time of each sensor.
-				WriteRecords.WriteSeveralMotiTime(sensors1, Parameters.AbsolutePath_allMotiTime_record);
+				WriteRecords.WriteSeveralMotiTime(status.getSensors1(), Parameters.AbsolutePath_allMotiTime_record);
 				//write to datacenter.
-				WriteRecords.WriteSeveralMotiTime(sensors1, Parameters.AbsolutePath_allMotiTime_record_dataCenter);
+				WriteRecords.WriteSeveralMotiTime(status.getSensors1(), Parameters.AbsolutePath_allMotiTime_record_dataCenter);
 			}
 			
 			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.
 			if(countNumber >= 5 && EarthQuake.realMoti==true) {
-				Five_Locate.five(sensors, sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
+				Five_Locate.five(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
 			}
 			
 			//if the number of motivated sensors is greater than 3, we will calculate three location.
 			if(countNumber>=3 && EarthQuake.realMoti==true){
-				outString = Three_Locate.three(sensors, sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
-				PSO_Locate.pso(sensors, sensors1, aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
+				outString = Three_Locate.three(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
+				PSO_Locate.pso(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
 			}
 			
 			//if the number of motivated sensors is greater than 4, we will calculate four location-main event location.
 			if(countNumber>=4 && EarthQuake.realMoti==true) {
 				//outString = MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);
-				MajorEvent_locate.major(sensors, sensors1, aQuackResults, sensorThread3, aDbExcute);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
+				MajorEvent_locate.major(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
 			}
 			
 			//calculate quake grade.
