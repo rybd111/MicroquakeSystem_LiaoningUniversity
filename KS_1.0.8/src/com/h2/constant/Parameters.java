@@ -335,14 +335,4 @@ public class Parameters
 		{ 44441763, 5179060, 104.4 },
 		{ 44442327, 5180765, 93.3 }
 	};//从左起为西风井、火药库、永华村、水塔、工业广场
-	
-	/**motiData storage path, you can modify this path to adapt to your need.
-	 * Then, we need to create several folds as the same as the length of diskName_offline
-	 * such as "Text1","Text2","Text3","Text4", and et al.
-	 * */
-	public static final String AbsolutePath3_offline = "D:/data/ConstructionData/3moti/";
-	public static final String AbsolutePath5_offline = "D:/data/ConstructionData/5moti/";
-	public static final String AbsolutePath_CSV3_offline = "D:/data/ConstructionData/3moti/";
-	public static final String AbsolutePath_CSV5_offline = "D:/data/ConstructionData/5moti/";
-
 }

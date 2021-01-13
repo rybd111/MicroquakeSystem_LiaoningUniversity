@@ -10,7 +10,6 @@ import com.yang.readFile.ReadData;
 import com.yang.readFile.findNew;
 
 import controller.ADMINISTRATOR;
-import mianThread.DuiQi;
 
 
 /**

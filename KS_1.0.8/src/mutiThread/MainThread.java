@@ -10,20 +10,13 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.h2.backupData.WriteRecords;
-import com.h2.backupData.saveOri;
 import com.h2.constant.Parameters;
 import com.h2.main.EarthQuake;
-import com.h2.tool.motiDiag;
 import com.rqma.history.*;
 import com.yang.readFile.ReadData;
-import mianThread.DuiQi;
+
 import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
-import utils.Date2String;
 import utils.DateArrayToIntArray;
-import utils.String2Date;
-import visual.Preferences;
-import visual.chartFrame;
 import bean.DataRec;
 import controller.ADMINISTRATOR;
 

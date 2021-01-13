@@ -106,14 +106,14 @@ public class writeToDisk {
 		else {
 			
 			if (motiNum == 3) {
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3_offline+panfu+motiDate+".csv", lineInNewData, s1);
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv", lineInNewData, s1);
 				for(int i=0;i<s1.length;i++)
-					s1[i].setFilename_S(Parameters.AbsolutePath_CSV3_offline+panfu+motiDate+".csv");//文件名
+					s1[i].setFilename_S(Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv");//文件名
 			}
 			if (motiNum > 3) {
-				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5_offline+panfu+motiDate+".csv", lineInNewData, s1);
+				WriteMotiData.writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv", lineInNewData, s1);
 				for(int i=0;i<s1.length;i++)
-					s1[i].setFilename_S(Parameters.AbsolutePath_CSV5_offline+panfu+motiDate+".csv");//文件名
+					s1[i].setFilename_S(Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv");//文件名
 			}
 			
 		}
