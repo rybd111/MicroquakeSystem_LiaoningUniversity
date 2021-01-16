@@ -12,7 +12,7 @@ import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
 import utils.Tensor;
 import com.h2.thread.ThreadStep3;
-import com.h2.tool.Location2;
+import com.h2.tool.FiveLocation;
 import com.mathworks.toolbox.javabuilder.MWException;
 
 import b_pro.BClass;
@@ -51,7 +51,7 @@ public class Five_Locate {
 //		Sensor location_PSO = PSO.process(sensors1);
 		
 		//calculate the coordinations of the quake source, location variable only store the quake time, not store the motivation time, and store the coordinations of the quake happening.
-		Sensor location_refine = Location2.getLocation(sensors1);//calculate the quake time in milliseconds.
+		Sensor location_refine = FiveLocation.getLocation(sensors1);//calculate the quake time in milliseconds.
 		
 		//we calculate the real quake time by reduce the first receiving quake signal sensor and the quake time in second.
 		String intequackTime = TimeDifferent.TimeDistance(sensors[0].getAbsoluteTime(), location_refine.getSecTime()); //the time of refine quake time;

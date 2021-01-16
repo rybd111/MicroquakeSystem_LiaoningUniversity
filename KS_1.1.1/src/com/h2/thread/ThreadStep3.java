@@ -12,7 +12,7 @@ import com.mathworks.toolbox.javabuilder.MWException;
 /**
  * 用于计算震级的多线程
  * 
- * @author 韩百硕
+ * @author 韩百硕, Hanlin Zhang
  *
  */
 public class ThreadStep3 extends Thread 

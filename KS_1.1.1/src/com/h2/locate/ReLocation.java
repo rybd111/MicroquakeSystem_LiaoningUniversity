@@ -5,7 +5,7 @@ import java.text.ParseException;
 
 import com.h2.constant.Sensor;
 import com.h2.tool.Doublelocate;
-import com.h2.tool.Location2;
+import com.h2.tool.FiveLocation;
 import com.h2.tool.QuakeClass;
 import com.h2.tool.Triplelocate;
 import com.mathworks.toolbox.javabuilder.MWException;
@@ -47,7 +47,7 @@ public class ReLocation {
 				sensors1[0].setAbsoluteTime(absolutetime);//绝对时间
 				if(kind=="Five_Locate")
 					{
-						Sensor location_refine = Location2.getLocation(sensors1);
+						Sensor location_refine = FiveLocation.getLocation(sensors1);
 						java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 						nf.setGroupingUsed(false);
 						double xdata=Double.parseDouble(nf.format(location_refine.getLatitude()));//事件x坐标

@@ -6,7 +6,7 @@ import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
 import com.h2.tool.CrestorTrough;
 import com.h2.tool.Doublelocate;
-import com.h2.tool.Location2;
+import com.h2.tool.FiveLocation;
 import com.h2.tool.SensorTool;
 import com.h2.tool.Triplelocate;
 
@@ -44,7 +44,7 @@ public class Five_Locate_alone {
 		
 		
 		//calculate the coordinations of the quake source, location variable only store the quake time, not store the motivation time, and store the coordinations of the quake happening.
-		Sensor location = Location2.getLocation(sensor);//calculate the quake time in milliseconds.
+		Sensor location = FiveLocation.getLocation(sensor);//calculate the quake time in milliseconds.
 				
 		//we will calculate the quake time through this function.			
 		location.setSecTime(Doublelocate.quakeTime(sensor[0], location));

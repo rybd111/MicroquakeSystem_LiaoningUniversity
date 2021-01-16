@@ -11,7 +11,7 @@ import org.jblas.Solve;
 import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
 
-public class Location
+public class FiveLocation
 {
 	/**
 	 * 计算震源的位置
@@ -33,7 +33,7 @@ public class Location
 
 		B = Solve.pinv(A).mmul(C);//表示要进行矩阵乘法运算的两个数组
 		// 通过B给sensor赋值
-		sensor.setquackTime(getSetTime(Token[0], B.get(0)));
+		sensor.setSecTime(B.get(0));
 		
 		//System.out.println("getLocation函数："+B.get(0));
 		//---------------------------------------------------------
@@ -78,7 +78,7 @@ public class Location
 	private static double getT(Sensor sensor)//返回C*C*t*t-(x*x+y*y+z*z)
 	{
 		//System.out.println("getT:"+getTime(sensor));
-		return Math.pow(Parameters.C, 2) * Math.pow(getTime(sensor), 2)
+		return Math.pow(Parameters.C, 2) * Math.pow(sensor.getSecTime(), 2)
 			- (Math.pow(sensor.getAltitude(), 2) + Math.pow(sensor.getLatitude(), 2) + Math.pow(sensor.getLongtitude(), 2));
 		//C*C*t*t-(x*x+y*y+z*z)
 	}
@@ -107,7 +107,7 @@ public class Location
 	private static DoubleMatrix getRow(int i, Sensor[] sensors)
 	{
 		DoubleMatrix v = DoubleMatrix.zeros(1, 4);//1行4列一维数组
-		v.put(0, Math.pow(Parameters.C, 2) * (getTime(sensors[i])-getTime(sensors[0])));//c*c*第一个传感器与其余传感器的时间差
+		v.put(0, Math.pow(Parameters.C, 2) * (sensors[i].getSecTime()-sensors[0].getSecTime()));//c*c*第一个传感器与其余传感器的时间差
 		v.put(1, sensors[0].getLatitude() - sensors[i].getLatitude());//第一个传感器与其余传感器的坐标差值y
 		v.put(2, sensors[0].getLongtitude() - sensors[i].getLongtitude());//第一个传感器与其余传感器的坐标差值x
 		v.put(3, sensors[0].getAltitude() - sensors[i].getAltitude());//第一个传感器与其余传感器的坐标差值

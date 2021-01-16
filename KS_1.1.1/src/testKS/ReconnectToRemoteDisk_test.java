@@ -1,4 +1,6 @@
-package mutiThread;
+package testKS;
+
+import mutiThread.ReconnectToRemoteDisk;
 
 public class ReconnectToRemoteDisk_test {
 
