@@ -51,15 +51,13 @@ public class Parameters
 	 * 传感器的信息 经度，维度，海拔，坐标为CAD单位，需在程序运行前设置
 	 */
 	public static final double[][] SENSORINFO = {
-			{ 41518099.807,4595388.504,22.776 },//T 杨甸子
-			{ 41518060.298,4594304.927,21.926  },//U 树碑子
-			{ 41520207.356,4597983.404,22.661  },//W 北青堆子
-			{ 41520815.875,4597384.576,25.468  },//X 车队
-			{ 41519304.125,4595913.485,23.921  },//Z 工业广场
-			{ 41519926.476,4597275.978,20.705  },//Y 火药库
-			{ 41516707.440,4593163.619,22.564  },//V 南风井
-			{ 41516836.655,4596627.472,21.545  },//S 蒿子屯
-			{ 41517290.0374,4599537.3261,24.5649 }//R 李大人
+			{ 3744774.016, 38422332.101, 157.019 },//T
+			{ 3743774.578, 38421827.120, 120.191 },//U
+			{ 3744698.415, 38421314.653, 126.809 },//W
+			{ 3744199.610, 38423376.100, 202.175 },//X
+			{ 3742996.232, 38423392.741, 117.530 },//Z
+			{ 3746036.362, 38419962.476, 127.009 },//Y
+			{ 3743713.362, 38423292.665, 139.238 }//V
 	};//从上起为牛家村、洗煤厂、香山矿、王家村、十一矿工业广场老办公楼西南角花坛、西风井、打钻工区
 	/**
 	 * 初始化盘符信息，用于持续时间震级判断、激发容器数据的保存，须与Mainthread中的fileStr数组相同
@@ -75,8 +73,6 @@ public class Parameters
 			"z:/" , 
 			"y:/" , 
 			"v:/" , 
-			"s:/" , 
-			"r:/"
 	};
 	/**
 	 * when we will store data to database, we need to set this variable to 1.
@@ -97,11 +93,11 @@ public class Parameters
 	/**
 	 * 5台站、3台站存入的数据库表名
 	 */
-	public static String DatabaseName5 = "mine_quake_results";
+	public static String DatabaseName5 = "mine_quake_results_pingdingshan";
 	/**
 	 * 远程数据库IP地址，在部署时修改，但一般情况下不用修改
 	 */
-	public static String SevIP = "localhost:3306/ks";
+	public static String SevIP = "182.92.239.30/ks";
 	/**
 	 * if adjust the procedure to read the second new file endwith hfmed
 	 * please turn this variable to true.
@@ -115,7 +111,7 @@ public class Parameters
 	/**
 	 * 当前区域，必须要改，否则，有些矿区的坐标需要转换，有些不用
 	 */
-	public static String region="红阳";
+	public static String region="平顶山";
 	
 	
 //-------------------------do not need to modified when distribute in different locations-------------------------------------------------------------------------
@@ -234,11 +230,8 @@ public class Parameters
 	public static String AbsolutePath5_record = "D:/data/ConstructionData/";
 	
 	public static String AbsolutePath_CSV3 = "D:/data/ConstructionData/3moti/";
-	public static String AbsolutePath_CSV3_dataCenter = "Q:/mineData/hysk/data/ConstructionData/3moti/";
 	public static String AbsolutePath_CSV5 = "D:/data/ConstructionData/5moti/";
-	public static String AbsolutePath_CSV5_dataCenter = "Q:/mineData/hysk/data/ConstructionData/5moti/";
 	public static String AbsolutePath_allMotiTime_record = "D:/data/ConstructionData/TimeRecords.csv";
-	public static String AbsolutePath_allMotiTime_record_dataCenter = "Q:/mineData/hysk/data/ConstructionData/TimeRecords.csv";
 	/**
 	 * 1分钟的数据存放位置
 	 */
@@ -271,7 +264,7 @@ public class Parameters
 	/**
 	 * control to run procedure in a offline way.
 	 */
-	public static boolean offline=true;
+	public static boolean offline=false;
 	
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.
@@ -281,9 +274,8 @@ public class Parameters
 	/**
 	 * the time to read when procedure start.
 	 */
-//	public static final String timeStr = "200214123000";
-	public static String timeStr = "190711080000";
-	
+//	public static final String timeStr = "170214123000";
+	public static String timeStr = "200214130000";
 	/**the data file must store in a fold which name ends with "1" or "2" or "3" or "4" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 * */
@@ -305,34 +297,33 @@ public class Parameters
 		{ 542291, 4422618, 1546 },//2号U
 		{ 541987, 4422567, 1560.4 },//1号T
 	};//从上起为牛家村、洗煤厂、香山矿、王家村、十一矿工业广场老办公楼西南角花坛、西风井、打钻工区
-	
 	public static final double[][] SENSORINFO_offline_hongyang = {
-		{ 41516836.655,4596627.472,21.545  },//S Test1
-		{ 41518099.807,4595388.504,22.776 },//T Test2
-		{ 41518060.298,4594304.927,21.926  },//U Test3
-		{ 41520207.356,4597983.404,22.661  },//W Test4
-		{ 41520815.875,4597384.576,25.468  },//X Test5
-		{ 41519926.476,4597275.978,20.705  },//Y Test6
-		{ 41519304.125,4595913.485,23.921  },//Z Test7
-		{ 41516707.440,4593163.619,22.564  },//V Test8
-		{ 41517290.0374,4599537.3261,24.5649  }//R Test9
+			{ 41516836.655,4596627.472,21.545  },//S Test1
+			{ 41518099.807,4595388.504,22.776 },//T Test2
+			{ 41518060.298,4594304.927,21.926  },//U Test3
+			{ 41520207.356,4597983.404,22.661  },//W Test4
+			{ 41520815.875,4597384.576,25.468  },//X Test5
+			{ 41519926.476,4597275.978,20.705  },//Y Test6
+			{ 41519304.125,4595913.485,23.921  },//Z Test7
+			{ 41516707.440,4593163.619,22.564  },//V Test8
+			{ 41517290.0374,4599537.3261,24.5649  }//R Test9
 	};
 	
 	public static final double[][] SENSORINFO_offline_pingdingshan = {
-		{ 3744774.016, 38422332.101, 157.019 },//T Test1 牛家村
-		{ 3743774.578, 38421827.120, 120.191 },//U Test2 洗煤厂
-		{ 3744698.415, 38421314.653, 126.809 },//W Test3 香山矿
-		{ 3744199.610, 38423376.100, 202.175 },//V Test4 王家村
-		{ 3742996.232, 38423392.741, 117.530 },//Z Test5 工业广场
-		{ 3746036.362, 38419962.476, 127.009 },//Y Test6 西风井
-		{ 3743713.362, 38423292.665, 139.238 }//X Test7 打钻工区
+			{ 3744774.016, 38422332.101, 157.019 },//T Test1 牛家村
+			{ 3743774.578, 38421827.120, 120.191 },//U Test2 洗煤厂
+			{ 3744698.415, 38421314.653, 126.809 },//W Test3 香山矿
+			{ 3744199.610, 38423376.100, 202.175 },//V Test4 王家村
+			{ 3742996.232, 38423392.741, 117.530 },//Z Test5 工业广场
+			{ 3746036.362, 38419962.476, 127.009 },//Y Test6 西风井
+			{ 3743713.362, 38423292.665, 139.238 }//X Test7 打钻工区
 	};
 	
-	public static final double[][] SENSORINFO_offline_madaotou = {
-		{ 44442821, 5181516, 89.0 },//the disk name is not clear.
-		{ 44440849, 5181084, 115.8 },
-		{ 44443148, 5178624, 110.2 },
-		{ 44441763, 5179060, 104.4 },
-		{ 44442327, 5180765, 93.3 }
+	public static final double[][] SENSORINFO_offline_shuangyashan = {
+			{ 44442821, 5181516, 89.0 },//the disk name is not clear.
+			{ 44440849, 5181084, 115.8 },
+			{ 44443148, 5178624, 110.2 },
+			{ 44441763, 5179060, 104.4 },
+			{ 44442327, 5180765, 93.3 }
 	};//从左起为西风井、火药库、永华村、水塔、工业广场
 }
