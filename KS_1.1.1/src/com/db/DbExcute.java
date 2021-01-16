@@ -258,18 +258,18 @@ public class DbExcute {
 			aStatement.setDouble(13, aQuackResults.getbvalue());
 			//单独写入
 			writeToDisk.DatabaseREC(
-				aQuackResults.getKind()+
-				aQuackResults.getxData()+
-				aQuackResults.getyData()+
-				aQuackResults.getzData()+
-				aQuackResults.getQuackTime()+
-				aQuackResults.getQuackGrade()+
-				aQuackResults.getParrival()+
-				aQuackResults.getPanfu()+
-				aQuackResults.getDuringGrade()+
-				aQuackResults.getNengliang()+
-				aQuackResults.getFilename_S()+
-				aQuackResults.getTensor()+
+				aQuackResults.getKind()+ "\t" +
+				aQuackResults.getxData()+ "\t" +
+				aQuackResults.getyData()+ "\t" +
+				aQuackResults.getzData()+ "\t" +
+				aQuackResults.getQuackTime()+ "\t" +
+				aQuackResults.getQuackGrade()+ "\t" +
+				aQuackResults.getParrival()+ "\t" +
+				aQuackResults.getPanfu()+ "\t" +
+				aQuackResults.getDuringGrade()+ "\t" +
+				aQuackResults.getNengliang()+ "\t" +
+				aQuackResults.getFilename_S()+ "\t" +
+				aQuackResults.getTensor()+ "\t" +
 				aQuackResults.getbvalue()
 			);
 			System.out.println(aStatement.execute() + "-shujuku");

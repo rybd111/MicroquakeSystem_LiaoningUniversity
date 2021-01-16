@@ -103,8 +103,8 @@ public class SensorTool
 	public static int[] baseSort(String[] Str, int [] k, int region) {
 		for(int j=0;j<Str.length;j++){
 			for(int i=0;i<Parameters.diskName_offline[region].length;i++)
-//				if(Str[j].substring(Str[j].length()-2, Str[j].length()-1).equals(Parameters.diskName_offline[region][i]))
-				if(Str[j].equals(Parameters.diskName_offline[region][i]))
+				if(Str[j].substring(Str[j].length()-2, Str[j].length()-1).equals(Parameters.diskName_offline[region][i]))
+//				if(Str[j].equals(Parameters.diskName_offline[region][i]))
 					k[j]=i;
 		}
 		baseCoordinate = k[0];

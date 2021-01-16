@@ -101,7 +101,7 @@ public class Parameters
 	/**
 	 * 远程数据库IP地址，在部署时修改，但一般情况下不用修改
 	 */
-	public static String SevIP = "localhost:3306/ks";
+	public static String SevIP = "localhost:3306/KS1";
 	/**
 	 * if adjust the procedure to read the second new file endwith hfmed
 	 * please turn this variable to true.
