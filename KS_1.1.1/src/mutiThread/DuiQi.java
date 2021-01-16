@@ -18,8 +18,8 @@ import controller.ADMINISTRATOR;
 
 /**
  * we need to raise the speed of align process, so we write this function to realize this purpose.
- * @author Hanlin Zhang, 
- *
+ * @author Hanlin Zhang.
+ * @date 2021年1月16日
  */
 public class DuiQi extends Thread{
 

@@ -65,7 +65,8 @@ public class WriteRecords {
             if(Parameters.offline==true) {
 	            for (int i = 0; i < Parameters.diskName_offline[Parameters.diskNameNum].length; i++) {
 	            	for(int j=0;j<sensors.length;j++) {
-	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
+//	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
+	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()];
 	            		if(i1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i])) {
 	            			if(flag1==true) {
 		            			for(int k=0;k<i;k++) {
@@ -185,7 +186,8 @@ public class WriteRecords {
             if(Parameters.offline==true) {
 	            for (int i = 0; i < Parameters.diskName_offline[Parameters.diskNameNum].length; i++) {
 	            	for(int j=0;j<sensors.length;j++) {
-	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
+//	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
+	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()];
 	            		if(i1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i]) && sensors[j].isSign()) {
 	            			if(flag1==true) {
 		            			for(int k=0;k<i;k++) {

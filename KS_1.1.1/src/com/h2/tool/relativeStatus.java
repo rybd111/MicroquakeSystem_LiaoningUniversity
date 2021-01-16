@@ -160,7 +160,7 @@ public class relativeStatus {
 		}
 		else {
 			panfu = stringJoin.SJoin_Array(MainThread.fileParentPackage, sensors1);
-			panfu = panfu.replaceAll("Test", "");
+//			panfu = panfu.replaceAll("Test", "");
 		}
 		
 		//initialization.
@@ -222,7 +222,7 @@ public class relativeStatus {
 		}
 		else {
 			panfu = panfu+ " " + stringJoin.SJoin_Array(MainThread.fileParentPackage, sensors2);
-			panfu = panfu.replaceAll("Test", "");
+//			panfu = panfu.replaceAll("Test", "");
 		}
 		
 		//set the name of path all.

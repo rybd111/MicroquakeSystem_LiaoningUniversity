@@ -10,7 +10,7 @@ import com.db.DbExcute;
 import com.h2.backupData.WriteRecords;
 import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
-import com.h2.thread.ThreadStep3;
+import com.h2.strength.calStrength;
 import com.h2.tool.QuakeClass;
 import com.mathworks.toolbox.javabuilder.MWException;
 
@@ -37,7 +37,7 @@ public class PSO_Locate {
 	 * @throws MWException 
 	 */
 	@SuppressWarnings("unused")
-	public static String pso(Sensor[] allsensors, Sensor[] sensors, QuackResults aQuackResults, ThreadStep3[] sensorThread3,
+	public static String pso(Sensor[] allsensors, Sensor[] sensors, QuackResults aQuackResults, calStrength[] sensorThread3,
 			DbExcute aDbExcute, int countNumber) throws ParseException, IOException, MWException {
 		
 		String outString=" ";
@@ -76,7 +76,7 @@ public class PSO_Locate {
 				final CountDownLatch threadSignal_cal = new CountDownLatch(sensors1.length);
 				//calculate the near earthquake magnitude et al.
 				for(int i=0;i<sensors1.length;i++) {
-					sensorThread3[i] = new ThreadStep3(sensors1[i], location_refine, i, threadSignal_cal);
+					sensorThread3[i] = new calStrength(sensors1[i], location_refine, i, threadSignal_cal);
 					executor_cal.execute(sensorThread3[i]);//计算单个传感器的近震震级
 				}
 				try {threadSignal_cal.await();}

@@ -1,23 +1,12 @@
 package com.h2.tool;
 
-import java.awt.print.Printable;
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Vector;
-import com.h2.main.*;
-import com.h2.backupData.WriteMotiData;
-import com.h2.backupData.writeToDisk;
 import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
-import com.h2.thread.ThreadStep3;
-import com.mathworks.toolbox.javabuilder.MWArray;
 import com.mathworks.toolbox.javabuilder.MWException;
 
 import PSO.pso_locate;

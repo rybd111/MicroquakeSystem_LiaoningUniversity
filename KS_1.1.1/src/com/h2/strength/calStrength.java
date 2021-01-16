@@ -1,4 +1,4 @@
-package com.h2.thread;
+package com.h2.strength;
 
 import java.text.ParseException;
 import java.util.Vector;
@@ -10,37 +10,33 @@ import com.h2.tool.calDuringTimePar;
 import com.mathworks.toolbox.javabuilder.MWException;
 
 /**
- * 用于计算震级的多线程
+ * 用于计算近震震级、能量的线程
  * 
- * @author 韩百硕, Hanlin Zhang
+ * @author 韩百硕, Hanlin Zhang.
  *
  */
-public class ThreadStep3 extends Thread 
+public class calStrength extends Thread 
 {
 	private Sensor sensor;
-	private Vector<String> dataCalculate = new Vector<String>();
 	private Sensor location;
 	private int i;
-	private int[] l;
 	private CountDownLatch downLatch;
-	public ThreadStep3(Sensor s, Sensor lo, int i, CountDownLatch downLatch)
+	public calStrength(Sensor s, Sensor lo, int i, CountDownLatch downLatch)
 	{
 		this.sensor = s;
 		this.i=i;//sensor ID.
 		this.location = lo;
 		this.downLatch = downLatch;
 	}
-
+	
 	public void run()
 	{
-		//calculate the near quake magnitude.
+		//calculate the near quake magnitude and energy.
 		try {
 			QuakeClass.SensorMaxFudu(this.sensor, this.i);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MWException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		QuakeClass.getOneEarthQuakeGrade(location, sensor);

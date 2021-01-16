@@ -14,7 +14,7 @@ import com.h2.locate.Five_Locate;
 import com.h2.locate.MajorEvent_locate;
 import com.h2.locate.PSO_Locate;
 import com.h2.locate.Three_Locate;
-import com.h2.thread.ThreadStep3;
+import com.h2.strength.calStrength;
 import com.h2.tool.SensorTool;
 import com.h2.tool.relativeStatus;
 
@@ -63,7 +63,7 @@ public class EarthQuake {
 		
 		// sensorData[2][1] indicate the third sensor's second vector.
 		Vector<String> sensorData[][] = ssen;
-		ThreadStep3[] sensorThread3 = new ThreadStep3[Parameters.SensorNum];
+		calStrength[] sensorThread3 = new calStrength[Parameters.SensorNum];
 		
 		Vector<String> judgeMotiData = new Vector<String>();
 		
@@ -127,7 +127,8 @@ public class EarthQuake {
 					}
 					else {
 						for(int j=0;j<Parameters.diskName_offline[Parameters.diskNameNum].length;j++) {
-							if(MainThread.fileParentPackage[i].replace("Test", "").equals(Parameters.diskName_offline[Parameters.diskNameNum][j])) {
+//							if(MainThread.fileParentPackage[i].replace("Test", "").equals(Parameters.diskName_offline[Parameters.diskNameNum][j])) {
+							if(MainThread.fileParentPackage[i].equals(Parameters.diskName_offline[Parameters.diskNameNum][j])) {
 								if(Parameters.initPanfu[j]==0) {
 									l[i]=i+1;//record the number of motivated sensors.
 									l1[countNumber]=i;
