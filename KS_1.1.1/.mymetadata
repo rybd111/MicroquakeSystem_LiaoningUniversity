@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="kkss"
+  id="myeclipse.1497876141589"
+  context-root="/kkss"
+  j2ee-spec="5.0"
+  archive="kkss.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

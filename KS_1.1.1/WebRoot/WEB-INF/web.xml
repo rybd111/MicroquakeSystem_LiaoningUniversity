@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name></display-name>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Sev</servlet-name>
+    <servlet-class>sev.Sev</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>MainT</servlet-name>
+    <servlet-class>sev.MainT</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ZJDispl</servlet-name>
+    <servlet-class>sev.ZJDispl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Sensor</servlet-name>
+    <servlet-class>sev.Sensor</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Sevlet01</servlet-name>
+    <servlet-class>sev.Sevlet01</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Sevlet02</servlet-name>
+    <servlet-class>sev.Sevlet02</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Sevlet03</servlet-name>
+    <servlet-class>sev.Sevlet03</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Sevlet04</servlet-name>
+    <servlet-class>sev.Sevlet04</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Sevlet05</servlet-name>
+    <servlet-class>sev.Sevlet05</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Serv1</servlet-name>
+    <servlet-class>sev.Serv1</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetJiZhiSev</servlet-name>
+    <servlet-class>sev.GetJiZhiSev</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>rangeSearch</servlet-name>
+    <servlet-class>com.yang.search.servlet.RangeSearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>rangeSearch</servlet-name>
+    <url-pattern>/search/rangeSearch</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>topK</servlet-name>
+    <servlet-class>com.yang.search.servlet.TopKSearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>topK</servlet-name>
+    <url-pattern>/search/topK</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>mSearch</servlet-name>
+    <servlet-class>com.yang.search.servlet.MSearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mSearch</servlet-name>
+    <url-pattern>/search/mSearch</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetJiZhiSev</servlet-name>
+    <url-pattern>/servlet/GetJiZhiSev</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Serv1</servlet-name>
+    <url-pattern>/Serv1</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Sev</servlet-name>
+    <url-pattern>/servlet/Sev</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ZJDispl</servlet-name>
+    <url-pattern>/servlet/ZJDispl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Sensor</servlet-name>
+    <url-pattern>/servlet/Sensor</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Sevlet01</servlet-name>
+    <url-pattern>/servlet/Sevlet01</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Sevlet02</servlet-name>
+    <url-pattern>/servlet/Sevlet02</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Sevlet03</servlet-name>
+    <url-pattern>/servlet/Sevlet03</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Sevlet04</servlet-name>
+    <url-pattern>/servlet/Sevlet04</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Sevlet05</servlet-name>
+    <url-pattern>/servlet/Sevlet05</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
