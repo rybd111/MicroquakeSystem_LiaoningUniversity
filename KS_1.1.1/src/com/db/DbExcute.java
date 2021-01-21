@@ -236,7 +236,7 @@ public class DbExcute {
 		try {
 			
 			//平顶山需要转换坐标
-			if(Parameters.region.equals("平顶山")) {
+			if(Parameters.region_offline.equals("pingdingshan")) {
 				ConvertCoordinates c = new ConvertCoordinates(aQuackResults.getxData(), aQuackResults.getyData());
 				aQuackResults.setxData(c.getX());aQuackResults.setyData(c.getY());
 				System.out.println("坐标转换完毕！！！");

@@ -49,4 +49,21 @@ public class stringJoin {
 		return joinS;
 	}
 	
+	/**
+	 * transfer the String array to String.
+	 * @param A
+	 * @return String
+	 * @author Hanlin Zhang.
+	 * @date revision 下午7:31:43
+	 */
+	public static String SJoin_Array(String[] A) {
+		String result = null;
+		
+		for(int i=0;i<A.length;i++) {
+			result += " "+A[i];
+		}
+		
+		return result;
+	}
+	
 }

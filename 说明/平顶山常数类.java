@@ -51,14 +51,14 @@ public class Parameters
 	 * 传感器的信息 经度，维度，海拔，坐标为CAD单位，需在程序运行前设置
 	 */
 	public static final double[][] SENSORINFO = {
-			{ 3744774.016, 38422332.101, 157.019 },//T
-			{ 3743774.578, 38421827.120, 120.191 },//U
-			{ 3744698.415, 38421314.653, 126.809 },//W
-			{ 3744199.610, 38423376.100, 202.175 },//X
-			{ 3742996.232, 38423392.741, 117.530 },//Z
-			{ 3746036.362, 38419962.476, 127.009 },//Y
-			{ 3743713.362, 38423292.665, 139.238 }//V
-	};//从上起为牛家村、洗煤厂、香山矿、王家村、十一矿工业广场老办公楼西南角花坛、西风井、打钻工区
+			{ 3744774.016, 38422332.101, 157.019 },//Z 牛家村
+			{ 3743774.578, 38421827.120, 120.191 },//T 洗煤厂
+			{ 3744698.415, 38421314.653, 126.809 },//Y 香山矿
+			{ 3744199.610, 38423376.100, 202.175 },//V 王家村
+			{ 3742996.232, 38423392.741, 117.530 },//X 十一矿工业广场老办公楼西南角花坛
+			{ 3746036.362, 38419962.476, 127.009 },//W 西风井
+			{ 3743713.362, 38423292.665, 139.238 }//U 打钻工区
+	};
 	/**
 	 * 初始化盘符信息，用于持续时间震级判断、激发容器数据的保存，须与Mainthread中的fileStr数组相同
 	 * 必须与坐标后面的盘符顺序对应！！！！！
@@ -66,13 +66,13 @@ public class Parameters
 	 * 该变量中的盘符需要小写！！！！！
 	 */
 	public static String[] diskName = { 
-			"t:/" , 
-			"u:/" , 
-			"w:/" , 
-			"x:/" , 
 			"z:/" , 
+			"t:/" , 
 			"y:/" , 
 			"v:/" , 
+			"x:/" , 
+			"w:/" , 
+			"u:/" , 
 	};
 	/**
 	 * when we will store data to database, we need to set this variable to 1.
@@ -108,11 +108,6 @@ public class Parameters
 	 * false为正常运行状态，所有参数均按照当地实际参数设置
 	 */
 	public static boolean Adjust=false;
-	/**
-	 * 当前区域，必须要改，否则，有些矿区的坐标需要转换，有些不用
-	 */
-	public static String region="平顶山";
-	
 	
 //-------------------------do not need to modified when distribute in different locations-------------------------------------------------------------------------
 	/**长时窗的时长，单位是毫秒*/
@@ -265,26 +260,25 @@ public class Parameters
 	 * control to run procedure in a offline way.
 	 */
 	public static boolean offline=false;
-	
-	/**where the data are reading from?
-	 * There are two regions we distribute called datong, pingdingshan.
-	 * */
-	private static String [] station= {"hongyang","datong","pingdingshan","madaotou"};
-	public static String region_offline =station[2];
 	/**
 	 * the time to read when procedure start.
 	 */
-//	public static final String timeStr = "170214123000";
-	public static String timeStr = "200214130000";
-	/**the data file must store in a fold which name ends with "1" or "2" or "3" or "4" and etc.
+	public static String timeStr = "190711080000";
+	/**where the data are reading from?
+	 * There are two regions we distribute called datong, pingdingshan.
+	 */
+	private static String [] station= {"hongyang","datong","pingdingshan","madaotou"};
+	public static String region_offline =station[2];
+	/**the data file must store in a fold which name ends with "s" or "t" or "z" or "s" and etc.
 	 * Please modify this variable to adapt different mining area.
-	 * */
-//	public static final String[] diskName_offline = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+	 */
+	//diskNameNum need not to modify manually.
 	public static int diskNameNum = 0;
 	public static final String[][] diskName_offline = {
-			{ "s" , "t" , "u" , "w" , "x" , "y" , "z" , "v" , "r"},//hongyang
-			{ "v", "w", "x", "y", "z", "u", "t"},//datong
-			{ "t", "u", "w", "v", "z", "y", "x"}//pingdingshan
+		{ "t" , "u" , "w" , "x" , "z" , "y" , "v" , "s" , "r"},//hongyang
+		{ "v", "w", "x", "y", "z", "u", "t"},//datong
+		{ "z", "t", "y", "v", "x", "w", "u"},//pingdingshan
+		{ "o", "p", "q", "z"}//madaotou
 	};
 //	public static final String[] diskName_offline = { "t" , "u" , "w" , "v" , "z" , "y" , "x"};
 	/**the location of all sensor which must be correspond with diskName_offline in sequence.*/
@@ -297,33 +291,41 @@ public class Parameters
 		{ 542291, 4422618, 1546 },//2号U
 		{ 541987, 4422567, 1560.4 },//1号T
 	};//从上起为牛家村、洗煤厂、香山矿、王家村、十一矿工业广场老办公楼西南角花坛、西风井、打钻工区
+	
 	public static final double[][] SENSORINFO_offline_hongyang = {
-			{ 41516836.655,4596627.472,21.545  },//S Test1
-			{ 41518099.807,4595388.504,22.776 },//T Test2
-			{ 41518060.298,4594304.927,21.926  },//U Test3
-			{ 41520207.356,4597983.404,22.661  },//W Test4
-			{ 41520815.875,4597384.576,25.468  },//X Test5
-			{ 41519926.476,4597275.978,20.705  },//Y Test6
-			{ 41519304.125,4595913.485,23.921  },//Z Test7
-			{ 41516707.440,4593163.619,22.564  },//V Test8
-			{ 41517290.0374,4599537.3261,24.5649  }//R Test9
+		{ 41518099.807,4595388.504,22.776 },//T 杨甸子
+		{ 41518060.298,4594304.927,21.926  },//U 树碑子
+		{ 41520207.356,4597983.404,22.661  },//W 北青堆子
+		{ 41520815.875,4597384.576,25.468  },//X 车队
+		{ 41519304.125,4595913.485,23.921  },//Z 工业广场
+		{ 41519926.476,4597275.978,20.705  },//Y 火药库
+		{ 41516707.440,4593163.619,22.564  },//V 南风井
+		{ 41516836.655,4596627.472,21.545  },//S 蒿子屯
+		{ 41517290.0374,4599537.3261,24.5649 }//R 李大人
 	};
 	
 	public static final double[][] SENSORINFO_offline_pingdingshan = {
-			{ 3744774.016, 38422332.101, 157.019 },//T Test1 牛家村
-			{ 3743774.578, 38421827.120, 120.191 },//U Test2 洗煤厂
-			{ 3744698.415, 38421314.653, 126.809 },//W Test3 香山矿
-			{ 3744199.610, 38423376.100, 202.175 },//V Test4 王家村
-			{ 3742996.232, 38423392.741, 117.530 },//Z Test5 工业广场
-			{ 3746036.362, 38419962.476, 127.009 },//Y Test6 西风井
-			{ 3743713.362, 38423292.665, 139.238 }//X Test7 打钻工区
+		{ 3744774.016, 38422332.101, 157.019 },//Z 牛家村
+		{ 3743774.578, 38421827.120, 120.191 },//T 洗煤厂
+		{ 3744698.415, 38421314.653, 126.809 },//Y 香山矿
+		{ 3744199.610, 38423376.100, 202.175 },//V 王家村
+		{ 3742996.232, 38423392.741, 117.530 },//X 十一矿工业广场老办公楼西南角花坛
+		{ 3746036.362, 38419962.476, 127.009 },//W 西风井
+		{ 3743713.362, 38423292.665, 139.238 }//U 打钻工区
 	};
 	
 	public static final double[][] SENSORINFO_offline_shuangyashan = {
-			{ 44442821, 5181516, 89.0 },//the disk name is not clear.
-			{ 44440849, 5181084, 115.8 },
-			{ 44443148, 5178624, 110.2 },
-			{ 44441763, 5179060, 104.4 },
-			{ 44442327, 5180765, 93.3 }
+		{ 44442821, 5181516, 89.0 },//the disk name is not clear.
+		{ 44440849, 5181084, 115.8 },
+		{ 44443148, 5178624, 110.2 },
+		{ 44441763, 5179060, 104.4 },
+		{ 44442327, 5180765, 93.3 }
 	};//从左起为西风井、火药库、永华村、水塔、工业广场
+	
+	public static final double[][] SENSORINFO_offline_madaotou = {
+		{ 4409609.1825,512398.0950,1458.0541 },//O sel 
+		{ 4416002.6574,517084.2615,1469.6346 },//P nhy 
+		{ 4413453.8746,513392.0561,1453.3081 },//Q wmz 
+		{ 4408689.1946,517174.4868,1489.6023 },//Z tbz 
+	};
 }

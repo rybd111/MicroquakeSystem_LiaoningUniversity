@@ -383,7 +383,7 @@ public class Preferences extends ApplicationWindow {
 			}
 		});
 		// set the content displayed in combo.
-		c3_1.setText(Parameters.region);
+		c3_1.setText(Parameters.region_offline);
 
 		Label l3_3 = new Label(composite3, SWT.NONE);
 		l3_3.setText("离线坐标");

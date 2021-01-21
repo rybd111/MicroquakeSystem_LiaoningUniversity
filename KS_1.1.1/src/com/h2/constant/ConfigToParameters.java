@@ -271,7 +271,7 @@ public class ConfigToParameters {
 		            	Parameters.timeStr = item[1];
 		            }
 		            if(item[0].equals("region")) {
-		            	Parameters.region = item[1];
+		            	Parameters.region_offline = item[1];
 		            }
 //		            if(item[0].equals("jdbcPath")) {
 //		            	Parameters.jdbcPath = item[1];

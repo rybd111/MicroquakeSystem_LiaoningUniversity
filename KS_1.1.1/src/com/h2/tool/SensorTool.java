@@ -25,8 +25,8 @@ public class SensorTool
 	public static int baseCoordinate = 0;
 	/**
 	 * 根据路径返回传感器坐标
-	 * @param count
-	 * @param Str
+	 * @param count 传感器个数
+	 * @param Str 传感器路径，离线格式：“Testz” 在线格式：“y:/”
 	 * @return Sensor数组
 	 * @author Hanlin Zhang.
 	 * @date revision 下午5:15:34
@@ -102,10 +102,13 @@ public class SensorTool
 	
 	public static int[] baseSort(String[] Str, int [] k, int region) {
 		for(int j=0;j<Str.length;j++){
-			for(int i=0;i<Parameters.diskName_offline[region].length;i++)
-				if(Str[j].substring(Str[j].length()-2, Str[j].length()-1).equals(Parameters.diskName_offline[region][i]))
-//				if(Str[j].equals(Parameters.diskName_offline[region][i]))
+			for(int i=0;i<Parameters.diskName_offline[region].length;i++) {
+				String s = Str[j].substring(Str[j].length()-2, Str[j].length()-1);
+				if(s.equals(Parameters.diskName_offline[region][i])) {
 					k[j]=i;
+					break;
+				}
+			}
 		}
 		baseCoordinate = k[0];
 		Parameters.diskNameNum = region;
