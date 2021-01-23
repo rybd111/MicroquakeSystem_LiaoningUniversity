@@ -12,13 +12,13 @@ import java.util.concurrent.Executors;
 
 import com.h2.constant.Parameters;
 import com.h2.main.EarthQuake;
-import com.rqma.history.*;
-import com.yang.readFile.ReadData;
 
+import DataExchange.DataRec;
 import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 import utils.DateArrayToIntArray;
-import bean.DataRec;
 import controller.ADMINISTRATOR;
+import read.rqma.history.*;
+import read.yang.readFile.ReadData;
 
 /**
  * main procedure entrance.

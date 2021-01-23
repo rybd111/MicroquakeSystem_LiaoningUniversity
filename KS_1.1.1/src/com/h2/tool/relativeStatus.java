@@ -6,10 +6,10 @@ import java.util.Date;
 import java.util.Vector;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
 import com.h2.main.EarthQuake;
 import com.h2.main.statusOfCompute;
 
+import DataExchange.Sensor;
 import mutiThread.MainThread;
 import utils.Date2String;
 import utils.String2Date;

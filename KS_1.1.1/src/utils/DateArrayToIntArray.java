@@ -10,7 +10,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.h2.constant.Parameters;
-import com.yang.readFile.ReadData;
+
+import read.yang.readFile.ReadData;
 
 //日期数组，转化为整型数组，整型数组为日期数组 与最大值得差
 public class DateArrayToIntArray {

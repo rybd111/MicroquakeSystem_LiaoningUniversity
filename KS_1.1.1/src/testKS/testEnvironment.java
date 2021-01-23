@@ -12,7 +12,7 @@ import java.util.Date;
 import com.db.DbExcute;
 import com.mathworks.toolbox.javabuilder.MWException;
 
-import bean.QuackResults;
+import DataExchange.QuackResults;
 import testEnvironment.SUM;
 
 /**

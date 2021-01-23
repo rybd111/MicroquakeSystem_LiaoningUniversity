@@ -3,11 +3,11 @@ package utils;
 import java.util.Vector;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
 import com.h2.locate.Five_Locate;
 import com.mathworks.toolbox.javabuilder.MWException;
 
-import bean.QuackResults;
+import DataExchange.QuackResults;
+import DataExchange.Sensor;
 import tensor_pro.Tensor_Pro_Class;
 
 

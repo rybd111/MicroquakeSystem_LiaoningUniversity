@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
 import com.h2.tool.QuakeClass;
 import com.h2.tool.getRelativeMotiPOS;
 import com.h2.tool.relativeStatus;
 import com.h2.tool.stringJoin;
 
+import DataExchange.Sensor;
 import mutiThread.MainThread;
 import utils.one_dim_array_max_min;
 

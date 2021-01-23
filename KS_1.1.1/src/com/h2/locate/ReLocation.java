@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.util.Arrays;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
 import com.h2.tool.Doublelocate;
 import com.h2.tool.FiveLocation;
 import com.h2.tool.QuakeClass;
@@ -14,9 +13,10 @@ import com.h2.tool.SensorTool;
 import com.h2.tool.Triplelocate;
 import com.mathworks.toolbox.javabuilder.MWException;
 import com.mysql.fabric.xmlrpc.base.Struct;
-import com.yang.unity.SensorProperties;
 
+import DataExchange.Sensor;
 import cn.hutool.core.lang.Tuple;
+import read.yang.unity.SensorProperties;
 import utils.ConvertCoordinates;
 import utils.TimeDifferent;
 import utils.TimeTransform;

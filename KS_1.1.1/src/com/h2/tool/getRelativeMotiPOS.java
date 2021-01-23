@@ -2,8 +2,7 @@ package com.h2.tool;
 
 import java.util.Vector;
 
-import com.h2.constant.Sensor;
-
+import DataExchange.Sensor;
 import utils.one_dim_array_max_min;
 
 /**

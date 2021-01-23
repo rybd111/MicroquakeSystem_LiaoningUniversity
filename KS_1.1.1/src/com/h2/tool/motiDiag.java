@@ -3,7 +3,8 @@ package com.h2.tool;
 import java.util.Vector;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
+
+import DataExchange.Sensor;
 /**
  *  
  * @author 张翰林（HanLin Zhang）

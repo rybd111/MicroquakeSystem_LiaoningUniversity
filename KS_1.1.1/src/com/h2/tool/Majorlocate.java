@@ -4,7 +4,8 @@ import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
+
+import DataExchange.Sensor;
 
 /*主地震定位方法………… t主走时 = t待走时 + coex xx + coey yy + coez zz  （coe表示系数，t待走时=t接收到时-t发震时刻）
  * 已知量：主事件走时、待定事件到时、coe系数通过计算迭代更新。

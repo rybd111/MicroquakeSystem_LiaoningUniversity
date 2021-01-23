@@ -4,7 +4,8 @@ import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
+
+import DataExchange.Sensor;
 
 /**
  * this function used to calculate the during grade.

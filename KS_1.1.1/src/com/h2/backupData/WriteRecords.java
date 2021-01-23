@@ -1,7 +1,8 @@
 package com.h2.backupData;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
+
+import DataExchange.Sensor;
 import mutiThread.MainThread;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;

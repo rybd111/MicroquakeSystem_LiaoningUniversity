@@ -1,6 +1,7 @@
 package testKS;
-import com.yang.readFile.*;
 import java.io.*;
+
+import read.yang.readFile.*;
 public class testFindNewFile {
 
 	public static void main(String[] args) throws InterruptedException {

@@ -3,7 +3,7 @@
  */
 package com.h2.main;
 
-import com.h2.constant.Sensor;
+import DataExchange.Sensor;
 
 /**
  * @author Hanlin Zhang

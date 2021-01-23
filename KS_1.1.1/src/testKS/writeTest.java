@@ -5,7 +5,8 @@ import java.text.ParseException;
 import java.util.Vector;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
+
+import DataExchange.Sensor;
 
 public class writeTest {
 	/**

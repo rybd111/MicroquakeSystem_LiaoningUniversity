@@ -6,9 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
 import com.mathworks.toolbox.javabuilder.MWException;
 
+import DataExchange.Sensor;
 import PSO.pso_locate;
 import ELMdiag.Class1;
 import Energy_matlab.Energy_;

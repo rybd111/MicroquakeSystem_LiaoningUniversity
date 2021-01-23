@@ -2,14 +2,13 @@
 package com.h2.main;
 
 import java.util.Vector;
-import bean.QuackResults;
+
 import mutiThread.MainThread;
 
 import com.db.DbExcute;
 import com.h2.backupData.WriteRecords;
 import com.h2.backupData.writeToDisk;
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
 import com.h2.locate.Five_Locate;
 import com.h2.locate.MajorEvent_locate;
 import com.h2.locate.PSO_Locate;
@@ -17,6 +16,9 @@ import com.h2.locate.Three_Locate;
 import com.h2.strength.calStrength;
 import com.h2.tool.SensorTool;
 import com.h2.tool.relativeStatus;
+
+import DataExchange.QuackResults;
+import DataExchange.Sensor;
 
 /**
  * @revision 2019-12-3

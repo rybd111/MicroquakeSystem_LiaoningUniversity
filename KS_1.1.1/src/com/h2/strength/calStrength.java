@@ -4,10 +4,11 @@ import java.text.ParseException;
 import java.util.Vector;
 import java.util.concurrent.CountDownLatch;
 
-import com.h2.constant.Sensor;
 import com.h2.tool.QuakeClass;
 import com.h2.tool.calDuringTimePar;
 import com.mathworks.toolbox.javabuilder.MWException;
+
+import DataExchange.Sensor;
 
 /**
  * 用于计算近震震级、能量的线程

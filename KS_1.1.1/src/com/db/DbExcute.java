@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 import com.h2.backupData.writeToDisk;
 import com.h2.constant.Parameters;
+
+import DataExchange.QuackResults;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
 import utils.ConvertCoordinates;
-
-import bean.QuackResults;
 import javafx.application.Platform;
 import javazoom.jl.decoder.JavaLayerException;
 

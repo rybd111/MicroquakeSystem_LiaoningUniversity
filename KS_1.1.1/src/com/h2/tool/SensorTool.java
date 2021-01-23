@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.Vector;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
 
+import DataExchange.Sensor;
 import mutiThread.MainThread;
 
 /**

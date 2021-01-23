@@ -7,7 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
+
+import DataExchange.Sensor;
 
 /**
  * this function is used to calculate the two location.

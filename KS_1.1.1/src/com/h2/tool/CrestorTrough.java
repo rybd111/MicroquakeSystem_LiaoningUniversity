@@ -1,8 +1,8 @@
 package com.h2.tool;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
-//传感器触发时窗的最后一条数据，因三通道波峰波谷取平均与该数据相差很小，故取该条数据，误差在允许范围内
+
+import DataExchange.Sensor;
 
 /**
  * save the three location status.

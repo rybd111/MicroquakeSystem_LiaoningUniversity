@@ -1,6 +1,6 @@
 package visual.model;
 
-import bean.QuackResults;
+import DataExchange.QuackResults;
 import javafx.beans.property.SimpleStringProperty;
 
 /**

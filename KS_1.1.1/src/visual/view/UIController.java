@@ -9,9 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.eclipse.swt.widgets.Display;
 import com.db.DbExcute;
+
+import DataExchange.QuackResults;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
-import bean.QuackResults;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

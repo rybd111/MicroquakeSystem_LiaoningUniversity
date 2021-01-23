@@ -9,14 +9,14 @@ import java.util.concurrent.Executors;
 import com.db.DbExcute;
 import com.h2.backupData.WriteRecords;
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
 import com.h2.strength.calStrength;
 import com.h2.tool.Doublelocate;
 import com.h2.tool.Triplelocate;
 import com.mathworks.toolbox.javabuilder.MWException;
 
+import DataExchange.QuackResults;
+import DataExchange.Sensor;
 import b_pro.BClass;
-import bean.QuackResults;
 import utils.Tensor;
 import utils.TimeDifferent;
 import utils.one_dim_array_max_min;

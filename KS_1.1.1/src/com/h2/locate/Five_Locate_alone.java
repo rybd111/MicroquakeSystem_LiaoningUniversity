@@ -3,12 +3,13 @@ package com.h2.locate;
 import java.text.ParseException;
 
 import com.h2.constant.Parameters;
-import com.h2.constant.Sensor;
 import com.h2.tool.CrestorTrough;
 import com.h2.tool.Doublelocate;
 import com.h2.tool.FiveLocation;
 import com.h2.tool.SensorTool;
 import com.h2.tool.Triplelocate;
+
+import DataExchange.Sensor;
 
 public class Five_Locate_alone {
 
