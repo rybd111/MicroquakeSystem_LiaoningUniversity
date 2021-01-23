@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,10 +13,7 @@ import java.util.Vector;
 
 import com.h2.constant.Parameters;
 import com.h2.constant.Sensor;
-import com.h2.tool.getRelativeMotiPOS;
 
-import cn.hutool.core.text.csv.CsvWriter;
-import mutiThread.MainThread;
 import utils.one_dim_array_max_min;
 
 public class WriteMotiData {

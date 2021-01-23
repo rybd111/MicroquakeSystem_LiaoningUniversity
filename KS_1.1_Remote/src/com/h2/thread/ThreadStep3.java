@@ -6,7 +6,6 @@ import java.util.concurrent.CountDownLatch;
 
 import com.h2.constant.Sensor;
 import com.h2.tool.QuakeClass;
-import com.h2.tool.calDuringTimePar;
 import com.mathworks.toolbox.javabuilder.MWException;
 
 /**

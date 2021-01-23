@@ -5,7 +5,6 @@
 package com.h2.constant;
 
 import java.util.Vector;
-import com.h2.tool.CrestorTrough;
 import com.h2.tool.SensorTool;
 
 /**
@@ -40,7 +39,6 @@ public class Sensor {
 		Max5 = 0;// 通道5的最大值
 		Bn = 0;// An中两个记录间的记录数，用于确定时间
 		Be = 0;// Ae中两个记录间的记录数，用于确定时间
-		crestortrough=null;//判断激发后对其进行赋值
 	}
 
 	public void AddCoor() {
@@ -238,8 +236,6 @@ public class Sensor {
 
 	public String getFilename() {return filename_S;}
 	public void setFilename_S(String filename_S) {this.filename_S = filename_S;}
-	public CrestorTrough getCrestortrough() {return crestortrough;}
-	public void setCrestortrough(CrestorTrough crestortrough) {this.crestortrough = crestortrough;}
 	
 	//初动极值
 	public void setInitialextremum(double Initialextremum) {this.Initialextremum=Initialextremum;}
@@ -311,7 +307,6 @@ public class Sensor {
 	 * 最后求得的每个传感器计算出来的震级
 	 */
 	private double EarthClassFinal;
-	private CrestorTrough crestortrough;
 	/**
 	 * 激发位置，在now容器中
 	 */

@@ -2,7 +2,6 @@ package com.yang.util;
 
 import java.util.Date;
 
-import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * @author this class is searching specific byte from given byte array range

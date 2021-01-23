@@ -11,13 +11,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.h2.backupData.WriteRecords;
-import com.h2.backupData.saveOri;
 import com.h2.constant.Parameters;
 import com.h2.main.EarthQuake;
-import com.h2.tool.motiDiag;
 import com.rqma.history.*;
 import com.yang.readFile.ReadData;
-import mianThread.DuiQi;
+
 import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 import utils.Date2String;
 import utils.DateArrayToIntArray;
@@ -247,8 +245,6 @@ public class MainThread extends Thread{
                     catch (InterruptedException e1) {e1.printStackTrace();}
                 }
                 
-                saveOri save = new saveOri();//save the one minute data.
-                motiDiag moti = new motiDiag();//diagnose the position of the one minute data as current conditions.
                 int[] motiPos = new int[1000];//record the motivation positions in one minute data.
                 int diagnoseIsFull = 0;
 
@@ -267,19 +263,7 @@ public class MainThread extends Thread{
                     
                     if(diagnoseIsFull==1) continue;//when the three vector has data, we will enter the calculate function.
                     
-                    if(Parameters.isStorageOneMinuteData == 1) {
-                        for(int i=0;i<MainThread.fileStr.length;i++){
-                            oneMinuteData[i].addAll(sensorData[i][2]);
-                            if(MainThread.countRestart%6==0){//每逢6就将数据导出到txt
-                                motiPos = moti.motiD(oneMinuteData[i]);//对0号台站进行激发数据的测试
-                               	save.saveOrii(oneMinuteData[i], MainThread.fileStr[i],motiPos,i);//保存最新容器中的10s数据，以1分钟为单位
-                                oneMinuteData[i].clear();
-                            }
-                        }
-                        for(int i=0;i<motiPos.length;i++) motiPos[i]=0;
-                        for(int i=0;i<Parameters.diskName_offline.length;i++)
-                            Parameters.initPanfu[i] = 0;
-                    }
+                    
                     try {
                         EarthQuake.runmain(sensorData);
                     } catch (Exception e) {e.printStackTrace();}
@@ -386,23 +370,9 @@ public class MainThread extends Thread{
                         sensorData[i][2] = dataRecArray[i].getAfterVector();
 //                        System.out.println(fileParentPackage[i]+sensorData[i][2].size()+" "+sensorData[i][2].get(0).split(" ")[6]);
                     }
-                    saveOri save = new saveOri();//save the one minute data.
-                    motiDiag moti = new motiDiag();//diagnose the position of the one minute data as current conditions.
+//                    saveOri save = new saveOri();//save the one minute data.
                     int[] motiPos = new int[1000];//record the motivation positions in one minute data.
                     
-                    if(Parameters.isStorageOneMinuteData == 1) {
-                        for(int i=0;i<Parameters.SensorNum;i++){
-                            oneMinuteData[i].addAll(sensorData[i][2]);
-                            if(MainThread.countRestart%6==0){//每逢6就将数据导出到txt
-                                motiPos = moti.motiD(oneMinuteData[i]);//对0号台站进行激发数据的测试
-                                save.saveOrii(oneMinuteData[i], MainThread.fileParentPackage[i],motiPos,i);//保存最新容器中的10s数据，以1分钟为单位
-                                oneMinuteData[i].clear();
-                            }
-                        }
-                        for(int i=0;i<motiPos.length;i++) motiPos[i]=0;
-                        for(int i=0;i<Parameters.diskName_offline.length;i++)
-                            Parameters.initPanfu[i] = 0;
-                    }
                     try {
                         EarthQuake.runmain(sensorData);
                     } catch (Exception e) {

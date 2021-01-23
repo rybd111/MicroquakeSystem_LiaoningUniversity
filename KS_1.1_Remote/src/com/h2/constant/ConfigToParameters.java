@@ -9,8 +9,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.jfree.data.time.TimeSeries;
-
 import mutiThread.MainThread;
 
 /**

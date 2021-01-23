@@ -25,7 +25,7 @@ import com.yang.util.Byte2Short;
 import com.yang.util.FindByte;
 
 import controller.ADMINISTRATOR;
-import mianThread.DuiQi;
+import mutiThread.DuiQi;
 import mutiThread.MainThread;
 import utils.Date2String;
 import utils.DateArrayToIntArray;

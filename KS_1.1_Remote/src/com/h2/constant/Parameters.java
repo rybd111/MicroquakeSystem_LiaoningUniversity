@@ -317,57 +317,5 @@ public class Parameters
 	public static final String AbsolutePath_CSV3_offline = "D:/data/ConstructionData/3moti/";
 	public static final String AbsolutePath_CSV5_offline = "D:/data/ConstructionData/5moti/";
 	
-	/**
-	 * 程序注释需要加上前标，以防止出错无法判断出错位置
-	 * 命名规则：各部分提示符_自部分名称，如计算部分的近震震级表示为：compute_nearQuake
-	 * 各自部分的提示符：
-	 * 计算部分：compute
-	 * 	 进震震级：nearQuake
-	 *     能量：energy
-	 *   持续时间震级：duiringQuake
-	 *   三点定位：threeLocation
-	 *   五点定位：fiveLocation
-	 *   主事件定位：mainLocation
-	 *   
-	 * 读部分：read
-	 *  对齐：readDatadui
-	 *  读1s：readData
-	 *  
-	 * 衔接部分（主程序部分）：main
-	 *  启动两大步：
-	 *    查找最新文件：find
-	 *    对齐：duiqi
-	 * 
-	 * 数据库存储部分：DB
-	 *  写入：write
-	 *  查询：select
-	 *  
-	 * 前后台交互部分：sev
-	 *  查询：select
-	 *  传输：translate1~translateN
-	 *  
-	 */
-	public static final String compute_nearQuake = "compute_nearQuake";
-	public static final String compute_energy = "compute_energy";
-	public static final String compute_duiringQuake = "compute_duiringQuake";
-	public static final String compute_threeLocation = "compute_threeLocation";
-	public static final String compute_fiveLocation = "compute_fiveLocation";
-	public static final String compute_mainLocation = "compute_mainLocation";
-	
-	public static final String read_readDatadui = "read_readDatadui";
-	public static final String read_readData = "read_readData";
-	
-	public static final String main_find = "main_find";
-	public static final String main_duiqi = "main_duiqi";
-	
-	public static final String DB_write = "DB_write";
-	public static final String DB_select = "DB_select";
-	
-	public static final String sev_select = "sev_select";
-	public static final String sev_translate1 = "sev_translate1";
-	public static final String sev_translate2 = "sev_translate2";
-	public static final String sev_translate3 = "sev_translate3";
-	public static final String sev_translate4 = "sev_translate4";
-	public static final String sev_translate5 = "sev_translate5";
 
 }

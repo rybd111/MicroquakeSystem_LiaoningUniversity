@@ -1,8 +1,6 @@
 package utils;
 
-import java.util.Date;
 
-import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * @author this class is searching specific byte from given byte array range
@@ -103,14 +101,5 @@ public class FindByte {
 			int d2 = n % 16;
 			return hexDigits[d1] + hexDigits[d2];
 		}
-
-   /* 
-    * 将转化为long型的时间戳转换为时间
-    */
-   public static String longToDate(long lo){    
-   	SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-   	Date date = new Date(lo*1000L);   
-   	return sd.format(date); 	
-   }
 
 }

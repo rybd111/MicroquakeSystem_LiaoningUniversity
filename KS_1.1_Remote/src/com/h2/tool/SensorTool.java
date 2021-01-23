@@ -166,19 +166,6 @@ public class SensorTool
 						sensor.setTime(data.get(lineSeries).split(" ")[6]);
 					}
 				}
-				
-				//if the 456 chunnel is overflow, then we select the 123 chunnel.
-				if(tunnel){
-					CrestorTrough temcre=new CrestorTrough(Double.parseDouble(data.get(lineSeries).split(" ")[0]),
-														   Double.parseDouble(data.get(lineSeries).split(" ")[1]),
-							                               Double.parseDouble(data.get(lineSeries).split(" ")[2]));
-					sensor.setCrestortrough(temcre);
-				}else{
-					CrestorTrough temcre=new CrestorTrough(Double.parseDouble(data.get(lineSeries).split(" ")[3]),
-							                               Double.parseDouble(data.get(lineSeries).split(" ")[4]),
-                                                           Double.parseDouble(data.get(lineSeries).split(" ")[5]));
-					sensor.setCrestortrough(temcre);
-				}
 			}
 		}
 		
