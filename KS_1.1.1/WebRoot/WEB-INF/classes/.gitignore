@@ -1,16 +1,16 @@
 /META-INF/
-/TestEntrance/
-/bean/
-/com/
-/controller/
 /jdbc - 副本.properties
 /jdbc.properties
+/DataExchange/
+/TestEntrance/
+/com/
+/controller/
 /logback.xml
 /mutiThread/
 /org/
+/read/
 /testKS/
 /utils/
 /visual/
 /visual_data/
 /说明.txt
-/read/

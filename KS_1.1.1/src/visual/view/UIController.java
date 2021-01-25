@@ -9,10 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.eclipse.swt.widgets.Display;
 import com.db.DbExcute;
-
-import DataExchange.QuackResults;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
+import DataExchange.QuackResults;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -90,6 +89,7 @@ public class UIController {
 
 //---------------------------其他窗口对象-------------
 	public Stage RepositionPanelStage = null;
+	public Stage DistributedPanelStage = null;
 
 	@FXML
 	private Slider mSlider_P;
@@ -112,13 +112,25 @@ public class UIController {
 //------------------------------------------------------------------
 	@FXML
 	void onClickStart(ActionEvent event) {// 运行
+		if (Tools_DataCommunication.getCommunication().isRunTXT) {// 分布式在运行
+			// 弹出对话框
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("提示");
+			alert.setHeaderText("请先点击停止按钮");
+			alert.setContentText("分布式程序停止后，才能启动集中式程序运行！");
+			alert.showAndWait();
+			return;
+		}
 		Tools_DataCommunication.getCommunication().showandcloseMyConsole();
 		System.out.println("按下运行按钮");
 	}
 
 	@FXML
 	void onClickStop(ActionEvent event) {// 停止
+		// 停止集中式运行
 		MainThread.exitVariable_visual = true;
+		// 停止分布式运行
+		Tools_DataCommunication.getCommunication().isRunTXT = false;
 		System.out.println("按下停止按钮");
 	}
 
@@ -235,6 +247,44 @@ public class UIController {
 	}
 
 	@FXML
+	void onClickDistributed(ActionEvent event) throws IOException {// 分布式运行
+		System.out.println("按下分布式运行按钮");
+		if (DistributedPanelStage != null)
+			DistributedPanelStage.close();
+		if (!MainThread.exitVariable_visual) {// 集中式运行
+			// 弹出对话框
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("提示");
+			alert.setHeaderText("请先点击停止按钮");
+			alert.setContentText("集中式程序停止后，才能启动分布式程序运行！");
+			alert.showAndWait();
+			return;
+		}
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/DistributedPanel.fxml"));
+//		//获得RootLayout对象
+		AnchorPane root = (AnchorPane) loader.load();
+		DistributedPanelController controller = loader.getController();
+		Tools_DataCommunication.getCommunication().distributedPanelController = controller;
+		Scene scene = new Scene(root);
+		DistributedPanelStage = new Stage();
+		DistributedPanelStage.setScene(scene);
+		DistributedPanelStage.setTitle("分布式工作状态监控面板");
+		DistributedPanelStage.getIcons()
+				.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
+//		DistributedPanelStage.setResizable(false);// 禁止对窗口进行拉伸操作！
+		DistributedPanelStage.show();
+
+		/** 监听窗口关闭操作 */
+		DistributedPanelStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+
+			}
+		});
+	}
+
+	@FXML
 	void onRestore(ActionEvent event) {// 还原
 		mSlider_lower.setValue(0.0);
 		mSlider_upper.setValue(90000.0);
@@ -260,10 +310,10 @@ public class UIController {
 		RepositionPanelStage.getIcons()
 				.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
 		RepositionPanelStage.setResizable(false);// 禁止对窗口进行拉伸操作！
-		if (myStage != null) {
-			RepositionPanelStage.setX(myStage.getX() - 295);
-			RepositionPanelStage.setY(myStage.getY());
-		}
+//		if (myStage != null) {
+//			RepositionPanelStage.setX(myStage.getX() - 295);
+//			RepositionPanelStage.setY(myStage.getY());
+//		}
 		RepositionPanelStage.show();
 		controller.setMystage(RepositionPanelStage);
 		/** 监听窗口关闭操作 */

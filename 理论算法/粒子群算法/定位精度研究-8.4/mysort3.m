@@ -7,7 +7,6 @@ function [ff,one]=mysort3(fv,sample,v,diedai,lead)
           0,0,-0.2];
 one=ones(diedai,4);
 for o=1:diedai
-    o
     len1=(1-(o-1)/diedai)*0.5;
     len2=(1-(o-1)/diedai)*600;
     len3=((o-1)/diedai)*5;

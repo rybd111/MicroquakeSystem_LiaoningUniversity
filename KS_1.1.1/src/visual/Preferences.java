@@ -186,6 +186,10 @@ public class Preferences extends ApplicationWindow {
 		l1_4.setBounds(10, 100, 152, 20);
 		l1_4.setText("粗略探视阈值");
 
+		t1_4 = new Text(composite, SWT.BORDER);
+		t1_4.setBounds(168, 97, 104, 26);
+//		t1_4.setText(String.valueOf(Parameters.afterRange_Threshold456));
+
 		Label l1_5 = new Label(composite, SWT.NONE);
 		l1_5.setBounds(10, 129, 152, 20);
 		l1_5.setText("精细探视点数");
@@ -352,9 +356,9 @@ public class Preferences extends ApplicationWindow {
 		l3_2.setText("盘符名");
 		l3_2.setBounds(10, 65, 54, 20);
 
-//		t3_2 = new Text(composite3, SWT.BORDER);
+		t3_2 = new Text(composite3, SWT.BORDER);
 //		t3_2.setText(string_arrayToSingle_non(Parameters.diskName_offline));
-//		t3_2.setBounds(70, 62, 506, 26);
+		t3_2.setBounds(70, 62, 506, 26);
 
 		Button r3_1 = new Button(composite3, SWT.CHECK);
 		r3_1.setBounds(10, 36, 93, 20);
@@ -379,19 +383,19 @@ public class Preferences extends ApplicationWindow {
 				if (c3_1.getText().equals("红阳三矿") == true)
 					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_hongyang));
 				if (c3_1.getText().equals("双鸭山") == true)
-					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_madaotou));
+					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_shuangyashan));
 			}
 		});
 		// set the content displayed in combo.
-		c3_1.setText(Parameters.region_offline);
+//		c3_1.setText(Parameters.region);
 
 		Label l3_3 = new Label(composite3, SWT.NONE);
 		l3_3.setText("离线坐标");
 		l3_3.setBounds(10, 97, 60, 20);
 
-//		t3_31 = new Text(composite3, SWT.BORDER | SWT.MULTI);
+		t3_31 = new Text(composite3, SWT.BORDER | SWT.MULTI);
 //		t3_31.setText(string_arrayToSingle(Parameters.diskName_offline));
-//		t3_31.setBounds(89, 94, 33, 196);
+		t3_31.setBounds(89, 94, 33, 196);
 
 		t3_32 = new Text(composite3, SWT.BORDER | SWT.MULTI);
 		t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_hongyang));
@@ -471,6 +475,9 @@ public class Preferences extends ApplicationWindow {
 		t4_5.setBounds(112, 234, 454, 26);
 		t4_5.setText(Parameters.AbsolutePath_CSV5);
 
+		t4_6 = new Text(composite_1, SWT.BORDER);
+		t4_6.setBounds(112, 263, 454, 26);
+//		t4_6.setText(Parameters.DatabaseName3);
 
 		Label l4_4 = new Label(composite_1, SWT.NONE);
 		l4_4.setBounds(10, 266, 97, 20);
@@ -714,6 +721,7 @@ public class Preferences extends ApplicationWindow {
 		t1_1.setText(String.valueOf(Parameters.distanceToSquareWave));
 		t1_2.setText(String.valueOf(Parameters.ShortCompareLong));
 		t1_3.setText(String.valueOf(Parameters.afterRange));
+//		t1_4.setText(String.valueOf(Parameters.afterRange_Threshold456));
 		t1_5.setText(String.valueOf(Parameters.refineRange));
 		t1_6.setText(String.valueOf(Parameters.refineRange_ThresholdMin));
 		t1_7.setText(String.valueOf(Parameters.SensorNum));
@@ -743,6 +751,7 @@ public class Preferences extends ApplicationWindow {
 		t4_3.setText(Parameters.AbsolutePath_allMotiTime_record);
 		t4_4.setText(Parameters.AbsolutePath_CSV3);
 		t4_5.setText(Parameters.AbsolutePath_CSV5);
+//		t4_6.setText(Parameters.DatabaseName3);
 		t4_7.setText(Parameters.DatabaseName5);
 
 	}
@@ -756,6 +765,7 @@ public class Preferences extends ApplicationWindow {
 		Parameters.distanceToSquareWave = Double.parseDouble(t1_1.getText());
 		Parameters.ShortCompareLong = Double.parseDouble(t1_2.getText());
 		Parameters.afterRange = Integer.parseInt(t1_3.getText());
+//		Parameters.afterRange_Threshold456 = Double.parseDouble(t1_4.getText());
 		Parameters.refineRange = Integer.parseInt(t1_5.getText());
 		Parameters.refineRange_ThresholdMin = Double.parseDouble(t1_6.getText());
 		Parameters.SensorNum = Integer.parseInt(t1_7.getText());
@@ -785,6 +795,7 @@ public class Preferences extends ApplicationWindow {
 		Parameters.AbsolutePath_allMotiTime_record = t4_3.getText();
 		Parameters.AbsolutePath_CSV3 = t4_4.getText();
 		Parameters.AbsolutePath_CSV5 = t4_5.getText();
+//		Parameters.DatabaseName3 = t4_6.getText();
 		Parameters.DatabaseName5 = t4_7.getText();
 	}
 }

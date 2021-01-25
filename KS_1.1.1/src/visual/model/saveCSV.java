@@ -28,9 +28,22 @@ public class saveCSV {
 	public saveCSV(String filePath,ArrayList<XYChart.Series<Number, Number>> pArray) {
 		this.file = new File(filePath);
 		String fileS[] = filePath.split("/");
-		fileSS = fileS[fileS.length - 1].split(" ")[0];// filess="25613"
+		fileSS = mysqlit(fileS[fileS.length - 1]);// filess="25613"
 		this.senNum = fileSS.length();
 		this.pArray=pArray;
+	}
+	/***
+	 * 解决文件名兼容性问题
+	 * 
+	 * @return
+	 */
+	private String mysqlit(String fileName) {
+		String temp1[] = fileName.split(" ");
+		char c = temp1[1].toCharArray()[0];
+		if ('a' <= c && c <= 'z')
+			return temp1[0] + temp1[1];
+		else
+			return temp1[0];
 	}
 	public void save() throws NumberFormatException, IOException {
 		//保存P波到时到CSV文件中

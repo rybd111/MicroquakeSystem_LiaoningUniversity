@@ -13,6 +13,7 @@ import visual.controller.MyTableView;
 import visual.model.MyPrintStream;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication.tableViewType;
+import visual.view.DistributedPanelController;
 import visual.view.RepositionPanelController;
 import visual.view.UIController;
 import javafx.collections.FXCollections;
@@ -87,6 +88,10 @@ public class Tools_DataCommunication {
 		return audioPlayer;
 	}
 
+	/** 控制定时读取记录线程 */
+	public boolean isRunTXT = false;
+	/** 获取控制分布式面板控制类 */
+	public DistributedPanelController distributedPanelController = null;
 	// ===========================================CAD显示==============================================================================
 	/** 获取JxBrowser的对象 */
 	public Browser jxBrowser = null;
@@ -174,7 +179,7 @@ public class Tools_DataCommunication {
 //============================================================================================================================
 	/** 获取重定位控制类 */
 	public RepositionPanelController repositionPanelController = null;
-	public String[] reLocationResultString=null;
+	public String[] reLocationResultString = null;
 	/**
 	 * =======================================屏幕自适应解决方案===========================================================================================
 	 */
@@ -201,7 +206,7 @@ public class Tools_DataCommunication {
 			Scene scene = new Scene(console, 1000, 600);
 			stage = new Stage();
 			stage.setScene(scene);
-			stage.setTitle("输出控制台");
+			stage.setTitle("集中式运行面板");
 			try {
 				stage.getIcons()
 						.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));

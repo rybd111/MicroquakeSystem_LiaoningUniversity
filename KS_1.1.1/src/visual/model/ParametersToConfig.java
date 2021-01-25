@@ -78,6 +78,10 @@ public class ParametersToConfig {
 					if (item[0].equals("ShortCompareLongAdjust")) {
 						buf.append("ShortCompareLongAdjust = " + Parameters.ShortCompareLongAdjust + "\n");
 					}
+					/** afterRange_Threshold456 */
+					if (item[0].equals("afterRange_Threshold456")) {
+//						buf.append("afterRange_Threshold456 = " + Parameters.afterRange_Threshold456);
+					}
 					/** afterRange_ThresholdMin */
 					if (item[0].equals("afterRange_ThresholdMin")) {
 						buf.append("afterRange_ThresholdMin = " + Parameters.afterRange_ThresholdMin);
@@ -201,6 +205,12 @@ public class ParametersToConfig {
 					}
 					if (item[0].equals("DatabaseName5")) {
 						buf.append("DatabaseName5 = " + Parameters.DatabaseName5);
+					}
+					if (item[0].equals("DatabaseName4")) {
+//						buf.append("DatabaseName4 = " + Parameters.DatabaseName4);
+					}
+					if (item[0].equals("DatabaseName3")) {
+//						buf.append("DatabaseName3 = " + Parameters.DatabaseName3 + "\n");
 					}
 					/** Adjust */
 					if (item[0].equals("Adjust")) {

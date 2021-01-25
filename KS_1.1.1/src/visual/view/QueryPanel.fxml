@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="665.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="visual.view.QueryPanelController">
+<AnchorPane prefHeight="914.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="visual.view.QueryPanelController">
    <children>
       <GridPane prefHeight="514.0" prefWidth="322.0" AnchorPane.bottomAnchor="149.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -103,7 +103,7 @@
             <ComboBox fx:id="eventType" layoutX="79.0" layoutY="251.0" prefHeight="35.0" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <Button layoutX="177.0" layoutY="571.0" mnemonicParsing="false" onAction="#onClickQuery" prefHeight="47.0" prefWidth="128.0" text="查询">
+      <Button layoutX="177.0" layoutY="571.0" mnemonicParsing="false" onAction="#onClickQuery" prefHeight="47.0" prefWidth="128.0" text="查询" AnchorPane.bottomAnchor="30.0">
          <font>
             <Font size="18.0" />
          </font>

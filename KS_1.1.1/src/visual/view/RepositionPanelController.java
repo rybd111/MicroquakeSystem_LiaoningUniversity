@@ -61,7 +61,7 @@ public class RepositionPanelController {
 		/** 调用后台函数开始重定位 */
 		String fileS[] = data.getQuackResults().getFilename_S().split("/");
 		String tempS[] = fileS[fileS.length - 1].split(" ");
-		String absolutetime = tempS[1] + " " + tempS[2].split("\\.")[0];
+		String absolutetime = tempS[tempS.length-2] + " " + tempS[tempS.length-1].split("\\.")[0];
 		double[][] senserInformation = new double[numbername.size()][4];
 		Map<Character, Double> pHashMap = new HashMap<>();
 		char[] filechararray = Tools_DataCommunication.getCommunication().fileSS.toUpperCase().toCharArray();
@@ -71,94 +71,102 @@ public class RepositionPanelController {
 					.getData().get(0).getXValue().doubleValue());
 		System.out.println("用户调整的到时为：" + pHashMap);
 		double[] a = new double[3];
+		double t = 0.0;
 		switch (numbername.get(0)) {
-		case "T 杨甸子":
+		case "Z 牛家村":
 			a = Parameters.SENSORINFO[0];
+			t = pHashMap.get('Z') / (Parameters.FREQUENCY + 200);
 			break;
-		case "U 树碑子":
+		case "T 洗煤厂":
 			a = Parameters.SENSORINFO[1];
+			t = pHashMap.get('T') / (Parameters.FREQUENCY + 200);
 			break;
-		case "W 北青堆子":
+		case "Y 香山矿":
 			a = Parameters.SENSORINFO[2];
+			t = pHashMap.get('Y') / (Parameters.FREQUENCY + 200);
 			break;
-		case "X 车队":
+		case "V 王家村":
 			a = Parameters.SENSORINFO[3];
+			t = pHashMap.get('V') / (Parameters.FREQUENCY + 200);
 			break;
-		case "Z 工业广场":
+		case "X 十一矿工业广场老办公楼西南角花坛":
 			a = Parameters.SENSORINFO[4];
+			t = pHashMap.get('X') / (Parameters.FREQUENCY + 200);
 			break;
-		case "Y 火药库":
+		case "W 西风井":
 			a = Parameters.SENSORINFO[5];
+			t = pHashMap.get('W') / (Parameters.FREQUENCY + 200);
 			break;
-		case "V 南风井":
+		case "U 打钻工区":
 			a = Parameters.SENSORINFO[6];
+			t = pHashMap.get('U') / (Parameters.FREQUENCY + 200);
 			break;
-		case "S 蒿子屯":
-			a = Parameters.SENSORINFO[7];
-			break;
-		case "R 李大人":
-			a = Parameters.SENSORINFO[8];
-			break;
+//		case "S 蒿子屯":
+//			a = Parameters.SENSORINFO[7];
+//			break;
+//		case "R 李大人":
+//			a = Parameters.SENSORINFO[8];
+//			break;
 		default:
 			System.out.println("error");
 
 		}
 		for (int i = 0; i < numbername.size(); i++) {
 
-			if (numbername.get(i).equals("T 杨甸子")) {
-				senserInformation[i][0] = pHashMap.get('T') / (Parameters.FREQUENCY + 200);// 相对时间???
+			if (numbername.get(i).equals("Z 牛家村")) {
+				senserInformation[i][0] = pHashMap.get('Z') / (Parameters.FREQUENCY + 200)-t;// 相对时间???
 				senserInformation[i][1] = Parameters.SENSORINFO[0][0] - a[0];// x
 				senserInformation[i][2] = Parameters.SENSORINFO[0][1] - a[1];// y
 				senserInformation[i][3] = Parameters.SENSORINFO[0][2] - a[2];// z
 			}
-			if (numbername.get(i).equals("U 树碑子")) {
-				senserInformation[i][0] = pHashMap.get('U') / (Parameters.FREQUENCY + 200);
+			if (numbername.get(i).equals("T 洗煤厂")) {
+				senserInformation[i][0] = pHashMap.get('T') / (Parameters.FREQUENCY + 200)-t;
 				senserInformation[i][1] = Parameters.SENSORINFO[1][0] - a[0];
 				senserInformation[i][2] = Parameters.SENSORINFO[1][1] - a[1];
 				senserInformation[i][3] = Parameters.SENSORINFO[1][2] - a[2];
 			}
-			if (numbername.get(i).equals("W 北青堆子")) {
-				senserInformation[i][0] = pHashMap.get('W') / (Parameters.FREQUENCY + 200);
+			if (numbername.get(i).equals("Y 香山矿")) {
+				senserInformation[i][0] = pHashMap.get('Y') / (Parameters.FREQUENCY + 200)-t;
 				senserInformation[i][1] = Parameters.SENSORINFO[2][0] - a[0];
 				senserInformation[i][2] = Parameters.SENSORINFO[2][1] - a[1];
 				senserInformation[i][3] = Parameters.SENSORINFO[2][2] - a[2];
 			}
-			if (numbername.get(i).equals("X 车队")) {
-				senserInformation[i][0] = pHashMap.get('X') / (Parameters.FREQUENCY + 200);
+			if (numbername.get(i).equals("V 王家村")) {
+				senserInformation[i][0] = pHashMap.get('V') / (Parameters.FREQUENCY + 200)-t;
 				senserInformation[i][1] = Parameters.SENSORINFO[3][0] - a[0];
 				senserInformation[i][2] = Parameters.SENSORINFO[3][1] - a[1];
 				senserInformation[i][3] = Parameters.SENSORINFO[3][2] - a[2];
 			}
-			if (numbername.get(i).equals("Z 工业广场")) {
-				senserInformation[i][0] = pHashMap.get('Z') / (Parameters.FREQUENCY + 200);
+			if (numbername.get(i).equals("X 十一矿工业广场老办公楼西南角花坛")) {
+				senserInformation[i][0] = pHashMap.get('X') / (Parameters.FREQUENCY + 200)-t;
 				senserInformation[i][1] = Parameters.SENSORINFO[4][0] - a[0];
 				senserInformation[i][2] = Parameters.SENSORINFO[4][1] - a[1];
 				senserInformation[i][3] = Parameters.SENSORINFO[4][2] - a[2];
 			}
-			if (numbername.get(i).equals("Y 火药库")) {
-				senserInformation[i][0] = pHashMap.get('Y') / (Parameters.FREQUENCY + 200);
+			if (numbername.get(i).equals("W 西风井")) {
+				senserInformation[i][0] = pHashMap.get('W') / (Parameters.FREQUENCY + 200)-t;
 				senserInformation[i][1] = Parameters.SENSORINFO[5][0] - a[0];
 				senserInformation[i][2] = Parameters.SENSORINFO[5][1] - a[1];
 				senserInformation[i][3] = Parameters.SENSORINFO[5][2] - a[2];
 			}
-			if (numbername.get(i).equals("V 南风井")) {
-				senserInformation[i][0] = pHashMap.get('V') / (Parameters.FREQUENCY + 200);
+			if (numbername.get(i).equals("U 打钻工区")) {
+				senserInformation[i][0] = pHashMap.get('U') / (Parameters.FREQUENCY + 200)-t;
 				senserInformation[i][1] = Parameters.SENSORINFO[6][0] - a[0];
 				senserInformation[i][2] = Parameters.SENSORINFO[6][1] - a[1];
 				senserInformation[i][3] = Parameters.SENSORINFO[6][2] - a[2];
 			}
-			if (numbername.get(i).equals("S 蒿子屯")) {
-				senserInformation[i][0] = pHashMap.get('S') / (Parameters.FREQUENCY + 200);
-				senserInformation[i][1] = Parameters.SENSORINFO[7][0] - a[0];
-				senserInformation[i][2] = Parameters.SENSORINFO[7][1] - a[1];
-				senserInformation[i][3] = Parameters.SENSORINFO[7][2] - a[2];
-			}
-			if (numbername.get(i).equals("R 李大人")) {
-				senserInformation[i][0] = pHashMap.get('R') / (Parameters.FREQUENCY + 200);
-				senserInformation[i][1] = Parameters.SENSORINFO[8][0] - a[0];
-				senserInformation[i][2] = Parameters.SENSORINFO[8][1] - a[1];
-				senserInformation[i][3] = Parameters.SENSORINFO[8][2] - a[2];
-			}
+//			if (numbername.get(i).equals("S 蒿子屯")) {
+//				senserInformation[i][0] = pHashMap.get('S') / (Parameters.FREQUENCY + 200);
+//				senserInformation[i][1] = Parameters.SENSORINFO[7][0] - a[0];
+//				senserInformation[i][2] = Parameters.SENSORINFO[7][1] - a[1];
+//				senserInformation[i][3] = Parameters.SENSORINFO[7][2] - a[2];
+//			}
+//			if (numbername.get(i).equals("R 李大人")) {
+//				senserInformation[i][0] = pHashMap.get('R') / (Parameters.FREQUENCY + 200);
+//				senserInformation[i][1] = Parameters.SENSORINFO[8][0] - a[0];
+//				senserInformation[i][2] = Parameters.SENSORINFO[8][1] - a[1];
+//				senserInformation[i][3] = Parameters.SENSORINFO[8][2] - a[2];
+//			}
 		}
 
 		System.out.println("您选择的定位算法是：  " + this.arithmetic + ",  您选择参与定位的台站为：  ");
@@ -172,12 +180,12 @@ public class RepositionPanelController {
 			return;
 		}
 		Tools_DataCommunication.getCommunication().reLocationResultString = resultString;
-		double x = Double.parseDouble(resultString[0]) + a[0];
-		double y = Double.parseDouble(resultString[1]) + a[1];
-		double z = Double.parseDouble(resultString[2]) + a[2];
+		double x = Double.parseDouble(resultString[0]);
+		double y = Double.parseDouble(resultString[1]);
+		double z = Double.parseDouble(resultString[2]);
 		double parrival = Double.parseDouble(resultString[3]);// 新到时???
 		String quackTime = resultString[4];// 发震时刻???
-		System.out.println("----------：x=" + x + ", y=" + y + ", z=" + z + ", parrival=" + parrival + ", intequackTime="
+		System.out.println("重定位坐标：x=" + x + ", y=" + y + ", z=" + z + ", parrival=" + parrival + ", intequackTime="
 				+ quackTime);
 		/** 显示CAD定位 */
 		Tools_DataCommunication.getCommunication().getmCAD().exeJS(x, y,
@@ -240,42 +248,42 @@ public class RepositionPanelController {
 		char[] name = Tools_DataCommunication.getCommunication().fileSS.toUpperCase().toCharArray();
 		for (int i = 0; i < name.length; i++)
 			switch (name[i]) {
-			case 'T':// T 杨甸子
+			case 'Z':// T 杨甸子
 				box = (CheckBox) mCheckVBox.getChildren().get(1);
 				box.setDisable(false);
 				break;
-			case 'U':// U 树碑子
+			case 'T':// U 树碑子
 				box = (CheckBox) mCheckVBox.getChildren().get(2);
 				box.setDisable(false);
 				break;
-			case 'W':// W 北青堆子
+			case 'Y':// W 北青堆子
 				box = (CheckBox) mCheckVBox.getChildren().get(3);
 				box.setDisable(false);
 				break;
-			case 'X':// X 车队
+			case 'V':// X 车队
 				box = (CheckBox) mCheckVBox.getChildren().get(4);
 				box.setDisable(false);
 				break;
-			case 'Z':// Z 工业广场
+			case 'X':// Z 工业广场
 				box = (CheckBox) mCheckVBox.getChildren().get(5);
 				box.setDisable(false);
 				break;
-			case 'Y':// Y 火药库
+			case 'W':// Y 火药库
 				box = (CheckBox) mCheckVBox.getChildren().get(6);
 				box.setDisable(false);
 				break;
-			case 'V':// V 南风井
+			case 'U':// V 南风井
 				box = (CheckBox) mCheckVBox.getChildren().get(7);
 				box.setDisable(false);
 				break;
-			case 'S':// S 蒿子屯
-				box = (CheckBox) mCheckVBox.getChildren().get(8);
-				box.setDisable(false);
-				break;
-			case 'R':// R 李大人
-				box = (CheckBox) mCheckVBox.getChildren().get(9);
-				box.setDisable(false);
-				break;
+//			case 'S':// S 蒿子屯
+//				box = (CheckBox) mCheckVBox.getChildren().get(8);
+//				box.setDisable(false);
+//				break;
+//			case 'R':// R 李大人
+//				box = (CheckBox) mCheckVBox.getChildren().get(9);
+//				box.setDisable(false);
+//				break;
 			}
 	}
 }

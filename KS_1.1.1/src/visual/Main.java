@@ -36,7 +36,7 @@ public class Main extends Application {
 //		//获得RootLayout对象
 		AnchorPane root = (AnchorPane) loader.load();
 		UIController controller = (UIController) loader.getController();
-		controller.myStage=primaryStage;
+		controller.myStage = primaryStage;
 		Tools_DataCommunication.getCommunication().setController(controller);
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
@@ -45,8 +45,10 @@ public class Main extends Application {
 		primaryStage.getIcons()
 				.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
 		primaryStage.show();
-		System.out.println(primaryStage.getX());
-		System.out.println(primaryStage.getY());
+		primaryStage.setMaximized(true);// 设置最大化
+		primaryStage.setResizable(false);// 禁止对窗口进行拉伸操作！
+//		System.out.println(primaryStage.getX());
+//		System.out.println(primaryStage.getY());
 		/** 监听窗口关闭操作 */
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
@@ -64,7 +66,7 @@ public class Main extends Application {
 				});
 			}
 		});
-		/**监听Stage的位置XY*/
+		/** 监听Stage的位置XY */
 		primaryStage.xProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
@@ -72,7 +74,7 @@ public class Main extends Application {
 				if (controller.RepositionPanelStage == null)
 					return;
 //				System.out.println("x=" + primaryStage.getX() + ",  y=" + primaryStage.getY());
-				controller.RepositionPanelStage.setX(primaryStage.getX()-295);
+				controller.RepositionPanelStage.setX(primaryStage.getX() - 295);
 				controller.RepositionPanelStage.setY(primaryStage.getY());
 			}
 		});
@@ -93,13 +95,16 @@ public class Main extends Application {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
 		// 设置读取CSV文件的秒数
-		Tools_DataCommunication.getCommunication().readTime = 18;// s
+		Tools_DataCommunication.getCommunication().readTime = com.h2.constant.Parameters.READTIMER;// s
 		// 设置显示CAD定位点圆的半径
 		Tools_DataCommunication.getCommunication().circleRadius = 200.0;
 		// 标记已启动UI界面
 		Tools_DataCommunication.getCommunication().isClient = true;
 		// 读取配置文件
 		ConfigToParameters c = new ConfigToParameters(System.getProperty("user.dir") + "\\resource\\config.ini");
+
+//		Tools_DataCommunication.getCommunication().showandcloseMyConsole();
+
 		// 启动JavaFX程序
 		launch(args);
 	}

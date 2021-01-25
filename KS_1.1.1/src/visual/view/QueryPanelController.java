@@ -165,9 +165,22 @@ public class QueryPanelController {
 	 */
 	private void db_addcomboBoxdata() {
 
+//		if (Parameters.DatabaseName3 != null && Parameters.DatabaseName3 != "" && Parameters.DatabaseName3 != " ")
+//			list_db.add(Parameters.DatabaseName3);
+//
+//		if (Parameters.DatabaseName3_updated != null && Parameters.DatabaseName3_updated != ""
+//				&& Parameters.DatabaseName3_updated != " ")
+//			list_db.add(Parameters.DatabaseName3_updated);
+//
+//		if (Parameters.DatabaseName4 != null && Parameters.DatabaseName4 != "" && Parameters.DatabaseName4 != " ")
+//			list_db.add(Parameters.DatabaseName4);
+
 		if (Parameters.DatabaseName5 != null && Parameters.DatabaseName5 != "" && Parameters.DatabaseName5 != " ")
 			list_db.add(Parameters.DatabaseName5);
-
+//
+//		if (Parameters.DatabaseName5_updated != null && Parameters.DatabaseName5_updated != ""
+//				&& Parameters.DatabaseName5_updated != " ")
+//			list_db.add(Parameters.DatabaseName5_updated);
 	}
 
 	private void initComboBox(ComboBox<String> c, ArrayList<String> data) {
@@ -184,8 +197,6 @@ public class QueryPanelController {
 				// TODO：对更改选中Item的监听
 				if (newValue.equals(Parameters.DatabaseName5))
 					mytable.setTableViewData("select * from " + Parameters.DatabaseName5, tableViewType.Query);
-//				System.out.println("oldValue:  " + oldValue);
-//				System.out.println("newValue:  " + newValue);
 			}
 		});
 	}

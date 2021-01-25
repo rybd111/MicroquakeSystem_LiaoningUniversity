@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import com.h2.constant.Parameters;
 
 import visual.util.Tools_DataCommunication;
+
 /**
  * 已做代码优化-2020/09/25
+ * 
  * @author Sunny-胡永亮
  *
  */
@@ -28,9 +30,12 @@ public class ReadCSV {
 		this.file = new File(filePath);
 		// determine the number of sensor.
 		String fileS[] = filePath.split("/");
-		fileSS = fileS[fileS.length - 1].split(" ")[0];// filess="25613"
+		// 解决文件名兼容性问题
+//		mysqlit(fileS[fileS.length - 1]);
+		fileSS = mysqlit(fileS[fileS.length - 1]);// filess="25613"
+		System.out.println("文件名为：" + fileSS);
 		this.senNum = fileSS.length();
-		Tools_DataCommunication.getCommunication().fileSS=fileSS;
+		Tools_DataCommunication.getCommunication().fileSS = fileSS;
 //		motiPos = new int[senNum];// the motivated position of each sensor.
 //		SenChannel = new String[(Parameters.startTime + Parameters.endTime)
 //				* (Parameters.FREQUENCY + 200)][this.senNum];// the channel of all sensors' z axis data.
@@ -38,9 +43,23 @@ public class ReadCSV {
 //				* (Parameters.FREQUENCY + 200)][this.senNum];
 	}
 
+	/***
+	 * 解决文件名兼容性问题
+	 * 
+	 * @return
+	 */
+	private String mysqlit(String fileName) {
+		String temp1[] = fileName.split(" ");
+		char c = temp1[1].toCharArray()[0];
+		if ('a' <= c && c <= 'z')
+			return temp1[0] + temp1[1];
+		else
+			return temp1[0];
+	}
+
 	public ArrayList<ArrayList<Integer>> readContents(int num) throws NumberFormatException, IOException {
 		ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
-		double[] P_array=new double[this.senNum];
+		double[] P_array = new double[this.senNum];
 		for (int i = 0; i < 3 * this.senNum; i++)
 			list.add(new ArrayList<>());
 		int count = 0;
@@ -59,12 +78,15 @@ public class ReadCSV {
 					list.get(0 + 3 * i).add(Integer.parseInt(item[4 + 8 * i]));// x 4,12
 					list.get(1 + 3 * i).add(Integer.parseInt(item[5 + 8 * i]));// y 5,13
 					list.get(2 + 3 * i).add(Integer.parseInt(item[6 + 8 * i]));// z 6,14
-					P_array[i]=Integer.parseInt(item[7 + 8 * i]);
+					P_array[i] = Integer.parseInt(item[7 + 8 * i]);
 				}
 			}
 			count++;
 		}
-		Tools_DataCommunication.getCommunication().P_array=P_array;
+		Tools_DataCommunication.getCommunication().P_array = P_array;
+//		for (int i = 0; i < P_array.length; i++) {
+//			System.out.println(P_array[i]);
+//		}
 		return list;
 	}
 
