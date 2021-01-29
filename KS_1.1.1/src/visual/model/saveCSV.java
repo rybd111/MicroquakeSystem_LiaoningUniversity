@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+
+import com.h2.constant.Parameters;
+
 import javafx.scene.chart.XYChart;
 import visual.util.Tools_DataCommunication;
 /**
@@ -65,9 +68,9 @@ public class saveCSV {
 			StringBuffer buf = new StringBuffer();
 			String item[] = line.split(",");// CSV格式文件时候的分割符,我使用的是,号
 			int length = item.length;
-			if (item.length > 1 && count < num * 5000) {
+			if (item.length > 1 && count < num * (Parameters.FREQUENCY+200)) {
+				buf.append(item[0]+",");
 				for (int i = 0; i < this.senNum; i++) {
-					buf.append(item[0 + 8 * i]+",");
 					buf.append(item[1 + 8 * i]+",");
 					buf.append(item[2 + 8 * i]+",");
 					buf.append(item[3 + 8 * i]+",");
@@ -76,6 +79,7 @@ public class saveCSV {
 					buf.append(item[6 + 8 * i]+",");
 					//修改P波到时
 					buf.append( pArray.get(i).getData().get(0).getXValue().intValue()+",");
+					buf.append(item[8 + 8 * i]+",");
 				}
 //			buf.append(item[length-1]);
 			}

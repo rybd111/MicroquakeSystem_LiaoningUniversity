@@ -11,7 +11,7 @@ import mutiThread.MainThread;
  * @author Hanlin Zhang
  * 
  */
-public class pullFileFromSensor {
+public class pullDataFromSensor {
 
 	private String startTime=" ";
 	private String endTime=" ";
@@ -20,7 +20,7 @@ public class pullFileFromSensor {
 	 * timeString must be yyyymmddhhmmss
 	 * @param timeString
 	 */
-	public pullFileFromSensor(String startTime, String endTime) {
+	public pullDataFromSensor(String startTime, String endTime) {
 		this.startTime = startTime;
 		this.endTime = endTime;
 		
@@ -30,6 +30,7 @@ public class pullFileFromSensor {
 		}
 	}
 	/**
+	 * test function.
 	 * @param args
 	 * @author Hanlin Zhang.
 	 */

@@ -142,7 +142,7 @@ public class Tools_DataCommunication {
 	}
 
 	/** 用于读取CSV文件的秒数 一秒5000条数据 */
-	public int readTime = 18;// s
+	public int readTime = Parameters.startTime+Parameters.endTime;// s
 	/*** 当前显示波形图的文件路径 */
 	public String csvPath = null;
 	public TableData reLocateData = null;
