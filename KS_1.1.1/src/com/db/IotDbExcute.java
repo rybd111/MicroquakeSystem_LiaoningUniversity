@@ -1,4 +1,4 @@
-package com.iotdb;
+package com.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.apache.iotdb.jdbc.IoTDBSQLException;
+//import org.apache.iotdb.jdbc.IoTDBSQLException;
 
 public class IotDbExcute {
 	private Connection connection = null;

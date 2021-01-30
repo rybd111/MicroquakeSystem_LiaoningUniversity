@@ -45,46 +45,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static int SensorNum =6;
-	/**
-	 * 在这里写死传感器的坐标信息，主要有经度纬度海拔
-	 * 传感器的信息 经度，维度，海拔，坐标为CAD单位，需在程序运行前设置
-	 */
-	public static final double[][] SENSORINFO = {
-			{ 41518099.807,4595388.504,22.776 },//T 杨甸子
-			{ 41518060.298,4594304.927,21.926  },//U 树碑子
-			{ 41520207.356,4597983.404,22.661  },//W 北青堆子
-			{ 41520815.875,4597384.576,25.468  },//X 车队
-			{ 41519304.125,4595913.485,23.921  },//Z 工业广场
-			{ 41519926.476,4597275.978,20.705  },//Y 火药库
-			{ 41516707.440,4593163.619,22.564  },//V 南风井
-			{ 41516836.655,4596627.472,21.545  },//S 蒿子屯
-			{ 41517290.0374,4599537.3261,24.5649 }//R 李大人
-//			{ 3744774.016, 38422332.101, 157.019 },//Z 牛家村
-//			{ 3743774.578, 38421827.120, 120.191 },//T 洗煤厂
-//			{ 3744698.415, 38421314.653, 126.809 },//Y 香山矿
-//			{ 3744199.610, 38423376.100, 202.175 },//V 王家村
-//			{ 3742996.232, 38423392.741, 117.530 },//X 十一矿工业广场老办公楼西南角花坛
-//			{ 3746036.362, 38419962.476, 127.009 },//W 西风井
-//			{ 3743713.362, 38423292.665, 139.238 }//U 打钻工区
-	};
-	/**
-	 * 初始化盘符信息，用于持续时间震级判断、激发容器数据的保存，须与Mainthread中的fileStr数组相同
-	 * 必须与坐标后面的盘符顺序对应！！！！！
-	 * 必须在每次部署到新地点后进行检查！！！！！
-	 * 该变量中的盘符需要小写！！！！！
-	 */
-	public static String[] diskName = { 
-			"t:/" , 
-			"u:/" , 
-			"w:/" , 
-			"x:/" , 
-			"z:/" , 
-			"y:/" , 
-			"v:/" , 
-			"s:/" , 
-			"r:/"
-	};
+	public static int SensorNum = 6;
 	/**
 	 * when we will store data to database, we need to set this variable to 1.
 	 */
@@ -121,7 +82,6 @@ public class Parameters
 	public static boolean Adjust=false;
 	
 //-------------------------do not need to modified when distribute in different locations-------------------------------------------------------------------------
-	public static final int READTIMER = 18;// 单位是秒
 	/**长时窗的时长，单位是毫秒*/
 	public static final int LONGTIMEWINDOW = 50;// 单位是毫秒
 	/**短时窗的时长，单位是毫秒*/
@@ -164,10 +124,6 @@ public class Parameters
 	 */
 	public static boolean SSIntervalToOtherSensors=true;
 	/**
-	 * 10s内时窗的个数，因为每次计算的数据都是10秒内的数据，目前传感器的时窗个数已经用不上了
-	 */
-	public static final int WINDOWNUMBER = 166;
-	/**
 	 * 长短时窗每次移动的距离（滑动窗口的跳数），暂时设置为移动100条数据
 	 * 该值设置太小，则可能由于电脑性能不行，导致实时读取数据受限
 	 */
@@ -193,7 +149,9 @@ public class Parameters
 	public static int ShuJuTou1=10;//新的设备只有10个字节的头，接下来就是数据。
 	public static int ShuJu=210;//数据占210个字节。
 	public static int Shi=10;//每次读10个字节。
-	
+	/**
+	 * 在新设备上使用
+	 */
 	public static int Yizhen = 220;//新设备一帧是220个字节其中前10个字节是头。
 	public static int YIMiaoG=15720;//一秒一共有15720个字节,算上了每帧的10个字节头
 	public static int YIMiao=15000;//一秒的数据共有15000个字节
@@ -203,49 +161,23 @@ public class Parameters
 	 */
 	public static int startTime = 3;//开始的截取时间，激发位置前面5s
 	public static int endTime = 15;//结束的截取时间，激发位置后面10s
+	public static final int READTIMER = startTime + endTime;// 单位是秒
 	/**
 	 * 通道数为123时，使用123通道
 	 * 通道数为456时，使用456通道
 	 * 通道数为123456时，使用123456通道
 	 */
-//	public static final int TongDao=123456;
 	public static int TongDaoDiagnose=0;//If there has only one sensor's channel numbers are 4, this variable becomes 0.
 	public static int motivationDiagnose=1;//加上精细判断。
-	
-	/**
-	 * when we will store data to txt file, we need to set this variable to 1.
-	 */
-	public static final int isStorageToTxt = 0;
-	/**
-	 * when we will store one minute long data, we need to set this variable to 1.
-	 */
-	public static int isStorageOneMinuteData = 0;
-	/**
-	 * when we will store each motivation sensor data to csv file, we need to set this variable to 1.
-	 */
-	public static int isStorageEachMotivationCSV = 0;
-	/**
-	 * 设置三台站、五台站txt存储路径
-	 * 默认为：D://ConstructionData//3moti//
-	 */
-	public static String AbsolutePath3 = "D:/data/ConstructionData/3moti/";
-	public static String AbsolutePath5 = "D:/data/ConstructionData/5moti/";
 	/**
 	 * the record position.
 	 */
-//	public static final String AbsolutePath3_record = "D:/data/";
-	public static String AbsolutePath5_record = "D:/data/ConstructionData/";
+	public static final String prePath = "D:/data/ConstructionData/";
+	public static String AbsolutePath5_record = prePath;
 	
-	public static String AbsolutePath_CSV3 = "D:/data/ConstructionData/3moti/";
-	public static String AbsolutePath_CSV3_dataCenter = "Q:/mineData/hysk/data/ConstructionData/3moti/";
-	public static String AbsolutePath_CSV5 = "D:/data/ConstructionData/5moti/";
-	public static String AbsolutePath_CSV5_dataCenter = "Q:/mineData/hysk/data/ConstructionData/5moti/";
-	public static String AbsolutePath_allMotiTime_record = "D:/data/ConstructionData/TimeRecords.csv";
-	public static String AbsolutePath_allMotiTime_record_dataCenter = "Q:/mineData/hysk/data/ConstructionData/TimeRecords.csv";
-	/**
-	 * 1分钟的数据存放位置
-	 */
-	public static final String AbsolutePathMinute = "D:/data/ConstructionData/oneMinutedata/";
+	public static String AbsolutePath_CSV3 = prePath + "3moti/";
+	public static String AbsolutePath_CSV5 = prePath + "5moti/";
+	public static String AbsolutePath_allMotiTime_record = prePath + "TimeRecords.csv";
 	/**
 	 * 测试重复变量，当出现重复盘符时，该变量起作用。
 	 * @description
@@ -283,7 +215,7 @@ public class Parameters
 	 * There are two regions we distribute called datong, pingdingshan.
 	 */
 	private static String [] station= {"hongyang","datong","pingdingshan","madaotou"};
-	public static String region_offline =station[2];
+	public static String region_offline = station[2];
 	/**the data file must store in a fold which name ends with "s" or "t" or "z" or "s" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 */
@@ -342,4 +274,9 @@ public class Parameters
 		{ 4413453.8746,513392.0561,1453.3081 },//Q wmz 
 		{ 4408689.1946,517174.4868,1489.6023 },//Z tbz 
 	};
+	public static final double[][][] SENSORINFO1 = {
+			SENSORINFO_offline_hongyang,
+			SENSORINFO_offline_datong,
+			SENSORINFO_offline_pingdingshan,
+			SENSORINFO_offline_madaotou};
 }

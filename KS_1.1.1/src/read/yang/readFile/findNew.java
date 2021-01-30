@@ -24,7 +24,6 @@ public class findNew {
 		int count=1;
 		File file = new File(path);
 		File[] fs = file.listFiles();
-		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		for(int j=0;j<fs.length;j++) {
 			Arrays.sort(fs, new CompratorByLastModified());
 			
@@ -49,7 +48,6 @@ public class findNew {
 						}
 						if(fs[i].getPath().endsWith(".HFMED")){
 							if(count==2){
-	//							manager.isMrLiu[th]=true;
 								l=i;
 								flag=true;
 								break;
@@ -65,7 +63,6 @@ public class findNew {
 							break;
 						}
 						if(fs[i].getPath().endsWith(".HFMED")){
-	//						manager.isMrLiu[th]=true;
 							l=i;
 							flag=true;
 							break;

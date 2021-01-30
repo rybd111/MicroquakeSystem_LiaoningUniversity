@@ -63,9 +63,9 @@ public class Majorlocate {
 	//得到方程系数 ………… t主走时 = t待走时 + coex xx + coey yy + coez zz
 	private static double[] getCoefficient(int i,double xx,double yy,double zz) {//i表示传感器坐标矩阵中的位置
 		//传感器坐标，震源与每个传感器的直线距离是不同的
-		double xi=Parameters.SENSORINFO[i][0];
-		double yi=Parameters.SENSORINFO[i][1];
-		double zi=Parameters.SENSORINFO[i][2];
+		double xi=Parameters.SENSORINFO1[Parameters.diskNameNum][i][0];
+		double yi=Parameters.SENSORINFO1[Parameters.diskNameNum][i][1];
+		double zi=Parameters.SENSORINFO1[Parameters.diskNameNum][i][2];
 		double R =Math.sqrt(Math.pow(xi-x+xx,2)+Math.pow(yi-y+yy,2)+Math.pow(zi-z+zz,2));		
 		//方程系数求取方式，第一次带入xx、yy、zz为0，随着迭代，偏移量变化，系数变化，方程组结果变化即偏移量变化，循环求解
 		double coex=(xi-x+xx)/(Parameters.C*R);
@@ -91,10 +91,10 @@ public class Majorlocate {
 	//得到常数项矩阵，主事件走时-传感器接收到时（应该是同一个能量级的）
 	private static DoubleMatrix getC(double[] arrivaltime) {
 		//主地震到各传感器的走时
-		double t0=Math.sqrt(Math.pow(x-Parameters.SENSORINFO[0][0], 2)+Math.pow(y-Parameters.SENSORINFO[0][1], 2)+Math.pow(z-Parameters.SENSORINFO[0][2], 2))/Parameters.C;
-		double t1=Math.sqrt(Math.pow(x-Parameters.SENSORINFO[1][0], 2)+Math.pow(y-Parameters.SENSORINFO[1][1], 2)+Math.pow(z-Parameters.SENSORINFO[1][2], 2))/Parameters.C;
-		double t2=Math.sqrt(Math.pow(x-Parameters.SENSORINFO[2][0], 2)+Math.pow(y-Parameters.SENSORINFO[2][1], 2)+Math.pow(z-Parameters.SENSORINFO[2][2], 2))/Parameters.C;
-		double t3=Math.sqrt(Math.pow(x-Parameters.SENSORINFO[3][0], 2)+Math.pow(y-Parameters.SENSORINFO[3][1], 2)+Math.pow(z-Parameters.SENSORINFO[3][2], 2))/Parameters.C;
+		double t0=Math.sqrt(Math.pow(x-Parameters.SENSORINFO1[Parameters.diskNameNum][0][0], 2)+Math.pow(y-Parameters.SENSORINFO1[Parameters.diskNameNum][0][1], 2)+Math.pow(z-Parameters.SENSORINFO1[Parameters.diskNameNum][0][2], 2))/Parameters.C;
+		double t1=Math.sqrt(Math.pow(x-Parameters.SENSORINFO1[Parameters.diskNameNum][1][0], 2)+Math.pow(y-Parameters.SENSORINFO1[Parameters.diskNameNum][1][1], 2)+Math.pow(z-Parameters.SENSORINFO1[Parameters.diskNameNum][1][2], 2))/Parameters.C;
+		double t2=Math.sqrt(Math.pow(x-Parameters.SENSORINFO1[Parameters.diskNameNum][2][0], 2)+Math.pow(y-Parameters.SENSORINFO1[Parameters.diskNameNum][2][1], 2)+Math.pow(z-Parameters.SENSORINFO1[Parameters.diskNameNum][2][2], 2))/Parameters.C;
+		double t3=Math.sqrt(Math.pow(x-Parameters.SENSORINFO1[Parameters.diskNameNum][3][0], 2)+Math.pow(y-Parameters.SENSORINFO1[Parameters.diskNameNum][3][1], 2)+Math.pow(z-Parameters.SENSORINFO1[Parameters.diskNameNum][3][2], 2))/Parameters.C;
 		//double t4=Math.sqrt(Math.pow(x-Parameters.SENSORINFO[4][0], 2)+Math.pow(y-Parameters.SENSORINFO[4][1], 2)+Math.pow(z-Parameters.SENSORINFO[4][2], 2))/Parameters.C;
 		//4行1列二维数组
 		DoubleMatrix C=DoubleMatrix.zeros(4, 1);

@@ -5,17 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import com.h2.constant.Parameters;
-import com.h2.tool.QuakeClass;
-import com.h2.tool.getRelativeMotiPOS;
-import com.h2.tool.relativeStatus;
-import com.h2.tool.stringJoin;
-
 import DataExchange.Sensor;
-import mutiThread.MainThread;
 import utils.one_dim_array_max_min;
 
 public class writeToDisk {
@@ -113,8 +106,6 @@ public class writeToDisk {
 			if(motiNum>3){
 				//write on the local disk.
 				writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv", lineInNewData, s1);
-				//write on the data center.
-				writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV5_dataCenter+panfu+motiDate+".csv", lineInNewData, s1);
 				for(int i=0;i<s1.length;i++)
 					s1[i].setFilename_S(Parameters.AbsolutePath_CSV5+panfu+motiDate+".csv");//文件名
 			}
@@ -122,8 +113,6 @@ public class writeToDisk {
 			if(motiNum==3){
 				//write on the local disk.
 				writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv", lineInNewData, s1);
-				//write on the data center.
-				writeToCSV(MOTIDATA, Parameters.AbsolutePath_CSV3_dataCenter+panfu+motiDate+".csv", lineInNewData, s1);
 				for(int i=0;i<s1.length;i++)
 					s1[i].setFilename_S(Parameters.AbsolutePath_CSV3+panfu+motiDate+".csv");//文件名
 			}

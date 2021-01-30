@@ -1,11 +1,7 @@
 /DataExchange/
-/META-INF/
-/TestEntrance/
+/Entrance/
 /com/
 /controller/
-/jdbc - 副本.properties
-/jdbc.properties
-/logback.xml
 /mutiThread/
 /org/
 /read/
@@ -13,4 +9,3 @@
 /utils/
 /visual/
 /visual_data/
-/说明.txt

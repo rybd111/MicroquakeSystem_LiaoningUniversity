@@ -60,53 +60,11 @@ public class MainThread extends Thread{
     	ADMINISTRATOR manager = new ADMINISTRATOR();
     	
     	/**when we need to read data offline, we can use the absolute path as follows.*/
-//    	 fileStr[0] = "x:/红阳三矿/201911/Tests/";
-//         fileStr[1] = "x:/红阳三矿/201911/Testt/";
-//         fileStr[2] = "x:/红阳三矿/201911/Testu/";
-//         fileStr[3] = "x:/红阳三矿/201911/Testv/";
-//         fileStr[4] = "x:/红阳三矿/201911/Testw/";
-//         fileStr[5] = "x:/红阳三矿/201911/Testx/";
-//         fileStr[6] = "x:/红阳三矿/201911/Testy/";
-//         fileStr[7] = "x:/红阳三矿/201911/Testz/";
-    	
 //    	fileStr[0] = "I:\\研究生阶段\\矿山\\矿山数据\\红阳三矿\\12.21红阳三矿2.2地震\\Testv\\";
         
 //        fileStr[0] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/3-西风井/";
 //        fileStr[1] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/4-铁塔/";
         
-    	fileStr[0] = "I:/研究生阶段/矿山/矿山数据/平顶山/20201231/Testu/";
-    	fileStr[1] = "I:/研究生阶段/矿山/矿山数据/平顶山/20201231/Testv/";
-    	fileStr[2] = "I:/研究生阶段/矿山/矿山数据/平顶山/20201231/Testw/";
-    	fileStr[3] = "I:/研究生阶段/矿山/矿山数据/平顶山/20201231/Testx/";
-    	fileStr[4] = "I:/研究生阶段/矿山/矿山数据/平顶山/20201231/Testy/";
-    	fileStr[5] = "I:/研究生阶段/矿山/矿山数据/平顶山/20201231/Testz/";
-//    	fileStr[6] = "I:/研究生阶段/矿山/矿山数据/平顶山/20190329/Testz/";
-    	
-    	
-
-//    	fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20201123/Tests/";
-//        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20201123/Testt/";
-//        fileStr[2] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20201123/Testu/";
-//        fileStr[3] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20201123/Testr/";
-//        fileStr[4] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20201123/Testy/";
-//        fileStr[5] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20201123/Testz/";
-//        fileStr[5] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testy/";
-//        fileStr[6] = "I:/研究生阶段/矿山/矿山数据/红阳三矿/20200711/Testz/";
-        
-//        fileStr[0] = "I:/研究生阶段/矿山/矿山数据/红阳三矿2.14/Test1/";
-//        fileStr[1] = "I:/研究生阶段/矿山/矿山数据/红阳三矿2.14/Test2/";
-        
-        /**when we need to read data online, we can use the absolute path as follows.*/
-//		fileStr[0] = "z:/";
-//		fileStr[1] = "y:/";
-//		fileStr[2] = "w:/";
-//		fileStr[3] = "s:/";
-//		fileStr[4] = "x:/";
-//		fileStr[5] = "x:/";
-//		fileStr[6] = "y:/";
-//		fileStr[7] = "z:/";
-        Vector<String> oneMinuteData[] = new Vector[Parameters.SensorNum];
-        for(int i=0;i<Parameters.SensorNum;i++)	oneMinuteData[i]=new Vector<String>();
         
         if(Parameters.offline==false) {
             System.out.println("开始读实时数据主线程！");
@@ -132,7 +90,7 @@ public class MainThread extends Thread{
             ExecutorService executor_find = Executors.newFixedThreadPool(Parameters.SensorNum);
 
             /**diagnose the connection of different position sensors from the last series number.*/
-            int discSymbol = ReConnect.arrayList.size()-1;
+            int discSymbol = ReConnect.orderNum-1;
 
             /**an object of moving buffer position*/
             moveBufferPosition []mo = new moveBufferPosition[Parameters.SensorNum];
@@ -146,7 +104,7 @@ public class MainThread extends Thread{
 	                } catch (InterruptedException e2) {	e2.printStackTrace();}
             	}
             	
-                //the procedure will reset when the sensors produce a new file or there produces net error.
+                //the procedure will reset when the sensors produce a new file or there produce net error.
                 if(ReadData.netError==true||ReadData.newData==true||isFirst==true){
                 	
                     System.out.println("进入了重对齐！");
@@ -155,7 +113,7 @@ public class MainThread extends Thread{
                     if(fileStr.length<3)
                         discSymbol=0;
                     else if(discSymbol<=-1)
-                        discSymbol=ReConnect.arrayList.size()-1;//When the all situations has been considered, the procedure will start from the beginning.
+                        discSymbol=ReConnect.orderNum-1;//When the all situations has been considered, the procedure will start from the beginning.
                     
                     if(isFirst==false) {
                         if(fileStr.length>=3)
@@ -228,7 +186,7 @@ public class MainThread extends Thread{
                     MainThread.isFirst=false;
                     ReadData.netError = false;
                     ReadData.newData = false;
-                    discSymbol=ReConnect.arrayList.size()-1;
+                    discSymbol=ReConnect.orderNum-1;
                     IsContinue=0;
                 }
 

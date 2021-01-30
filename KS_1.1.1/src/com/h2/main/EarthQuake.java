@@ -109,36 +109,26 @@ public class EarthQuake {
 			int countNumber = 0;
 			int[] l = new int[Parameters.SensorNum];
 			int[] l1 = new int[Parameters.SensorNum];
+			String identity = null;
 			for (int i=0;i<Parameters.SensorNum;i++){
 				if (sensors[i].isSign()) {
 					//the series of correspond with the name of path, which stow the motivated sensor.
 					sensors[i].setSensorNum(i);
-					if(Parameters.offline==false) {
-						for(int j=0;j<Parameters.diskName.length;j++) {
-							if(MainThread.fileStr[i].equals(Parameters.diskName[j])) {
-								if(Parameters.initPanfu[j]==0) {
-									l[i]=i+1;//record the number of motivated sensors.
-									l1[countNumber]=i;
-									countNumber++;
-									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
-									System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
-									Parameters.initPanfu[j]=1;
-								}
-							}
+					for(int j=0;j<Parameters.diskName_offline[Parameters.diskNameNum].length;j++) {
+						if(Parameters.offline==false) {
+							identity = MainThread.fileStr[i].replace(":/", "");
 						}
-					}
-					else {
-						for(int j=0;j<Parameters.diskName_offline[Parameters.diskNameNum].length;j++) {
-							if(MainThread.fileParentPackage[i].replace("Test", "").equals(Parameters.diskName_offline[Parameters.diskNameNum][j])) {
-//							if(MainThread.fileParentPackage[i].equals(Parameters.diskName_offline[Parameters.diskNameNum][j])) {
-								if(Parameters.initPanfu[j]==0) {
-									l[i]=i+1;//record the number of motivated sensors.
-									l1[countNumber]=i;
-									countNumber++;
-									sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
-									System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
-									Parameters.initPanfu[j]=1;
-								}
+						else {
+							identity = MainThread.fileParentPackage[i].replace("Test", "");
+						}
+						if(identity.equals(Parameters.diskName_offline[Parameters.diskNameNum][j])) {
+							if(Parameters.initPanfu[j]==0) {
+								l[i]=i+1;//record the number of motivated sensors.
+								l1[countNumber]=i;
+								countNumber++;
+								sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
+								System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
+								Parameters.initPanfu[j]=1;
 							}
 						}
 					}
@@ -166,11 +156,9 @@ public class EarthQuake {
 				writeToDisk.saveAllMotivationSensors(countNumber, S, status.getPanfu());
 			}
 			
-			if(countNumber >= 5 && EarthQuake.realMoti==true) {
+			if(countNumber >= 3 && EarthQuake.realMoti==true) {
 				//write to a txt file to indicate the motivation time of each sensor.
 				WriteRecords.WriteSeveralMotiTime(status.getSensors1(), Parameters.AbsolutePath_allMotiTime_record);
-				//write to datacenter.
-				WriteRecords.WriteSeveralMotiTime(status.getSensors1(), Parameters.AbsolutePath_allMotiTime_record_dataCenter);
 			}
 			
 			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.

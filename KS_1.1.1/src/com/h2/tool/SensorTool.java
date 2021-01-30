@@ -30,6 +30,7 @@ public class SensorTool
 	 * @return Sensor数组
 	 * @author Hanlin Zhang.
 	 * @date revision 下午5:15:34
+	 * @author Baishuo Han, Hanlin Zhang.
 	 */
 	@SuppressWarnings("unused")
 	public static Sensor[] initSensorInfo(int count,String [] Str)
@@ -37,73 +38,42 @@ public class SensorTool
 		Sensor[] sensors = new Sensor[count];
 		//a sequence of correspond places.
 		int [] k = new int [Parameters.SensorNum];
-		if(Parameters.offline==false) {
-			for(int j=0;j<Str.length;j++){
-				for(int i=0;i<Parameters.diskName.length;i++)
-					if(Str[j].equals(Parameters.diskName[i])) k[j]=i;
-			}
-			baseCoordinate = k[0];
-			for (int i = 0; i < count; i++)
-			{
-				sensors[i]=new Sensor();
-				sensors[i].SetSensorSeries(i);
-				(sensors[i]).setLatitude(Parameters.SENSORINFO[k[i]][0]-Parameters.SENSORINFO[k[0]][0]);
-//				(sensors[i]).setLatitude(Parameters.SENSORINFO[k[i]][0]);
-				(sensors[i]).setLongtitude(Parameters.SENSORINFO[k[i]][1]-Parameters.SENSORINFO[k[0]][1]);
-//				(sensors[i]).setLongtitude(Parameters.SENSORINFO[k[i]][1]);
-				(sensors[i]).setAltitude(Parameters.SENSORINFO[k[i]][2]-Parameters.SENSORINFO[k[0]][2]);
-//				(sensors[i]).setAltitude(Parameters.SENSORINFO[k[i]][2]);
-			}
-			return sensors;
-		}else {
-			
-			if(Parameters.region_offline=="hongyang") {
-				k = baseSort(Str, k, 0);
-				for (int i = 0; i < count; i++)
-				{
-					sensors[i]=new Sensor();
-					sensors[i].SetSensorSeries(i);
-					//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
-					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_hongyang[k[i]][0]-Parameters.SENSORINFO_offline_hongyang[k[0]][0]);
-//					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_hongyang[k[i]][0]);
-					(sensors[i]).setLongtitude(Parameters.SENSORINFO_offline_hongyang[k[i]][1]-Parameters.SENSORINFO_offline_hongyang[k[0]][1]);
-//					(sensors[i]).setLongtitude(Parameters.SENSORINFO_offline_hongyang[k[i]][1]);
-					(sensors[i]).setAltitude(Parameters.SENSORINFO_offline_hongyang[k[i]][2]-Parameters.SENSORINFO_offline_hongyang[k[0]][2]);
-//					(sensors[i]).setAltitude(Parameters.SENSORINFO_offline_hongyang[k[i]][2]);
-				}
-			}
-			if(Parameters.region_offline=="datong") {
-				k = baseSort(Str, k, 1);
-				for (int i = 0; i < count; i++)
-				{
-					sensors[i]=new Sensor();
-					sensors[i].SetSensorSeries(i);
-					//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
-					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_datong[k[i]][0]-Parameters.SENSORINFO_offline_datong[k[0]][0]);
-					(sensors[i]).setLongtitude(Parameters.SENSORINFO_offline_datong[k[i]][1]-Parameters.SENSORINFO_offline_datong[k[0]][1]);
-					(sensors[i]).setAltitude(Parameters.SENSORINFO_offline_datong[k[i]][2]-Parameters.SENSORINFO_offline_datong[k[0]][2]);
-				}
-			}
-			if(Parameters.region_offline=="pingdingshan") {
-				k = baseSort(Str, k, 2);
-				for (int i = 0; i < count; i++)
-				{
-					sensors[i]=new Sensor();
-					sensors[i].SetSensorSeries(i);
-					//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
-					(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_pingdingshan[k[i]][0]-Parameters.SENSORINFO_offline_pingdingshan[k[0]][0]);
-					(sensors[i]).setLongtitude(Parameters.SENSORINFO_offline_pingdingshan[k[i]][1]-Parameters.SENSORINFO_offline_pingdingshan[k[0]][1]);
-					(sensors[i]).setAltitude(Parameters.SENSORINFO_offline_pingdingshan[k[i]][2]-Parameters.SENSORINFO_offline_pingdingshan[k[0]][2]);
-				}
-			}
-			return sensors;
+		switch (Parameters.region_offline) {
+		case "hongyang":
+			k = baseSort(Str, k, 0);
+			break;
+		case "datong":
+			k = baseSort(Str, k, 1);
+			break;
+		case "pingdingshan":
+			k = baseSort(Str, k, 2);
+			break;
 		}
+		for (int i = 0; i < count; i++)
+		{
+			sensors[i]=new Sensor();
+			sensors[i].SetSensorSeries(i);
+			//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
+			(sensors[i]).setLatitude(Parameters.SENSORINFO1[Parameters.diskNameNum][k[i]][0]-Parameters.SENSORINFO1[Parameters.diskNameNum][k[0]][0]);
+//				(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_hongyang[k[i]][0]);
+			(sensors[i]).setLongtitude(Parameters.SENSORINFO1[Parameters.diskNameNum][k[i]][1]-Parameters.SENSORINFO1[Parameters.diskNameNum][k[0]][1]);
+//				(sensors[i]).setLongtitude(Parameters.SENSORINFO_offline_hongyang[k[i]][1]);
+			(sensors[i]).setAltitude(Parameters.SENSORINFO1[Parameters.diskNameNum][k[i]][2]-Parameters.SENSORINFO1[Parameters.diskNameNum][k[0]][2]);
+//				(sensors[i]).setAltitude(Parameters.SENSORINFO_offline_hongyang[k[i]][2]);
+		}
+		return sensors;
 	}
 	
 	public static int[] baseSort(String[] Str, int [] k, int region) {
 		for(int j=0;j<Str.length;j++){
 			for(int i=0;i<Parameters.diskName_offline[region].length;i++) {
-				String s = Str[j].substring(Str[j].length()-2, Str[j].length()-1);
+				String s = null;
+				if(Parameters.offline == true) {
+					s = Str[j].substring(Str[j].length()-2, Str[j].length()-1);
+				}
+				else {
+					s = Str[j].substring(Str[j].length()-3, Str[j].length()-2);
+				}
 				if(s.equals(Parameters.diskName_offline[region][i])) {
 					k[j]=i;
 					break;

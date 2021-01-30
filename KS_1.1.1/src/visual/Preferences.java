@@ -325,21 +325,10 @@ public class Preferences extends ApplicationWindow {
 		l2_2.setText("盘符名");
 		l2_2.setBounds(10, 36, 54, 20);
 
-		t2_2 = new Text(composite1, SWT.BORDER);
-		t2_2.setBounds(70, 33, 506, 26);
-		t2_2.setText(string_arrayToSingle(Parameters.diskName));
-
 		Label l2_3 = new Label(composite1, SWT.NONE);
 		l2_3.setText("在线坐标");
 		l2_3.setBounds(10, 68, 60, 20);
 
-		t2_32 = new Text(composite1, SWT.BORDER | SWT.MULTI);// newline must write SWT.MULTI
-		t2_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO));
-		t2_32.setBounds(128, 65, 448, 196);
-
-		t2_31 = new Text(composite1, SWT.BORDER | SWT.MULTI);
-		t2_31.setText(string_arrayToSingle(Parameters.diskName));
-		t2_31.setBounds(89, 65, 33, 196);
 
 		TabItem tabItem3 = new TabItem(tabFolder, SWT.NONE);
 		tabItem3.setText("离线参数");
@@ -738,12 +727,7 @@ public class Preferences extends ApplicationWindow {
 		t1_18.setText(String.valueOf(Parameters.C));
 		t1_19.setText(String.valueOf(Parameters.S));
 
-		t2_2.setText(string_arrayToSingle(Parameters.diskName));
-		t2_31.setText(string_arrayToSingle(Parameters.diskName));
-		t2_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO));
 
-//		t3_2.setText(string_arrayToSingle_non(Parameters.diskName_offline));
-//		t3_31.setText(string_arrayToSingle(Parameters.diskName_offline));
 		t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_hongyang));
 
 		t4_1.setText(String.valueOf(Parameters.MinusAFixedOnMagtitude));
@@ -782,12 +766,10 @@ public class Preferences extends ApplicationWindow {
 		Parameters.C = Integer.parseInt(t1_18.getText());
 //TODO:	Parameters.S = Double.parseDouble(t1_19.getText());
 
-		Parameters.diskName = string_ToStringArray(t2_2.getText());
 /** Parameters.diskName = string_ToStringArray(t2_31.getText()); */
 //TODO:	Parameters.SENSORINFO = Double.parseDouble(t2_32.getText());
 
 //TODO:	Parameters.diskName_offline = Double.parseDouble(t3_2.getText());
-//TODO:	Parameters.diskName_offline = Double.parseDouble(t3_31.getText());
 //TODO:	Parameters.SENSORINFO_offline_hongyang = Double.parseDouble(t3_32.getText());
 
 		Parameters.MinusAFixedOnMagtitude = Boolean.parseBoolean(t4_1.getText());

@@ -1,8 +1,10 @@
-package read.yang.readFile;
+package testKS;
 
 import java.io.File;
 
-public class FindTest {
+import read.yang.readFile.FindNewFile;
+
+public class FindNewFile_Test {
 
 	/**
 	 * @param args

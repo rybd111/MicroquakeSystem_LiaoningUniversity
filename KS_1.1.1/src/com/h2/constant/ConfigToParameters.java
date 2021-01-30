@@ -191,18 +191,8 @@ public class ConfigToParameters {
 		            if(item[0].equals("motivationDiagnose")) {
 		            	Parameters.motivationDiagnose = Integer.parseInt(item[1]);
 		            }
-		            if(item[0].equals("diskName")) {
-		            	String[] diskname = item[1].split(",");
-		            	Parameters.diskName = diskname;
-		            }
-		            if(item[0].equals("isStorageOneMinuteData")) {
-		            	Parameters.isStorageOneMinuteData = Integer.parseInt(item[1]);
-		            }
 		            if(item[0].equals("isStorageDatabase ")) {
 		            	Parameters.isStorageDatabase = Integer.parseInt(item[1]);
-		            }
-		            if(item[0].equals("isStorageEachMotivationCSV")) {
-		            	Parameters.isStorageEachMotivationCSV = Integer.parseInt(item[1]);
 		            }
 		            if(item[0].equals("isStorageAllMotivationCSV")) {
 		            	Parameters.isStorageAllMotivationCSV = Integer.parseInt(item[1]);
@@ -219,9 +209,6 @@ public class ConfigToParameters {
 		            }
 		            if(item[0].equals("AbsolutePath5_record")) {
 		            	Parameters.AbsolutePath5_record = item[1];
-		            }
-		            if(item[0].equals("AbsolutePath5")) {
-		            	Parameters.AbsolutePath5 = item[1];
 		            }
 		            if(item[0].equals("AbsolutePath_allMotiTime_record")) {
 		            	Parameters.AbsolutePath_allMotiTime_record = item[1];

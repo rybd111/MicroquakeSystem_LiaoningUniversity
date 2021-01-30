@@ -256,22 +256,6 @@ public class DbExcute {
 			aStatement.setString(11, aQuackResults.getFilename_S());
 			aStatement.setDouble(12, aQuackResults.getTensor());
 			aStatement.setDouble(13, aQuackResults.getbvalue());
-			//单独写入数据库中。
-			writeToDisk.DatabaseREC(
-				aQuackResults.getKind()+ "\t" +
-				aQuackResults.getxData()+ "\t" +
-				aQuackResults.getyData()+ "\t" +
-				aQuackResults.getzData()+ "\t" +
-				aQuackResults.getQuackTime()+ "\t" +
-				aQuackResults.getQuackGrade()+ "\t" +
-				aQuackResults.getParrival()+ "\t" +
-				aQuackResults.getPanfu()+ "\t" +
-				aQuackResults.getDuringGrade()+ "\t" +
-				aQuackResults.getNengliang()+ "\t" +
-				aQuackResults.getFilename_S()+ "\t" +
-				aQuackResults.getTensor()+ "\t" +
-				aQuackResults.getbvalue()
-			);
 			System.out.println(aStatement.execute() + "-shujuku");
 			connection.close();
 		} catch (SQLException e) {

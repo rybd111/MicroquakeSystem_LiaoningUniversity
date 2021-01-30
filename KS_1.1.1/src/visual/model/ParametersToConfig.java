@@ -168,17 +168,8 @@ public class ParametersToConfig {
 					if (item[0].equals("motivationDiagnose")) {
 						buf.append("motivationDiagnose = " + Parameters.motivationDiagnose + "\n");
 					}
-					if (item[0].equals("diskName")) {
-						buf.append("diskName = " + stringArrayToString(Parameters.diskName) + "\n");
-					}
-					if (item[0].equals("isStorageOneMinuteData")) {
-						buf.append("isStorageOneMinuteData = " + Parameters.isStorageOneMinuteData + "\n");
-					}
 					if (item[0].equals("isStorageDatabase")) {
 						buf.append("isStorageDatabase = " + Parameters.isStorageDatabase + "\n");
-					}
-					if (item[0].equals("isStorageEachMotivationCSV")) {
-						buf.append("isStorageEachMotivationCSV = " + Parameters.isStorageEachMotivationCSV + "\n");
 					}
 					if (item[0].equals("isStorageAllMotivationCSV")) {
 						buf.append("isStorageAllMotivationCSV = " + Parameters.isStorageAllMotivationCSV + "\n");
@@ -195,9 +186,6 @@ public class ParametersToConfig {
 					}
 					if (item[0].equals("AbsolutePath5_record")) {
 						buf.append("AbsolutePath5_record = " + Parameters.AbsolutePath5_record + "\n");
-					}
-					if (item[0].equals("AbsolutePath5")) {
-						buf.append("AbsolutePath5 = " + Parameters.AbsolutePath5 + "\n");
 					}
 					if (item[0].equals("AbsolutePath_allMotiTime_record")) {
 						buf.append("AbsolutePath_allMotiTime_record = " + Parameters.AbsolutePath_allMotiTime_record

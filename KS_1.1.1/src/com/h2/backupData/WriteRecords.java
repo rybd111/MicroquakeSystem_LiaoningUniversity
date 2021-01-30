@@ -45,88 +45,51 @@ public class WriteRecords {
         		
             	file.createNewFile();
             	out.write("最早到时,");
-            	if(Parameters.offline==true) {
-	            	for(int i=0;i<Parameters.diskName_offline[Parameters.diskNameNum].length;i++) {
-		            	out.write(Parameters.diskName_offline[Parameters.diskNameNum][i]+",");
-		            }
-            		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻,张量,b值");
-            	}
-            	else {
-            		for(int i=0;i<Parameters.diskName.length;i++) {
-            			out.write((Parameters.diskName[i].replace(":/", "")+","));
-		            }
-            		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻,张量,b值");
-            	}
+            	for(int i=0;i<Parameters.diskName_offline[Parameters.diskNameNum].length;i++) {
+	            	out.write(Parameters.diskName_offline[Parameters.diskNameNum][i]+",");
+	            }
+        		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻,张量,b值");
             	out.write("\r");
         	}
         	
             int lastk=0;
             record = sensor_latest.getAbsoluteTime()+"\t,";
-            
-            if(Parameters.offline==true) {
-	            for (int i = 0; i < Parameters.diskName_offline[Parameters.diskNameNum].length; i++) {
-	            	for(int j=0;j<sensors.length;j++) {
-	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
-//	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()];
-	            		if(i1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i])) {
-	            			if(flag1==true) {
-		            			for(int k=0;k<i;k++) {
+            String i1 = null;
+            for (int i = 0; i < Parameters.diskName_offline[Parameters.diskNameNum].length; i++) {
+            	for(int j=0;j<sensors.length;j++) {
+            		boolean flag = false;
+            		if(Parameters.offline == true) {
+            			i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
+            		}
+            		else {
+            			i1 = MainThread.fileStr[sensors[j].getSensorNum()].replace(":/", "");
+            		}
+            		if(i1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i])) {
+            			if(flag1==true) {
+	            			for(int k=0;k<i;k++) {
+	            				record = record+",";
+	            				lastk=k+1;
+	            			}
+	            			flag1=false;
+            			}
+            			else {
+            				if(lastk+1<i)
+	            				for(int k=lastk+1;k<i;k++) {
 		            				record = record+",";
 		            				lastk=k+1;
 		            			}
-		            			flag1=false;
-	            			}
-	            			else {
-	            				if(lastk+1<i)
-		            				for(int k=lastk+1;k<i;k++) {
-			            				record = record+",";
-			            				lastk=k+1;
-			            			}
-	            				else
-	            					lastk++;
-	            			}
-	            			record = record+String.valueOf(sensors[j].getSecTime())+",";
-	            		}
-	            	}
-	            }
-	            //count the number of commas.
-	            if(record.split(",").length<=(Parameters.diskName_offline[Parameters.diskNameNum].length+1)) {
-	            	for(int i=record.split(",").length;i<Parameters.diskName_offline[Parameters.diskNameNum].length+1;i++) {
-	            		record = record+",";
-	            	}
-	            }
+            				else
+            					lastk++;
+            			}
+            			record = record+String.valueOf(sensors[j].getSecTime())+",";
+            		}
+            	}
             }
-            else {
-            	for (int i = 0; i < Parameters.diskName.length; i++) {
-	            	for(int j=0;j<sensors.length;j++) {
-	            		
-	            		if(MainThread.fileStr[sensors[j].getSensorNum()].equals(Parameters.diskName[i])) {
-	            			if(flag1==true) {
-		            			for(int k=0;k<i;k++) {
-		            				record = record+",";
-		            				lastk=k+1;
-		            			}
-		            			flag1=false;
-	            			}
-	            			else {
-	            				if(lastk+1<i)
-		            				for(int k=lastk+1;k<i;k++) {
-			            				record = record+",";
-			            				lastk=k+1;
-			            			}
-		            			else
-		            				lastk++;
-	            			}
-	            			record = record+String.valueOf(sensors[j].getSecTime())+",";
-	            		}
-	            	}
-	            }
-            	//count the number of commas.
-	            if(record.split(",").length<=(Parameters.diskName.length+1)) {
-	            	for(int i=record.split(",").length;i<Parameters.diskName.length+1;i++) {
-	            		record = record+",";
-	            	}
-	            }
+            //count the number of commas.
+            if(record.split(",").length<=(Parameters.diskName_offline[Parameters.diskNameNum].length+1)) {
+            	for(int i=record.split(",").length;i<Parameters.diskName_offline[Parameters.diskNameNum].length+1;i++) {
+            		record = record+",";
+            	}
             }
             record = record + String.valueOf(result.getLatitude())+","+String.valueOf(result.getLongtitude())+","+String.valueOf(result.getAltitude())+","
             		+String.valueOf(result.getSecTime())+","+String.valueOf(quakeGrade)+","
@@ -166,87 +129,50 @@ public class WriteRecords {
             	file.createNewFile();
             	//write the head of the excel.
             	out.write("最早到时,");
-            	if(Parameters.offline==true) {
-	            	for(int i=0;i<Parameters.diskName_offline[Parameters.diskNameNum].length;i++) {
-		            	out.write(Parameters.diskName_offline[Parameters.diskNameNum][i]+",");
-		            }
-//	            	out.write("发震时刻,");
-            	}
-            	else {
-            		for(int i=0;i<Parameters.diskName.length;i++) {
-		            	out.write((Parameters.diskName[i].replace(":/", "")+","));
-		            }
-//            		out.write("发震时刻,");
-            	}
+            	for(int i=0;i<Parameters.diskName_offline[Parameters.diskNameNum].length;i++) {
+	            	out.write(Parameters.diskName_offline[Parameters.diskNameNum][i]+",");
+	            }
             	out.write("\r\n");
         	}
         	//record the quack time of each event.
             int lastk=0;
             record = sensors[0].getAbsoluteTime()+"\t,";
-
-            if(Parameters.offline==true) {
-	            for (int i = 0; i < Parameters.diskName_offline[Parameters.diskNameNum].length; i++) {
-	            	for(int j=0;j<sensors.length;j++) {
-	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
-//	            		String i1=MainThread.fileParentPackage[sensors[j].getSensorNum()];
-	            		if(i1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i]) && sensors[j].isSign()) {
-	            			if(flag1==true) {
-		            			for(int k=0;k<i;k++) {
+            String i1 = null;
+            
+            for (int i = 0; i < Parameters.diskName_offline[Parameters.diskNameNum].length; i++) {
+            	for(int j=0;j<sensors.length;j++) {
+            		if(Parameters.offline == true) {
+            			i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
+            		}
+            		else {
+            			i1 = MainThread.fileStr[sensors[j].getSensorNum()].replace(":/", "");
+            		}
+            		if(i1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i]) && sensors[j].isSign()) {
+            			if(flag1==true) {
+	            			for(int k=0;k<i;k++) {
+	            				record = record+",";
+	            				lastk=k+1;
+	            			}
+	            			flag1=false;
+            			}
+            			else {
+            				if(lastk+1<i)
+	            				for(int k=lastk+1;k<i;k++) {
 		            				record = record+",";
 		            				lastk=k+1;
 		            			}
-		            			flag1=false;
-	            			}
-	            			else {
-	            				if(lastk+1<i)
-		            				for(int k=lastk+1;k<i;k++) {
-			            				record = record+",";
-			            				lastk=k+1;
-			            			}
-	            				else
-	            					lastk++;
-	            			}
-	            			record = record+String.valueOf(sensors[j].getSecTime())+",";
-	            		}
-	            	}
-	            }
-	            //count the number of commas.
-	            if(record.split(",").length<=(Parameters.diskName_offline[Parameters.diskNameNum].length+1)) {
-	            	for(int i=record.split(",").length;i<Parameters.diskName_offline[Parameters.diskNameNum].length+1;i++) {
-	            		record = record+",";
-	            	}
-	            }
+            				else
+            					lastk++;
+            			}
+            			record = record+String.valueOf(sensors[j].getSecTime())+",";
+            		}
+            	}
             }
-            else {
-            	for (int i = 0; i < Parameters.diskName.length; i++) {
-	            	for(int j=0;j<sensors.length;j++) {
-	            		if(MainThread.fileStr[sensors[j].getSensorNum()].equals(Parameters.diskName[i])&&sensors[j].isSign()) {
-	            			if(flag1==true) {
-		            			for(int k=0;k<i;k++) {
-		            				record = record+",";
-		            				lastk=k+1;
-		            			}
-		            			flag1=false;
-	            			}
-	            			else {
-	            				if(lastk+1<i)
-		            				for(int k=lastk+1;k<i;k++) {
-			            				record = record+",";
-			            				lastk=k+1;
-			            			}
-	            				else
-	            					lastk++;
-	            			}
-	            			record = record+String.valueOf(sensors[j].getSecTime())+",";
-	            		}
-	            	}
-	            }
-            	//count the number of commas.
-	            if(record.split(",").length<=(Parameters.diskName.length+1)) {
-	            	for(int i=record.split(",").length;i<Parameters.diskName.length+1;i++) {
-	            		record = record+",";
-	            	}
-	            }
+            //count the number of commas.
+            if(record.split(",").length<=(Parameters.diskName_offline[Parameters.diskNameNum].length+1)) {
+            	for(int i=record.split(",").length;i<Parameters.diskName_offline[Parameters.diskNameNum].length+1;i++) {
+            		record = record+",";
+            	}
             }
             out.write(record+"\r\n");
             out.flush();
