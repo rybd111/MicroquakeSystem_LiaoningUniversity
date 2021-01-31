@@ -31,10 +31,6 @@ public class EarthQuake {
 	 * @param ssen all sensors' data in three vectors.
 	 * @return the " " or the consequence of computation, " " indicates there are no sensors are inspired or the number of data is not enough.
 	 */
-	
-	/**Return computation results String.*/
-	public static String outString = "";
-	
 	/**Used to execute the sql of database.*/
 	static DbExcute aDbExcute = new DbExcute();
 
@@ -51,12 +47,13 @@ public class EarthQuake {
 	 * @throws Exception
 	 * @author Baishuo Han, Hanlin Zhang.
 	 */
-	public static String runmain(Vector<String> ssen[][])	throws Exception {
+	public static void runmain(Vector<String> ssen[][])	throws Exception {
 		
 		//the number of data must enough to calculate which satisfied to 10s, or it will appear mistake consequence for the current data.
 		for (Vector<String>[] vectors : ssen) {
 			for (Vector<String> vector : vectors) {
-				if (vector.size() < Parameters.FREQUENCY * Parameters.readLen)	return " ";//this function must be return a String to foreground.
+				if (vector.size() < Parameters.FREQUENCY * Parameters.readLen)	
+					return;//this function promise enough volume of data.
 			}
 		}
 		
@@ -114,14 +111,14 @@ public class EarthQuake {
 				if (sensors[i].isSign()) {
 					//the series of correspond with the name of path, which stow the motivated sensor.
 					sensors[i].setSensorNum(i);
-					for(int j=0;j<Parameters.diskName_offline[Parameters.diskNameNum].length;j++) {
+					for(int j=0;j<Parameters.diskName[Parameters.diskNameNum].length;j++) {
 						if(Parameters.offline==false) {
 							identity = MainThread.fileStr[i].replace(":/", "");
 						}
 						else {
 							identity = MainThread.fileParentPackage[i].replace("Test", "");
 						}
-						if(identity.equals(Parameters.diskName_offline[Parameters.diskNameNum][j])) {
+						if(identity.equals(Parameters.diskName[Parameters.diskNameNum][j])) {
 							if(Parameters.initPanfu[j]==0) {
 								l[i]=i+1;//record the number of motivated sensors.
 								l1[countNumber]=i;
@@ -168,7 +165,7 @@ public class EarthQuake {
 			
 			//if the number of motivated sensors is greater than 3, we will calculate three location.
 			if(countNumber>=3 && EarthQuake.realMoti==true){
-				outString = Three_Locate.three(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
+				Three_Locate.three(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
 				PSO_Locate.pso(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
 			}
 			
@@ -190,6 +187,5 @@ public class EarthQuake {
 		
 		//reset the global variable.
 		EarthQuake.realMoti=true;
-		return outString;
 	}
 }

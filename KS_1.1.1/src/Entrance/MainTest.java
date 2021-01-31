@@ -2,10 +2,7 @@ package Entrance;
 
 import java.io.IOException;
 
-import com.h2.main.EarthQuake;
-
 import mutiThread.MainThread;
-import visual.Preferences;
 
 
 /**
@@ -14,22 +11,28 @@ import visual.Preferences;
  *
  */
 public class MainTest {
-	static String outStr = "";
+	public static final int LOCAL_OFFLINE_STORAGE = 1;
+	public static final int LOCAL_OFFLINE_UNSTORAGE = 2;
+	public static final int REMOTE_OFFLINE_STORAGE = 3;
+	public static final int REMOTE_OFFLINE_UNSTORAGE = 4;
+	public static final int LOCAL_ONLINE_STORAGE = 5;
+	public static final int LOCAL_ONLINE_UNSTORAGE = 6;
+	public static final int REMOTE_ONLINE_STORAGE = 7;
+	public static final int REMOTE_ONLINE_UNSTORAGE = 8;
 
 	public static void main(String[] agrs) throws IOException {//定时器
 		
-		String prePath = "I:/矿山/矿山数据/平顶山/20201231/";
+		
+		/** 情景配置*/
+		new RunningSceneConfig(LOCAL_OFFLINE_STORAGE);
 		
 		/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取
 		 * 具体参看MainTestInitialConfig类说明
 		 * */
-		MainTestInitialConfig config = new MainTestInitialConfig(prePath);
+		String prePath = "I:/矿山/矿山数据/平顶山/20201231/";
+		new MainTestInitialConfig(prePath);
 		
-		/** 情景配置*/
-		
-		
-		
-		// 通过CountDownLatch 控制线程结束
+		/** 启动线程*/
 		MainThread aMain = new MainThread();
 		aMain.start();
 

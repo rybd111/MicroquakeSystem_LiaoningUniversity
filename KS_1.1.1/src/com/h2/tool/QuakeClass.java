@@ -535,7 +535,7 @@ public class QuakeClass
 			variance=varianceImperative(array);
 			if(h==sen.getlineSeries())	System.out.println("方差为："+variance);
 			for(int i=0;i<MainThread.fileStr.length;i++) {
-				if(MainThread.fileStr[th].equals(Parameters.diskName_offline[Parameters.diskNameNum][i])){
+				if(MainThread.fileStr[th].equals(Parameters.diskName[Parameters.diskNameNum][i])){
 					if(variance<=2*Parameters.backGround[i]){
 						k=h+Parameters.FREQUENCY;//记录方差等于2倍背景噪声的位置作为持续时间的结束位置，此时算法停止
 						duringTime=k-sen.getlineSeries();//持续的数据的条个数

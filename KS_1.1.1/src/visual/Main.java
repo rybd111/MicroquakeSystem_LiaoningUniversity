@@ -3,6 +3,10 @@ package visual;
 import java.io.FileInputStream;
 import java.io.IOException;
 import com.h2.constant.ConfigToParameters;
+
+import Entrance.MainTest;
+import Entrance.MainTestInitialConfig;
+import Entrance.RunningSceneConfig;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -100,9 +104,15 @@ public class Main extends Application {
 		Tools_DataCommunication.getCommunication().circleRadius = 200.0;
 		// 标记已启动UI界面
 		Tools_DataCommunication.getCommunication().isClient = true;
-		// 读取配置文件
-		ConfigToParameters c = new ConfigToParameters(System.getProperty("user.dir") + "\\resource\\config.ini");
-
+		
+		
+		/** 情景配置*/
+		new RunningSceneConfig(MainTest.LOCAL_OFFLINE_STORAGE);
+		/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取
+		 * 具体参看MainTestInitialConfig类说明
+		 * */
+		String prePath = "I:/矿山/矿山数据/平顶山/20201231/";
+		new MainTestInitialConfig(prePath);
 //		Tools_DataCommunication.getCommunication().showandcloseMyConsole();
 
 		// 启动JavaFX程序

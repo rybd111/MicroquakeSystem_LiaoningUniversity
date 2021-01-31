@@ -206,29 +206,29 @@ public class Parameters
 	/**
 	 * control to run procedure in a offline way.
 	 */
-	public static boolean offline=true;
+	public static boolean offline=false;
 	/**
 	 * the time to read when procedure start.
 	 */
-	public static String timeStr = "190711080000";
+	public static String StartTimeStr = "190711080000";
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.
 	 */
-	private static String [] station= {"hongyang","datong","pingdingshan","madaotou"};
+	public static String [] station= {"hongyang","datong","pingdingshan","madaotou"};
 	public static String region_offline = station[2];
 	/**the data file must store in a fold which name ends with "s" or "t" or "z" or "s" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 */
 	//diskNameNum need not to modify manually.
 	public static int diskNameNum = 0;
-	public static final String[][] diskName_offline = {
+	public static final String[][] diskName = {
 		{ "t" , "u" , "w" , "x" , "z" , "y" , "v" , "s" , "r"},//hongyang
 		{ "v", "w", "x", "y", "z", "u", "t"},//datong
 		{ "z", "t", "y", "v", "x", "w", "u"},//pingdingshan
 		{ "o", "p", "q", "z"}//madaotou
 	};
 	/**the location of all sensor which must be correspond with diskName_offline in sequence.*/
-	public static final double[][] SENSORINFO_offline_datong = {
+	public static final double[][] SENSORINFO_datong = {
 		{ 541689, 4422383, 1561.2 },//3号V we also need to confirm the coordination of datong for the sensors removing from the original position.
 		{ 542016, 4423034, 1563.8 },//4号W
 		{ 540928, 4422763, 1544 },//5号X
@@ -238,7 +238,7 @@ public class Parameters
 		{ 541987, 4422567, 1560.4 },//1号T
 	};//从上起为牛家村、洗煤厂、香山矿、王家村、十一矿工业广场老办公楼西南角花坛、西风井、打钻工区
 	
-	public static final double[][] SENSORINFO_offline_hongyang = {
+	public static final double[][] SENSORINFO_hongyang = {
 		{ 41518099.807,4595388.504,22.776 },//T 杨甸子
 		{ 41518060.298,4594304.927,21.926  },//U 树碑子
 		{ 41520207.356,4597983.404,22.661  },//W 北青堆子
@@ -250,7 +250,7 @@ public class Parameters
 		{ 41517290.0374,4599537.3261,24.5649 }//R 李大人
 	};
 	
-	public static final double[][] SENSORINFO_offline_pingdingshan = {
+	public static final double[][] SENSORINFO_pingdingshan = {
 		{ 3744774.016, 38422332.101, 157.019 },//Z 牛家村
 		{ 3743774.578, 38421827.120, 120.191 },//T 洗煤厂
 		{ 3744698.415, 38421314.653, 126.809 },//Y 香山矿
@@ -260,7 +260,7 @@ public class Parameters
 		{ 3743713.362, 38423292.665, 139.238 }//U 打钻工区
 	};
 	
-	public static final double[][] SENSORINFO_offline_shuangyashan = {
+	public static final double[][] SENSORINFO_shuangyashan = {
 		{ 44442821, 5181516, 89.0 },//the disk name is not clear.
 		{ 44440849, 5181084, 115.8 },
 		{ 44443148, 5178624, 110.2 },
@@ -268,15 +268,15 @@ public class Parameters
 		{ 44442327, 5180765, 93.3 }
 	};//从左起为西风井、火药库、永华村、水塔、工业广场
 	
-	public static final double[][] SENSORINFO_offline_madaotou = {
+	public static final double[][] SENSORINFO_madaotou = {
 		{ 4409609.1825,512398.0950,1458.0541 },//O sel 
 		{ 4416002.6574,517084.2615,1469.6346 },//P nhy 
 		{ 4413453.8746,513392.0561,1453.3081 },//Q wmz 
 		{ 4408689.1946,517174.4868,1489.6023 },//Z tbz 
 	};
 	public static final double[][][] SENSORINFO1 = {
-			SENSORINFO_offline_hongyang,
-			SENSORINFO_offline_datong,
-			SENSORINFO_offline_pingdingshan,
-			SENSORINFO_offline_madaotou};
+			SENSORINFO_hongyang,
+			SENSORINFO_datong,
+			SENSORINFO_pingdingshan,
+			SENSORINFO_madaotou};
 }

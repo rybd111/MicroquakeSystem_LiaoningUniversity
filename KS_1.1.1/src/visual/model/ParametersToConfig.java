@@ -238,7 +238,7 @@ public class ParametersToConfig {
 							buf.append("offline = false\n");
 					}
 					if (item[0].equals("timeStr")) {
-						buf.append("timeStr = " + Parameters.timeStr + "\n");
+						buf.append("timeStr = " + Parameters.StartTimeStr + "\n");
 					}
 					if (buf.length() != 0)
 						bufAll.append(buf + "\n");

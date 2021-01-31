@@ -43,6 +43,8 @@ public class DuiQi extends Thread{
 	}
 	public DuiQi(CountDownLatch threadSignal_find,String fileStr,int i,ADMINISTRATOR manager) {
 		super();
+		duiqi = new int[Parameters.SensorNum];
+		file1 = new String[Parameters.SensorNum];
 		duiqi[i] = 0;
 		this.downLatch = threadSignal_find;
 		this.fileName = fileStr;

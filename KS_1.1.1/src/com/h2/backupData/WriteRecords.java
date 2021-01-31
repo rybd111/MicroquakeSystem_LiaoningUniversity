@@ -45,8 +45,8 @@ public class WriteRecords {
         		
             	file.createNewFile();
             	out.write("最早到时,");
-            	for(int i=0;i<Parameters.diskName_offline[Parameters.diskNameNum].length;i++) {
-	            	out.write(Parameters.diskName_offline[Parameters.diskNameNum][i]+",");
+            	for(int i=0;i<Parameters.diskName[Parameters.diskNameNum].length;i++) {
+	            	out.write(Parameters.diskName[Parameters.diskNameNum][i]+",");
 	            }
         		out.write("x,y,z,P波到时,震级,能量,定位算法,发震时刻,张量,b值");
             	out.write("\r");
@@ -55,7 +55,7 @@ public class WriteRecords {
             int lastk=0;
             record = sensor_latest.getAbsoluteTime()+"\t,";
             String i1 = null;
-            for (int i = 0; i < Parameters.diskName_offline[Parameters.diskNameNum].length; i++) {
+            for (int i = 0; i < Parameters.diskName[Parameters.diskNameNum].length; i++) {
             	for(int j=0;j<sensors.length;j++) {
             		boolean flag = false;
             		if(Parameters.offline == true) {
@@ -64,7 +64,7 @@ public class WriteRecords {
             		else {
             			i1 = MainThread.fileStr[sensors[j].getSensorNum()].replace(":/", "");
             		}
-            		if(i1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i])) {
+            		if(i1.equals(Parameters.diskName[Parameters.diskNameNum][i])) {
             			if(flag1==true) {
 	            			for(int k=0;k<i;k++) {
 	            				record = record+",";
@@ -86,8 +86,8 @@ public class WriteRecords {
             	}
             }
             //count the number of commas.
-            if(record.split(",").length<=(Parameters.diskName_offline[Parameters.diskNameNum].length+1)) {
-            	for(int i=record.split(",").length;i<Parameters.diskName_offline[Parameters.diskNameNum].length+1;i++) {
+            if(record.split(",").length<=(Parameters.diskName[Parameters.diskNameNum].length+1)) {
+            	for(int i=record.split(",").length;i<Parameters.diskName[Parameters.diskNameNum].length+1;i++) {
             		record = record+",";
             	}
             }
@@ -129,8 +129,8 @@ public class WriteRecords {
             	file.createNewFile();
             	//write the head of the excel.
             	out.write("最早到时,");
-            	for(int i=0;i<Parameters.diskName_offline[Parameters.diskNameNum].length;i++) {
-	            	out.write(Parameters.diskName_offline[Parameters.diskNameNum][i]+",");
+            	for(int i=0;i<Parameters.diskName[Parameters.diskNameNum].length;i++) {
+	            	out.write(Parameters.diskName[Parameters.diskNameNum][i]+",");
 	            }
             	out.write("\r\n");
         	}
@@ -139,7 +139,7 @@ public class WriteRecords {
             record = sensors[0].getAbsoluteTime()+"\t,";
             String i1 = null;
             
-            for (int i = 0; i < Parameters.diskName_offline[Parameters.diskNameNum].length; i++) {
+            for (int i = 0; i < Parameters.diskName[Parameters.diskNameNum].length; i++) {
             	for(int j=0;j<sensors.length;j++) {
             		if(Parameters.offline == true) {
             			i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
@@ -147,7 +147,7 @@ public class WriteRecords {
             		else {
             			i1 = MainThread.fileStr[sensors[j].getSensorNum()].replace(":/", "");
             		}
-            		if(i1.equals(Parameters.diskName_offline[Parameters.diskNameNum][i]) && sensors[j].isSign()) {
+            		if(i1.equals(Parameters.diskName[Parameters.diskNameNum][i]) && sensors[j].isSign()) {
             			if(flag1==true) {
 	            			for(int k=0;k<i;k++) {
 	            				record = record+",";
@@ -169,8 +169,8 @@ public class WriteRecords {
             	}
             }
             //count the number of commas.
-            if(record.split(",").length<=(Parameters.diskName_offline[Parameters.diskNameNum].length+1)) {
-            	for(int i=record.split(",").length;i<Parameters.diskName_offline[Parameters.diskNameNum].length+1;i++) {
+            if(record.split(",").length<=(Parameters.diskName[Parameters.diskNameNum].length+1)) {
+            	for(int i=record.split(",").length;i<Parameters.diskName[Parameters.diskNameNum].length+1;i++) {
             		record = record+",";
             	}
             }

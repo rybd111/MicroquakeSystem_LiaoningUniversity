@@ -119,7 +119,6 @@ public class MainThread extends Thread{
                         if(fileStr.length>=3)
                             fileStr = ReConnect.rearrange(discSymbol);
                         for(int i=0;i<Parameters.SensorNum;i++) {
-                            DuiQi.duiqi[i]=0;
                             System.out.print(fileStr[i]);
                         }
                         System.out.println();
@@ -131,17 +130,26 @@ public class MainThread extends Thread{
                     for(int i=0;i<Parameters.SensorNum;i++) {
                         DuiQi aDuiQi = new DuiQi(threadSignal_duiqi,fileStr[i],i,manager);
                         executor_duiqi.execute(aDuiQi);
+                        
                     }
-
+                    
                     try {threadSignal_duiqi.await();}
                     catch (InterruptedException e1) {e1.printStackTrace();}
-
+                    
+//                    if(Parameters.Adjust == true) {
+//                    	discSymbol--;
+//                    	isFirst = false;
+//                    	ReadData.newData = true;
+//                    	continue;
+//                    }
+                    
                     for(int i=0;i<Parameters.SensorNum;i++){
                         if(reduiqi[i]==-1) {
                             IsContinue=-1;
                             break;
                         }
                     }
+                    
                     if(IsContinue==-1){
                         discSymbol--;
                         IsContinue=0;
@@ -234,7 +242,7 @@ public class MainThread extends Thread{
              * 要计算的起始时间
              */
 //            String timeStr = "200214130000";
-            String timeStr = Parameters.timeStr;
+            String timeStr = Parameters.StartTimeStr;
             /**
              * 五个传感器数据
              */

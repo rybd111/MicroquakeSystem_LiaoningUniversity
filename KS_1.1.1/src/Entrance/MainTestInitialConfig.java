@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 import com.h2.constant.Parameters;
 import mutiThread.MainThread;
+import utils.ArrayMatch;
+import utils.outArray;
 
 /**
  * 自动根据当前路径配置离线运行下的参数运行，并区分各个不同的矿区。
@@ -24,6 +26,7 @@ public class MainTestInitialConfig {
 	/** 指示当前是否正确配置了路径*/
 	@SuppressWarnings("unused")
 	private boolean offline_isEnoughNumber = true;
+	@SuppressWarnings("unused")
 	private boolean offline_isExistDatafile = true;
 	
 	/** 封装后缀*/
@@ -38,34 +41,58 @@ public class MainTestInitialConfig {
 	private String[][] lo = {lo_pingdingshan, lo_hongyang, lo_madaotou};
 	
 	/** 路径下需要有几个离线跑数据的盘符*/
-	private String prePath = "I:/矿山/矿山数据/平顶山/20201231/";
+	private String prePath = "";
 	
 	/**
 	 * 通过读取对应路径下的文件夹文字来获取盘符名称以及完整路径。
 	 * 根据路径中的矿区名自动配置矿区变量。
+	 * 离线在线均可。
 	 * @throws IOException 
 	 */
-	MainTestInitialConfig (String prePath) throws IOException {
-		this.prePath = prePath;
-		
-		/** 读取当前路径下的所有文件夹，并提取出运行的盘符和对应的路径*/
-		MainThread.fileStr = obtainPath();
-		
-		/** 我们认为小于2个盘符的路径并不符合，数量不够*/
-		if(MainThread.fileStr.length<=2) {
-			this.offline_isEnoughNumber = false;
-			System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
-			System.in.read();
+	public MainTestInitialConfig (String prePath) throws IOException {
+		if(prePath.length()<=1) {
+			System.out.println("路径长度为1不正确，请检查后再继续，退出程序");
+			System.exit(0);
 		}
-		
-		/** 根据路径个数配置传感器数量*/
-		Parameters.SensorNum = MainThread.fileStr.length;
-		
-		/** 配置区域*/
-		regionConfig();
-		
-		/** 输出所有离线运行参数*/
-		printAllParameters();
+		if(Parameters.offline == true) {
+			this.prePath = prePath;
+			
+			/** 读取当前路径下的所有文件夹，并提取出运行的盘符和对应的路径*/
+			MainThread.fileStr = obtainPath();
+			
+			/** 我们认为小于2个盘符的路径并不符合，数量不够*/
+			if(MainThread.fileStr.length<=2) {
+				this.offline_isEnoughNumber = false;
+				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
+				System.in.read();
+			}
+			
+			/** 根据路径个数配置传感器数量*/
+			Parameters.SensorNum = MainThread.fileStr.length;
+			
+			/** 配置区域*/
+			regionConfig();
+			
+			/** 输出所有离线运行参数，供用户确认*/
+			printAllParameters();
+		}
+		else {
+			/** 返回存有HFMED的盘符，但此时不能确定是挂载盘符，因此需要进一步验证*/
+			MainThread.fileStr = scanAlldisk();
+			
+			/** 我们认为小于2个盘符的路径并不符合，数量不够*/
+			if(MainThread.fileStr.length<=2) {
+				this.offline_isEnoughNumber = false;
+				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
+				System.in.read();
+			}
+			
+			/** 根据路径个数配置传感器数量*/
+			Parameters.SensorNum = MainThread.fileStr.length;
+			
+			/** 输出所有离线运行参数，供用户确认*/
+			printAllParameters();
+		}
 	}
 	
 	/**
@@ -171,22 +198,85 @@ public class MainTestInitialConfig {
 	
 	private void printAllParameters() throws IOException {
 		
-		System.out.println("自动配置的主路径为：");
+		System.out.print("自动配置的主路径为： ");
 		for(int i=0;i<MainThread.fileStr.length;i++) {
 			System.out.println(MainThread.fileStr[i]);
 		}
 		
-		
-		System.out.println("自动配置的矿区为：");
+		System.out.print("自动配置的矿区为： ");
 		System.out.println(Parameters.region_offline);
-		System.out.println("自动配置的传感器数量为：");
+		System.out.print("自动配置的传感器数量为： ");
 		System.out.println(Parameters.SensorNum);
+		
+		System.out.println("其余参数： ");
+		System.out.println("FREQUENCY： "+ Parameters.FREQUENCY);
+		System.out.println("distanceToSquareWave： "+ Parameters.distanceToSquareWave);
+		System.out.println("SevIP： "+ Parameters.SevIP);
+		System.out.println("SENSORINFO1： ");
+		
+		int th = ArrayMatch.match_String(Parameters.station ,Parameters.region_offline);
+		outArray.outArray_double(Parameters.SENSORINFO1, th);
+		System.out.println("StartTimeStr： "+ Parameters.StartTimeStr);
 		
 		System.out.println("自动配置完毕，是否继续？按任意键继续——————————");
 		System.in.read();System.in.read();
 		
+		
 	}
 	
+	/**
+	 * 扫描所有二级目录下有HFMED或bin的数据文件，但不能确定他们一定是挂载的盘符。
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年1月30日下午10:36:21
+	 */
+	private String[] scanAlldisk() {
+		File[] roots = File.listRoots();
+		String[] sasroots = new String[0];
+		
+		for(int i=0;i<roots.length;i++) {
+			File[] tem = roots[i].listFiles();
+			if(tem == null) {
+				continue;
+			}
+			String firstDic = determineDisk(tem);
+			if(firstDic != null) {
+				if(firstDic.contains("_")) {
+					sasroots = Arrays.copyOf(sasroots, sasroots.length+1);
+					sasroots[sasroots.length-1] = roots[i].getPath();
+				}
+			}
+		}
+		return sasroots;
+	}
+	
+	/**
+	 * 基于2级目录下一定有HFMED或bin为后缀的文件为基础来定义
+	 * 在此基础上，区分本地磁盘与挂载磁盘
+	 * 否则此函数失效。
+	 * @param roots
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年1月30日下午7:36:50
+	 */
+	private String determineDisk(File[] roots) {
+		for(int i=0;i<roots.length;i++) {
+			String[] s = roots[i].list();
+			if(s == null) {
+				continue;
+			}
+			for(int j=0;j<s.length;j++) {
+				String[] reso = s[j].split("\\.");
+				if(reso.length>1) {
+					if(reso[1].equals(this.suffix[0]) || reso[1].equals(this.suffix[1])) {
+						return roots[i].getName();
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
 	/**
 	 * @param args
 	 * @author Hanlin Zhang.

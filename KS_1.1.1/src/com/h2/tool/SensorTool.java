@@ -15,6 +15,7 @@ import com.h2.constant.Parameters;
 
 import DataExchange.Sensor;
 import mutiThread.MainThread;
+import utils.ArrayMatch;
 
 /**
  * when we initial the sensor, and diagnose the morivated position, then we will use this class.
@@ -38,17 +39,10 @@ public class SensorTool
 		Sensor[] sensors = new Sensor[count];
 		//a sequence of correspond places.
 		int [] k = new int [Parameters.SensorNum];
-		switch (Parameters.region_offline) {
-		case "hongyang":
-			k = baseSort(Str, k, 0);
-			break;
-		case "datong":
-			k = baseSort(Str, k, 1);
-			break;
-		case "pingdingshan":
-			k = baseSort(Str, k, 2);
-			break;
-		}
+		//匹配盘符的序号。
+		int th = ArrayMatch.match_String(Parameters.station ,Parameters.region_offline);
+		k = baseSort(Str, k, th);
+		
 		for (int i = 0; i < count; i++)
 		{
 			sensors[i]=new Sensor();
@@ -66,7 +60,7 @@ public class SensorTool
 	
 	public static int[] baseSort(String[] Str, int [] k, int region) {
 		for(int j=0;j<Str.length;j++){
-			for(int i=0;i<Parameters.diskName_offline[region].length;i++) {
+			for(int i=0;i<Parameters.diskName[region].length;i++) {
 				String s = null;
 				if(Parameters.offline == true) {
 					s = Str[j].substring(Str[j].length()-2, Str[j].length()-1);
@@ -74,7 +68,7 @@ public class SensorTool
 				else {
 					s = Str[j].substring(Str[j].length()-3, Str[j].length()-2);
 				}
-				if(s.equals(Parameters.diskName_offline[region][i])) {
+				if(s.equals(Parameters.diskName[region][i])) {
 					k[j]=i;
 					break;
 				}

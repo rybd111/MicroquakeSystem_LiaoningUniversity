@@ -366,13 +366,13 @@ public class Preferences extends ApplicationWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (c3_1.getText().equals("平顶山") == true)
-					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_pingdingshan));
+					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_pingdingshan));
 				if (c3_1.getText().equals("大同塔山") == true)
-					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_datong));
+					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_datong));
 				if (c3_1.getText().equals("红阳三矿") == true)
-					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_hongyang));
+					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_hongyang));
 				if (c3_1.getText().equals("双鸭山") == true)
-					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_shuangyashan));
+					t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_shuangyashan));
 			}
 		});
 		// set the content displayed in combo.
@@ -387,7 +387,7 @@ public class Preferences extends ApplicationWindow {
 		t3_31.setBounds(89, 94, 33, 196);
 
 		t3_32 = new Text(composite3, SWT.BORDER | SWT.MULTI);
-		t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_hongyang));
+		t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_hongyang));
 		t3_32.setBounds(128, 94, 448, 196);
 
 		TabItem tabItem_1 = new TabItem(tabFolder, SWT.NONE);
@@ -728,7 +728,7 @@ public class Preferences extends ApplicationWindow {
 		t1_19.setText(String.valueOf(Parameters.S));
 
 
-		t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_offline_hongyang));
+		t3_32.setText(double_twoDimarrayToLine(Parameters.SENSORINFO_hongyang));
 
 		t4_1.setText(String.valueOf(Parameters.MinusAFixedOnMagtitude));
 		t4_2.setText(String.valueOf(Parameters.IntervalToOtherSensors));

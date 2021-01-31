@@ -255,7 +255,7 @@ public class ConfigToParameters {
 		            		Parameters.offline = false;
 		            }
 		            if(item[0].equals("timeStr")) {
-		            	Parameters.timeStr = item[1];
+		            	Parameters.StartTimeStr = item[1];
 		            }
 		            if(item[0].equals("region")) {
 		            	Parameters.region_offline = item[1];
