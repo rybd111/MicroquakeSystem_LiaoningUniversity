@@ -49,7 +49,12 @@ public class MainTestInitialConfig {
 	 * 离线在线均可。
 	 * @throws IOException 
 	 */
+	@SuppressWarnings("unused")
 	public MainTestInitialConfig (String prePath) throws IOException {
+		Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station ,Parameters.region_offline);
+		if(prePath==null) {
+			return;
+		}
 		if(prePath.length()<=1) {
 			System.out.println("路径长度为1不正确，请检查后再继续，退出程序");
 			System.exit(0);
@@ -196,9 +201,9 @@ public class MainTestInitialConfig {
 		
 	}
 	
-	private void printAllParameters() throws IOException {
+	public void printAllParameters() throws IOException {
 		
-		System.out.print("自动配置的主路径为： ");
+		System.out.println("自动配置的主路径为： ");
 		for(int i=0;i<MainThread.fileStr.length;i++) {
 			System.out.println(MainThread.fileStr[i]);
 		}
@@ -214,13 +219,11 @@ public class MainTestInitialConfig {
 		System.out.println("SevIP： "+ Parameters.SevIP);
 		System.out.println("SENSORINFO1： ");
 		
-		int th = ArrayMatch.match_String(Parameters.station ,Parameters.region_offline);
-		outArray.outArray_double(Parameters.SENSORINFO1, th);
+		outArray.outArray_double(Parameters.SENSORINFO1, Parameters.diskNameNum);
 		System.out.println("StartTimeStr： "+ Parameters.StartTimeStr);
 		
 		System.out.println("自动配置完毕，是否继续？按任意键继续——————————");
 		System.in.read();System.in.read();
-		
 		
 	}
 	

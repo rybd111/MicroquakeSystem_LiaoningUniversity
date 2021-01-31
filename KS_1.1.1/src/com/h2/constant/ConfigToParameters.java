@@ -35,7 +35,7 @@ public class ConfigToParameters {
 	public ConfigToParameters() throws NumberFormatException, IOException {
 		String j = System.getProperty("user.dir");//get the procedure absolute path.
 		
-		this.filePath = j+"/Config.ini";//get the config file.
+		this.filePath = j+"/resource/Config.ini";//get the config file.
 		System.out.println(filePath);
 		Load(this.filePath);//get the variables in config file.
 	}
@@ -55,7 +55,6 @@ public class ConfigToParameters {
 	 * @throws NumberFormatException 
 	 */
 	private void Load(String Path) throws NumberFormatException, IOException {
-		int count=0;
 		File file = new File(Path);
 		
 		//(文件完整路径),编码格式
@@ -254,15 +253,12 @@ public class ConfigToParameters {
 		            	if(item[1].equals("false"))
 		            		Parameters.offline = false;
 		            }
-		            if(item[0].equals("timeStr")) {
+		            if(item[0].equals("StartTimeStr")) {
 		            	Parameters.StartTimeStr = item[1];
 		            }
-		            if(item[0].equals("region")) {
+		            if(item[0].equals("region_offline")) {
 		            	Parameters.region_offline = item[1];
 		            }
-//		            if(item[0].equals("jdbcPath")) {
-//		            	Parameters.jdbcPath = item[1];
-//		            }
 	            }
             }
         }

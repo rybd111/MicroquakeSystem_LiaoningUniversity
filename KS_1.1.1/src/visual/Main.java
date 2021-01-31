@@ -105,13 +105,15 @@ public class Main extends Application {
 		// 标记已启动UI界面
 		Tools_DataCommunication.getCommunication().isClient = true;
 		
-		/** 情景配置*/
+		/** 情景配置，共有8中模式，每一种对应一个整形数值，在MainTest类中定义。*/
 		new RunningSceneConfig(MainTest.LOCAL_OFFLINE_STORAGE);
-		/** 配置运行数据路径和传感器数量，根据prePath下的数据路径自动获取
-		 * 具体参看MainTestInitialConfig类说明
-		 * */
-		String prePath = "I:/矿山/矿山数据/平顶山/20201231/";
-		new MainTestInitialConfig(prePath);
+		
+		/** 载入配置文件*/
+		new ConfigToParameters();
+		
+		/** 输出参数*/
+		MainTestInitialConfig m = new MainTestInitialConfig(null);
+		m.printAllParameters();
 //		Tools_DataCommunication.getCommunication().showandcloseMyConsole();
 
 		// 启动JavaFX程序
