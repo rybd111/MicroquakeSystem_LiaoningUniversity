@@ -24,7 +24,7 @@ public class MainTest {
 		
 		
 		/** 情景配置*/
-		new RunningSceneConfig(LOCAL_OFFLINE_STORAGE);
+		new RunningSceneConfig(LOCAL_ONLINE_STORAGE);
 		
 		/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取
 		 * 具体参看MainTestInitialConfig类说明

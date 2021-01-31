@@ -105,10 +105,9 @@ public class Main extends Application {
 		// 标记已启动UI界面
 		Tools_DataCommunication.getCommunication().isClient = true;
 		
-		
 		/** 情景配置*/
 		new RunningSceneConfig(MainTest.LOCAL_OFFLINE_STORAGE);
-		/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取
+		/** 配置运行数据路径和传感器数量，根据prePath下的数据路径自动获取
 		 * 具体参看MainTestInitialConfig类说明
 		 * */
 		String prePath = "I:/矿山/矿山数据/平顶山/20201231/";
