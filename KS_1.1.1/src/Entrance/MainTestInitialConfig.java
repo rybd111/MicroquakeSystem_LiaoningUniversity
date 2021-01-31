@@ -226,6 +226,7 @@ public class MainTestInitialConfig {
 	
 	/**
 	 * 扫描所有二级目录下有HFMED或bin的数据文件，但不能确定他们一定是挂载的盘符。
+	 * 而且必须二级目录下有HFMED文件，否则该函数失效。
 	 * @return
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年1月30日下午10:36:21
