@@ -19,10 +19,10 @@ import utils.String2Date;
  * @author Xingdong Yang.
  *
  */
-public class ReadDataSegmentHead {
+public class ReadDateFromHead {
 	
 	public static String readDataSegmentHeadall(String fileName) throws Exception {
-
+		boolean flag = true;
 		// 用于承装数据段头的字节
 		byte[] dataSegmentHeadByte = new byte[34];
 		File file = new File(fileName);
@@ -31,8 +31,12 @@ public class ReadDataSegmentHead {
 		BufferedInputStream buffered = new BufferedInputStream(new FileInputStream(file));
 		if(hfmedHead.getChannelOnNum()==7) {
 			Parameters.WenJianTou=284;
+			if(flag == true) {
+				Parameters.TongDaoDiagnose=1;
+			}
 		}
 		else if(hfmedHead.getChannelOnNum()==4) {
+			flag = false;
 			Parameters.WenJianTou=242;
 			Parameters.TongDaoDiagnose=0;
 		}
@@ -74,7 +78,7 @@ public class ReadDataSegmentHead {
 		return startDate;
 	}
    
-	public static Date readDataSegmentHead_MrMa_Date(String fileName) throws Exception {
+	public Date readDataSegmentHead_MrMa_Date(String fileName) throws Exception {
 		
 		// 用于承装数据头(时间戳)的4个字节数组
 		byte[] dataSegmentHeadByte = new byte[4];
@@ -107,13 +111,13 @@ public class ReadDataSegmentHead {
 		// 打开流
 		HfmedHead hfmedHead = new ReadHfmedHead().readHead(file);//读文件头，文件头内容
 		BufferedInputStream buffered = new BufferedInputStream(new FileInputStream(file));
-		if(hfmedHead.getChannelOnNum()==7) {
-			Parameters.WenJianTou=284;
-		}
-		else if(hfmedHead.getChannelOnNum()==4) {
-			Parameters.WenJianTou=242;
-			Parameters.TongDaoDiagnose=0;
-		}
+//		if(hfmedHead.getChannelOnNum()==7) {
+//			Parameters.WenJianTou=284;
+//		}
+//		else if(hfmedHead.getChannelOnNum()==4) {
+//			Parameters.WenJianTou=242;
+//			Parameters.TongDaoDiagnose=0;
+//		}
 		buffered.skip(Parameters.WenJianTou);
 		buffered.read(dataSegmentHeadByte);
 		buffered.close();
@@ -146,20 +150,18 @@ public class ReadDataSegmentHead {
     	
 		//用于承装数据段头的字节
     	 
-    	 byte[] dataSegmentHeadByte = new byte[34] ;
+    	byte[] dataSegmentHeadByte = new byte[34] ;
 		
 		HfmedHead hfmedHead = new ReadHfmedHead().readHead(file);//读文件头，文件头内容
 		//打开流
 		BufferedInputStream buffered = new BufferedInputStream(new FileInputStream(file)) ;
-		if(hfmedHead.getChannelOnNum()==7) {
-			Parameters.WenJianTou=284;
-		}
-		else if(hfmedHead.getChannelOnNum()==4) {
-			Parameters.WenJianTou=242;
-			Parameters.TongDaoDiagnose=0;
-		}
-//		byte[] fileSegmentHead = new byte[Parameters.WenJianTou];
-//		buffered.read(fileSegmentHead);
+//		if(hfmedHead.getChannelOnNum()==7) {
+//			Parameters.WenJianTou=284;
+//		}
+//		else if(hfmedHead.getChannelOnNum()==4) {
+//			Parameters.WenJianTou=242;
+//			Parameters.TongDaoDiagnose=0;
+//		}
 		buffered.skip(Parameters.WenJianTou);
 		int count = buffered.read(dataSegmentHeadByte);
 		//System.out.println("count :  " + count) ;

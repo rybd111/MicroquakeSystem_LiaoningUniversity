@@ -36,8 +36,6 @@ public class ReadHfmedHead {
 	    
 	    buffered.close() ;
 	    
-	   
-	    
 	    
 	    /**接下来将初始化实体类,接下来要解决的问题就是怎么取到字节数组里面特定的字节 */
 	    //数据赋值区

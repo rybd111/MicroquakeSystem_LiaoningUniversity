@@ -12,7 +12,7 @@ import utils.DateArrayToIntArray;
 import controller.ADMINISTRATOR;
 import read.yang.readFile.FindNewFile;
 import read.yang.readFile.ReadData;
-import read.yang.readFile.ReadDataSegmentHead;
+import read.yang.readFile.ReadDateFromHead;
 import read.yang.readFile.findNew;
 
 /**
@@ -55,11 +55,11 @@ public class DuiQi extends Thread{
 		try{
 			file1[i]=findNew.find(fileName,i,manager).getAbsolutePath();
 			if(manager.isMrMa[i]==true) {
-				MainThread.dateString[i] = ReadDataSegmentHead.readDataSegmentHead_MrMa_String(file1[i]);
+				MainThread.dateString[i] = ReadDateFromHead.readDataSegmentHead_MrMa_String(file1[i]);
 				System.out.println(MainThread.fileStr[i]+"MrMa最新文件的时间为："+MainThread.dateString[i]);
 			}
 			else {
-				MainThread.dateString[i] = ReadDataSegmentHead.readDataSegmentHeadall(file1[i]);
+				MainThread.dateString[i] = ReadDateFromHead.readDataSegmentHeadall(file1[i]);
 				System.out.println(MainThread.fileStr[i]+"MrLiu最新文件的时间为："+MainThread.dateString[i]);
 			}
 		}
@@ -92,7 +92,7 @@ public class DuiQi extends Thread{
 		// 一个传感器的时间
 		try{
 			for(int i=0;i<fileName.length;i++) {
-				String dateStr = ReadDataSegmentHead.readDataSegmentHeadall(file1[i]);
+				String dateStr = ReadDateFromHead.readDataSegmentHeadall(file1[i]);
 				dateString[i] = dateStr;
 			}
 		}

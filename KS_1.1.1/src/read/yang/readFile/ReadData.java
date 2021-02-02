@@ -18,7 +18,7 @@ import mutiThread.DuiQi;
 import mutiThread.MainThread;
 import read.rqma.history.AlignFile;
 import read.rqma.history.FindHistoryFile;
-import read.yang.readFile.ReadDataSegmentHead;
+import read.yang.readFile.ReadDateFromHead;
 import read.yang.readFile.ReadHfmedHead;
 import read.yang.readFile.ReadSensorProperties;
 import read.yang.readFile.findNew;
@@ -148,7 +148,7 @@ public class ReadData {
 					 this.voltstart=6;
 					 this.voltend=7;
 				 }
-				 this.date = new ReadDataSegmentHead().readDataSegmentHead(file);// 从第一个数据段头中获得数据文件起始记录时间
+				 this.date = new ReadDateFromHead().readDataSegmentHead(file);// 从第一个数据段头中获得数据文件起始记录时间
 				 System.out.print(path+"磁盘创建读对象的时间"+date);System.out.println();
 				 WriteRecords.lastDate = Date2String.date2str(date);//update the date for the record P arrival txt file's name.
 				 SensorProperties[] sensor = new ReadSensorProperties().readSensorProperties(file);
@@ -162,7 +162,7 @@ public class ReadData {
 				 this.channel=456;
 				 this.filePath = path;//路径更新
 				 this.file=new File(path);
-				 this.date = new ReadDataSegmentHead().readDataSegmentHead_MrMa_Date(DuiQi.file1[th]);// 从第一个数据段头中获得数据文件起始记录时间
+				 this.date = new ReadDateFromHead().readDataSegmentHead_MrMa_Date(DuiQi.file1[th]);// 从第一个数据段头中获得数据文件起始记录时间
 				 System.out.println(path+"磁盘创建读对象的时间"+date);
 				 data = new Vector<String>();//用于存放数据
 				 dataByte = new byte[Parameters.Shi];//每次读10个字节的字节数组
@@ -178,7 +178,7 @@ public class ReadData {
 				this.channel=456;
 				this.filePath = path;//路径更新
 				this.file=new File(path);
-				this.date = new ReadDataSegmentHead().readDataSegmentHead_MrMa_Date(DuiQi.file1[th]);// 从第一个数据段头中获得数据文件起始记录时间
+				this.date = new ReadDateFromHead().readDataSegmentHead_MrMa_Date(DuiQi.file1[th]);// 从第一个数据段头中获得数据文件起始记录时间
 				System.out.println(path+"磁盘创建读对象的时间"+date);
 				data = new Vector<String>();//用于存放数据
 				dataByte = new byte[Parameters.Shi];//每次读10个字节的字节数组
@@ -208,7 +208,7 @@ public class ReadData {
 					this.voltstart=6;
 					this.voltend=7;
 				}
-				this.date = new ReadDataSegmentHead().readDataSegmentHead(DuiQi.file1[th]);// 从第一个数据段头中获得数据文件起始记录时间
+				this.date = new ReadDateFromHead().readDataSegmentHead(DuiQi.file1[th]);// 从第一个数据段头中获得数据文件起始记录时间
 				System.out.print(path+"磁盘创建读对象的时间"+date);System.out.println();
 				WriteRecords.lastDate = Date2String.date2str(date);//update the date for the record P arrival txt file's name.
 				SensorProperties[] sensor = new ReadSensorProperties().readSensorProperties(DuiQi.file1[th]);

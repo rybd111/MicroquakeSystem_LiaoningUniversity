@@ -180,7 +180,7 @@ public class RunningSceneConfig {
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月2日下午6:03:13
 	 */
-	private void setMixPattern() {
+	private void setMixChannelPattern() {
 		Parameters.TongDaoDiagnose = 0;
 	}
 	/**

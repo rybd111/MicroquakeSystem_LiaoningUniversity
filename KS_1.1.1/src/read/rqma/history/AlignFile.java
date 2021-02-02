@@ -3,7 +3,7 @@ package read.rqma.history;
 import com.h2.constant.Parameters;
 
 import mutiThread.MainThread;
-import read.yang.readFile.ReadDataSegmentHead;
+import read.yang.readFile.ReadDateFromHead;
 import utils.DateArrayToIntArray;
 
 import java.text.ParseException;
@@ -118,7 +118,7 @@ public class AlignFile {
         try {
             for (int i = 0; i < Parameters.SensorNum; i++) {
                 System.out.println("第个"+(i+1)+"台站欲处理的文件为"+paths_original[i]);
-                dateString[i] = ReadDataSegmentHead.readDataSegmentHeadall(paths_original[i]);
+                dateString[i] = ReadDateFromHead.readDataSegmentHeadall(paths_original[i]);
             }
 
         } catch (Exception e) {
