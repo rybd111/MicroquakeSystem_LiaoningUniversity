@@ -124,7 +124,7 @@ public class RunningSceneConfig {
 		/** 远程数据库*/
 		Parameters.SevIP = "182.92.239.30:3306/ks";
 		/** 设置数据库名称*/
-		switch(Parameters.region_offline) {
+		switch(Parameters.region) {
 		case "pingdingshan":
 			Parameters.DatabaseName5 = "mine_quake_results_pingdingshan";
 			break;

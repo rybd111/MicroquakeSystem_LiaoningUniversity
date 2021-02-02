@@ -40,7 +40,7 @@ public class SensorTool
 		//a sequence of correspond places.
 		int [] k = new int [Parameters.SensorNum];
 		//匹配盘符的序号。
-		int th = ArrayMatch.match_String(Parameters.station ,Parameters.region_offline);
+		int th = ArrayMatch.match_String(Parameters.station ,Parameters.region);
 		k = baseSort(Str, k, th);
 		
 		for (int i = 0; i < count; i++)

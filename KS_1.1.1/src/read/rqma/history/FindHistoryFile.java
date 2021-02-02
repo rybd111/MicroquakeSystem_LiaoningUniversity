@@ -35,13 +35,13 @@ public class FindHistoryFile {
             //找到后缀为HFMED的并且时间大于给定时间的第一个文件
             //5-17形式 ：190101124000
 
-        	if(Parameters.region_offline=="datong") {
+        	if(Parameters.region=="datong") {
 	            if(file2.getPath().endsWith(".HFMED") && SubStrUtil.getSubParentPackage(file2.getName()).compareTo(time)>=0){
 	                System.out.println(file2.getName());
 	                return file2;//返回该文件
 	            }
         	}
-        	else if(Parameters.region_offline=="pingdingshan"||Parameters.region_offline=="hongyang") {
+        	else if(Parameters.region=="pingdingshan"||Parameters.region=="hongyang") {
         		if(file2.getPath().endsWith(".HFMED") && file2.getName().substring(5,17).compareTo(time)>=0){
                     System.out.println(file2.getName());
                     return file2;
@@ -75,14 +75,14 @@ public class FindHistoryFile {
             return null;
         Arrays.sort(files);
         int i=0;
-        if(Parameters.region_offline=="datong") {
+        if(Parameters.region=="datong") {
 	        for (; i <  files.length; i++) {
 	            if(SubStrUtil.getSubParentPackage(files[i]).compareTo(time)>=0){
 	                break;
 	            }
 	        }
         }
-        else if(Parameters.region_offline=="pingdingshan"||Parameters.region_offline=="hongyang") {
+        else if(Parameters.region=="pingdingshan"||Parameters.region=="hongyang") {
         	for (; i <  files.length; i++) {
                 if(files[i].substring(5,17).compareTo(time)>=0){
                     break;

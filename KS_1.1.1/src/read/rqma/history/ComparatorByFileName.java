@@ -12,9 +12,9 @@ public class ComparatorByFileName implements Comparator<File> {
     	
     	
     	int diff=0;
-    	if(Parameters.region_offline=="datong")
+    	if(Parameters.region=="datong")
     		diff = SubStrUtil.getSubParentPackage(f1.getName()).compareTo(SubStrUtil.getSubParentPackage(f2.getName()));
-    	else if(Parameters.region_offline=="pingdingshan")
+    	else if(Parameters.region=="pingdingshan")
     		diff = f1.getName().compareTo(f2.getName());
     	
         if (diff > 0)

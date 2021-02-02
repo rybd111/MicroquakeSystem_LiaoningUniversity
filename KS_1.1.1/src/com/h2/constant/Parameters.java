@@ -125,7 +125,8 @@ public class Parameters
 	public static boolean SSIntervalToOtherSensors=true;
 	/**
 	 * 长短时窗每次移动的距离（滑动窗口的跳数），暂时设置为移动100条数据
-	 * 该值设置太小，则可能由于电脑性能不行，导致实时读取数据受限
+	 * 该值设置太小，则可能由于电脑性能不行，(can not satisfy the real-time condition.)
+	 * But it direct affect the precision of this procedure.
 	 */
 	public static int INTERVAL = 50;
 	/**
@@ -213,21 +214,23 @@ public class Parameters
 	public static String StartTimeStr = "190711080000";
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.
+	 * This variable will effect the coordination of this procedure, please confirm it twice.
 	 */
 	public static String [] station= {"hongyang","datong","pingdingshan","madaotou"};
-	public static String region_offline = station[2];
+	public static String region = station[2];
 	/**the data file must store in a fold which name ends with "s" or "t" or "z" or "s" and etc.
 	 * Please modify this variable to adapt different mining area.
 	 */
 	//diskNameNum need not to modify manually.
 	public static int diskNameNum = 0;
+	/** we need to config this variable manually with local drive.*/
 	public static final String[][] diskName = {
 		{ "t" , "u" , "w" , "x" , "z" , "y" , "v" , "s" , "r"},//hongyang
 		{ "v", "w", "x", "y", "z", "u", "t"},//datong
 		{ "z", "t", "y", "v", "x", "w", "u"},//pingdingshan
 		{ "o", "p", "q", "z"}//madaotou
 	};
-	/**the location of all sensor which must be correspond with diskName_offline in sequence.*/
+	/**the location of all sensor which must be correspond with diskName in sequence.*/
 	public static final double[][] SENSORINFO_datong = {
 		{ 541689, 4422383, 1561.2 },//3号V we also need to confirm the coordination of datong for the sensors removing from the original position.
 		{ 542016, 4423034, 1563.8 },//4号W
@@ -274,6 +277,9 @@ public class Parameters
 		{ 4413453.8746,513392.0561,1453.3081 },//Q wmz 
 		{ 4408689.1946,517174.4868,1489.6023 },//Z tbz 
 	};
+	/**
+	 * this variable must put correspond to the variable of 'station' in sequence.
+	 */
 	public static final double[][][] SENSORINFO1 = {
 			SENSORINFO_hongyang,
 			SENSORINFO_datong,

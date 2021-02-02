@@ -23,7 +23,7 @@ public class MainTest {
 	public static void main(String[] agrs) throws IOException {//定时器
 		
 		
-		/** 情景配置，共有8中模式，每一种对应一个整形数值，在MainTest类中定义。*/
+		/** 情景配置，共有8种模式，每一种对应一个整形数值，在MainTest类中定义。*/
 		new RunningSceneConfig(MainTest.LOCAL_OFFLINE_STORAGE);
 		
 		/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取

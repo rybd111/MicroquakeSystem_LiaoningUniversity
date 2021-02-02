@@ -152,11 +152,11 @@ public class AlignFile {
 
         Arrays.sort(timeLine, new ComparatorTimeLine());//巨坑，平顶山和大同硬件生成的文件命名就不能统一吗?????????
         
-        if(Parameters.region_offline=="datong") {
+        if(Parameters.region=="datong") {
 	        str_oldest = "20" + SubStrUtil.getSubParentPackage(timeLine[0].getFilename());//最老时间字符串
 	        str_newest = "20" + SubStrUtil.getSubParentPackage(timeLine[Parameters.SensorNum-1].getFilename());//最新时间字符串
         }
-        else if(Parameters.region_offline=="pingdingshan"||Parameters.region_offline=="hongyang") {
+        else if(Parameters.region=="pingdingshan"||Parameters.region=="hongyang") {
         	str_oldest = "20" + timeLine[0].getFilename().substring(5, 17);//最老时间字符串
             str_newest = "20" + timeLine[Parameters.SensorNum-1].getFilename().substring(5, 17);//最新时间字符串
         }
@@ -174,7 +174,7 @@ public class AlignFile {
         /**
          *意想不到是，大同的文件半小时产生一份，少年，这个bug找累了吗，哈哈哈...... 2019.06.19
          */
-        if(Parameters.region_offline=="datong") {
+        if(Parameters.region=="datong") {
 	        while ((newest_date - oldest_date) >= (1800-1*60) * 1000) {
 	            int id = timeLine[0].getId();
 	            timeLine[0].position += 1;
@@ -194,7 +194,7 @@ public class AlignFile {
 	            newest_date = DateUtil.toDate(str_newest).getTime();
 	        }
         }
-        else if(Parameters.region_offline=="pingdingshan"||Parameters.region_offline=="hongyang") {
+        else if(Parameters.region=="pingdingshan"||Parameters.region=="hongyang") {
 //        	while ((newest_date - oldest_date) >= (3600-3*60) * 1000) {
         	while ((newest_date - oldest_date) >= (3600) * 1000) {
                 int id = timeLine[0].getId();
@@ -253,7 +253,7 @@ public class AlignFile {
 
         oldest_date = DateUtil.toDate(str_oldest).getTime(); //最老时间
         newest_date = DateUtil.toDate(str_newest).getTime(); ///最新时间
-        if(Parameters.region_offline=="datong") {
+        if(Parameters.region=="datong") {
         	while ((newest_date - oldest_date) > 1800 * 1000) {
                 String next_time = DateUtil.toString(new Date(oldest_date + 1800 * 1000)).substring(2);
 
@@ -268,7 +268,7 @@ public class AlignFile {
                 newest_date = DateUtil.toDate(str_newest).getTime();
             }
         }
-        else if(Parameters.region_offline=="pingdingshan") {
+        else if(Parameters.region=="pingdingshan") {
         	while ((newest_date - oldest_date) > 3600 * 1000) {
                 String next_time = DateUtil.toString(new Date(oldest_date + 3600 * 1000)).substring(2);
 

@@ -51,7 +51,7 @@ public class MainTestInitialConfig {
 	 */
 	@SuppressWarnings("unused")
 	public MainTestInitialConfig (String prePath) throws IOException {
-		Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station ,Parameters.region_offline);
+		Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station ,Parameters.region);
 		if(prePath==null) {
 			return;
 		}
@@ -182,17 +182,17 @@ public class MainTestInitialConfig {
 				if(this.prePath.split(this.lo[i][j]).equals(part[z])) {
 					switch (i) {
 					case 0:
-						Parameters.region_offline = "pingdingshan";
+						Parameters.region = "pingdingshan";
 						break;
 					case 1:
-						Parameters.region_offline = "hongyang";
+						Parameters.region = "hongyang";
 						break;
 					case 2:
-						Parameters.region_offline = "madaotou";
+						Parameters.region = "madaotou";
 						break;
 					default:
 						System.out.println("路径中不包含能够识别的矿区位置！默认矿区为0号：红阳三矿");
-						Parameters.region_offline = "hongyang";
+						Parameters.region = "hongyang";
 					}				
 				}
 			}
@@ -209,7 +209,7 @@ public class MainTestInitialConfig {
 		}
 		
 		System.out.print("自动配置的矿区为： ");
-		System.out.println(Parameters.region_offline);
+		System.out.println(Parameters.region);
 		System.out.print("自动配置的传感器数量为： ");
 		System.out.println(Parameters.SensorNum);
 		

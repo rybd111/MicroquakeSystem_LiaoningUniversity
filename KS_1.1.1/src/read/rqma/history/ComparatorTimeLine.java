@@ -16,9 +16,9 @@ public class  ComparatorTimeLine implements Comparator<TimeLine> {
     	
     	
     	int diff=0;
-    	if(Parameters.region_offline=="datong")
+    	if(Parameters.region=="datong")
     		diff = SubStrUtil.getSubParentPackage(o1.filename).compareTo(SubStrUtil.getSubParentPackage(o2.filename));
-    	else if(Parameters.region_offline=="pingdingshan"||Parameters.region_offline=="hongyang") {
+    	else if(Parameters.region=="pingdingshan"||Parameters.region=="hongyang") {
     		diff = o1.filename.compareTo(o2.filename);
     	}
         if (diff > 0)

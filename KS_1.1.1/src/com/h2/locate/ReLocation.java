@@ -62,7 +62,7 @@ public class ReLocation {
 				String intequackTime =TimeTransform.TimeDistance(sensors1[0].getAbsoluteTime(), location_refine.getSecTime()); //发震时刻
 				
 				//平顶山需要转换坐标
-				if(Parameters.region_offline.equals("pingdingshan")) {
+				if(Parameters.region.equals("pingdingshan")) {
 					ConvertCoordinates c = new ConvertCoordinates(xdata, ydata);
 					System.out.println("坐标转换完毕！！！");
 					result[0] = String.valueOf(c.getX());
@@ -118,7 +118,7 @@ public class ReLocation {
 				String intequackTime =TimeTransform.TimeDistance(sensors1[0].getAbsoluteTime(), location_refine.getSecTime()); //发震时刻
 				
 				//平顶山需要转换坐标
-				if(Parameters.region_offline.equals("pingdingshan")) {
+				if(Parameters.region.equals("pingdingshan")) {
 					ConvertCoordinates c = new ConvertCoordinates(xdata, ydata);
 					System.out.println("坐标转换完毕！！！");
 					result[0] = String.valueOf(c.getX());
@@ -158,7 +158,7 @@ public class ReLocation {
 			System.out.print(s+" ");
 		}
 		System.out.println();
-		System.out.println("当前矿区为："+Parameters.region_offline);
+		System.out.println("当前矿区为："+Parameters.region);
 //		System.out.println("按任意键继续。。。");
 //		System.in.read(); // 用这个就行了，获取输入流，会等待键盘按键
 		//---------------------------------------------------------------------

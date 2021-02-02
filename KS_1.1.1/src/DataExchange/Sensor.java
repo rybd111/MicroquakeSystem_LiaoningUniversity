@@ -97,17 +97,17 @@ public class Sensor {
 			     + nf.format(Altitude);
 		}
 		else if(Parameters.offline == true) {
-			if(Parameters.region_offline=="hongyang") {
+			if(Parameters.region=="hongyang") {
 				return nf.format(Latitude) + " "
 				     + nf.format(Longtitude) + " "
 				     + nf.format(Altitude);
 			}
-			if(Parameters.region_offline=="datong") {
+			if(Parameters.region=="datong") {
 				return nf.format(Latitude) + " "
 				     + nf.format(Longtitude) + " "
 				     + nf.format(Altitude);
 			}
-			if(Parameters.region_offline=="pingdingshan") {
+			if(Parameters.region=="pingdingshan") {
 				return nf.format(Latitude) + " "
 				     + nf.format(Longtitude) + " "
 				     + nf.format(Altitude);
