@@ -238,15 +238,6 @@ public class ConfigToParameters {
 		            if(item[0].equals("MinusAFixedValue")) {
 		            	Parameters.MinusAFixedValue = Double.parseDouble(item[1]);
 		            }
-		            if(item[0].equals("plusSingle_coefficient")) {
-		            	Parameters.plusSingle_coefficient = Double.parseDouble(item[1]);
-		            }
-		            if(item[0].equals("plusDouble_coefficient_45")) {
-		            	Parameters.plusDouble_coefficient_45 = Double.parseDouble(item[1]);
-		            }
-		            if(item[0].equals("plusDouble_coefficient_12")) {
-		            	Parameters.plusDouble_coefficient_12 = Double.parseDouble(item[1]);
-		            }
 		            if(item[0].equals("offline")) {
 		            	if(item[1].equals("true"))
 		            		Parameters.offline = true;

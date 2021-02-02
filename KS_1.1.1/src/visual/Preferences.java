@@ -753,9 +753,6 @@ public class Preferences extends ApplicationWindow {
 		Parameters.refineRange = Integer.parseInt(t1_5.getText());
 		Parameters.refineRange_ThresholdMin = Double.parseDouble(t1_6.getText());
 		Parameters.SensorNum = Integer.parseInt(t1_7.getText());
-		Parameters.plusSingle_coefficient = Double.parseDouble(t1_8.getText());
-		Parameters.plusDouble_coefficient_45 = Double.parseDouble(t1_9.getText());
-		Parameters.plusDouble_coefficient_12 = Double.parseDouble(t1_10.getText());
 //TODO:	Parameters.backGround=Double.parseDouble(t1_11.getText());
 		Parameters.FREQUENCY = Integer.parseInt(t1_12.getText());
 //TODO:	Parameters.LONGTIMEWINDOW = Integer.parseInt(t1_13.getText());

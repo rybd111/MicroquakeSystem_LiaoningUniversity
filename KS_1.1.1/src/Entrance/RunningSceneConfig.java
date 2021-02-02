@@ -174,6 +174,31 @@ public class RunningSceneConfig {
 		Parameters.readSecond = false;
 	}
 	
+	/**
+	 * 4 channels and 7 channels both exists in all files path.
+	 * 所有的传感器4通道和7通道同时存在的情景，只针对老仪器
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年2月2日下午6:03:13
+	 */
+	private void setMixPattern() {
+		Parameters.TongDaoDiagnose = 0;
+	}
+	/**
+	 * 所有的传感器均为4通道的情景，只针对老仪器
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年2月2日下午6:04:29
+	 */
+	private void set4ChannelPattern() {
+		Parameters.TongDaoDiagnose = 0;
+	}
+	/**
+	 * 所有的传感器均为7通道的情景，只针对老仪器
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年2月2日下午6:06:05
+	 */
+	private void set7ChannelPattern() {
+		Parameters.TongDaoDiagnose = 1;
+	}
 	
 	/**
 	 * @param args

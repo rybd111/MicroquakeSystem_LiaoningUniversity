@@ -188,9 +188,9 @@ public class Parameters
 	/**
 	 * plus times
 	 */
-	public static double plusSingle_coefficient = 0.00001562;
-	public static double plusDouble_coefficient_45 = 0.00000298;
-	public static double plusDouble_coefficient_12 = 0.00004768;
+	public static final double plusSingle_coefficient = 0.00001562;
+	public static final double plusDouble_coefficient_45 = 0.00000298;
+	public static final double plusDouble_coefficient_12 = 0.00004768;
 	
 	/**
 	 * control to run procedure in a offline way.
