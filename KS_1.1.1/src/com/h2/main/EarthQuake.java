@@ -73,7 +73,7 @@ public class EarthQuake {
 				judgeMotiData.addElement(sensorData[i][0].get(k));
 			
 			judgeMotiData.addAll(sensorData[i][1]);
-			
+			//将数据不论是否激发都进行存储。
 //			for(int k=0;k<(Parameters.FREQUENCY+200)*3;k++) {
 //				judgeMotiData.addElement(sensorData[i][2].get(k));
 //			}
@@ -119,21 +119,15 @@ public class EarthQuake {
 							identity = MainThread.fileParentPackage[i].replace("Test", "");
 						}
 						if(identity.equals(Parameters.diskName[Parameters.diskNameNum][j])) {
-							if(Parameters.initPanfu[j]==0) {
 								l[i]=i+1;//record the number of motivated sensors.
 								l1[countNumber]=i;
 								countNumber++;
 								sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
 								System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
-								Parameters.initPanfu[j]=1;
-							}
 						}
 					}
 				}
 			}
-			//Reset the global variable.
-			for(int i=0;i<Parameters.initPanfu.length;i++)
-				Parameters.initPanfu[i]=0;
 			
 			Sensor[] S = new Sensor[sensors.length];
 			statusOfCompute status = new statusOfCompute();

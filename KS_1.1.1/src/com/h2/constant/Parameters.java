@@ -180,18 +180,6 @@ public class Parameters
 	public static String AbsolutePath_CSV5 = prePath + "5moti/";
 	public static String AbsolutePath_allMotiTime_record = prePath + "TimeRecords.csv";
 	/**
-	 * 测试重复变量，当出现重复盘符时，该变量起作用。
-	 * @description
-	 * 该变量与盘符数量相同（不同的盘符），如x、x、x、y、y，则此时盘符数量为2
-	 * @description
-	 * 我们预留了9个传感器的位置，但initPanfu长度一定要大于diskName数组的长度，否则可能会出错
-	 * @description
-	 * 每个元素为0时，表示当前传感器对应的盘符没有存储过文件，存储过后，将对应的位置元素置1
-	 * @description
-	 * 这样再出现该盘符时，不会再次存储一次，造成磁盘空间的浪费和数据的冗余，导致后期处理数据的麻烦
-	 */
-	public static final int [] initPanfu = {0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0};
-	/**
 	 * true indicate we will minus a fixed value on the magnitude.
 	 * false indicate we will not minus a fixed value on the magnitude.
 	 */
