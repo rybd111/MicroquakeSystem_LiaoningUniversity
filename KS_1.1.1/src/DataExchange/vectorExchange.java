@@ -6,13 +6,13 @@ import java.util.Vector;
  * The vector exchange class using in procedure.
  * @author Yilong Zhang, Hanlin Zhang.
  */
-public class DataRec {
+public class vectorExchange {
 	
 	public Vector<String> beforeVector;
 	public Vector<String> nowVector;
 	public Vector<String> afterVector;
 	
-	public DataRec(Vector<String> beforeVector, Vector<String> nowVector,
+	public vectorExchange(Vector<String> beforeVector, Vector<String> nowVector,
 			Vector<String> afterVector) {
 		super();
 		this.beforeVector = beforeVector;

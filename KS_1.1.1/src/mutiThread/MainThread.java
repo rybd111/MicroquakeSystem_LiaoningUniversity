@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 import com.h2.constant.Parameters;
 import com.h2.main.EarthQuake;
 
-import DataExchange.DataRec;
+import DataExchange.vectorExchange;
 import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 import utils.DateArrayToIntArray;
 import controller.ADMINISTRATOR;
@@ -32,7 +32,7 @@ public class MainThread extends Thread{
     /**this variable obtain the parent fold name.*/
     public static String fileParentPackage[] = new String[Parameters.SensorNum];
     /**this variable exchange data to the foreground.*/
-    public static DataRec[] aDataRec = new DataRec[Parameters.SensorNum];
+    public static vectorExchange[] aDataRec = new vectorExchange[Parameters.SensorNum];
     /**a counter count per 10 sec. for storing one minute data.*/
     public static int countRestart = 0;
     /**reduiqi status*/
@@ -72,11 +72,11 @@ public class MainThread extends Thread{
             Vector<String>[] nowVector=new Vector[Parameters.SensorNum];
             Vector<String>[] afterVector=new Vector[Parameters.SensorNum];
             ReconnectToRemoteDisk ReConnect = new ReconnectToRemoteDisk(3,fileStr);//重新分配盘符
-            DataRec[] dataRecArray=new DataRec[Parameters.SensorNum];
+            vectorExchange[] dataRecArray=new vectorExchange[Parameters.SensorNum];
             Random r = new Random();
 
             for(int i=0;i<Parameters.SensorNum;i++) {
-                dataRecArray[i] = new DataRec(beforeVector[i],nowVector[i],afterVector[i]);
+                dataRecArray[i] = new vectorExchange(beforeVector[i],nowVector[i],afterVector[i]);
                 aDataRec[i] = dataRecArray[i];
             }
 
@@ -254,10 +254,10 @@ public class MainThread extends Thread{
             //牛家村(Test1)、洗煤厂(Test2)、香山矿(Test3)、王家村(Test4)、十一矿工业广场老办公楼西南角花坛(Test5)、西风井(Test6)、
             fileParentPackage= SubStrUtil.getFileParentPackage(fileStr);//文件所在的目录名
             
-            DataRec[] dataRecArray = new DataRec[Parameters.SensorNum];
+            vectorExchange[] dataRecArray = new vectorExchange[Parameters.SensorNum];
 
             for (int i = 0; i < Parameters.SensorNum; i++) {
-                dataRecArray[i] = new DataRec(null, null, null);//不然会出现空指针
+                dataRecArray[i] = new vectorExchange(null, null, null);//不然会出现空指针
                 aDataRec[i] = dataRecArray[i];
             }
 
@@ -401,14 +401,14 @@ class readTask implements Runnable{
     private CountDownLatch downLatch;
     private int sensorID;
     private String sensorName;
-    private DataRec dataRec;
+    private vectorExchange dataRec;
     private ReadData readData;
     private Vector<String> aVector;
     private Vector<String> temVector;
     private int num;
     private ADMINISTRATOR manager;
 
-    public readTask(CountDownLatch downLatch, int sensorName, DataRec dataRec, ReadData readData,String fileStr,ADMINISTRATOR manager) {
+    public readTask(CountDownLatch downLatch, int sensorName, vectorExchange dataRec, ReadData readData,String fileStr,ADMINISTRATOR manager) {
         super();
         this.downLatch = downLatch;
         this.sensorID = sensorName;

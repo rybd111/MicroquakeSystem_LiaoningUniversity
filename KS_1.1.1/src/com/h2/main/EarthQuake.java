@@ -7,7 +7,7 @@ import mutiThread.MainThread;
 
 import com.db.DbExcute;
 import com.h2.backupData.WriteRecords;
-import com.h2.backupData.writeToDisk;
+import com.h2.backupData.writeToDiskasCSV;
 import com.h2.constant.Parameters;
 import com.h2.locate.Five_Locate;
 import com.h2.locate.MajorEvent_locate;
@@ -144,7 +144,7 @@ public class EarthQuake {
 			 * THIS FUNTION IS TO WIRTE THE MOTIVATION DATA ON THE DISK.
 			 */
 			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && EarthQuake.realMoti==true) {
-				writeToDisk.saveAllMotivationSensors(countNumber, S, status.getPanfu());
+				writeToDiskasCSV.saveAllMotivationSensors(countNumber, S, status.getPanfu());
 			}
 			
 			if(countNumber >= 3 && EarthQuake.realMoti==true) {

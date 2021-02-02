@@ -11,7 +11,7 @@ import com.h2.constant.Parameters;
 import DataExchange.Sensor;
 import utils.one_dim_array_max_min;
 
-public class writeToDisk {
+public class writeToDiskasCSV {
 	/**
 	 * record the DB records.
 	 * @param DatabaseRecord
@@ -222,7 +222,7 @@ public class writeToDisk {
 //	public static void saveAllMotivationSensors(int countNumber, Sensor [] s1, Sensor[] s2, String panfu) throws ParseException, IOException {
 	public static void saveAllMotivationSensors(int countNumber, Sensor [] s1, String panfu) throws ParseException, IOException {
 			//the name of csv file is named by the first data's date in seconds.
-			writeToDisk.writeToCSV(s1, countNumber, s1[0].getAbsoluteTime(), panfu+" ");
+			writeToDiskasCSV.writeToCSV(s1, countNumber, s1[0].getAbsoluteTime(), panfu+" ");
 	}
 	
 }
