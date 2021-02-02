@@ -15,7 +15,7 @@ public class outArray {
 	 */
 	public static void outArray_String(String[] A) {
 		for(int i=0;i<A.length;i++) {
-			System.out.println(A[i]);
+			System.out.print(A[i]+" ");
 		}
 	}
 	/**

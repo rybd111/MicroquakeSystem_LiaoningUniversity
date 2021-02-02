@@ -11,10 +11,10 @@ public class String2Date {
 	 */	
 	public static Date str2Date(String dateStr) throws ParseException{
 		
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss") ;
-	
-	Date date = simpleDateFormat.parse(dateStr) ;
-	
-	return date;	
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss") ;
+		
+		Date date = simpleDateFormat.parse(dateStr) ;
+		
+		return date;
 	}
 }

@@ -191,6 +191,8 @@ public class Parameters
 	public static final double plusSingle_coefficient = 0.00001562;
 	public static final double plusDouble_coefficient_45 = 0.00000298;
 	public static final double plusDouble_coefficient_12 = 0.00004768;
+	/** 封装后缀*/
+	public final static String suffix[] = {"HFMED", "bin"};
 	
 	/**
 	 * control to run procedure in a offline way.

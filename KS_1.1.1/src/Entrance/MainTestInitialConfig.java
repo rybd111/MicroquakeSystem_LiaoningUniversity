@@ -23,15 +23,8 @@ import utils.outArray;
  */
 public class MainTestInitialConfig {
 	
-	/** 指示当前是否正确配置了路径*/
-	@SuppressWarnings("unused")
-	private boolean offline_isEnoughNumber = true;
-	@SuppressWarnings("unused")
-	private boolean offline_isExistDatafile = true;
 	
-	/** 封装后缀*/
-	private String suffix[] = {"HFMED", "bin"};
-	private String dataForm = suffix[0];
+	private String[] dataForm = Parameters.suffix;
 	
 	/** 封装地点名词，该词必须在以下变量中出现*/
 	private String lo_pingdingshan[] = {"平顶山","平顶山十一矿","十一矿"};
@@ -47,10 +40,11 @@ public class MainTestInitialConfig {
 	 * 通过读取对应路径下的文件夹文字来获取盘符名称以及完整路径。
 	 * 根据路径中的矿区名自动配置矿区变量。
 	 * 离线在线均可。
+	 * @param prePath can be "pull" or the absolute path of offline
 	 * @throws IOException 
 	 */
 	@SuppressWarnings("unused")
-	public MainTestInitialConfig (String prePath) throws IOException {
+	public MainTestInitialConfig(String prePath) throws IOException {
 		Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station ,Parameters.region);
 		if(prePath==null) {
 			return;
@@ -67,7 +61,6 @@ public class MainTestInitialConfig {
 			
 			/** 我们认为小于2个盘符的路径并不符合，数量不够*/
 			if(MainThread.fileStr.length<=2) {
-				this.offline_isEnoughNumber = false;
 				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
 				System.in.read();
 			}
@@ -81,13 +74,12 @@ public class MainTestInitialConfig {
 			/** 输出所有离线运行参数，供用户确认*/
 			printAllParameters();
 		}
-		else {
+		else if(prePath.equals("pull")) {
 			/** 返回存有HFMED的盘符，但此时不能确定是挂载盘符，因此需要进一步验证*/
 			MainThread.fileStr = scanAlldisk();
 			
 			/** 我们认为小于2个盘符的路径并不符合，数量不够*/
 			if(MainThread.fileStr.length<=2) {
-				this.offline_isEnoughNumber = false;
 				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
 				System.in.read();
 			}
@@ -98,6 +90,7 @@ public class MainTestInitialConfig {
 			/** 输出所有离线运行参数，供用户确认*/
 			printAllParameters();
 		}
+		
 	}
 	
 	/**
@@ -119,7 +112,7 @@ public class MainTestInitialConfig {
 			int pathLen = fs[i].getPath().length();
 			String identity = fs[i].getPath().substring(pathLen-5, pathLen-1);
 			if(fs[i].isDirectory() && identity.compareTo("Test")==0) {
-				if(checkHFMEDData(fs[i])) {
+				if(checkHFMEDData(fs[i]) || checkBINData(fs[i])) {
 					panfu = Arrays.copyOf(panfu, panfu.length+1);
 					panfu[panfu.length-1] = fs[i].getAbsolutePath();
 					//将正斜杠换成反斜杠
@@ -127,7 +120,6 @@ public class MainTestInitialConfig {
 				}
 				/** 当前目录下没有数据*/
 				else {
-					this.offline_isExistDatafile = false;
 					System.out.println("存在- " + "传感器数量不足" + " -问题               是否继续？按任意键继续——————————" + 
 							fs[i].getPath()+"下，没有HFMED数据文件");
 					System.in.read();
@@ -159,11 +151,24 @@ public class MainTestInitialConfig {
 		for(int i=0;i<hfmed.length;i++) {
 			//检测到有hfmed，则可以执行
 			String suff = hfmed[i].split("\\.")[1];
-			if(suff.equals(dataForm)) {
+			if(suff.equals(this.dataForm[0])) {
 				flag = true;
 			}
 		}
+		return flag;
+	}
+	
+	private boolean checkBINData(File fs) {
+		boolean flag = false;
+		String[] bin = fs.list();
 		
+		for(int i=0;i<bin.length;i++) {
+			//检测到有hfmed，则可以执行
+			String suff = bin[i].split("\\.")[1];
+			if(suff.equals(this.dataForm[1])) {
+				flag = true;
+			}
+		}
 		return flag;
 	}
 	
@@ -272,7 +277,7 @@ public class MainTestInitialConfig {
 			for(int j=0;j<s.length;j++) {
 				String[] reso = s[j].split("\\.");
 				if(reso.length>1) {
-					if(reso[1].equals(this.suffix[0]) || reso[1].equals(this.suffix[1])) {
+					if(reso[1].equals(this.dataForm[0]) || reso[1].equals(this.dataForm[1])) {
 						return roots[i].getName();
 					}
 				}

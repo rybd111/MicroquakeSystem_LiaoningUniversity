@@ -1,6 +1,9 @@
 package utils;
 
-
+/**
+ * 平顶山坐标转换函数
+ * @author Haiyou Yu
+ */
 public class ConvertCoordinates {
 
 	private  double x = 0.0;
