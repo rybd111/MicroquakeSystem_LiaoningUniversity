@@ -105,11 +105,11 @@ public class Main extends Application {
 		// 标记已启动UI界面
 		Tools_DataCommunication.getCommunication().isClient = true;
 		
-		/** 情景配置，共有8中模式，每一种对应一个整形数值，在MainTest类中定义。*/
-		new RunningSceneConfig(MainTest.LOCAL_OFFLINE_STORAGE);
-		
 		/** 载入配置文件*/
 		new ConfigToParameters();
+		
+		/** 情景配置，共有8中模式，每一种对应一个整形数值，在MainTest类中定义。*/
+		new RunningSceneConfig(MainTest.LOCAL_OFFLINE_STORAGE);
 		
 		/** 输出参数*/
 		MainTestInitialConfig m = new MainTestInitialConfig(null);
