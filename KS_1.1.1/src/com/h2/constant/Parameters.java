@@ -45,7 +45,7 @@ public class Parameters
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置
 	 */
-	public static int SensorNum = 6;
+	public static int SensorNum = 10;
 	/**
 	 * when we will store data to database, we need to set this variable to 1.
 	 */

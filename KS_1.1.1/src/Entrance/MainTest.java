@@ -29,7 +29,7 @@ public class MainTest {
 		/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取
 		 * 具体参看MainTestInitialConfig类说明
 		 * */
-		String prePath = "I:/矿山/矿山数据/红阳三矿/20200726/";
+		String prePath = "I:/矿山/矿山数据/红阳三矿/20200711/";
 		new MainTestInitialConfig(prePath);
 		
 		/** 启动线程*/

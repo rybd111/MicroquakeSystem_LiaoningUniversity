@@ -116,8 +116,9 @@ public class MainThread extends Thread{
                         discSymbol=ReConnect.orderNum-1;//When the all situations has been considered, the procedure will start from the beginning.
                     
                     if(isFirst==false) {
-                        if(fileStr.length>=3)
-                            fileStr = ReConnect.rearrange(discSymbol);
+                        if(fileStr.length>=3) {
+                        	fileStr = ReConnect.rearrange(discSymbol);
+                        }
                         for(int i=0;i<Parameters.SensorNum;i++) {
                             System.out.print(fileStr[i]);
                         }
@@ -159,7 +160,7 @@ public class MainThread extends Thread{
                     }
                     
                     //we find out the newest file in these sensors and find out the time distance array called 'DuiQi.duiqi'.
-                    DateArrayToIntArray aDateArrayToIntArray =new DateArrayToIntArray();
+                    DateArrayToIntArray aDateArrayToIntArray = new DateArrayToIntArray();
                     try {
                         DuiQi.duiqi = aDateArrayToIntArray.IntArray(dateString);
                     } catch (ParseException e) {e.printStackTrace();}
