@@ -101,8 +101,8 @@ public class MajorEvent_locate {
 		
 		//矩张量计算
 		Tensor tensors=new Tensor();
-		Object b=tensors.moment_tensor(allsensors, sensors1, location_refine);
-		double tensor_c=Double.parseDouble(b.toString());
+		double tensor_c = tensors.moment_tensor(allsensors, sensors1, location_refine);
+		
 		
 		//求b值
 		Object [] earthQuakeFinal1=new Object[1];

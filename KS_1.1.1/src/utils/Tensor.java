@@ -12,7 +12,7 @@ import tensor_pro.Tensor_Pro_Class;
 
 
 public class Tensor {
-	public static  Object moment_tensor(Sensor[] sensors,Sensor[] sensor1,Sensor location_refine) throws MWException{
+	public static  double moment_tensor(Sensor[] sensors,Sensor[] sensor1,Sensor location_refine) throws MWException{
 		double density=2650;//岩石密度
 	    double velocity=Parameters.C;//波速
 		int count=Parameters.SensorNum;
@@ -79,7 +79,12 @@ public class Tensor {
 		tlineb[3]=z;
 			Tensor_Pro_Class c1=new Tensor_Pro_Class();
 		Object[] pso=c1.tensor_pro(1,a,tongdao,tlineb,density,velocity);
-		return  pso[0];
+		
+		double interesult = Double.parseDouble(pso[0].toString());
+		
+		double result = Double.compare(Double.NaN, interesult) == 0 ? -1: interesult;
+		
+		return  result;
 		
 	}
 }
