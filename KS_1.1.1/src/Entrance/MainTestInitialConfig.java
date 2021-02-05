@@ -45,7 +45,7 @@ public class MainTestInitialConfig {
 	 */
 	@SuppressWarnings("unused")
 	public MainTestInitialConfig(String prePath) throws IOException {
-		Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station ,Parameters.region);
+		
 		if(prePath==null) {
 			return;
 		}
@@ -86,6 +86,9 @@ public class MainTestInitialConfig {
 			
 			/** 根据路径个数配置传感器数量*/
 			Parameters.SensorNum = MainThread.fileStr.length;
+			
+			/** 按照区域配置diskNameNum*/
+			Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station ,Parameters.region);
 			
 			/** 输出所有离线运行参数，供用户确认*/
 			printAllParameters();
@@ -184,7 +187,7 @@ public class MainTestInitialConfig {
 		for(int z=0;z<part.length;z++) {
 		for(int i=0;i<lo.length;i++) {
 			for(int j=0;j<lo[i].length;j++) {
-				if(this.prePath.split(this.lo[i][j]).equals(part[z])) {
+				if(this.lo[i][j].equals(part[z])) {
 					switch (i) {
 					case 0:
 						Parameters.region = "pingdingshan";
