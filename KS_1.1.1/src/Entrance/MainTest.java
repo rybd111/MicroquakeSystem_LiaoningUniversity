@@ -22,7 +22,6 @@ public class MainTest {
 
 	public static void main(String[] agrs) throws IOException {//定时器
 		
-		
 		/** 情景配置，共有8种模式，每一种对应一个整形数值，在MainTest类中定义。*/
 		new RunningSceneConfig(MainTest.LOCAL_OFFLINE_STORAGE);
 		
