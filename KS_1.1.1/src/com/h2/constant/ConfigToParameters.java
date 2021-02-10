@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 
 import org.jfree.data.time.TimeSeries;
 
+import Entrance.MainTest;
 import mutiThread.MainThread;
 
 /**
@@ -249,6 +250,9 @@ public class ConfigToParameters {
 		            }
 		            if(item[0].equals("region_offline")) {
 		            	Parameters.region = item[1];
+		            }
+		            if(item[0].equals("runningModel")) {
+		            	MainTest.runningModel = Integer.valueOf(item[1]);
 		            }
 	            }
             }
