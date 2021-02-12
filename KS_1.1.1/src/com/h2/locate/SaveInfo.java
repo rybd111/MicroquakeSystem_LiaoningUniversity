@@ -185,7 +185,7 @@ public class SaveInfo {
 	public double bValue(float earthQuakeFinal) throws MWException {
 		Object [] earthQuakeFinal1=new Object[1];
 		earthQuakeFinal1[0]=earthQuakeFinal;	//事件的震级
-		double zjmax=3.5;//最大震级
+		double zjmax=4.5;//最大震级
 		double zjmin=0.1;//最小震级
 		BClass bclass=new BClass();
 		Object[] bb=bclass.b_pro(1,earthQuakeFinal1,zjmax,zjmin);
