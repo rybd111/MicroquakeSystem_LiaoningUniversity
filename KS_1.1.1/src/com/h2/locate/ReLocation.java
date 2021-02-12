@@ -142,6 +142,16 @@ public class ReLocation {
 		return null;
 	}
 	
+	/**
+	 * 手动重定位使用。
+	 * @param count
+	 * @param filePath
+	 * @param daoshi
+	 * @return
+	 * @throws IOException
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年2月12日下午7:34:54
+	 */
 	public static double[][] initialCoor(int count, String[] filePath, double[] daoshi) throws IOException {
 		double coor[][] = new double[count][4];
 		//---------------------------------------------------------------------

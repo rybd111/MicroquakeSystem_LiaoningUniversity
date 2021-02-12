@@ -34,15 +34,10 @@ public class FiveLocation
 
 		B = Solve.pinv(A).mmul(C);//表示要进行矩阵乘法运算的两个数组
 		// 通过B给sensor赋值
-		sensor.setSecTime(B.get(0));
-		
-		//System.out.println("getLocation函数："+B.get(0));
-		//---------------------------------------------------------
-		//System.out.println("getLocation函数："+sensor.getTime());
-		//System.out.println("getLocation函数B："+B);
+		sensor.setSecTime(B.get(0));//t
 		sensor.setLatitude(B.get(1));//x
 		sensor.setLongtitude(B.get(2));//y
-		sensor.setAltitude(B.get(3));
+		sensor.setAltitude(B.get(3));//z
 		
 		return sensor;
 	}

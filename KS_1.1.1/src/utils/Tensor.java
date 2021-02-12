@@ -3,7 +3,6 @@ package utils;
 import java.util.Vector;
 
 import com.h2.constant.Parameters;
-import com.h2.locate.Five_Locate;
 import com.mathworks.toolbox.javabuilder.MWException;
 
 import DataExchange.QuackResults;
@@ -12,7 +11,7 @@ import tensor_pro.Tensor_Pro_Class;
 
 
 public class Tensor {
-	public static  double moment_tensor(Sensor[] sensors,Sensor[] sensor1,Sensor location_refine) throws MWException{
+	public static double moment_tensor(Sensor[] sensors,Sensor[] sensor1,Sensor location_refine) throws MWException{
 		double density=2650;//岩石密度
 	    double velocity=Parameters.C;//波速
 		int count=Parameters.SensorNum;

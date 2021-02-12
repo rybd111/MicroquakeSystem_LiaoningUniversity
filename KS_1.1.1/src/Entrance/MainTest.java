@@ -21,7 +21,7 @@ public class MainTest {
 	public static final int REMOTE_ONLINE_STORAGE = 7;
 	public static final int REMOTE_ONLINE_UNSTORAGE = 8;
 
-	public static int runningModel = LOCAL_OFFLINE_STORAGE;
+	public static int runningModel = LOCAL_OFFLINE_UNSTORAGE;
 	
 	public static void main(String[] agrs) throws IOException {//定时器
 		

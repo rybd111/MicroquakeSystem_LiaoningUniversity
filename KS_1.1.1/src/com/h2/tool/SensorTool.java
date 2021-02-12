@@ -95,7 +95,7 @@ public class SensorTool
 		boolean flag=false;
 //		System.out.println(data.size());
 		//the hop number is 100, i starts from the first data of the first sliding window to the first data of the last sliding window.
-		for(int i=Parameters.refineRange*2;i<data.size()-Parameters.N-Parameters.refineRange;i+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
+		for(int i=Parameters.refineRange*1;i<data.size()-Parameters.N-Parameters.refineRange;i+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
 		{
 			if(!sensor.isSign())
 			{

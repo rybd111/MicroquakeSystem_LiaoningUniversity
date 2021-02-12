@@ -4,20 +4,14 @@ package com.h2.main;
 import java.util.Vector;
 
 import mutiThread.MainThread;
+import utils.diagDataNum;
 
-import com.db.DbExcute;
 import com.h2.backupData.WriteRecords;
 import com.h2.backupData.writeToDiskasCSV;
 import com.h2.constant.Parameters;
-import com.h2.locate.Five_Locate;
-import com.h2.locate.MajorEvent_locate;
-import com.h2.locate.PSO_Locate;
-import com.h2.locate.Three_Locate;
-import com.h2.strength.calStrength;
+import com.h2.locate.locate;
 import com.h2.tool.SensorTool;
 import com.h2.tool.relativeStatus;
-
-import DataExchange.QuackResults;
 import DataExchange.Sensor;
 
 /**
@@ -31,11 +25,6 @@ public class EarthQuake {
 	 * @param ssen all sensors' data in three vectors.
 	 * @return the " " or the consequence of computation, " " indicates there are no sensors are inspired or the number of data is not enough.
 	 */
-	/**Used to execute the sql of database.*/
-	static DbExcute aDbExcute = new DbExcute();
-
-	/**store the computation consequence of every location methods.*/
-	static QuackResults aQuackResults=new QuackResults();
 	
 	/**indicate the motivation is not a real valid motivation, if this is a real motivation it will become true, or it will be set to false.*/
 	public static boolean realMoti = true;
@@ -49,30 +38,25 @@ public class EarthQuake {
 	 */
 	public static void runmain(Vector<String> ssen[][])	throws Exception {
 		
-		//the number of data must enough to calculate which satisfied to 10s, or it will appear mistake consequence for the current data.
-		for (Vector<String>[] vectors : ssen) {
-			for (Vector<String> vector : vectors) {
-				if (vector.size() < Parameters.FREQUENCY * Parameters.readLen)	
-					return;//this function promise enough volume of data.
-			}
+		//判断数据量是否足够？
+		Boolean flag = diagDataNum.diagnose(ssen);	
+		
+		if(flag == false) {
+			return;
 		}
 		
 		//We must initialize the Sensor object, when the procedure first use.
 		Sensor[] sensors = SensorTool.initSensorInfo(Parameters.SensorNum,MainThread.fileStr);
-		
-		// sensorData[2][1] indicate the third sensor's second vector.
-		Vector<String> sensorData[][] = ssen;
-		calStrength[] sensorThread3 = new calStrength[Parameters.SensorNum];
 		
 		Vector<String> judgeMotiData = new Vector<String>();
 		
 		//Set every sensor's motivation flag to indicate the sensor is inspired or not.
 		for (int i = 0; i < Parameters.SensorNum; i++) {
 			//add extra data used to judge sensor's motivation status.
-			for(int k=sensorData[i][0].size()-(Parameters.refineRange*2);k<sensorData[i][0].size();k++)
-				judgeMotiData.addElement(sensorData[i][0].get(k));
+			for(int k=ssen[i][0].size()-(Parameters.refineRange);k<ssen[i][0].size();k++)
+				judgeMotiData.addElement(ssen[i][0].get(k));
 			
-			judgeMotiData.addAll(sensorData[i][1]);
+			judgeMotiData.addAll(ssen[i][1]);
 			//将数据不论是否激发都进行存储。
 //			for(int k=0;k<(Parameters.FREQUENCY+200)*3;k++) {
 //				judgeMotiData.addElement(sensorData[i][2].get(k));
@@ -122,7 +106,7 @@ public class EarthQuake {
 								l[i]=i+1;//record the number of motivated sensors.
 								l1[countNumber]=i;
 								countNumber++;
-								sensors[i].setlineSeries(sensors[i].getlineSeries()+sensorData[i][0].size());
+								sensors[i].setlineSeries(sensors[i].getlineSeries()+ssen[i][0].size());
 								System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
 						}
 					}
@@ -152,31 +136,27 @@ public class EarthQuake {
 				WriteRecords.WriteSeveralMotiTime(status.getSensors1(), Parameters.AbsolutePath_allMotiTime_record);
 			}
 			
+			locate loc = new locate();
+			
 			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.
 			if(countNumber >= 5 && EarthQuake.realMoti==true) {
-				Five_Locate.five(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
+				loc.temporal_spatio_strength("five", sensors, status.getSensors1(), countNumber);
 			}
 			
-			//if the number of motivated sensors is greater than 3, we will calculate three location.
+			//if the number of motivated sensors is greater than 3, we will calculate three location and PSO location.
 			if(countNumber>=3 && EarthQuake.realMoti==true){
-				Three_Locate.three(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
-				PSO_Locate.pso(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute, countNumber);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
+				loc.temporal_spatio_strength("three", sensors, status.getSensors1(), countNumber);
+				loc.temporal_spatio_strength("PSO", sensors, status.getSensors1(), countNumber);
 			}
 			
 			//if the number of motivated sensors is greater than 4, we will calculate four location-main event location.
 			if(countNumber>=4 && EarthQuake.realMoti==true) {
-				//outString = MajorEvent_locate.major(sensors1, aQuackResults, sensorThread3, aDbExcute);
-				MajorEvent_locate.major(sensors, status.getSensors1(), aQuackResults, sensorThread3, aDbExcute);aQuackResults=new QuackResults(); aDbExcute = new DbExcute();
+				loc.temporal_spatio_strength("major", sensors, status.getSensors1(), countNumber);
 			}
-			
-			//calculate quake grade.
-			
 			//we can hide this print when the console are so much content or display this print when we want to adjust the procedure.
-//			if(countNumber>=3) {
-//				output the reasons why the calculation process is not executing.
-				System.out.println("激发个数："+countNumber+" 台站间的激发间隔时间是否小于"+Parameters.IntervalToOtherSensors+"?"+
-						EarthQuake.realMoti+" "+	sensorData[0][0].get(0).split(" ")[6]);
-//			}
+            //output the reasons why the calculation process is not executing.
+				System.out.println("激发数："+countNumber+" 台站间的激发间隔时间是否小于"+Parameters.IntervalToOtherSensors+"? "+
+						EarthQuake.realMoti+" time："+ssen[0][0].get(0).split(" ")[6]);
 		}
 		
 		//reset the global variable.
