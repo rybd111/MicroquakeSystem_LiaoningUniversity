@@ -64,13 +64,13 @@ public class locate {
 				location_refine = QuakeClass.PSO(coor);
 				//the locate process probably return a NAN value or a INF value, so when this situation appears, the procedure will skip the current circulation.
 				if(Double.isNaN(location_refine.getLatitude())==false && Double.isInfinite(location_refine.getLatitude()) == false){
+					saveAndcal.setlocation_refine(location_refine);
 					saveAndcal.generalProcess(kind);
 				}
 				break;
 			case "five":
 				//calculate the coordinations of the quake source, location variable only store the quake time, not store the motivation time, and store the coordinations of the quake happening.
 				location_refine = FiveLocation.getLocation(sensors1);//calculate the quake time in milliseconds.
-				
 				saveAndcal.setlocation_refine(location_refine);
 				saveAndcal.generalProcess(kind);
 				break;

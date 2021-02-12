@@ -201,7 +201,7 @@ public class Parameters
 	/**
 	 * the time to read when procedure start.
 	 */
-	public static String StartTimeStr = "190711080000";
+	public static String StartTimeStr = "200214130000";
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.
 	 * This variable will effect the coordination of this procedure, please confirm it twice.

@@ -59,33 +59,6 @@ public class Sensor {
 			return nf.format(Latitude) + " "
 			     + nf.format(Longtitude) + " "
 			     + nf.format(Altitude);
-//		else if(Parameters.offline == true) {
-//			if(Parameters.region_offline=="hongyang") {
-//				this.Latitude = Latitude + Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][0];
-//				this.Longtitude = Longtitude + Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][1];
-//				this.Altitude = Altitude+Parameters.SENSORINFO_offline_hongyang[SensorTool.baseCoordinate][2];
-//				return nf.format(Latitude) + " "
-//				     + nf.format(Longtitude) + " "
-//				     + nf.format(Altitude);
-//			}
-//			if(Parameters.region_offline=="datong") {
-//				this.Latitude = Latitude + Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][0];
-//				this.Longtitude = Longtitude + Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][1];
-//				this.Altitude = Altitude+Parameters.SENSORINFO_offline_datong[SensorTool.baseCoordinate][2];
-//				return nf.format(Latitude) + " "
-//				     + nf.format(Longtitude) + " "
-//				     + nf.format(Altitude);
-//			}
-//			if(Parameters.region_offline=="pingdingshan") {
-//				this.Latitude = Latitude + Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][0];
-//				this.Longtitude = Longtitude + Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][1];
-//				this.Altitude = Altitude+Parameters.SENSORINFO_offline_pingdingshan[SensorTool.baseCoordinate][2];
-//				return nf.format(Latitude) + " "
-//				     + nf.format(Longtitude) + " "
-//				     + nf.format(Altitude);
-//			}
-//		}
-//		return "Error";
 	}
 	
 	public String toString_NOadd() {

@@ -54,7 +54,7 @@ public class SaveInfo {
 			double finalEnergy, 
 			double tensor_c, 
 			double b_value) {
-		
+		location_refine.toString();
 		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setGroupingUsed(false);
 		

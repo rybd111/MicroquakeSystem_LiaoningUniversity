@@ -39,11 +39,7 @@ public class EarthQuake {
 	public static void runmain(Vector<String> ssen[][])	throws Exception {
 		
 		//判断数据量是否足够？
-		Boolean flag = diagDataNum.diagnose(ssen);	
-		
-		if(flag == false) {
-			return;
-		}
+		if(diagDataNum.diagnose(ssen)==false) return;	
 		
 		//We must initialize the Sensor object, when the procedure first use.
 		Sensor[] sensors = SensorTool.initSensorInfo(Parameters.SensorNum,MainThread.fileStr);
