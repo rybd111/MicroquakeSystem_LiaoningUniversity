@@ -10,12 +10,12 @@ import com.h2.tool.Doublelocate;
 import com.h2.tool.FiveLocation;
 import com.h2.tool.QuakeClass;
 import com.h2.tool.SensorTool;
-import com.h2.tool.Triplelocate;
 import com.mathworks.toolbox.javabuilder.MWException;
 import com.mysql.fabric.xmlrpc.base.Struct;
 
 import DataExchange.Sensor;
 import cn.hutool.core.lang.Tuple;
+import controller.ADMINISTRATOR;
 import read.yang.unity.SensorProperties;
 import utils.ConvertCoordinates;
 import utils.TimeDifferent;
@@ -172,8 +172,8 @@ public class ReLocation {
 //		System.out.println("按任意键继续。。。");
 //		System.in.read(); // 用这个就行了，获取输入流，会等待键盘按键
 		//---------------------------------------------------------------------
-		
-		Sensor[] s = SensorTool.initSensorInfo(count, filePath);
+		ADMINISTRATOR manager = new ADMINISTRATOR();
+		Sensor[] s = SensorTool.initSensorInfo(count, filePath, manager);
 		
 		for(int i=0;i<count;i++) {
 			coor[i][1] = s[i].getLatitude();

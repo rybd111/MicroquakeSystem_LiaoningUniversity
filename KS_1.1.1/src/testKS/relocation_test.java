@@ -7,8 +7,9 @@ import java.io.IOException;
 import java.text.ParseException;
 
 import com.h2.locate.ReLocation;
-import com.h2.tool.stringJoin;
 import com.mathworks.toolbox.javabuilder.MWException;
+
+import utils.stringJoin;
 
 /**
  * @author Hanlin Zhang

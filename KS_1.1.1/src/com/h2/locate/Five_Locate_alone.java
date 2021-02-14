@@ -7,9 +7,9 @@ import com.h2.tool.CrestorTrough;
 import com.h2.tool.Doublelocate;
 import com.h2.tool.FiveLocation;
 import com.h2.tool.SensorTool;
-import com.h2.tool.Triplelocate;
 
 import DataExchange.Sensor;
+import controller.ADMINISTRATOR;
 
 public class Five_Locate_alone {
 
@@ -29,8 +29,9 @@ public class Five_Locate_alone {
 		str[2] = "Test2/";
 		str[3] = "Test6/";
 		str[4] = "Test7/";
+		ADMINISTRATOR manager = new ADMINISTRATOR();
 		
-		Sensor[] sensor = SensorTool.initSensorInfo(5,str);
+		Sensor[] sensor = SensorTool.initSensorInfo(5,str,manager);
 		
 		sensor[0].setSecTime(0);
 		sensor[1].setSecTime(0.0232);

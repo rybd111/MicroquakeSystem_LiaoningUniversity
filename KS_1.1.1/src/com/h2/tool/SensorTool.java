@@ -14,6 +14,7 @@ import java.util.Vector;
 import com.h2.constant.Parameters;
 
 import DataExchange.Sensor;
+import controller.ADMINISTRATOR;
 import mutiThread.MainThread;
 import utils.ArrayMatch;
 
@@ -23,7 +24,7 @@ import utils.ArrayMatch;
  */
 public class SensorTool
 {
-	public static int baseCoordinate = 0;
+//	public static int baseCoordinate = 0;
 	/**
 	 * 根据路径返回传感器坐标
 	 * @param count 传感器个数
@@ -34,14 +35,14 @@ public class SensorTool
 	 * @author Baishuo Han, Hanlin Zhang.
 	 */
 	@SuppressWarnings("unused")
-	public static Sensor[] initSensorInfo(int count,String [] Str)
+	public static Sensor[] initSensorInfo(int count,String [] Str, ADMINISTRATOR manager)
 	{
 		Sensor[] sensors = new Sensor[count];
 		//a sequence of correspond places.
 		int [] k = new int [Parameters.SensorNum];
 		//匹配盘符的序号。
 		int th = ArrayMatch.match_String(Parameters.station ,Parameters.region);
-		k = baseSort(Str, k, th);
+		k = baseSort(Str, k, th,manager);
 		
 		for (int i = 0; i < count; i++)
 		{
@@ -58,7 +59,11 @@ public class SensorTool
 		return sensors;
 	}
 	
-	public static int[] baseSort(String[] Str, int [] k, int region) {
+	public static int[] baseSort(
+			String[] Str, 
+			int [] k, 
+			int region,
+			ADMINISTRATOR manager) {
 		for(int j=0;j<Str.length;j++){
 			for(int i=0;i<Parameters.diskName[region].length;i++) {
 				String s = null;
@@ -74,7 +79,8 @@ public class SensorTool
 				}
 			}
 		}
-		baseCoordinate = k[0];
+		manager.setBaseCoordinate(k[0]);
+//		baseCoordinate = k[0];
 		Parameters.diskNameNum = region;
 		return k;
 	}

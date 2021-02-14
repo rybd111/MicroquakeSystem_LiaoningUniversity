@@ -9,8 +9,8 @@ import DataExchange.Sensor;
  * @author Mingxin Sun.
  */
 public class CrestorTrough {
-	public static final int VP=Parameters.C;//p波速
-	public static final double VS=Parameters.S;//s波速
+	public final int VP=Parameters.C;//p波速
+	public final double VS=Parameters.S;//s波速
 	private double Ae;//波峰或者波谷点三分量
 	private double An;
 	private double Az;

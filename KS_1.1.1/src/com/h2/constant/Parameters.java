@@ -61,7 +61,7 @@ public class Parameters
 	/**
 	 * 当盘符信号不是很强时，需要进行延迟处理，以使程序能够延迟启动，避免出现频繁请求，浪费流量
 	 */
-	public static int isDelay = 0;
+	public static int isDelay = 1;
 	/**
 	 * 5台站、3台站存入的数据库表名
 	 */
@@ -79,7 +79,7 @@ public class Parameters
 	 * true为调试状态，激发次数增大，且没有激发限时，便于测试数据库与相关功能的正确性和bug
 	 * false为正常运行状态，所有参数均按照当地实际参数设置
 	 */
-	public static boolean Adjust=false;
+	public static boolean Adjust=true;
 	
 //-------------------------do not need to modified when distribute in different locations-------------------------------------------------------------------------
 	/**长时窗的时长，单位是毫秒*/

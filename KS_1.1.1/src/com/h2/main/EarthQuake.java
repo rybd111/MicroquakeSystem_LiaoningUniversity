@@ -13,6 +13,7 @@ import com.h2.locate.locate;
 import com.h2.tool.SensorTool;
 import com.h2.tool.relativeStatus;
 import DataExchange.Sensor;
+import controller.ADMINISTRATOR;
 
 /**
  * @revision 2019-12-3
@@ -26,8 +27,8 @@ public class EarthQuake {
 	 * @return the " " or the consequence of computation, " " indicates there are no sensors are inspired or the number of data is not enough.
 	 */
 	
-	/**indicate the motivation is not a real valid motivation, if this is a real motivation it will become true, or it will be set to false.*/
-	public static boolean realMoti = true;
+//	/**indicate the motivation is not a real valid motivation, if this is a real motivation it will become true, or it will be set to false.*/
+//	public static boolean realMoti = true;
 	
 	/**
 	 * calculate the space-time strength, and save the motivation information of all motivation sensors, save the information of motivation of three or five motivated sensors.
@@ -36,13 +37,13 @@ public class EarthQuake {
 	 * @throws Exception
 	 * @author Baishuo Han, Hanlin Zhang.
 	 */
-	public static void runmain(Vector<String> ssen[][])	throws Exception {
+	public static void runmain(Vector<String> ssen[][], ADMINISTRATOR manager)	throws Exception {
 		
 		//判断数据量是否足够？
 		if(diagDataNum.diagnose(ssen)==false) return;	
 		
 		//We must initialize the Sensor object, when the procedure first use.
-		Sensor[] sensors = SensorTool.initSensorInfo(Parameters.SensorNum,MainThread.fileStr);
+		Sensor[] sensors = SensorTool.initSensorInfo(Parameters.SensorNum,MainThread.fileStr,manager);
 		
 		Vector<String> judgeMotiData = new Vector<String>();
 		
@@ -99,11 +100,11 @@ public class EarthQuake {
 							identity = MainThread.fileParentPackage[i].replace("Test", "");
 						}
 						if(identity.equals(Parameters.diskName[Parameters.diskNameNum][j])) {
-								l[i]=i+1;//record the number of motivated sensors.
-								l1[countNumber]=i;
-								countNumber++;
-								sensors[i].setlineSeries(sensors[i].getlineSeries()+ssen[i][0].size());
-								System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
+							l[i]=i+1;//record the number of motivated sensors.
+							l1[countNumber]=i;
+							countNumber++;
+							sensors[i].setlineSeries(sensors[i].getlineSeries()+ssen[i][0].size());
+							System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
 						}
 					}
 				}
@@ -114,7 +115,7 @@ public class EarthQuake {
 			
 			if(countNumber>2) {
 				//stow the info of all sensors.
-				S = relativeStatus.stowInfoSensor(l, l1, countNumber, sensors, ssen, status);
+				S = relativeStatus.stowInfoSensor(l, l1, countNumber, sensors, ssen, status, manager);
 			}
 			
 			/**
@@ -123,11 +124,11 @@ public class EarthQuake {
 			 * S is the array of the Sensor class's object.
 			 * THIS FUNTION IS TO WIRTE THE MOTIVATION DATA ON THE DISK.
 			 */
-			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && EarthQuake.realMoti==true) {
+			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && manager.getIsRealMoti() == true) {
 				writeToDiskasCSV.saveAllMotivationSensors(countNumber, S, status.getPanfu());
 			}
 			
-			if(countNumber >= 3 && EarthQuake.realMoti==true) {
+			if(countNumber >= 3 && manager.getIsRealMoti() == true) {
 				//write to a txt file to indicate the motivation time of each sensor.
 				WriteRecords.WriteSeveralMotiTime(status.getSensors1(), Parameters.AbsolutePath_allMotiTime_record);
 			}
@@ -135,27 +136,27 @@ public class EarthQuake {
 			locate loc = new locate();
 			
 			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.
-			if(countNumber >= 5 && EarthQuake.realMoti==true) {
-				loc.temporal_spatio_strength("five", sensors, status.getSensors1(), countNumber);
+			if(countNumber >= 5 && manager.getIsRealMoti() == true) {
+				loc.temporal_spatio_strength("five", sensors, status.getSensors1(), countNumber,manager);
 			}
 			
 			//if the number of motivated sensors is greater than 3, we will calculate three location and PSO location.
-			if(countNumber>=3 && EarthQuake.realMoti==true){
-				loc.temporal_spatio_strength("three", sensors, status.getSensors1(), countNumber);
-				loc.temporal_spatio_strength("PSO", sensors, status.getSensors1(), countNumber);
+			if(countNumber>=3 && manager.getIsRealMoti() == true){
+				loc.temporal_spatio_strength("three", sensors, status.getSensors1(), countNumber,manager);
+				loc.temporal_spatio_strength("PSO", sensors, status.getSensors1(), countNumber,manager);
 			}
 			
 			//if the number of motivated sensors is greater than 4, we will calculate four location-main event location.
-			if(countNumber>=4 && EarthQuake.realMoti==true) {
-				loc.temporal_spatio_strength("major", sensors, status.getSensors1(), countNumber);
+			if(countNumber>=4 && manager.getIsRealMoti() == true) {
+				loc.temporal_spatio_strength("major", sensors, status.getSensors1(), countNumber,manager);
 			}
 			//we can hide this print when the console are so much content or display this print when we want to adjust the procedure.
             //output the reasons why the calculation process is not executing.
-				System.out.println("激发数："+countNumber+" 台站间的激发间隔时间是否小于"+Parameters.IntervalToOtherSensors+"? "+
-						EarthQuake.realMoti+" time："+ssen[0][0].get(0).split(" ")[6]);
+			System.out.println("激发数："+countNumber+" 台站间的激发间隔时间是否小于"+Parameters.IntervalToOtherSensors+"? "+
+					manager.getIsRealMoti()+" time："+ssen[0][0].get(0).split(" ")[6]);
 		}
 		
 		//reset the global variable.
-		EarthQuake.realMoti=true;
+		manager.setIsRealMoti(true);
 	}
 }

@@ -17,11 +17,13 @@ import com.mathworks.toolbox.javabuilder.MWException;
 import DataExchange.QuackResults;
 import DataExchange.Sensor;
 import b_pro.BClass;
+import controller.ADMINISTRATOR;
 import utils.Tensor;
 import utils.TimeDifferent;
 import utils.one_dim_array_max_min;
 
 /**
+ * calculation process.
  * @author Hanlin Zhang
  */
 public class SaveInfo {
@@ -53,8 +55,9 @@ public class SaveInfo {
 			String quakeString, 
 			double finalEnergy, 
 			double tensor_c, 
-			double b_value) {
-		location_refine.toString();
+			double b_value,
+			ADMINISTRATOR manager) {
+		location_refine.toString(manager);
 		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setGroupingUsed(false);
 		
@@ -104,9 +107,11 @@ public class SaveInfo {
 			String quakeString, 
 			double finalEnergy, 
 			double tensor_c, 
-			double b_value) 
+			double b_value,
+			ADMINISTRATOR manager) 
 					throws ParseException {
-		int dif = TimeDifferent.DateDifferent(intequackTime, WriteRecords.lastDate);
+		int dif = TimeDifferent.DateDifferent(intequackTime, manager.getLastDate());
+//		int dif = TimeDifferent.DateDifferent(intequackTime, WriteRecords.lastDate);
 		//cut the quack time to the day.
 		String dateInFileName = intequackTime.substring(0, 10);
 		//If the difference between the current calculated time and the last time is more than 1 day, the storage file is changed to a new.
@@ -216,7 +221,7 @@ public class SaveInfo {
 	 * @throws MWException 
 	 * @date revision 2021年2月12日下午6:41:56
 	 */
-	public void generalProcess(String kind) throws ParseException, MWException {
+	public void generalProcess(String kind, ADMINISTRATOR manager) throws ParseException, MWException {
 		//发震时刻
 		quackTime();
 		//近震震级
@@ -231,10 +236,10 @@ public class SaveInfo {
 		String quakeString = (Float.compare(Float.NaN, earthQuakeFinal) == 0) ? "0"	: String.format("%.2f", earthQuakeFinal);//修改震级，保留两位小数
 		//we also record the quake location in a '.csv' file for manually computation.
 		if(Parameters.isStorageEventRecord==1) {
-			saveEventRecord(location_refine.getquackTime(), quakeString, finalEnergy, tensor_c, b_value);
+			saveEventRecord(location_refine.getquackTime(), quakeString, finalEnergy, tensor_c, b_value, manager);
 		}
 		//save to database.
-		saveInfo(kind, quakeString, finalEnergy, tensor_c, b_value);
+		saveInfo(kind, quakeString, finalEnergy, tensor_c, b_value, manager);
 	}
 	
 	//get all variables.

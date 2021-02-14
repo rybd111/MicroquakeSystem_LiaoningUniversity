@@ -10,6 +10,8 @@ import com.h2.constant.Parameters;
 import com.h2.tool.CrestorTrough;
 import com.h2.tool.SensorTool;
 
+import controller.ADMINISTRATOR;
+
 /**
  * 
  * @author Baishuo Han, Hanlin Zhang.
@@ -46,16 +48,16 @@ public class Sensor {
 	}
 
 	@SuppressWarnings("unused")
-	@Override
+	
 	/**
 	 * return a String join all attributes after calculating the location.
 	 */
-	public String toString() {
+	public String toString(ADMINISTRATOR manager) {
 		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setGroupingUsed(false);
-			this.Latitude = Latitude+Parameters.SENSORINFO1[Parameters.diskNameNum][SensorTool.baseCoordinate][0];
-			this.Longtitude = Longtitude+Parameters.SENSORINFO1[Parameters.diskNameNum][SensorTool.baseCoordinate][1];
-			this.Altitude = Altitude+Parameters.SENSORINFO1[Parameters.diskNameNum][SensorTool.baseCoordinate][2];
+			this.Latitude = Latitude+Parameters.SENSORINFO1[Parameters.diskNameNum][manager.getBaseCoordinate()][0];
+			this.Longtitude = Longtitude+Parameters.SENSORINFO1[Parameters.diskNameNum][manager.getBaseCoordinate()][1];
+			this.Altitude = Altitude+Parameters.SENSORINFO1[Parameters.diskNameNum][manager.getBaseCoordinate()][2];
 			return nf.format(Latitude) + " "
 			     + nf.format(Longtitude) + " "
 			     + nf.format(Altitude);

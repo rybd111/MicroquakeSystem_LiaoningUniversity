@@ -44,29 +44,14 @@ import utils.String2Date;
  * 
  */
 public class ReadData {
-	public static String NetErDate = " ";
-	public static int reSensorID = -1;
-	public static boolean newData=false;//表示是否有台站有最新文件
-	public static boolean netError = false;//有台站对齐完成就置这个变量为true
-//	public static boolean LatestNotAccurate=false;
-	
-	public static int timeInterrupt = -1;//保存网络错误时的时间，可以直接对齐到该位置，防止重复计算
-	public static DataUnity dataUnity = new DataUnity();//一条完整数据（包括7个通道，每个通道一个数据点）
-	
 	
 	public ReadData() {
 		super();
 	}
 	/**this is a vector used to store one second data.*/
 	private Vector<String> data;//Vector<String>(线程同步数据列表)
-	/** 是否第一次读文件 */
-	public boolean isFirst = true;
 	/**when GPS signal has gone, its value become true*/
 	public boolean isBroken = false;
-	/** 统计数据字节数 */
-	public int ByteCount_data = 0;
-	/** 统计段头字节数 */
-	public int ByteCount_start = 0;
 	/** 秒数计数器  , 每调用一次getData的时候 ，这个计数器就加一 ，表示加一秒*/
 	public int timeCount = 0;
 	/**the number of sensor.*/
@@ -80,7 +65,6 @@ public class ReadData {
 	private int segmentNum;
 	/** 每个数据段中数据的个数 */
 	private int segmentRecNum;
-	
 	/** 通道个数*/
 	private int channelNum;
 	/** 通道个数字符串用于读取*/
@@ -94,7 +78,7 @@ public class ReadData {
 	
 	
 	/** 第一条数据的日期 */
-	private Date date;//
+	private Date date = new Date();
 	/** 通道单位大小 */
 	private float chCahi;
 	/** 最新文件所在的目录路径*/
@@ -150,7 +134,7 @@ public class ReadData {
 				 }
 				 this.date = new ReadDateFromHead().readDataSegmentHead(file);// 从第一个数据段头中获得数据文件起始记录时间
 				 System.out.print(path+"磁盘创建读对象的时间"+date);System.out.println();
-				 WriteRecords.lastDate = Date2String.date2str(date);//update the date for the record P arrival txt file's name.
+				 manager.setLastDate(Date2String.date2str(date));//update the date for the record P arrival txt file's name.
 				 SensorProperties[] sensor = new ReadSensorProperties().readSensorProperties(file);
 				 this.chCahi = sensor[0].getChCali();//由于通道单位都一样，所以用第一个通道单位就可以
 				 data = new Vector<String>();//用于存放数据
@@ -162,7 +146,7 @@ public class ReadData {
 				 this.channel=456;
 				 this.filePath = path;//路径更新
 				 this.file=new File(path);
-				 this.date = new ReadDateFromHead().readDataSegmentHead_MrMa_Date(DuiQi.file1[th]);// 从第一个数据段头中获得数据文件起始记录时间
+				 this.date = new ReadDateFromHead().readDataSegmentHead_MrMa_Date(manager.getNFile1(th));// 从第一个数据段头中获得数据文件起始记录时间
 				 System.out.println(path+"磁盘创建读对象的时间"+date);
 				 data = new Vector<String>();//用于存放数据
 				 dataByte = new byte[Parameters.Shi];//每次读10个字节的字节数组
@@ -170,7 +154,7 @@ public class ReadData {
 				 dataYiMiao=new byte[Parameters.YIMiao];
 				 readsan=new byte[Parameters.San];
 				 this.newS=null;
-				 this.buffered = new BufferedInputStream(new FileInputStream(DuiQi.file1[th]),10*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
+				 this.buffered = new BufferedInputStream(new FileInputStream(manager.getNFile1(th)),10*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
 			 }
 		}
 		else {//online Mr. Liu.
@@ -178,7 +162,7 @@ public class ReadData {
 				this.channel=456;
 				this.filePath = path;//路径更新
 				this.file=new File(path);
-				this.date = new ReadDateFromHead().readDataSegmentHead_MrMa_Date(DuiQi.file1[th]);// 从第一个数据段头中获得数据文件起始记录时间
+				this.date = new ReadDateFromHead().readDataSegmentHead_MrMa_Date(manager.getNFile1(th));// 从第一个数据段头中获得数据文件起始记录时间
 				System.out.println(path+"磁盘创建读对象的时间"+date);
 				data = new Vector<String>();//用于存放数据
 				dataByte = new byte[Parameters.Shi];//每次读10个字节的字节数组
@@ -186,11 +170,12 @@ public class ReadData {
 				dataYiMiao=new byte[Parameters.YIMiao];
 				readsan=new byte[Parameters.San];
 				this.newS=null;
-				this.buffered = new BufferedInputStream(new FileInputStream(DuiQi.file1[th]),10*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
+				this.buffered = new BufferedInputStream(new FileInputStream(manager.getNFile1(th)),10*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
+//				this.buffered = new BufferedInputStream(new FileInputStream(DuiQi.file1[th]),10*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
 			}
 			else {
 				this.filePath = path;//路径更新
-				HfmedHead hfmedHead = new ReadHfmedHead().readHead(DuiQi.file1[th]);//读文件头，文件头内容
+				HfmedHead hfmedHead = new ReadHfmedHead().readHead(manager.getNFile1(th));//读文件头，文件头内容
 				this.segmentNum = hfmedHead.getSegmentNum();//从文件头中获得段的数量
 				this.segmentRecNum = hfmedHead.getSegmentRecNum();// 获得每个段的数据条目数
 				this.channelNum = hfmedHead.getChannelOnNum();
@@ -208,14 +193,17 @@ public class ReadData {
 					this.voltstart=6;
 					this.voltend=7;
 				}
-				this.date = new ReadDateFromHead().readDataSegmentHead(DuiQi.file1[th]);// 从第一个数据段头中获得数据文件起始记录时间
-				System.out.print(path+"磁盘创建读对象的时间"+date);System.out.println();
-				WriteRecords.lastDate = Date2String.date2str(date);//update the date for the record P arrival txt file's name.
-				SensorProperties[] sensor = new ReadSensorProperties().readSensorProperties(DuiQi.file1[th]);
+				
+				this.date = new ReadDateFromHead().readDataSegmentHead(manager.getNFile1(th));// 从第一个数据段头中获得数据文件起始记录时间
+//				Thread.sleep(200);
+//				System.out.println("磁盘创建读对象的时间"+String.valueOf(date));
+				manager.setLastDate(Date2String.date2str(date));//update the date for the record P arrival txt file's name.
+				SensorProperties[] sensor = new ReadSensorProperties().readSensorProperties(manager.getNFile1(th));
 				this.chCahi = sensor[0].getChCali();//由于通道单位都一样，所以用第一个通道单位就可以
 				data = new Vector<String>();//用于存放数据
 				dataByte = new byte[this.bytenum];//改为四个通道，4567
-				this.buffered = new BufferedInputStream(new FileInputStream(DuiQi.file1[th]),8*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
+				this.buffered = new BufferedInputStream(new FileInputStream(manager.getNFile1(th)),8*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
+//				this.buffered = new BufferedInputStream(new FileInputStream(DuiQi.file1[th]),8*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
 				buffered.read(new byte[Parameters.WenJianTou]);// 跳过文件头(186)，通道信息(14*7)，他们一共242个字节
 			}
 		}
@@ -225,7 +213,8 @@ public class ReadData {
 		int by = -1;
 		boolean fileisOver = false;
 		int LoopCount=0;
-		if(ReadData.newData == true){
+		if(manager.getNewFile() == true) {
+//		if(ReadData.newData == true){
 			System.out.println("其余台站进入while时，产生新文件");
 			return;
 		}
@@ -244,7 +233,8 @@ public class ReadData {
 		SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
 		/**read　one second data until encountering the low volt or the end of the current file.*/
 		while(true){
-			if(ReadData.newData==false){
+			if(manager.getNewFile() == false) {
+//			if(ReadData.newData==false){
 			try{
 				if(fileisOver == false) {
 					if((by = buffered.read(dataByte)) < dataByte.length){//不够8字节读够8字节数据
@@ -294,8 +284,10 @@ public class ReadData {
 					else{
 						if(buffered.read(dataByte)==-1) {//到达末尾
 							this.countSetState++;
-							ReadData.newData = setState();//判断是否产生了新文件
-							if(ReadData.newData == true){//产生了新文件，需重新对齐
+							manager.setNewFile(setState());
+//							ReadData.newData = setState();//判断是否产生了新文件
+							if(manager.getNewFile() == true) {
+//							if(ReadData.newData == true){//产生了新文件，需重新对齐
 								System.out.println("有"+this.countSetState+"次读取到了不够8字节的数据");
 								System.out.println("第"+sensorID+"号台站"+sName+"产生了新文件");
 								data.clear();timeCount = 0;
@@ -310,9 +302,11 @@ public class ReadData {
 				}
 				catch(IOException e){
 					System.out.println(sensorID+"号台站"+sName+"产生了网络错误，记录当前错误时间！");
-					if(timeInterrupt==-1){timeInterrupt = timeCount;System.out.println("##########"+timeInterrupt+"盘号"+sensorID);}//保存了网络错误时间，若在接下来等待的时间内未产生新文件，则对齐时加上该时间，避免重复计算前面的数据
-					if(ReadData.reSensorID==-1){ReadData.reSensorID = sensorID;System.out.println("!!!!!!!!!"+ReadData.reSensorID);}//记录台站号，用于记录发生网络错误的盘符，便于统计结果
-					ReadData.netError = true;//网络错误，同时记录产生网络错误的盘符及年月日
+//					if(timeInterrupt==-1){timeInterrupt = timeCount;System.out.println("##########"+timeInterrupt+"盘号"+sensorID);}//保存了网络错误时间，若在接下来等待的时间内未产生新文件，则对齐时加上该时间，避免重复计算前面的数据
+					if(manager.getTimeInterrupt() == -1){manager.setTimeInterrupt(timeCount);System.out.println("##########"+manager.getTimeInterrupt()+"盘号"+sensorID);}//保存了网络错误时间，若在接下来等待的时间内未产生新文件，则对齐时加上该时间，避免重复计算前面的数据
+					if(manager.getNetErrID() == -1){manager.setNetErrID(sensorID);System.out.println("!!!!!!!!!"+manager.getNetErrID());}//记录台站号，用于记录发生网络错误的盘符，便于统计结果
+					manager.setNetError(true);
+//					ReadData.netError = true;//网络错误，同时记录产生网络错误的盘符及年月日
 					return;
 				}
 				LoopCount++;
@@ -377,7 +371,8 @@ public class ReadData {
 		int count1=0;
 		String MaxDateS=null;
 		boolean fileisOver = false;//标识程序是否到达末尾
-		if(ReadData.newData == true){
+		if(manager.getNewFile() == true) {
+//		if(ReadData.newData == true){
 			System.out.println("其余台站进入while时，产生新文件");
 			return;
 		}
@@ -394,7 +389,8 @@ public class ReadData {
 //			Date startDate = format1.parse(date);
 			//从对齐位置开始，读1秒的数据
 			while(true){
-				if(ReadData.newData==false){
+				if(manager.getNewFile() == false) {
+//				if(ReadData.newData==false){
 					//indicate the end of file.
 					try{
 						if(fileisOver == false) {				
@@ -404,21 +400,24 @@ public class ReadData {
 							}
 						}
 						else {
-								ReadData.newData = setState();//判断是否产生了新文件
-								if(ReadData.newData == true){//产生了新文件，需重新对齐
-									System.out.println("第"+sensorID+"号台站"+sName+"产生了新文件");
-									data.clear();timeCount = 0;
-									return;
-								}
-								else{
-									continue;//直接等待直到出现数据，写入data容器
-								}
+							manager.setNewFile(setState());
+//							ReadData.newData = setState();//判断是否产生了新文件
+							if(manager.getNewFile() == true) {
+//							if(ReadData.newData == true){//产生了新文件，需重新对齐
+								System.out.println("第"+sensorID+"号台站"+sName+"产生了新文件");
+								data.clear();timeCount = 0;
+								return;
 							}
+							else{
+								continue;//直接等待直到出现数据，写入data容器
+							}
+						}
 					}
 					catch(IOException e){
 						System.out.println(sensorID+"号台站"+sName+"产生了网络错误，记录当前错误时间！");
-						if(ReadData.reSensorID==-1){ReadData.reSensorID = sensorID;System.out.println("!!!!!!!!!"+ReadData.reSensorID);}//记录台站号，用于记录发生网络错误的盘符，便于统计结果
-						ReadData.netError = true;//网络错误，同时记录产生网络错误的盘符及年月日
+						if(manager.getNetErrID()==-1){manager.setNetErrID(sensorID);System.out.println("!!!!!!!!!"+manager.getNetErrID());}//记录台站号，用于记录发生网络错误的盘符，便于统计结果
+						manager.setNetError(true);
+//						ReadData.netError = true;//网络错误，同时记录产生网络错误的盘符及年月日
 						return;
 					}
 					//core of algorithm
@@ -434,7 +433,8 @@ public class ReadData {
 							&& DATEs4.compareTo("00") !=0 
 							&& IDs.compareTo("00") == 0&&zhenhaos.compareTo("0000") != 0&&zengyis.compareTo("00") == 0){
 						if(newS==null) {
-							MaxDateS = DateArrayToIntArray.FindFourByte(DuiQi.file1[sID]);
+							MaxDateS = DateArrayToIntArray.FindFourByte(manager.getNFile1(sID));
+//							MaxDateS = DateArrayToIntArray.FindFourByte(DuiQi.file1[sID]);
 						}
 						else {
 							MaxDateS=newS;
@@ -558,7 +558,8 @@ public class ReadData {
 					else{
 						if(buffered.read(dataByte)==-1) {//到达末尾
 							this.countSetState++;
-							ReadData.newData = true;//判断是否产生了新文件
+							manager.setNewFile(true);
+//							ReadData.newData = true;//判断是否产生了新文件
 							System.out.println("有"+this.countSetState+"次读取到了不够8字节的数据");
 							System.out.println("第"+sensorID+"号台站"+sName+"产生了新文件");
 							System.out.println("当前文件的方波个数为："+timeCount);
@@ -570,9 +571,10 @@ public class ReadData {
 			}
 			catch(IOException e){
 				System.out.println(sensorID+"号台站"+sName+"产生了网络错误，记录当前错误时间！");
-				if(timeInterrupt==-1){timeInterrupt = timeCount;System.out.println("##########"+timeInterrupt+"盘号"+sensorID);}//保存了网络错误时间，若在接下来等待的时间内未产生新文件，则对齐时加上该时间，避免重复计算前面的数据
-				if(ReadData.reSensorID==-1){ReadData.reSensorID = sensorID;System.out.println("!!!!!!!!!"+ReadData.reSensorID);}//记录台站号，用于记录发生网络错误的盘符，便于统计结果
-				ReadData.netError = true;//网络错误，同时记录产生网络错误的盘符及年月日
+				if(manager.getTimeInterrupt() == -1){manager.setTimeInterrupt(timeCount);System.out.println("##########"+manager.getTimeInterrupt()+"盘号"+sensorID);}//保存了网络错误时间，若在接下来等待的时间内未产生新文件，则对齐时加上该时间，避免重复计算前面的数据
+				if(manager.getNetErrID() == -1){manager.setNetErrID(sensorID);System.out.println("!!!!!!!!!"+manager.getNetErrID());}//记录台站号，用于记录发生网络错误的盘符，便于统计结果
+				manager.setNetError(true);
+//				ReadData.netError = true;//网络错误，同时记录产生网络错误的盘符及年月日
 				return;
 			}
 		
@@ -716,7 +718,7 @@ public class ReadData {
 	 */
 	public int readDataDui(String sName,int sID) throws Exception {
 		String sensorName = sName;
-		int ID = sID;long t1=0,t2=0;
+		int ID = sID;
 		boolean flag1 = false ;
 		boolean flag2 = false ;
 		short volt = 0;//保存电压值
@@ -734,7 +736,8 @@ public class ReadData {
 				}
 			}
 			catch(Exception e){//网络错误,重新分配盘符
-				ReadData.netError=true;
+				manager.setNetError(true);
+//				ReadData.netError=true;
 				System.out.println("对齐过程产生网络错误");
 				return -1;//此时只能再次重启程序，但之前可能已产生网络错误，或产生新文件，因此这里不予修改标志位，防止标志位混乱
 			}
@@ -757,8 +760,8 @@ public class ReadData {
                     	timeCount++;
                     	System.out.println(sensorName+"数据头时间距离下一方波处的数据量大于频率的一半"+LoopCount);
                     }
-
-                	if ((timeCount-1) == DuiQi.duiqi[sID]) {
+                	if ((timeCount-1) == manager.getNDuiqi(ID)) {
+//                	if ((timeCount-1) == DuiQi.duiqi[sID]) {
                         System.out.println(sensorName + "对齐完毕,timeCount为：" + timeCount);
                         return timeCount;
                     }
@@ -778,14 +781,16 @@ public class ReadData {
                     //注意！！！此处有坑，对于好使的、没有电压丢失的文件，文件开头就有可能发生高低电平转换，导致timeCount 会 ++；
                     if (timeCount == 0) {
                         System.out.println("五个台站中，第"+ID + 1 + "个台站电压从 \"开始\" 就存在缺失，所以，停下来吧，少年!!!电压已经不起作用了");
-                        remainTimeCount = DuiQi.duiqi[ID] - timeCount;
+                        remainTimeCount = manager.getNDuiqi(ID) - timeCount;
+//                        remainTimeCount = DuiQi.duiqi[ID] - timeCount;
                         //System.out.println("剩余对齐时间:" + remainTime);
                         isBroken = true;
                     } else if (timeCount != 0 && (LoopCount - firstTimeCount) / timeCount > (Parameters.FREQUENCY+210)) {
                         //经讨论分析得出：
                         //总循环次数 和 到第一个timeCount的循环次数相减，再除以timeCount，如果大于5010，认为文件电压缺失了
                         System.out.println("五个台站中，第"+ID + 1 + "个台站电压从" + timeCount + "起存在缺失，所以，停下来吧，少年!!!电压已经不起作用了");
-                        remainTimeCount = DuiQi.duiqi[ID] - timeCount;
+                        remainTimeCount = manager.getNDuiqi(ID) - timeCount;
+//                      remainTimeCount = DuiQi.duiqi[ID] - timeCount;
                         isBroken = true;
                     }
                 }
@@ -793,7 +798,8 @@ public class ReadData {
             if (isBroken == true && (LoopCount >= remainTimeCount * (Parameters.FREQUENCY+200))) {
                 //当总的循环次数等于 >= 剩余次数*5000 时，认为对齐了
                 System.out.println(sensorName + "对齐完毕,LoopCount为: " + LoopCount);
-                timeCount=DuiQi.duiqi[ID];//将时间修改为对齐点时间
+                timeCount=manager.getNDuiqi(ID);//将时间修改为对齐点时间
+//                timeCount=DuiQi.duiqi[ID];//将时间修改为对齐点时间
                 return timeCount;//这里直接返回DuiQi.duiqi[ID]，代表对齐成功。
             }
 		}// end while(true)
@@ -808,8 +814,10 @@ public class ReadData {
 	public int readDataDui_MrMa(String sName,int sID) throws Exception {
 		String sensorName = sName;
 				
-		String FindMaxByte = DateArrayToIntArray.FindFourByte(DuiQi.file1[DateArrayToIntArray.j]);
-		String FindMaxByteHM = DateArrayToIntArray.FindTwoByte(DuiQi.file1[DateArrayToIntArray.j]);
+//		String FindMaxByte = DateArrayToIntArray.FindFourByte(DuiQi.file1[DateArrayToIntArray.j]);
+//		String FindMaxByteHM = DateArrayToIntArray.FindTwoByte(DuiQi.file1[DateArrayToIntArray.j]);
+		String FindMaxByte = DateArrayToIntArray.FindFourByte(manager.getNFile1(DateArrayToIntArray.j));
+		String FindMaxByteHM = DateArrayToIntArray.FindTwoByte(manager.getNFile1(DateArrayToIntArray.j));
 		
 		while(true){//从对齐位置开始，读整秒的数据，直到文件末尾	
 			//indicate the end of file.
@@ -820,7 +828,8 @@ public class ReadData {
 				}
 			}
 			catch(Exception e){//网络错误,重新分配盘符
-				ReadData.netError=true;
+				manager.setNetError(true);
+//				ReadData.netError=true;
 				System.out.println("对齐过程产生网络错误");
 				return -1;//此时只能再次重启程序，但之前可能已产生网络错误，或产生新文件，因此这里不予修改标志位，防止标志位混乱
 			}

@@ -6,9 +6,9 @@ import com.h2.constant.Parameters;
 import com.h2.tool.CrestorTrough;
 import com.h2.tool.Doublelocate;
 import com.h2.tool.SensorTool;
-import com.h2.tool.Triplelocate;
 
 import DataExchange.Sensor;
+import controller.ADMINISTRATOR;
 import mutiThread.MainThread;
 import utils.TimeDifferent;
 
@@ -31,8 +31,8 @@ public class Three_Locate_alone {
 
 		
 		str[0] = "Test3/";str[1] = "Test4/";str[2] = "Test2/";
-		
-		Sensor[] sensor = SensorTool.initSensorInfo(3,str);
+		ADMINISTRATOR manager = new ADMINISTRATOR();
+		Sensor[] sensor = SensorTool.initSensorInfo(3,str,manager);
 		
 //		sensor[0].setSecTime(0);
 //		sensor[1].setSecTime(0.0232);
@@ -63,7 +63,7 @@ public class Three_Locate_alone {
 		}
 		
 		//compute the quake coordination.
-		Sensor location=Triplelocate.tripleStationLocate(sensor);
+		Sensor location=Doublelocate.tripleStationLocate(sensor);
 		
 		//we will calculate the quake time through this function.			
 		location.setSecTime(Doublelocate.quakeTime(sensor[0], location));

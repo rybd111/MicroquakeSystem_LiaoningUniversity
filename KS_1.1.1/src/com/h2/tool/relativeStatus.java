@@ -10,25 +10,32 @@ import com.h2.main.EarthQuake;
 import com.h2.main.statusOfCompute;
 
 import DataExchange.Sensor;
+import controller.ADMINISTRATOR;
 import mutiThread.MainThread;
 import utils.Date2String;
 import utils.String2Date;
 import utils.TimeDifferent;
+import utils.stringJoin;
 
 
 public class relativeStatus {
 	
-	public static int[] numberMotiSeries;
+//	public static int[] numberMotiSeries;
 	/**
 	 * this function is used to get the relative P arrival time point as the sensor which the PArrival is not 0 for the sensor_latest. 
 	 * @param sensors all sensor the procedure initializing at starting.
 	 * @author Hanlin Zhang
 	 */
 	@SuppressWarnings("unused")
-	public static Sensor[] P_RelativeArrivalTime(Sensor[] sensors, int[] l, int num) throws ParseException {
+	public static Sensor[] P_RelativeArrivalTime(
+			Sensor[] sensors, 
+			int[] l, 
+			int num,
+			ADMINISTRATOR manager) throws ParseException {
 		int nqk=-1;
-		numberMotiSeries = new int[num];
-		Sensor[] S = sortAccordingToPArrival(sensors,l,num);
+//		numberMotiSeries = new int[num];
+		manager.initNumberMotiSeries(num);
+		Sensor[] S = sortAccordingToPArrival(sensors,l,num,manager);
 		
 		for(int i=1;i<num;i++){
 			S[i].setSecTime(S[i].getSecTime()-S[0].getSecTime());//主要减去第一个不为零的时间
@@ -42,15 +49,18 @@ public class relativeStatus {
 		
 //		System.out.println("P波到时："+sensors[i].getSecTime());
 		if(Parameters.Adjust==true){
-			EarthQuake.realMoti=true;//其中若有一个台站的相对其他台站相差大于1s则认为该事件不是同时激发的，且他们无效	
+			manager.setIsRealMoti(true);
+//			EarthQuake.realMoti=true;//其中若有一个台站的相对其他台站相差大于1s则认为该事件不是同时激发的，且他们无效	
 		}
 		else{
 			if(Parameters.SSIntervalToOtherSensors==true){
 				if(Math.abs(S[num-1].getSecTime())>Parameters.IntervalToOtherSensors)
-					EarthQuake.realMoti=false;//其中若有一个台站的相对其他台站相差大于1s则认为该事件不是同时激发的，且他们无效	
+					manager.setIsRealMoti(false);
+//					EarthQuake.realMoti=false;//其中若有一个台站的相对其他台站相差大于1s则认为该事件不是同时激发的，且他们无效	
 			}
 			else
-				EarthQuake.realMoti=true;
+				manager.setIsRealMoti(true);
+//				EarthQuake.realMoti=true;
 		}
 
 		return S;	
@@ -63,7 +73,11 @@ public class relativeStatus {
 	 * @param num
 	 * @return
 	 */
-	public static Sensor[] sortAccordingToPArrival(Sensor[] sensors, int[] l, int num) {
+	public static Sensor[] sortAccordingToPArrival(
+			Sensor[] sensors, 
+			int[] l, 
+			int num,
+			ADMINISTRATOR manager) {
 		
 		Sensor[] S = new Sensor[num];
 		int count = 0;
@@ -94,7 +108,8 @@ public class relativeStatus {
 			if(min<1.0/0) {
 				PArrival[nqk]=1.0/0;
 				newS[j] = S[nqk];
-				numberMotiSeries[count]=S[nqk].getSensorNum();
+				manager.setNNumberMotiSeries(count, S[nqk].getSensorNum());
+//				numberMotiSeries[count]=S[nqk].getSensorNum();
 				count++;
 			}
 			min = 1.0/0;
@@ -119,8 +134,14 @@ public class relativeStatus {
 	 * @throws ParseException
 	 * @author Hanlin Zhang.
 	 */
-	public static Sensor[] stowInfoSensor(int[] l, int[] l1, int countNumber, 
-						Sensor[] sensors, Vector<String> ssen[][], statusOfCompute status) throws ParseException {
+	public static Sensor[] stowInfoSensor(
+			int[] l, 
+			int[] l1, 
+			int countNumber, 
+			Sensor[] sensors, 
+			Vector<String> ssen[][], 
+			statusOfCompute status,
+			ADMINISTRATOR manager) throws ParseException {
 		
 		Sensor[] sensors1 = new Sensor[countNumber];//save the sensors after sorting from short to long.
 		Sensor[] sensors2 = new Sensor[Parameters.SensorNum-countNumber];
@@ -151,7 +172,7 @@ public class relativeStatus {
 		
 		//Get the relative time point as second, this function is update the sensors object's setSecTime method's Sectime variable.
 		//Meanwhile, this function's return sensors is sorted.
-		sensors1 = relativeStatus.P_RelativeArrivalTime(sensors,newl,countNumber);//sort the sensors and calculate the relative P arrival time according Sectime variable.
+		sensors1 = relativeStatus.P_RelativeArrivalTime(sensors,newl,countNumber,manager);//sort the sensors and calculate the relative P arrival time according Sectime variable.
 		
 		//storage the current motivation sensors.
 		if(Parameters.offline==false) {
@@ -171,9 +192,13 @@ public class relativeStatus {
 		
 		//integrate 30s data to one Vector.
 		for(int i=0;i<countNumber;i++) {
-			inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][0]);
-			inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][1]);
-			inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][2]);
+
+			inteData[i].addAll(ssen[manager.getNNumberMotiSeries(i)][0]);
+			inteData[i].addAll(ssen[manager.getNNumberMotiSeries(i)][1]);
+			inteData[i].addAll(ssen[manager.getNNumberMotiSeries(i)][2]);
+//			inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][0]);
+//			inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][1]);
+//			inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][2]);
 		}
 		for(int i=0;i<countNumber;i++) {
 			motiPreLa[i] = QuakeClass.cutOdata(inteData[i], sensors1, Parameters.startTime, Parameters.endTime, sensors1[i]);

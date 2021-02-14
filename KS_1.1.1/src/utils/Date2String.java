@@ -14,6 +14,6 @@ public class Date2String {
 		
 		String date = simpleDateFormat.format(d);
 		
-		return date;	
+		return date;
 	}
 }

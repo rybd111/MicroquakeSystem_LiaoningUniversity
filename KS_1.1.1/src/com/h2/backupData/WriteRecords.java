@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 public class WriteRecords {
 	
-	public static String lastDate = "2019-1-13 02:05:03";//update at the creating ReadData function's object to make sure this variable is the last day all the way.
+//	public static String lastDate = "2019-1-13 02:05:03";//update at the creating ReadData function's object to make sure this variable is the last day all the way.
 
     /**
      * write the info. of the motivation of all sensors to a csv file.

@@ -11,11 +11,11 @@ import com.h2.tool.Doublelocate;
 import com.h2.tool.FiveLocation;
 import com.h2.tool.Majorlocate;
 import com.h2.tool.QuakeClass;
-import com.h2.tool.Triplelocate;
 import com.mathworks.toolbox.javabuilder.MWException;
 
 import DataExchange.QuackResults;
 import DataExchange.Sensor;
+import controller.ADMINISTRATOR;
 
 /**
  * @author Hanlin Zhang
@@ -26,7 +26,8 @@ public class locate {
 			String kind, 
 			Sensor[] allsensors, 
 			Sensor[] sensors, 
-			int countNumber) throws MWException, ParseException {
+			int countNumber,
+			ADMINISTRATOR manager) throws MWException, ParseException {
 		
 		QuackResults aQuackResults = new QuackResults();
 		DbExcute aDbExcute = new DbExcute();
@@ -65,14 +66,14 @@ public class locate {
 				//the locate process probably return a NAN value or a INF value, so when this situation appears, the procedure will skip the current circulation.
 				if(Double.isNaN(location_refine.getLatitude())==false && Double.isInfinite(location_refine.getLatitude()) == false){
 					saveAndcal.setlocation_refine(location_refine);
-					saveAndcal.generalProcess(kind);
+					saveAndcal.generalProcess(kind,manager);
 				}
 				break;
 			case "five":
 				//calculate the coordinations of the quake source, location variable only store the quake time, not store the motivation time, and store the coordinations of the quake happening.
 				location_refine = FiveLocation.getLocation(sensors1);//calculate the quake time in milliseconds.
 				saveAndcal.setlocation_refine(location_refine);
-				saveAndcal.generalProcess(kind);
+				saveAndcal.generalProcess(kind,manager);
 				break;
 			case "three":
 				int count=0;//count the final valid satisfied the conditions' sensors.
@@ -97,13 +98,13 @@ public class locate {
 					}
 			 		saveAndcal.setsensors1(sensors1);
 					//compute the quake coordination.
-					location_refine=Triplelocate.tripleStationLocate(sensors1);
+					location_refine=Doublelocate.tripleStationLocate(sensors1);
 					//we will calculate the quake time through this function.			
 					location_refine.setSecTime(Doublelocate.quakeTime(sensors1[0], location_refine));
 					//the locate process probably return a NAN value or a INF value, so when this situation appears, the procedure will skip the current circulation.
 					if(Double.isNaN(location_refine.getLatitude())==false && Double.isInfinite(location_refine.getLatitude()) == false){
 						saveAndcal.setlocation_refine(location_refine);
-						saveAndcal.generalProcess(kind);
+						saveAndcal.generalProcess(kind,manager);
 					}
 				}
 				break;
@@ -113,7 +114,7 @@ public class locate {
 				//we will calculate the quake time through this function.
 				location_refine.setSecTime(Doublelocate.quakeTime(sensors1[0], location_refine));
 				saveAndcal.setlocation_refine(location_refine);
-				saveAndcal.generalProcess(kind);
+				saveAndcal.generalProcess(kind,manager);
 				break;
 		}
 	}

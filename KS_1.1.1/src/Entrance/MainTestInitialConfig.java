@@ -93,7 +93,28 @@ public class MainTestInitialConfig {
 			/** 输出所有离线运行参数，供用户确认*/
 			printAllParameters();
 		}
-		
+		//-----------------------------------------别忘记删掉
+		else if(Parameters.offline == false) {
+			this.prePath = prePath;
+			
+			/** 读取当前路径下的所有文件夹，并提取出运行的盘符和对应的路径*/
+			MainThread.fileStr = obtainPath();
+			
+			/** 我们认为小于2个盘符的路径并不符合，数量不够*/
+			if(MainThread.fileStr.length<=2) {
+				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
+				System.in.read();
+			}
+			
+			/** 根据路径个数配置传感器数量*/
+			Parameters.SensorNum = MainThread.fileStr.length;
+			
+			/** 配置区域*/
+			regionConfig();
+			
+			/** 输出所有离线运行参数，供用户确认*/
+			printAllParameters();
+		}
 	}
 	
 	/**

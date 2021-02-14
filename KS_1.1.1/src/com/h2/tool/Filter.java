@@ -7,12 +7,19 @@ import DataExchange.Sensor;
 public class Filter
 {
 	 /* cutOdata1返回波形数据的y值*/
+	/**
+	 * 
+	 * @param data
+	 * @param getlineSeriesNew
+	 * @return
+	 * @author Gang Zhang.
+	 * @date revision 2021年2月14日下午7:59:16
+	 */
 	 public static double[] cutOdata1(Vector<String> data,int getlineSeriesNew) {
 		 String [] num=new String [data.size()];
 		 
 		 double [] num1=new double[num.length];
 		 double [] num2=new double[num1.length-getlineSeriesNew];
-		 Vector a=new Vector();
 		for(int i=0;i<data.size();i++)
 		{
 			String  s=null;
@@ -37,8 +44,9 @@ public class Filter
 	 
 	 
 	 /* movingAverageFilter返回存储滤波后波形数据的y值*/
-	 private  double[] lvbo = null;//用来存储滤波后波形数据的y值
+	 private double[] lvbo = null;//用来存储滤波后波形数据的y值
 	 private final int mWindowSize = 4;//滑动窗口个数
+	 
 	 public double[] movingAverageFilter(double[] num2)
 	 {
 //		 double [] motiPreLa1=new double[motiPreLa.size()];
@@ -95,7 +103,7 @@ public class Filter
        		 
        		  if(abslvbo[i]>abslvbo[i-1]&&abslvbo[i]>abslvbo[i+1]) 
        		  {
-       			 a= abslvbo[i];//波峰
+       			a= abslvbo[i];//波峰
        			break;
        		
        		  } 
@@ -107,12 +115,7 @@ public class Filter
        	  
          }
          return a;
-	
-		 
 	 }
-
-	
-	 
 }
 	 
 	 

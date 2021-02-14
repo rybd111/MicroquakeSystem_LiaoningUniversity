@@ -22,6 +22,7 @@ public class calStrength extends Thread
 	private Sensor location;
 	private int i;
 	private CountDownLatch downLatch;
+	
 	public calStrength(Sensor s, Sensor lo, int i, CountDownLatch downLatch)
 	{
 		this.sensor = s;

@@ -12,6 +12,7 @@ import DataExchange.Sensor;
  * @author Hanlin Zhang, Yali Hao.
  */
 public class calDuringTimePar {
+	
 	public static double[] calAandB(double []MD, double[] duringTime){
 		double a1=0.0,b1=0.0;
 		double[] a=new double[MD.length-1];

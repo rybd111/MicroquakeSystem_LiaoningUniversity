@@ -135,7 +135,7 @@ public class AlignFile {
         DateArrayToIntArray aDateArrayToIntArray = new DateArrayToIntArray();
         TimeDifferertInt = aDateArrayToIntArray.IntArray(dateString);
 
-        Date DateMax = aDateArrayToIntArray.getDateStr();
+        Date DateMax = aDateArrayToIntArray.getDate();
 
         this.dateStr = DateUtil.toString(DateMax);
         System.out.println("文件第一个数据段段头最大时间：" + this.dateStr);

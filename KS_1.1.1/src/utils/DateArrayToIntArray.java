@@ -19,13 +19,13 @@ public class DateArrayToIntArray {
 	private Date dateMax;
 	public static int j;
 	
-	public Date getDateStr() {
+	public Date getDate() {
 		return dateMax;
 	}
-
-	public void setDateStr(Date dateMax) {
-		this.dateMax = dateMax;
+	public String getDateStr() throws ParseException {
+		return Date2String.date2str(dateMax);
 	}
+	
 
 	public int[] IntArray(String[] dateStr) throws ParseException{//处理完变为3列0了
 		

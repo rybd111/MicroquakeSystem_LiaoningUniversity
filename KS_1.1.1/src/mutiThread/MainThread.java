@@ -15,6 +15,7 @@ import com.h2.main.EarthQuake;
 
 import DataExchange.vectorExchange;
 import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
+import utils.Date2String;
 import utils.DateArrayToIntArray;
 import controller.ADMINISTRATOR;
 import read.rqma.history.*;
@@ -33,18 +34,10 @@ public class MainThread extends Thread{
     public static String fileParentPackage[] = new String[Parameters.SensorNum];
     /**this variable exchange data to the foreground.*/
     public static vectorExchange[] aDataRec = new vectorExchange[Parameters.SensorNum];
-    /**a counter count per 10 sec. for storing one minute data.*/
-    public static int countRestart = 0;
-    /**reduiqi status*/
-    public static int []reduiqi=new int[Parameters.SensorNum];
-    /**Is not restart the procedure*/
-    public static int IsContinue=0;
-    /**is not the first time start the procedure*/
-    public static boolean isFirst = true;
+//    /**reduiqi status*/
+//    public static int []reduiqi=new int[Parameters.SensorNum];
     /**the file creation time*/
     public static String [] dateString=new String[Parameters.SensorNum];
-    /**these two variable are not using in procedure.*/
-    public static long m1=0,m2=0;
     /**volatile decorate String promises the latest String in current thread.*/
     public static volatile boolean exitVariable_visual = true;
     
@@ -52,20 +45,14 @@ public class MainThread extends Thread{
     public void run() {
     	/** the visual model controller variable.*/
     	exitVariable_visual=false;
-    	
     	/** the log prefix print in the console.*/
     	SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();//do not call this function many times.
-        
     	/** global super administrator saves all status in system for replacing the global variables.*/
     	ADMINISTRATOR manager = new ADMINISTRATOR();
     	
     	/**when we need to read data offline, we can use the absolute path as follows.*/
-//    	fileStr[0] = "I:\\研究生阶段\\矿山\\矿山数据\\红阳三矿\\12.21红阳三矿2.2地震\\Testv\\";
-        
 //        fileStr[0] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/3-西风井/";
 //        fileStr[1] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/4-铁塔/";
-        
-        
         if(Parameters.offline==false) {
             System.out.println("开始读实时数据主线程！");
             Vector<String>[] beforeVector=new Vector[Parameters.SensorNum];
@@ -84,9 +71,7 @@ public class MainThread extends Thread{
 
             //there may need only one tread pool cause thread pool can be used repeat.
 			ExecutorService executor_readdata = Executors.newFixedThreadPool(Parameters.SensorNum);
-
 			ExecutorService executor_duiqi = Executors.newFixedThreadPool(Parameters.SensorNum);
-
             ExecutorService executor_find = Executors.newFixedThreadPool(Parameters.SensorNum);
 
             /**diagnose the connection of different position sensors from the last series number.*/
@@ -96,7 +81,7 @@ public class MainThread extends Thread{
             moveBufferPosition []mo = new moveBufferPosition[Parameters.SensorNum];
             
             while(true) {
-                
+
             	if(Parameters.isDelay==1) {
 	            	//sleep any seconds to avoid the procedure reset mechanically.
 	            	try {
@@ -105,116 +90,88 @@ public class MainThread extends Thread{
             	}
             	
                 //the procedure will reset when the sensors produce a new file or there produce net error.
-                if(ReadData.netError==true||ReadData.newData==true||isFirst==true){
-                	
+            	if(manager.getNetError() == true||manager.getNewFile() == true||manager.getIsFirst() == true){
                     System.out.println("进入了重对齐！");
-                    MainThread.countRestart = 0;
                     
-                    if(fileStr.length<3)
-                        discSymbol=0;
-                    else if(discSymbol<=-1)
-                        discSymbol=ReConnect.orderNum-1;//When the all situations has been considered, the procedure will start from the beginning.
-                    
-                    if(isFirst==false) {
-                        if(fileStr.length>=3) {
-                        	fileStr = ReConnect.rearrange(discSymbol);
-                        }
-                        for(int i=0;i<Parameters.SensorNum;i++) {
-                            System.out.print(fileStr[i]);
-                        }
-                        System.out.println();
-                    }
+                    //重置器，重置盘符
+                    manager.resetter(discSymbol, ReConnect);
                     
                     final CountDownLatch threadSignal_duiqi = new CountDownLatch(Parameters.SensorNum);
-                    
+                    executor_duiqi = Executors.newFixedThreadPool(Parameters.SensorNum);
                     //we obtain the time distance among these sensors' remote disk.
                     for(int i=0;i<Parameters.SensorNum;i++) {
                         DuiQi aDuiQi = new DuiQi(threadSignal_duiqi,fileStr[i],i,manager);
                         executor_duiqi.execute(aDuiQi);
-                        
                     }
                     
                     try {threadSignal_duiqi.await();}
                     catch (InterruptedException e1) {e1.printStackTrace();}
+                    executor_duiqi.shutdown();
                     
 //                    if(Parameters.Adjust == true) {
 //                    	discSymbol--;
-//                    	isFirst = false;
-//                    	ReadData.newData = true;
+//                    	manager.setIsFirst(false);
+//                    	manager.setNewFile(true);
 //                    	continue;
 //                    }
                     
-                    for(int i=0;i<Parameters.SensorNum;i++){
-                        if(reduiqi[i]==-1) {
-                            IsContinue=-1;
-                            break;
-                        }
-                    }
-                    
-                    if(IsContinue==-1){
-                        discSymbol--;
-                        IsContinue=0;
-                        for(int i=0;i<Parameters.SensorNum;i++)
-                            reduiqi[i]=0;
-                        continue;
+                    if(manager.stopper(discSymbol)==true) {
+                    	System.out.println("第1个阻拦器生效");
+                    	continue;
                     }
                     
                     //we find out the newest file in these sensors and find out the time distance array called 'DuiQi.duiqi'.
                     DateArrayToIntArray aDateArrayToIntArray = new DateArrayToIntArray();
-                    try {
-                        DuiQi.duiqi = aDateArrayToIntArray.IntArray(dateString);
+                    try {manager.setDuiqi(aDateArrayToIntArray.IntArray(dateString));
                     } catch (ParseException e) {e.printStackTrace();}
+                    try {System.out.println("对齐数组计算完毕！ 对齐的最大时间： "+aDateArrayToIntArray.getDateStr());
+					} catch (ParseException e) {e.printStackTrace();}
                     
-                    Date DateMax=new Date();
-                    DateMax = aDateArrayToIntArray.getDateStr();
-                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    System.out.println("对齐的最大时间："+sdf.format(DateMax));
-                    
+                    //------------------------------------------------------------------------------move----------------------------
                     final CountDownLatch threadSignal_find = new CountDownLatch(Parameters.SensorNum);
+                    executor_find = Executors.newFixedThreadPool(Parameters.SensorNum);
                     for(int i=0;i<Parameters.SensorNum;i++) {
                         mo[i] = new moveBufferPosition(threadSignal_find,i,manager);
                         executor_find.execute(mo[i]);
                     }
                     try {threadSignal_find.await();}
                     catch (InterruptedException e1) {e1.printStackTrace();}
-
-                    for(int i=0;i<Parameters.SensorNum;i++){
-                        if(reduiqi[i]==-1) {
-                            IsContinue=-1;
-                            break;
-                        }
-                    }
-                    if(IsContinue==-1){
-                        for(int i=0;i<Parameters.SensorNum;i++)
-                            reduiqi[i]=0;
-                        IsContinue=0;
-                        continue;
+                    executor_find.shutdown();
+                    
+                    System.out.println("移动读指针完毕！");
+                    
+                    if(manager.stopper(discSymbol) == true) {
+                    	System.out.println("第2个阻拦器");
+                    	continue;
                     }
                     
                     //Initialize every variable in MainThread.java.
-                    MainThread.isFirst=false;
-                    ReadData.netError = false;
-                    ReadData.newData = false;
+                    manager.setIsFirst(false);
+                    manager.setNetError(false);
+                    manager.setNewFile(false);
+                    
                     discSymbol=ReConnect.orderNum-1;
-                    IsContinue=0;
                 }
 
                 //--------------------------------------------------------------------开启线程池，读取5个地点数据
-                if(ReadData.netError == false){
+                if(manager.getNetError() == false) {
                     final CountDownLatch threadSignal_readdata = new CountDownLatch(Parameters.SensorNum);
+                    executor_readdata = Executors.newFixedThreadPool(Parameters.SensorNum);
                     for(int i=0;i<Parameters.SensorNum;i++) {
                         readTask task = new readTask(threadSignal_readdata,i,dataRecArray[i],mo[i].readDataArray,fileStr[i],manager);
                         executor_readdata.execute(task);
                     }
                     try {threadSignal_readdata.await();}
                     catch (InterruptedException e1) {e1.printStackTrace();}
+                    
+                    executor_readdata.shutdown();
                 }
                 
                 int diagnoseIsFull = 0;
 
                 //when produce a new file, there must has a vector is not full, so we discard the last several second data.
-                if(ReadData.newData == false && ReadData.netError==false){
-                    MainThread.countRestart++;
+                if(manager.getNewFile() == false && manager.getNetError() == false){
+//                if(ReadData.newData == false && ReadData.netError==false){
 
                     for(int i=0;i<Parameters.SensorNum;i++) {
                         sensorData[i][0] = dataRecArray[i].getBeforeVector();
@@ -228,7 +185,7 @@ public class MainThread extends Thread{
                     if(diagnoseIsFull==1) continue;//when the three vector has data, we will enter the calculate function.
                     
                     try {
-                        EarthQuake.runmain(sensorData);
+                        EarthQuake.runmain(sensorData,manager);
                     } catch (Exception e) {e.printStackTrace();}
                 }
                 if(exitVariable_visual==true) {
@@ -276,18 +233,18 @@ public class MainThread extends Thread{
             while (true) {
                 
             	synchronized (this) {
-                    while (readDataArray == null || ReadData.newData == true) {
+            		while (readDataArray == null || manager.getNewFile() == true) {
                         count++;
                         System.out.println("----------开始处理第 " + count + " 组数据---------");
                         readDataArray = getDataArray(alignFile, timeStr, manager);
                         if(readDataArray==null)
-                            continue;
-                        ReadData.newData = false;
+                        	continue;
+                        manager.setNewFile(false);
                     }
-                    ReadData.netError = false;
+            		manager.setNetError(false);
 
                     //start the thread pool to read data from different position.
-                    if (ReadData.netError == false) {
+                    if(manager.getNetError() == false) {
 
                         ExecutorService executor = Executors.newFixedThreadPool(Parameters.SensorNum);
                         final CountDownLatch threadSignal = new CountDownLatch(Parameters.SensorNum);
@@ -304,9 +261,7 @@ public class MainThread extends Thread{
                         }
                     }
                 }
-                
-                if (ReadData.netError == false) {
-                    MainThread.countRestart++;
+                if(manager.getNetError() == false) {
 
                     for (int i = 0; i < Parameters.SensorNum; i++) {
                         if (dataRecArray[i].getBeforeVector() == null)
@@ -317,11 +272,9 @@ public class MainThread extends Thread{
                         sensorData[i][0] = dataRecArray[i].getBeforeVector();
                         sensorData[i][1] = dataRecArray[i].getNowVector();
                         sensorData[i][2] = dataRecArray[i].getAfterVector();
-//                        System.out.println(fileParentPackage[i]+sensorData[i][2].size()+" "+sensorData[i][2].get(0).split(" ")[6]);
                     }
-                    
                     try {
-                        EarthQuake.runmain(sensorData);
+                        EarthQuake.runmain(sensorData,manager);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -337,7 +290,7 @@ public class MainThread extends Thread{
      *
      * @param alignFile
      * @param timeStr
-     * @return 五个 ReadData
+     * @return Parameters.sensorNum个 ReadData
      */
     private ReadData[] getDataArray(AlignFile alignFile, String timeStr, ADMINISTRATOR manager) {
         /**保存对齐后的timeCount变量*/
@@ -409,7 +362,13 @@ class readTask implements Runnable{
     private int num;
     private ADMINISTRATOR manager;
 
-    public readTask(CountDownLatch downLatch, int sensorName, vectorExchange dataRec, ReadData readData,String fileStr,ADMINISTRATOR manager) {
+    public readTask(
+    		CountDownLatch downLatch, 
+    		int sensorName, 
+    		vectorExchange dataRec, 
+    		ReadData readData,
+    		String fileStr,
+    		ADMINISTRATOR manager) {
         super();
         this.downLatch = downLatch;
         this.sensorID = sensorName;
@@ -434,16 +393,15 @@ class readTask implements Runnable{
 	                temVector = readData.getData(sensorName,sensorID);//获取1s数据，传递盘符、盘号
             }
             else {
-//            	if(Parameters.offline==true)
-            		temVector = readData.getData(sensorName, sensorID);
-//            		System.out.println("1s_data"+ temVector.size());
+            	temVector = readData.getData(sensorName, sensorID);
             }
-            
-            if(ReadData.newData==true)	{
-                System.out.println("第"+sensorID+"号"+ReadData.newData+"进入while");
+            //新文件拦截器
+            if(manager.getNewFile() == true) {
+                System.out.println("第"+sensorID+"号"+manager.getNewFile()+"进入while");
                 return;
             }
-            if(ReadData.netError==true)	{
+            //网络拦截器
+            if(manager.getNetError()==true) {
                 return;
             }
             aVector.addAll(temVector);
