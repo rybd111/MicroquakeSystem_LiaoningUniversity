@@ -2,26 +2,24 @@ package DataExchange;
 
 import java.util.Vector;
 
+import com.h2.constant.Parameters;
+
 /**
  * The vector exchange class using in procedure.
  * @author Yilong Zhang, Hanlin Zhang.
  */
 public class vectorExchange {
 	
-	public Vector<String> beforeVector;
-	public Vector<String> nowVector;
-	public Vector<String> afterVector;
+	public Vector<String> beforeVector = new Vector<String>();
+	public Vector<String> nowVector = new Vector<String>();
+	public Vector<String> afterVector = new Vector<String>();
 	
-	public vectorExchange(Vector<String> beforeVector, Vector<String> nowVector,
-			Vector<String> afterVector) {
+	public vectorExchange() {
 		super();
-		this.beforeVector = beforeVector;
-		this.nowVector = nowVector;
-		this.afterVector = afterVector;
 	}
 	
 	/**Three buffers to swap data.*/
-	public void DataSwap(Vector<String> temp ){	
+	public void DataSwap(Vector<String> temp){	
 		beforeVector=nowVector;
 		nowVector=afterVector;
 		afterVector=temp;

@@ -36,28 +36,22 @@ public class DateArrayToIntArray {
 		//we create a variable of date class to address date conversion problem.
 		Date [] startDate = new Date[Parameters.SensorNum];
 		
-		
 		for(int i=0; i<Parameters.SensorNum; i++){
 			startDate[i] = format1.parse(dateStr[i]);//变为Date类型
-			//System.out.println(startDate[i]);
 		}
-		/*
-		for (int i = 0; i < startDate.length; i++) {
-			startDate[i]=String2Date.strTDate(dateStr[i]);
-		}*/
 		
 		Date DateMax = FindMaxDate(startDate);
 		this.dateMax =DateMax;
-		
+		//时间距离，单位s
 		int[] DateDifferntInt =new int[startDate.length];
+		
 		for (int i = 0; i < DateDifferntInt.length; i++) {
 			DateDifferntInt[i]=Math.abs((int) ((startDate[i].getTime()-DateMax.getTime())/1000 ));
 		}
         return DateDifferntInt;
 	}
 
-	private static Date FindMaxDate(Date[] aDates) {
-		// TODO Auto-generated method stub
+	private Date FindMaxDate(Date[] aDates) {
 		Date MaxDate = aDates[0];
 
 		for (int i = 0; i < aDates.length; i++) {
@@ -68,11 +62,12 @@ public class DateArrayToIntArray {
 				MaxDate = aDates[i];
 				j=i;
 			}
-
 		}
-
+		
 		return MaxDate;
 	}
+	
+	
 	//用于将最大日期文件的前6个字节变为16进制字符串，对齐使用
 	public static String FindSixByte(String fileName) throws IOException {
 		byte[] dataSegmentHeadByte = new byte[6];

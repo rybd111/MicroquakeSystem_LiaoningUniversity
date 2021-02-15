@@ -37,8 +37,8 @@ public class EarthQuake {
 	 * @throws Exception
 	 * @author Baishuo Han, Hanlin Zhang.
 	 */
-	public static void runmain(Vector<String> ssen[][], ADMINISTRATOR manager)	throws Exception {
-		
+	public static void runmain(ADMINISTRATOR manager)	throws Exception {
+		Vector<String> ssen[][] = manager.getSensorData();
 		//判断数据量是否足够？
 		if(diagDataNum.diagnose(ssen)==false) return;	
 		

@@ -20,17 +20,17 @@ import read.yang.readFile.findNew;
  * @author Hanlin Zhang.
  * @date 2021年1月16日
  */
-public class DuiQi extends Thread{
+public class obtainHeadTime extends Thread{
 
 	private CountDownLatch downLatch;
 	private String fileName;
 	private int i;
 	private ADMINISTRATOR manager;
 	
-	public DuiQi() {
+	public obtainHeadTime() {
 		super();
 	}
-	public DuiQi(
+	public obtainHeadTime(
 			CountDownLatch threadSignal_find,
 			String fileStr,
 			int i,
@@ -43,20 +43,20 @@ public class DuiQi extends Thread{
 	}
 
 	public void run() {
+		
 		try{
 			manager.setNFile1(i, findNew.find(fileName,i,manager).getAbsolutePath());
 			if(manager.isMrMa[i]==true) {
-				MainThread.dateString[i] = ReadDateFromHead.readDataSegmentHead_MrMa_String(manager.getNFile1(i));
-				System.out.println(MainThread.fileStr[i]+"MrMa  "+MainThread.dateString[i]);
+				manager.setNDateString(i, ReadDateFromHead.readDataSegmentHead_MrMa_String(manager.getNFile1(i)));
+				System.out.println(MainThread.fileStr[i]+"MrMa  " + manager.getNDateString(i));
 			}
 			else {
-				MainThread.dateString[i] = ReadDateFromHead.readDataSegmentHeadall(manager.getNFile1(i));
-				System.out.println(MainThread.fileStr[i]+"MrLiu  ："+MainThread.dateString[i]);
+				manager.setNDateString(i, ReadDateFromHead.readDataSegmentHeadall(manager.getNFile1(i)));
+				System.out.println(MainThread.fileStr[i]+"MrLiu  ：" + manager.getNDateString(i));
 			}
 		}
 		catch(Exception e1){//the error of the network when the procedure are finding the file.
 			manager.setNetError(true);
-			manager.setNReduiqi(i, -1);
 		}
 		
 		this.downLatch.countDown();

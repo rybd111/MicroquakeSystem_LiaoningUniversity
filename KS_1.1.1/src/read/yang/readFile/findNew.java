@@ -15,7 +15,6 @@ import com.h2.constant.Parameters;
 
 import controller.ADMINISTRATOR;
 public class findNew {
-	public static String[] nameF = new String[Parameters.SensorNum];
 	@SuppressWarnings("unused")
 	public static File find(String path,int th,ADMINISTRATOR manager) {
 		
@@ -75,7 +74,7 @@ public class findNew {
 				break;
 		}
 //		System.out.println(fs[l].getAbsolutePath()+"_绝对路径");
-		nameF[th] = fs[l].getName();
+		manager.setNNameF(th, fs[l].getName());
 		return fs[l];
 	}
 	@SuppressWarnings("null")

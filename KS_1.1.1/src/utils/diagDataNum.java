@@ -7,6 +7,8 @@ import java.util.Vector;
 
 import com.h2.constant.Parameters;
 
+import DataExchange.vectorExchange;
+
 /**
  * 判断数据量是否足够？
  * 用于计算模块的数据判断
@@ -19,8 +21,9 @@ public class diagDataNum {
 		//the number of data must enough to calculate which satisfied to 10s, or it will appear mistake consequence for the current data.
 		for (Vector<String>[] vectors : ssen) {
 			for (Vector<String> vector : vectors) {
-				if (vector.size() < Parameters.FREQUENCY * Parameters.readLen)	
-					return false;//this function promise enough volume of data.
+				if(vector == null) 
+					return false;
+				else if (vector.size() < Parameters.FREQUENCY * Parameters.readLen)	return false;
 			}
 		}
 		

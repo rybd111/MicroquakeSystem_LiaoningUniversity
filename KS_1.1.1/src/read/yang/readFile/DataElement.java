@@ -3,9 +3,11 @@ package read.yang.readFile;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import controller.ADMINISTRATOR;
+
 /**
- * Author�����˶������ɷ�    Date��2018��7��9��
- * Description������Ԫ�أ�ÿһ������Ԫ�ذ���ÿ��ͨ����һ������
+ * 保存数据，并根据vector格式former。
+ * @author Chengfeng Liu
  */
 public class DataElement {
     
@@ -17,13 +19,10 @@ public class DataElement {
  	private short y2=0 ;
  	private short z2=0 ;
  		
-// 	private Calendar dataCalendar;//������Ԫ�صļ�¼ʱ�䣨��ȷ���룩
- 	private String dataCalendar;//������Ԫ�صļ�¼ʱ�䣨��ȷ���룩
- 	//������
+ 	private String dataCalendar;
  	public DataElement(){}
  	
  	
- 	//��������������
 	public short getX1() {
 		return x1;
 	}
@@ -67,20 +66,12 @@ public class DataElement {
 		this.z2 = z2;
 	}	
 	
-//	public void setDataCalendar(Calendar calendar){
-//		this.dataCalendar = calendar ;
-//	}
 	public void setDataCalendar(String calendar){
 		this.dataCalendar = calendar ;
 	}
-//	public Calendar getDataCalendar(){
-//		return dataCalendar ;
-//	}
 	public String getDataCalendar(){
 		return dataCalendar ;
 	}
-	
-	//���������ŷ�Ͼ��룩
 	public double getAmplitude(){
 		return Math.sqrt(Math.pow(x2, 2) + Math.pow(y2, 2) + Math.pow(z2, 2));
 	}
@@ -88,11 +79,9 @@ public class DataElement {
 	@Override
 	public String toString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
-//		return ( "[" + x1 + "," + y1 + "," + z1 + ",\t"
-//				+ x2 + ",\t" + y2 + ",\t" + z2 + ",\t"
-//				+ dateFormat.format(dataCalendar.getTime()) + "]");
 		return ( x1 + " " + y1 + " " + z1 + " "
 				+ x2 + " " + y2 + " " + z2 + " "
 				+ dataCalendar );
 	}
+	
 }

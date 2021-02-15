@@ -79,7 +79,7 @@ public class Parameters
 	 * true为调试状态，激发次数增大，且没有激发限时，便于测试数据库与相关功能的正确性和bug
 	 * false为正常运行状态，所有参数均按照当地实际参数设置
 	 */
-	public static boolean Adjust=true;
+	public static boolean Adjust = false;
 	
 //-------------------------do not need to modified when distribute in different locations-------------------------------------------------------------------------
 	/**长时窗的时长，单位是毫秒*/
@@ -201,7 +201,7 @@ public class Parameters
 	/**
 	 * the time to read when procedure start.
 	 */
-	public static String StartTimeStr = "200214130000";
+	public static String StartTimeStr = "200214000000";
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.
 	 * This variable will effect the coordination of this procedure, please confirm it twice.

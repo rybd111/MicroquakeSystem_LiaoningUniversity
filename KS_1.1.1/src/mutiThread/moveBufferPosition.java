@@ -20,7 +20,6 @@ import read.yang.readFile.findNew;
 public class moveBufferPosition extends Thread{
 	
 	private CountDownLatch downLatch;
-	public ReadData readDataArray;
 	private int kuai;
 	private int i;
 	private ADMINISTRATOR manager;
@@ -29,57 +28,41 @@ public class moveBufferPosition extends Thread{
 			CountDownLatch threadSignal_duiqi,
 			int i,
 			ADMINISTRATOR manager) {
+		
 		this.downLatch=threadSignal_duiqi;
 		this.kuai=0;
 		this.i = i;
 		this.manager = manager;
 	}
 	public void run() {
-		//-------------------------------------------------------新建读对象
-		if(manager.isMrMa[i]==false) {
-			try {
-				readDataArray=new ReadData(MainThread.fileStr[i],i,manager);
-				manager.setStartInstance(System.currentTimeMillis());
-				kuai=readDataArray.readDataDui(MainThread.fileStr[i],i);
-				if(kuai==-1){
-					System.out.println(MainThread.fileStr[i]+"盘网络状况不佳，重新对齐");
-					manager.setNetError(true);
-					manager.setNReduiqi(i, -1);
-				}
-				else {
-					manager.setEndInstance(System.currentTimeMillis());
-					System.out.println(MainThread.fileStr[i]+"盘对齐花费："+(manager.getEndInstance()-manager.getStartInstance())/1000+"s");
-					manager.setNReduiqi(i, 0);
-				}
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				manager.setNetError(true);
-				manager.setNReduiqi(i, -1);
-			}
-		}
-		else {
-			try {
-				readDataArray=new ReadData(MainThread.fileStr[i],i,manager); 
-				manager.setStartInstance(System.currentTimeMillis());
-				kuai=readDataArray.readDataDui_MrMa(MainThread.fileStr[i],i);
-				if(kuai==-1){
-					System.out.println(MainThread.fileStr[i]+"盘网络状况不佳，重新对齐");
-					manager.setNetError(true);
-					manager.setNReduiqi(i, -1);
-				}
-				else {
-					manager.setEndInstance(System.currentTimeMillis());
-					System.out.println(MainThread.fileStr[i]+"盘对齐花费："+(manager.getEndInstance()-manager.getStartInstance())/1000+"s");
-					manager.setNReduiqi(i, 0);
-				}
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				manager.setNetError(true);
-				manager.setNReduiqi(i, -1);
-			}
-		}
+		//创建读对象并进行指针挪动。
+		mission();
 		this.downLatch.countDown();
+	}
+	
+	private void mission() {
+		try {
+			synchronized(this) {
+				//新建读对象。
+				manager.setNReadData(i, new ReadData(MainThread.fileStr[i],i,manager));
+				//计时。
+				manager.setStartInstance(System.currentTimeMillis());
+				//读对象指针挪动。
+				kuai = manager.getNReadData(i).readDataDui(MainThread.fileStr[i],i);
+			}
+			if(kuai==-1){
+				System.out.println(MainThread.fileStr[i]+"盘网络状况不佳，重新对齐");
+				manager.setNetError(true);
+			}
+			else {
+				//计时
+				manager.setEndInstance(System.currentTimeMillis());
+				System.out.println(MainThread.fileStr[i]+"盘对齐花费："+(manager.getEndInstance()-manager.getStartInstance())/1000+"s");
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			manager.setNetError(true);
+		}
 	}
 }
