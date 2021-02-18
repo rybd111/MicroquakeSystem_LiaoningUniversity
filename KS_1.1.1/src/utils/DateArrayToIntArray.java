@@ -17,8 +17,11 @@ import read.yang.readFile.ReadData;
 public class DateArrayToIntArray {
 
 	private Date dateMax;
-	public static int j;
+	private int maxSeries;
 	
+	public int getMaxSeries() {
+		return maxSeries;
+	}
 	public Date getDate() {
 		return dateMax;
 	}
@@ -60,10 +63,9 @@ public class DateArrayToIntArray {
 
 			if (cha <= 0) {
 				MaxDate = aDates[i];
-				j=i;
+				maxSeries = i;
 			}
 		}
-		
 		return MaxDate;
 	}
 	

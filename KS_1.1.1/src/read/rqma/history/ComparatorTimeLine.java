@@ -13,15 +13,11 @@ public class  ComparatorTimeLine implements Comparator<TimeLine> {
     @SuppressWarnings("unused")
 	@Override
     public int compare(TimeLine o1, TimeLine o2) {
-    	
-    	
     	int diff=0;
-    	if(Parameters.region=="datong")
-    		diff = SubStrUtil.getSubParentPackage(o1.filename).compareTo(SubStrUtil.getSubParentPackage(o2.filename));
-    	else if(Parameters.region=="pingdingshan"||Parameters.region=="hongyang") {
-    		diff = o1.filename.compareTo(o2.filename);
-    	}
-        if (diff > 0)
+    	
+    	diff = o1.filename.compareTo(o2.filename);
+        
+    	if (diff > 0)
             return 1;
         else if (diff == 0)
             return 0;

@@ -13,7 +13,6 @@ import java.util.Vector;
 import com.h2.backupData.WriteRecords;
 import com.h2.constant.Parameters;
 
-import DataExchange.DataFormer;
 import controller.ADMINISTRATOR;
 import mutiThread.obtainHeadTime;
 import mutiThread.MainThread;
@@ -57,6 +56,8 @@ public class ReadData {
 	public int timeCount = 0;
 	/**the number of sensor.*/
 	private int sensorID = 0;
+	/**the name of sensor.*/
+	private String sensorName = "";
 	/** 调用次数 */
 	private int countSetState=0;
 	
@@ -72,11 +73,14 @@ public class ReadData {
 	private int channel;
 	/** 数据头、文件头、字节数、电压起始、电压结束*/
 	private int datahead;
+	/**缓冲池大小，10个传感器*频率*10s时间。*/
+	private int bufferPoolSize = 10*(Parameters.FREQUENCY+200)*10;
 
 	private int bytenum;
 	private int voltstart;
 	private int voltend;
-	
+	boolean flag1 = false;
+	boolean flag2 = false;
 	
 	/** 第一条数据的日期 */
 	private Date date = new Date();
@@ -92,6 +96,7 @@ public class ReadData {
 	private byte[] dataByte;
 	/** 对齐要跳过的字节 */
 	private byte[] dataByte1;
+	
 	
 	/** 存放1秒数据的字节 */
 	private byte[] dataYiMiao;
@@ -111,404 +116,292 @@ public class ReadData {
 	 
 	 @SuppressWarnings("unused")
 	public ReadData(String path, int th, ADMINISTRATOR manager) throws Exception {
+		 this.sensorName = path;
+		 this.filePath = path;//路径更新
+		 this.sensorID = th;
 		 this.manager = manager;
+		 
 		 if(Parameters.offline==true) {
 			 if(manager.isMrMa[th]==false) {//offline Mr. Liu.
-				 this.file = FindHistoryFile.getFile(path, th);
+				 this.file=new File(path);
 				 HfmedHead hfmedHead = new ReadHfmedHead().readHead(file);//读文件头，文件头内容
-				 this.segmentNum = hfmedHead.getSegmentNum();//从文件头中获得段的数量
-				 this.segmentRecNum = hfmedHead.getSegmentRecNum();// 获得每个段的数据条目数
-				 this.channelNum = hfmedHead.getChannelOnNum();
-				 if(channelNum==7) {
-					 this.channel=123456;
-					 this.datahead=20;
-					 this.bytenum=14;
-					 this.voltstart=12;
-					 this.voltend=13;
-				 }
-				 else if(channelNum==4) {
-					 this.channel=456;
-					 this.datahead=26;
-					 this.bytenum=8;
-					 this.voltstart=6;
-					 this.voltend=7;
-				 }
+				 this.settings(hfmedHead);
 				 this.date = new ReadDateFromHead().readDataSegmentHead(file);// 从第一个数据段头中获得数据文件起始记录时间
-//				 System.out.print(path+"磁盘创建读对象的时间"+date);System.out.println();
 				 manager.setLastDate(Date2String.date2str(date));//update the date for the record P arrival txt file's name.
 				 SensorProperties[] sensor = new ReadSensorProperties().readSensorProperties(file);
 				 this.chCahi = sensor[0].getChCali();//由于通道单位都一样，所以用第一个通道单位就可以
 				 data = new Vector<String>();//用于存放数据
 				 dataByte = new byte[this.bytenum];//改为四个通道，4567
-				 this.buffered = new BufferedInputStream(new FileInputStream(file),8*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
+				 this.buffered = new BufferedInputStream(new FileInputStream(file),bufferPoolSize);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
 				 buffered.read(new byte[Parameters.WenJianTou]);// 跳过文件头(186)，通道信息(14*7)，他们一共242个字节
 			 }
 			 else if(manager.isMrMa[th]==true) {//offline Mr. Ma.
+				 this.file=new File(manager.getNFile1(th));
 				 this.channel=456;
-				 this.filePath = path;//路径更新
-				 this.file=new File(path);
 				 this.date = new ReadDateFromHead().readDataSegmentHead_MrMa_Date(manager.getNFile1(th));// 从第一个数据段头中获得数据文件起始记录时间
-//				 System.out.println(path+"磁盘创建读对象的时间"+date);
 				 data = new Vector<String>();//用于存放数据
 				 dataByte = new byte[Parameters.Shi];//每次读10个字节的字节数组
 				 dataByte1 = new byte[Parameters.ShuJu];//每次跳过210个字节的数据。
 				 dataYiMiao=new byte[Parameters.YIMiao];
 				 readsan=new byte[Parameters.San];
 				 this.newS=null;
-				 this.buffered = new BufferedInputStream(new FileInputStream(manager.getNFile1(th)),10*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
+				 this.buffered = new BufferedInputStream(new FileInputStream(manager.getNFile1(th)),bufferPoolSize);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
 			 }
 		}
 		else {//online Mr. Liu.
 			if(manager.isMrMa[th]==true) {
+				this.file=new File(manager.getNFile1(th));
 				this.channel=456;
-				this.filePath = path;//路径更新
-				this.file=new File(path);
 				this.date = new ReadDateFromHead().readDataSegmentHead_MrMa_Date(manager.getNFile1(th));// 从第一个数据段头中获得数据文件起始记录时间
-//				System.out.println(path+"磁盘创建读对象的时间"+date);
 				data = new Vector<String>();//用于存放数据
 				dataByte = new byte[Parameters.Shi];//每次读10个字节的字节数组
 				dataByte1 = new byte[Parameters.ShuJu];//每次跳过210个字节的数据。
 				dataYiMiao=new byte[Parameters.YIMiao];
 				readsan=new byte[Parameters.San];
 				this.newS=null;
-				this.buffered = new BufferedInputStream(new FileInputStream(manager.getNFile1(th)),10*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
-//				this.buffered = new BufferedInputStream(new FileInputStream(DuiQi.file1[th]),10*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
+				this.buffered = new BufferedInputStream(new FileInputStream(manager.getNFile1(th)),bufferPoolSize);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
 			}
 			else {
-				this.filePath = path;//路径更新
-				HfmedHead hfmedHead = new ReadHfmedHead().readHead(manager.getNFile1(th));//读文件头，文件头内容
-				this.segmentNum = hfmedHead.getSegmentNum();//从文件头中获得段的数量
-				this.segmentRecNum = hfmedHead.getSegmentRecNum();// 获得每个段的数据条目数
-				this.channelNum = hfmedHead.getChannelOnNum();
-				if(channelNum==7) {
-					this.channel=123456;
-					this.datahead=20;
-					this.bytenum=14;
-					this.voltstart=12;
-					this.voltend=13;
-				}
-				else if(channelNum==4) {
-					this.channel=456;
-					this.datahead=26;
-					this.bytenum=8;
-					this.voltstart=6;
-					this.voltend=7;
-				}
-				
-				this.date = new ReadDateFromHead().readDataSegmentHead(manager.getNFile1(th));// 从第一个数据段头中获得数据文件起始记录时间
-//				Thread.sleep(200);
-//				System.out.println("磁盘创建读对象的时间"+String.valueOf(date));
+				this.file=new File(manager.getNFile1(th));
+				HfmedHead hfmedHead = new ReadHfmedHead().readHead(file);//读文件头，文件头内容
+				this.settings(hfmedHead);
+				this.date = new ReadDateFromHead().readDataSegmentHead(file);// 从第一个数据段头中获得数据文件起始记录时间
 				manager.setLastDate(Date2String.date2str(date));//update the date for the record P arrival txt file's name.
 				SensorProperties[] sensor = new ReadSensorProperties().readSensorProperties(manager.getNFile1(th));
 				this.chCahi = sensor[0].getChCali();//由于通道单位都一样，所以用第一个通道单位就可以
 				data = new Vector<String>();//用于存放数据
 				dataByte = new byte[this.bytenum];//改为四个通道，4567
-				this.buffered = new BufferedInputStream(new FileInputStream(manager.getNFile1(th)),8*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
-//				this.buffered = new BufferedInputStream(new FileInputStream(DuiQi.file1[th]),8*5000*8);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
+				this.buffered = new BufferedInputStream(new FileInputStream(manager.getNFile1(th)),bufferPoolSize);//设置缓冲池大小，缓冲池过小可能读不全1s钟的数据，待研究
 				buffered.read(new byte[Parameters.WenJianTou]);// 跳过文件头(186)，通道信息(14*7)，他们一共242个字节
 			}
 		}
 	}
 
-	public synchronized void readData(String sName,int sID) throws Exception {//读取整秒数据
+	public synchronized void readData() throws Exception {//读取整秒数据
+		if(manager.isMrMa[sensorID] == false) {
 		int by = -1;
 		boolean fileisOver = false;
 		int LoopCount=0;
+		
 		if(manager.getNewFile() == true) {
-//		if(ReadData.newData == true){
 			System.out.println("其余台站进入while时，产生新文件");
 			return;
 		}
 		else{
-		/**the number of each sensor, it's the same as the start sequence.*/
-		this.sensorID = sID;
-		/**the two flag diagnose a second over or not.*/
-		boolean flag1 = false;
-		boolean flag2 = false;
-		/**we will clear the data of data variable at each beginning of the readData function.*/
-		data.clear();
-		/**define two variables to storage date and volt of the 8 channel-GPS volt.*/
-		short volt = 0;
-		/**read　one second data until encountering the low volt or the end of the current file.*/
-		while(true){
-			if(manager.getNewFile() == false) {
-//			if(ReadData.newData==false){
-			try{
-				if(fileisOver == false) {
-					if((by = buffered.read(dataByte)) < dataByte.length){//不够8字节读够8字节数据
-						fileisOver=true;
-						/**wait a little time to make the sensor has time to write data into the file.*/
-						Thread.sleep(200);
-						continue;
-					}
-				}
-				else {
-					/**if by != -1 then the file is not over.*/
-					if(by!=-1) {
-						if(by>=4) {//diagnose its greater than 4 - is "HFME"
-							byte[] feature = {dataByte[0] , dataByte[1] , dataByte[2] , dataByte[3]};//特征码是4个字节，其内容为"HFME"
-				   			if(new String(feature).compareTo("HFME") == 0){//读到了数据段头
-				   				buffered.skip(this.datahead);//再跳过26字节，就到数据了
-				   				buffered.read(dataByte);//还是以14字节为单位读，7个通道每个通道占2字节。
-				   			}
-				   			else {
-				   				buffered.skip(this.bytenum-by);//不够8字节，跳过当前这条数据
-								fileisOver=false;
-								continue;
-				   			}
-						}
-						else {
-							byte[] feature = new byte[4];
-							for(int i=0;i<by;i++) feature[i] = dataByte[i];							
-							int count=0;
-							byte[] remain = new byte[4-by];
-							buffered.read(remain);
-							for(int i=by;i<4;i++) {
-								feature[i] = remain[count];
-								count++;
-							}
-							if(new String(feature).compareTo("HFME") == 0){//读到了数据段头
-				   				buffered.skip(this.datahead);//再跳过26字节，就到数据了
-				   				buffered.read(dataByte);//还是以14字节为单位读，7个通道每个通道占2字节。
-							}
-							else {
-								buffered.skip(this.bytenum-4);//不够8字节，跳过当前这条数据
-								fileisOver=false;
-								continue;
-							}
-						}
-					}
-					/**or we read the next dataByte to confirm the file is over.*/
-					else{
-						if(buffered.read(dataByte)==-1) {//到达末尾
-							this.countSetState++;
-							manager.setNewFile(setState());
-//							ReadData.newData = setState();//判断是否产生了新文件
-							if(manager.getNewFile() == true) {
-//							if(ReadData.newData == true){//产生了新文件，需重新对齐
-								System.out.println("有"+this.countSetState+"次读取到了不够8字节的数据");
-								System.out.println("第"+sensorID+"号台站"+sName+"产生了新文件");
-								data.clear();timeCount = 0;
-								return;
-							}else{
-//								fileisOver=false;
-								continue;//直接等待直到出现数据，写入data容器
-							}
-						}
-					}
-				}
-				}
-				catch(IOException e){
-					System.out.println(sensorID+"号台站"+sName+"产生了网络错误，记录当前错误时间！");
-//					if(timeInterrupt==-1){timeInterrupt = timeCount;System.out.println("##########"+timeInterrupt+"盘号"+sensorID);}//保存了网络错误时间，若在接下来等待的时间内未产生新文件，则对齐时加上该时间，避免重复计算前面的数据
-					if(manager.getTimeInterrupt() == -1){manager.setTimeInterrupt(timeCount);System.out.println("##########"+manager.getTimeInterrupt()+"盘号"+sensorID);}//保存了网络错误时间，若在接下来等待的时间内未产生新文件，则对齐时加上该时间，避免重复计算前面的数据
-					if(manager.getNetErrID() == -1){manager.setNetErrID(sensorID);System.out.println("!!!!!!!!!"+manager.getNetErrID());}//记录台站号，用于记录发生网络错误的盘符，便于统计结果
-					manager.setNetError(true);
-//					ReadData.netError = true;//网络错误，同时记录产生网络错误的盘符及年月日
-					return;
-				}
-				LoopCount++;
-				
-				byte[] feature = {dataByte[0] , dataByte[1] , dataByte[2] , dataByte[3]};//特征码是4个字节，其内容为"HFME"
-	   			if(new String(feature).compareTo("HFME") == 0){//读到了数据段头
-	   				buffered.skip(this.datahead);//再跳过26字节，就到数据了
-	   				buffered.read(dataByte);//还是以14字节为单位读，7个通道每个通道占2字节。
-	   			}
-
-	   			DataFormer dataProcess = new DataFormer(dataByte,sensorID,channel,timeCount,date,manager);
-	   			
-	   			DataElement dataElement = dataProcess.getDataElementFromDataBytes();
-	   			dataElement.setDataCalendar(dataProcess.formerDate());//置入数据读取时间
-	   			data.add(dataElement.toString());//存储7个通道的数据至data容器
-	   			
-	   			volt = DataTypeConversion.joint2BytesToShort(dataByte[this.voltstart], dataByte[this.voltend]);//获取电平数据
-	   			if (isBroken == false) {//之前对齐时电压没缺失，在读一秒时，出现电压缺失
-	                if (LoopCount > (Parameters.FREQUENCY+210)) {//循环5010(一秒最多5010条数据)次时，还没退出，表明文件电平缺失，
-	                    isBroken = true;
-	                    System.out.println(MainThread.fileStr[sID]+"出现GPS缺失");
-	                    break;
-	                }
-	                
-	                //判断1s是否结束，结束跳出while
-	                if (Math.abs(volt) < 1000 ) {
-//							data.remove(data.size() - 1) ;//保证是正好10s的数据，因为最后一个低电平的数据也被读进来了
-	                    flag2 = true;
-	                }
-	                if (Math.abs(volt) > 5000 && flag2) flag1 = true;
-	                if (flag1 && flag2) {//高电平结束，说明1s数据结束，跳出while(true)，一个读过程结束
-	                    timeCount++;
-	                    break;
-	                }
-	            } else {//在对齐时，就已经出现电压缺失，直接进入这里
-	                if (LoopCount >= (Parameters.FREQUENCY+200)) {
-	                	timeCount++; //即使电压缺失了，时间也得跟着走，不然调用calendar.add(Calendar.SECOND, timeCount)是错的
-	                    break;//必须读够1秒的数据才能退出(1秒大概5000条数据)
-	                }
-	            }
-			}
-			else{
-				return;
-			}
-		}// end while(true)
-		}//end if
-	}
-	
-	/**
-	 * when we use Mr Ma's sensor, we will use this function to read data as second unit.
-	 * @param sName
-	 * @param sID
-	 * @throws Exception
-	 * @author Rui Cao.
-	 */
-	public synchronized void readData_MrMa(String sName,int sID) throws Exception {//读取整秒数据
-		int count=0;//标志位，初始是0
-		int count1=0;
-		String MaxDateS=null;
-		boolean fileisOver = false;//标识程序是否到达末尾
-		if(manager.getNewFile() == true) {
-//		if(ReadData.newData == true){
-			System.out.println("其余台站进入while时，产生新文件");
-			return;
-		}
-		else{
-			String sensorName = sName;//台站号，与MainThread中的String fileStr1（盘号）一一对应，用于设置是否读到文件末尾readToNew的标志位
-			this.sensorID = sID;
-			
-			data.clear();// 每次调用readData方法的时候将data数据区清空
-	
-			String dateCus;    //保存7个通道的数据
-			
-//			DateFormat format1 = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
-			SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
-//			Date startDate = format1.parse(date);
-			//从对齐位置开始，读1秒的数据
+			/**we will clear the data of data variable at each beginning of the readData function.*/
+			data.clear();
+			/**define two variables to storage date and volt of the 8 channel-GPS volt.*/
+			short volt = 0;
+			/**read　one second data until encountering the low volt or the end of the current file.*/
 			while(true){
-				if(manager.getNewFile() == false) {
-//				if(ReadData.newData==false){
-					//indicate the end of file.
-					try{
-						if(fileisOver == false) {				
-							if(buffered.read(dataByte)==-1) {
-								fileisOver=true;
-								continue;
-							}
-						}
-						else {
-							manager.setNewFile(setState());
-//							ReadData.newData = setState();//判断是否产生了新文件
-							if(manager.getNewFile() == true) {
-//							if(ReadData.newData == true){//产生了新文件，需重新对齐
-								System.out.println("第"+sensorID+"号台站"+sName+"产生了新文件");
-								data.clear();timeCount = 0;
-								return;
-							}
-							else{
-								continue;//直接等待直到出现数据，写入data容器
-							}
-						}
-					}
-					catch(IOException e){
-						System.out.println(sensorID+"号台站"+sName+"产生了网络错误，记录当前错误时间！");
-						if(manager.getNetErrID()==-1){manager.setNetErrID(sensorID);System.out.println("!!!!!!!!!"+manager.getNetErrID());}//记录台站号，用于记录发生网络错误的盘符，便于统计结果
-						manager.setNetError(true);
-//						ReadData.netError = true;//网络错误，同时记录产生网络错误的盘符及年月日
-						return;
-					}
-					//core of algorithm
-					byte[] DATE1 = {dataByte[0]};byte[] DATE2 = {dataByte[1]};byte[] DATE3 = {dataByte[2]};byte[] DATE4 = {dataByte[3]};
-					byte[] ID = {dataByte[6]};byte[] zhenhao = {dataByte[7],dataByte[8]};byte[] zengyi = {dataByte[9]};
-					String DATEs1 = FindByte.bytesToHexString(DATE1);String DATEs2 = FindByte.bytesToHexString(DATE2);String DATEs3 = FindByte.bytesToHexString(DATE3);String DATEs4 = FindByte.bytesToHexString(DATE4);
-					String IDs = FindByte.bytesToHexString(ID);String zhenhaos = FindByte.bytesToHexString(zhenhao);
-					String zengyis = FindByte.bytesToHexString(zengyi);//判断是否是帧头
-					
-					if(		   DATEs1.compareTo("00") !=0 
-							&& DATEs2.compareTo("00") !=0 
-							&& DATEs3.compareTo("00") !=0 
-							&& DATEs4.compareTo("00") !=0 
-							&& IDs.compareTo("00") == 0&&zhenhaos.compareTo("0000") != 0&&zengyis.compareTo("00") == 0){
-						if(newS==null) {
-							MaxDateS = DateArrayToIntArray.FindFourByte(manager.getNFile1(sID));
-//							MaxDateS = DateArrayToIntArray.FindFourByte(DuiQi.file1[sID]);
-						}
-						else {
-							MaxDateS=newS;
-						}
-						
-						byte[] Time = {dataByte[0],dataByte[1],dataByte[2],dataByte[3]};
-						String Stime = FindByte.bytesToHexString(Time);
-						
-						
-						if(Stime.compareTo(MaxDateS)==0) {
-							buffered.read(dataByte);
-							for(int j=0;j<10;j++) {
-								dataYiMiao[count] = dataByte[j];
-								count=count+1;
-							}		
-						}
-						else {
-							for(int i=0;i<count/3;i++) {
-								readsan[0]=dataYiMiao[2*i+i];
-								readsan[1]=dataYiMiao[2*i+i+1];
-								readsan[2]=dataYiMiao[2*i+i+2];
-								
-								DataFormer dataProcess = new DataFormer(dataByte,sensorID,channel,timeCount,date,manager);
-					   			DataElement dataElement = dataProcess.getDataElementFromDataBytes();
-								
-								String date1 = format2.format(date);
-					   			dateCus = date1;
-					   			dataElement.setDataCalendar(dateCus);
-					   			data.add(dataElement.toString());
-							}
-							newS=Stime;
-							timeCount++;
-							count1 = count;
-							Calendar calendar = Calendar.getInstance(); 
-				   			calendar.setTime(date);
-				   			calendar.add(Calendar.SECOND, timeCount);
-//				   			Date startDate1 = calendar.getTime();
-				   			date = calendar.getTime();
-//				   			String date1= format2.format(startDate1);
-//				   			startDate = format2.parse(date1); //this startDate should be the same as startDate1? but if the startDate will change with timeCount, the timeCount is trivial.
-				   			buffered.read(dataByte);
-				   			for(int j=0;j<10;j++) {
-								dataYiMiao[count] = dataByte[j];
-								count=count+1;
-							}	
-//				   			System.out.println("enter into hop");
+				try{
+					if(fileisOver == false) {
+						if((by = buffered.read(dataByte)) < dataByte.length){//不够8字节读够8字节数据
+							fileisOver=true;
+							/**wait a little time to make the sensor has time to write data into the file.*/
+							Thread.sleep(200);
+							continue;
 						}
 					}
 					else {
-						for(int j=0;j<10;j++) {
-							dataYiMiao[count] = dataByte[j];
-							count=count+1;
+						/**if by != -1 then the file is not over.*/
+						if(by!=-1) {
+							if(by>=4) {//diagnose its greater than 4 - is "HFME"
+								byte[] feature = {dataByte[0] , dataByte[1] , dataByte[2] , dataByte[3]};//特征码是4个字节，其内容为"HFME"
+					   			if(new String(feature).compareTo("HFME") == 0){//读到了数据段头
+					   				buffered.skip(this.datahead);//再跳过26字节，就到数据了
+					   				buffered.read(dataByte);//还是以14字节为单位读，7个通道每个通道占2字节。
+					   			}
+					   			else {
+					   				buffered.skip(this.bytenum-by);//不够8字节，跳过当前这条数据
+									fileisOver=false;
+									continue;
+					   			}
+							}
+							else {
+								byte[] feature = new byte[4];
+								for(int i=0;i<by;i++) feature[i] = dataByte[i];							
+								int count=0;
+								byte[] remain = new byte[4-by];
+								buffered.read(remain);
+								for(int i=by;i<4;i++) {
+									feature[i] = remain[count];
+									count++;
+								}
+								if(new String(feature).compareTo("HFME") == 0){//读到了数据段头
+					   				buffered.skip(this.datahead);//再跳过26字节，就到数据了
+					   				buffered.read(dataByte);//还是以14字节为单位读，7个通道每个通道占2字节。
+								}
+								else {
+									buffered.skip(this.bytenum-4);//不够8字节，跳过当前这条数据
+									fileisOver=false;
+									continue;
+								}
+							}
+						}
+						/**or we read the next dataByte to confirm the file is over.*/
+						else{
+							if(this.tailOnlineProcessing() == true)
+								return;
+							else
+								continue;
 						}
 					}
-				}
-				else	
-					return;
-				
-				if(count==(Parameters.FREQUENCY+200)*3) {
-					for(int i=0;i<((Parameters.FREQUENCY+200)*3-count1)/3;i++) {
-						readsan[0]=dataYiMiao[count1+(2*i+i)];
-						readsan[1]=dataYiMiao[count1+(2*i+i+1)];
-						readsan[2]=dataYiMiao[count1+(2*i+i+2)];
-						
-						DataFormer dataProcess = new DataFormer(dataByte,sensorID,channel,timeCount,date,manager);
-			   			
-			   			DataElement dataElement = dataProcess.getDataElementFromDataBytes();
-						
-						String date1 = format2.format(date);
-			   			dateCus = date1;
-			   			dataElement.setDataCalendar(dateCus);//置入数据读取时间
-			   			data.add(dataElement.toString());//存储数据至data容器
-//			   			date=date1;//更新时间为下一秒数据的开始时间。the date1 should equal to date?
-			   			timeCount=0;
 					}
-//					System.out.println("");
-					break;
-				}
-			}//end while.
-		}	
+					catch(IOException e){
+						this.netErrorProcess();
+						return;
+					}
+					LoopCount++;
+					//read HFME feature code.
+					this.HFMEFeature();
+					
+		   			DataElement dataElement = this.getDataElementFromDataBytes();
+		   			dataElement.setDataCalendar(this.formerDate());//置入数据读取时间
+		   			data.add(dataElement.toString());//存储7个通道的数据至data容器
+		   			
+		   			volt = DataTypeConversion.joint2BytesToShort(dataByte[this.voltstart], dataByte[this.voltend]);//获取电平数据
+		   			if(this.voltProcessing(volt, LoopCount) == true) {
+		   				break;
+		   			}
+			}// end while(true)
+		}//end if
+		}
+		else {
+			int count=0;//标志位，初始是0
+			int count1=0;
+			String MaxDateS=null;
+			boolean fileisOver = false;//标识程序是否到达末尾
+			if(manager.getNewFile() == true) {
+				System.out.println("其余台站进入while时，产生新文件");
+				return;
+			}
+			else{
+				data.clear();// 每次调用readData方法的时候将data数据区清空
+		
+				String dateCus;    //保存7个通道的数据
+				SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
+//				Date startDate = format1.parse(date);
+				//从对齐位置开始，读1秒的数据
+				while(true){
+					if(manager.getNewFile() == false) {
+						//indicate the end of file.
+						try{
+							if(fileisOver == false) {				
+								if(buffered.read(dataByte)==-1) {
+									fileisOver=true;
+									continue;
+								}
+							}
+							else {
+								manager.setNewFile(setState());
+								if(manager.getNewFile() == true) {
+									System.out.println("第"+sensorID+"号台站"+sensorName+"产生了新文件");
+									data.clear();timeCount = 0;
+									return;
+								}
+								else{
+									continue;//直接等待直到出现数据，写入data容器
+								}
+							}
+						}
+						catch(IOException e){
+							System.out.println(sensorID+"号台站"+sensorName+"产生了网络错误，记录当前错误时间！");
+							if(manager.getNetErrID()==-1){manager.setNetErrID(sensorID);System.out.println("!!!!!!!!!"+manager.getNetErrID());}//记录台站号，用于记录发生网络错误的盘符，便于统计结果
+							manager.setNetError(true);
+							return;
+						}
+						//core of algorithm
+						byte[] DATE1 = {dataByte[0]};byte[] DATE2 = {dataByte[1]};byte[] DATE3 = {dataByte[2]};byte[] DATE4 = {dataByte[3]};
+						byte[] ID = {dataByte[6]};byte[] zhenhao = {dataByte[7],dataByte[8]};byte[] zengyi = {dataByte[9]};
+						String DATEs1 = FindByte.bytesToHexString(DATE1);String DATEs2 = FindByte.bytesToHexString(DATE2);String DATEs3 = FindByte.bytesToHexString(DATE3);String DATEs4 = FindByte.bytesToHexString(DATE4);
+						String IDs = FindByte.bytesToHexString(ID);String zhenhaos = FindByte.bytesToHexString(zhenhao);
+						String zengyis = FindByte.bytesToHexString(zengyi);//判断是否是帧头
+						
+						if(		   DATEs1.compareTo("00") !=0 
+								&& DATEs2.compareTo("00") !=0 
+								&& DATEs3.compareTo("00") !=0 
+								&& DATEs4.compareTo("00") !=0 
+								&& IDs.compareTo("00") == 0&&zhenhaos.compareTo("0000") != 0&&zengyis.compareTo("00") == 0){
+							if(newS==null) {
+								MaxDateS = DateArrayToIntArray.FindFourByte(manager.getNFile1(this.sensorID));
+							}
+							else {
+								MaxDateS=newS;
+							}
+							
+							byte[] Time = {dataByte[0],dataByte[1],dataByte[2],dataByte[3]};
+							String Stime = FindByte.bytesToHexString(Time);
+							
+							
+							if(Stime.compareTo(MaxDateS)==0) {
+								buffered.read(dataByte);
+								for(int j=0;j<10;j++) {
+									dataYiMiao[count] = dataByte[j];
+									count=count+1;
+								}		
+							}
+							else {
+								for(int i=0;i<count/3;i++) {
+									readsan[0]=dataYiMiao[2*i+i];
+									readsan[1]=dataYiMiao[2*i+i+1];
+									readsan[2]=dataYiMiao[2*i+i+2];
+									
+						   			DataElement dataElement = this.getDataElementFromDataBytes();
+									
+									String date1 = format2.format(date);
+						   			dateCus = date1;
+						   			dataElement.setDataCalendar(dateCus);
+						   			data.add(dataElement.toString());
+								}
+								newS=Stime;
+								timeCount++;
+								count1 = count;
+								Calendar calendar = Calendar.getInstance(); 
+					   			calendar.setTime(date);
+					   			calendar.add(Calendar.SECOND, timeCount);
+//					   			Date startDate1 = calendar.getTime();
+					   			date = calendar.getTime();
+//					   			String date1= format2.format(startDate1);
+//					   			startDate = format2.parse(date1); //this startDate should be the same as startDate1? but if the startDate will change with timeCount, the timeCount is trivial.
+					   			buffered.read(dataByte);
+					   			for(int j=0;j<10;j++) {
+									dataYiMiao[count] = dataByte[j];
+									count=count+1;
+								}	
+//					   			System.out.println("enter into hop");
+							}
+						}
+						else {
+							for(int j=0;j<10;j++) {
+								dataYiMiao[count] = dataByte[j];
+								count=count+1;
+							}
+						}
+					}
+					else	
+						return;
+					
+					if(count==(Parameters.FREQUENCY+200)*3) {
+						for(int i=0;i<((Parameters.FREQUENCY+200)*3-count1)/3;i++) {
+							readsan[0]=dataYiMiao[count1+(2*i+i)];
+							readsan[1]=dataYiMiao[count1+(2*i+i+1)];
+							readsan[2]=dataYiMiao[count1+(2*i+i+2)];
+							
+				   			DataElement dataElement = this.getDataElementFromDataBytes();
+							
+							String date1 = format2.format(date);
+				   			dateCus = date1;
+				   			dataElement.setDataCalendar(dateCus);//置入数据读取时间
+				   			data.add(dataElement.toString());//存储数据至data容器
+//				   			date=date1;//更新时间为下一秒数据的开始时间。the date1 should equal to date?
+				   			timeCount=0;
+						}
+						break;
+					}
+				}//end while.
+			}	
+		}
 	}
 	
 	/**
@@ -520,22 +413,15 @@ public class ReadData {
 	 * @author rqma
 	 * @throws Exception
 	 */
-	public synchronized void readDataNoGPS_offline(String sName,int sID) throws Exception {//读取整秒数据
+	public synchronized void readDataNoGPS_offline() throws Exception {//读取整秒数据
 		int by = -1;
 		boolean fileisOver = false;//标识程序是否到达末尾
 		int LoopCount = 0;//解决文件缺失问题而定义的
 		
-		/**the number of each sensor, it's the same as the start sequence.*/
-		this.sensorID = sID;
-		/**the two flag diagnose a second over or not.*/
-		boolean flag1 = false;
-		boolean flag2 = false;
 		/**we will clear the data of data variable at each beginning of the readData function.*/
 		data.clear();
 		/**define two variables to storage date and volt of the 8 channel-GPS volt.*/
 		short volt = 0;
-		/**define a date format to storage the date in a self-defined format.*/
-		SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
 		/**read　one second data until encountering the low volt or the end of the current file.*/
 		while(true){
 			
@@ -558,24 +444,14 @@ public class ReadData {
 					/**or we read the next dataByte to confirm the file is over.*/
 					else{
 						if(buffered.read(dataByte)==-1) {//到达末尾
-							this.countSetState++;
-							manager.setNewFile(true);
-//							ReadData.newData = true;//判断是否产生了新文件
-							System.out.println("有"+this.countSetState+"次读取到了不够8字节的数据");
-							System.out.println("第"+sensorID+"号台站"+sName+"产生了新文件");
-							System.out.println("当前文件的方波个数为："+timeCount);
-							data.clear();timeCount = 0;
+							this.tailOfflineProcessing();
 							return;
 						}
 					}
 				}
 			}
 			catch(IOException e){
-				System.out.println(sensorID+"号台站"+sName+"产生了网络错误，记录当前错误时间！");
-				if(manager.getTimeInterrupt() == -1){manager.setTimeInterrupt(timeCount);System.out.println("##########"+manager.getTimeInterrupt()+"盘号"+sensorID);}//保存了网络错误时间，若在接下来等待的时间内未产生新文件，则对齐时加上该时间，避免重复计算前面的数据
-				if(manager.getNetErrID() == -1){manager.setNetErrID(sensorID);System.out.println("!!!!!!!!!"+manager.getNetErrID());}//记录台站号，用于记录发生网络错误的盘符，便于统计结果
-				manager.setNetError(true);
-//				ReadData.netError = true;//网络错误，同时记录产生网络错误的盘符及年月日
+				this.netErrorProcess();
 				return;
 			}
 		
@@ -586,37 +462,16 @@ public class ReadData {
    				buffered.skip(this.datahead);//再跳过26字节，就到数据了
    				buffered.read(dataByte);//还是以14字节为单位读，7个通道每个通道占2字节。
    			}
-   			DataFormer dataProcess = new DataFormer(dataByte,sensorID,channel,timeCount,date,manager);
    			
-   			DataElement dataElement = dataProcess.getDataElementFromDataBytes();
-   			dataElement.setDataCalendar(dataProcess.formerDate());//置入数据读取时间
+   			DataElement dataElement = this.getDataElementFromDataBytes();
+   			dataElement.setDataCalendar(this.formerDate());//置入数据读取时间
    			data.add(dataElement.toString());//存储7个通道的数据至data容器
 
    			volt = DataTypeConversion.joint2BytesToShort(dataByte[this.voltstart], dataByte[this.voltend]);//获取电平数据
 			
-   			if (isBroken == false) {//之前对齐时电压没缺失，在读一秒时，出现电压缺失
-                if (LoopCount > (Parameters.FREQUENCY+210)) {//循环5010(一秒最多5010条数据)次时，还没退出，表明文件电平缺失，
-                    isBroken = true;
-                    System.out.println(MainThread.fileStr[sID]+"出现GPS缺失");
-                    break;
-                }
-                
-                //判断1s是否结束，结束跳出while
-                
-                if (Math.abs(volt) < 1000 ) {
-                    flag2 = true;
-                }
-                if (Math.abs(volt) > 5000 && flag2) flag1 = true;
-                if (flag1 && flag2) {//高电平结束，说明1s数据结束，跳出while(true)，一个读过程结束
-                    timeCount++;
-                    break;
-                }
-            } else {//在对齐时，就已经出现电压缺失，直接进入这里
-                if (LoopCount >= (Parameters.FREQUENCY+200)) {
-                	timeCount++; //即使电压缺失了，时间也得跟着走，不然调用calendar.add(Calendar.SECOND, timeCount)是错的
-                    break;//必须读够1秒的数据才能退出(1秒大概5000条数据)
-                }
-            }
+   			if(this.voltProcessing(volt, LoopCount) == true) {
+   				break;
+   			}
 		}// end while(true)
 	}
 	
@@ -627,12 +482,9 @@ public class ReadData {
 	 * @author rqma
 	 * @throws Exception
 	 */
-	public int readDataAlign(String sName, int sID) throws Exception {
-        String sensorName = sName;
-        int ID = sID;
+	public int readDataAlign() throws Exception {
         boolean flag1 = false;
         boolean flag2 = false;
-        boolean flag3 = false;
         short volt = 0;//保存电压值
         int LoopCount = 0;//解决文件电压缺失问题而定义的
         int firstTimeCount = 0;//解决文件电压缺失问题而定义的
@@ -650,11 +502,9 @@ public class ReadData {
                 return -1;//此时只能再次重启程序，但之前可能已产生网络错误，或产生新文件，因此这里不予修改标志位，防止标志位混乱
             }
             LoopCount++;
-            byte[] feature = {dataByte[0], dataByte[1], dataByte[2], dataByte[3]};//特征码是4个字节，其内容为"HFME"
-            if (new String(feature).compareTo("HFME") == 0) {//读到了数据段头
-                buffered.skip(this.datahead);//再跳过26字节，就到数据了
-                buffered.read(dataByte);//还是以14字节为单位读，7个通道每个通道占2字节。
-            }
+            //read the HFME feature code.
+            this.HFMEFeature();
+            
             if (isBroken == false) {
                 byte[] voltByte = FindByte.searchByteSeq(dataByte, this.voltstart, this.voltend);    //提取电压
                 volt = Byte2Short.byte2Short(voltByte); //保存
@@ -664,12 +514,11 @@ public class ReadData {
                 if (flag1 && flag2) {//高电平结束，说明1s数据结束，计量timeCount
 
                 	if(timeCount==0 && LoopCount>((Parameters.FREQUENCY+200)/2)-(Parameters.distanceToSquareWave*(Parameters.FREQUENCY+200))) {
-//                	if(timeCount==0 && LoopCount>((Parameters.FREQUENCY+200)/2)) {
                     	timeCount++;
                     	System.out.println(sensorName+"数据头时间距离下一方波处的数据量大于频率的一半"+LoopCount);
                     }
 
-                	if ((timeCount-1) == AlignFile.align[ID]) {
+                	if ((timeCount-1) == AlignFile.align[this.sensorID]) {
                         System.out.println(sensorName + "对齐完毕,timeCount为：" + timeCount);
                         return timeCount;
                     }
@@ -686,14 +535,14 @@ public class ReadData {
                 if (LoopCount >= (Parameters.FREQUENCY+210)) {
                     //注意！！！此处有坑，对于好使的、没有电压丢失的文件，文件开头就有可能发生高低电平转换，导致timeCount 会 ++；
                     if (timeCount == 0) {
-                        System.out.println("五个台站中，第"+ID + 1 + "个台站电压从 \"开始\" 就存在缺失，所以，停下来吧，少年!!!电压已经不起作用了");
-                        remainTimeCount = AlignFile.align[ID] - timeCount;
+                        System.out.println("五个台站中，第"+sensorID + "个台站电压从 \"开始\" 就存在缺失，所以，停下来吧，少年!!!电压已经不起作用了");
+                        remainTimeCount = AlignFile.align[sensorID] - timeCount;
                         isBroken = true;
                     } else if (timeCount != 0 && (LoopCount - firstTimeCount) / timeCount > (Parameters.FREQUENCY+210)) {
                         //经讨论分析得出：
                         //总循环次数 和 到第一个timeCount的循环次数相减，再除以timeCount，如果大于5010，认为文件电压缺失了
-                        System.out.println("五个台站中，第"+ID + 1 + "个台站电压从" + timeCount + "起存在缺失，所以，停下来吧，少年!!!电压已经不起作用了");
-                        remainTimeCount = AlignFile.align[ID] - timeCount;
+                        System.out.println("五个台站中，第"+sensorID + "个台站电压从" + timeCount + "起存在缺失，所以，停下来吧，少年!!!电压已经不起作用了");
+                        remainTimeCount = AlignFile.align[sensorID] - timeCount;
                         isBroken = true;
                     }
                 }
@@ -701,8 +550,8 @@ public class ReadData {
             if (isBroken == true && (LoopCount >= remainTimeCount * (Parameters.FREQUENCY+200))) {
                 //当总的循环次数等于 >= 剩余次数*5000 时，认为对齐了
                 System.out.println("对齐完毕,LoopCount为: " + LoopCount);
-                timeCount=AlignFile.align[ID];//将时间修改为对齐点时间
-                return AlignFile.align[ID];//这里直接返回DuiQi.duiqi[ID]，代表对齐成功。
+                timeCount=AlignFile.align[sensorID];//将时间修改为对齐点时间
+                return AlignFile.align[sensorID];//这里直接返回DuiQi.duiqi[ID]，代表对齐成功。
             }
         }// end while(true)
     }
@@ -713,10 +562,8 @@ public class ReadData {
 	 * 但目前硬件对齐速度较慢，因此我们对每次的读数据时间进行计时，当每次1s对齐的时间超过2s时，重新选择盘符的组合。
 	 * @author Hanlin Zhang.
 	 */
-	public int readDataDui( String sName, int sID) throws Exception {
-		if(manager.isMrMa[sID] == false) {
-			String sensorName = sName;
-			int ID = sID;
+	public int readDataDui() throws Exception {
+		if(manager.isMrMa[sensorID] == false) {
 			boolean flag1 = false ;
 			boolean flag2 = false ;
 			short volt = 0;//保存电压值
@@ -729,14 +576,12 @@ public class ReadData {
 				
 				try{
 					if (buffered.read(dataByte) == -1){
-						System.out.println(MainThread.fileStr[sID]+"恭喜程序进入死亡地带");
+						System.out.println(MainThread.fileStr[sensorID]+"恭喜程序进入死亡地带");
 						return -1;
 					}
 				}
 				catch(Exception e){//网络错误,重新分配盘符
-					manager.setNetError(true);
-	//				ReadData.netError=true;
-					System.out.println("对齐过程产生网络错误");
+					this.netErrorAlign();
 					return -1;//此时只能再次重启程序，但之前可能已产生网络错误，或产生新文件，因此这里不予修改标志位，防止标志位混乱
 				}
 				LoopCount++;
@@ -757,7 +602,7 @@ public class ReadData {
 	                    	timeCount++;
 	                    	System.out.println(sensorName+"数据头时间距离下一方波处的数据量大于频率的一半"+LoopCount);
 	                    }
-	                	if ((timeCount-1) == manager.getNDuiqi(ID)) {
+	                	if ((timeCount-1) == manager.getNDuiqi(sensorID)) {
 	                        System.out.println(sensorName + "对齐完毕,timeCount为：" + timeCount);
 	                        return timeCount;
 	                    }
@@ -774,14 +619,14 @@ public class ReadData {
 	                if (LoopCount >= (Parameters.FREQUENCY+210)) {
 	                    //注意！！！此处有坑，对于好使的、没有电压丢失的文件，文件开头就有可能发生高低电平转换，导致timeCount 会 ++；
 	                    if (timeCount == 0) {
-	                        System.out.println("五个台站中，第"+ID + 1 + "个台站电压从 \"开始\" 就存在缺失，所以，停下来吧，少年!!!电压已经不起作用了");
-	                        remainTimeCount = manager.getNDuiqi(ID) - timeCount;
+	                        System.out.println("五个台站中，第"+sensorID + "个台站电压从 \"开始\" 就存在缺失，所以，停下来吧，少年!!!电压已经不起作用了");
+	                        remainTimeCount = manager.getNDuiqi(sensorID) - timeCount;
 	                        isBroken = true;
 	                    } else if (timeCount != 0 && (LoopCount - firstTimeCount) / timeCount > (Parameters.FREQUENCY+210)) {
 	                        //经讨论分析得出：
 	                        //总循环次数 和 到第一个timeCount的循环次数相减，再除以timeCount，如果大于5010，认为文件电压缺失了
-	                        System.out.println("五个台站中，第"+ID + 1 + "个台站电压从" + timeCount + "起存在缺失，所以，停下来吧，少年!!!电压已经不起作用了");
-	                        remainTimeCount = manager.getNDuiqi(ID) - timeCount;
+	                        System.out.println("五个台站中，第"+sensorID  + "个台站电压从" + timeCount + "起存在缺失，所以，停下来吧，少年!!!电压已经不起作用了");
+	                        remainTimeCount = manager.getNDuiqi(sensorID) - timeCount;
 	                        isBroken = true;
 	                    }
 	                }
@@ -789,17 +634,16 @@ public class ReadData {
 	            if (isBroken == true && (LoopCount >= remainTimeCount * (Parameters.FREQUENCY+200))) {
 	                //当总的循环次数等于 >= 剩余次数*5000 时，认为对齐了
 	                System.out.println(sensorName + "对齐完毕,LoopCount为: " + LoopCount);
-	                timeCount=manager.getNDuiqi(ID);//将时间修改为对齐点时间
+	                timeCount=manager.getNDuiqi(sensorID);//将时间修改为对齐点时间
 	                return timeCount;//这里直接返回DuiQi.duiqi[ID]，代表对齐成功。
 	            }
 			}// end while(true)
 		}
-		else if(manager.isMrMa[sID] == true) {
-			String sensorName = sName;
+		else {
 //			String FindMaxByte = DateArrayToIntArray.FindFourByte(DuiQi.file1[DateArrayToIntArray.j]);
 //			String FindMaxByteHM = DateArrayToIntArray.FindTwoByte(DuiQi.file1[DateArrayToIntArray.j]);
-			String FindMaxByte = DateArrayToIntArray.FindFourByte(manager.getNFile1(DateArrayToIntArray.j));
-			String FindMaxByteHM = DateArrayToIntArray.FindTwoByte(manager.getNFile1(DateArrayToIntArray.j));
+			String FindMaxByte = DateArrayToIntArray.FindFourByte(manager.getNFile1(manager.getMaxTimeSeries()));
+			String FindMaxByteHM = DateArrayToIntArray.FindTwoByte(manager.getNFile1(manager.getMaxTimeSeries()));
 			
 			while(true){//从对齐位置开始，读整秒的数据，直到文件末尾	
 				//indicate the end of file.
@@ -811,7 +655,6 @@ public class ReadData {
 				}
 				catch(Exception e){//网络错误,重新分配盘符
 					manager.setNetError(true);
-//					ReadData.netError=true;
 					System.out.println("对齐过程产生网络错误");
 					return -1;//此时只能再次重启程序，但之前可能已产生网络错误，或产生新文件，因此这里不予修改标志位，防止标志位混乱
 				}
@@ -843,26 +686,18 @@ public class ReadData {
 			}
 			return 1;
 		}
-		return -1;
 	}
 	
 	
 	
 	/** 这是对外的数据  ,给用户一秒的数据 
 	 * @throws Exception */
-	public Vector<String> getData(String sName,int sID) throws Exception {
-		//this.isFirst = true;
-		if(manager.isMrMa[sID]==true) {
-			readData_MrMa(sName,sID);
-		}
-		else {
-			readData(sName,sID);
-		}
-		
+	public Vector<String> getData() throws Exception {
+		readData();
 		return data;
 	}
-	public Vector<String> getOfflineData(String sName,int sID) throws Exception{
-		readDataNoGPS_offline(sName,sID);
+	public Vector<String> getOfflineData() throws Exception{
+		readDataNoGPS_offline();
 		return data;
 	}
 	public int getSegmentNum() {
@@ -902,6 +737,26 @@ public class ReadData {
 		this.file = file;
 	}
 	
+	private void settings(HfmedHead hfmedHead) {
+		 this.segmentNum = hfmedHead.getSegmentNum();//从文件头中获得段的数量
+		 this.segmentRecNum = hfmedHead.getSegmentRecNum();// 获得每个段的数据条目数
+		 this.channelNum = hfmedHead.getChannelOnNum();
+		 if(channelNum==7) {
+			 this.channel=123456;
+			 this.datahead=20;
+			 this.bytenum=14;
+			 this.voltstart=12;
+			 this.voltend=13;
+		 }
+		 else if(channelNum==4) {
+			 this.channel=456;
+			 this.datahead=26;
+			 this.bytenum=8;
+			 this.voltstart=6;
+			 this.voltend=7;
+		 }
+	}
+	
 	public boolean setState() throws Exception {
 		// 找到文件目录下的最新文件，并把它赋给file
 		this.nameF1 = manager.getNNameF(sensorID);//上次的文件
@@ -912,5 +767,150 @@ public class ReadData {
 		else{
 			return true;
 		}
+	}
+	
+	private void HFMEFeature() throws IOException {
+		byte[] feature = {dataByte[0] , dataByte[1] , dataByte[2] , dataByte[3]};//特征码是4个字节，其内容为"HFME"
+		if(new String(feature).compareTo("HFME") == 0){//读到了数据段头
+			buffered.skip(this.datahead);//再跳过26字节，就到数据了
+			buffered.read(dataByte);//还是以14字节为单位读，7个通道每个通道占2字节。
+		}
+	}
+	
+	private void netErrorProcess() {
+		System.out.println(sensorID+"号台站"+this.sensorName+"产生了网络错误，记录当前错误时间！");
+		manager.setTimeInterrupt(timeCount);
+		System.out.println("##########"+manager.getTimeInterrupt()+"盘号"+sensorID);//保存了网络错误时间，若在接下来等待的时间内未产生新文件，则对齐时加上该时间，避免重复计算前面的数据
+		manager.setNetErrID(sensorID);
+		System.out.println("!!!!!!!!!"+manager.getNetErrID());//记录台站号，用于记录发生网络错误的盘符，便于统计结果
+		manager.setNetError(true);//网络错误，同时记录产生网络错误的盘符及年月日
+	}
+	
+	private void netErrorAlign() {
+		manager.setNetError(true);
+		System.out.println("对齐过程产生网络错误");
+	}
+	
+	private boolean tailOnlineProcessing() throws Exception {
+		this.countSetState++;
+		manager.setNewFile(setState());
+		if(manager.getNewFile() == true) {
+			System.out.println("有"+this.countSetState+"次读取到了不够8字节的数据");
+			System.out.println("第"+sensorID+"号台站"+sensorName+"产生了新文件");
+			data.clear();timeCount = 0;
+			return true;
+		}else{
+			return false;//直接等待直到出现数据，写入data容器
+		}
+	}
+	
+	private void tailOfflineProcessing() {
+		this.countSetState++;
+		manager.setNewFile(true);
+		System.out.println("有"+this.countSetState+"次读取到了不够8字节的数据");
+		System.out.println("第"+sensorID+"号台站"+sensorName+"产生了新文件");
+		System.out.println("当前文件的方波个数为："+timeCount);
+		data.clear();timeCount = 0;
+	}
+	
+	private boolean voltProcessing(short volt, int LoopCount) {
+		if (isBroken == false) {//之前对齐时电压没缺失，在读一秒时，出现电压缺失
+			if (LoopCount > (Parameters.FREQUENCY+210)) {//循环5010(一秒最多5010条数据)次时，还没退出，表明文件电平缺失，
+	            isBroken = true;
+	            System.out.println(MainThread.fileStr[sensorID]+"出现GPS缺失");
+	            timeCount++;//待定！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+	            flag1 = flag2 = false;
+	            return true;
+	        }
+            //判断1s是否结束，结束跳出while
+            if (Math.abs(volt) < 1000 ) {
+//				data.remove(data.size() - 1) ;//保证是正好10s的数据，因为最后一个低电平的数据也被读进来了
+                flag2 = true;
+            }
+            if (Math.abs(volt) > 5000 && flag2) {
+            	flag1 = true;
+            }
+            if (flag1 && flag2) {//高电平结束，说明1s数据结束，跳出while(true)，一个读过程结束
+                timeCount++;
+                flag1 = flag2 = false;
+                return true;
+            }
+        } else {//在对齐时，就已经出现电压缺失，直接进入这里
+            if (LoopCount >= (Parameters.FREQUENCY+200)) {
+            	timeCount++; //即使电压缺失了，时间也得跟着走，不然调用calendar.add(Calendar.SECOND, timeCount)是错的
+            	flag1 = flag2 = false;
+            	return true;
+            }
+        }
+		return false;
+	}
+	
+	public String formerDate() {
+		Calendar calendar = Calendar.getInstance(); //内存溢出的出错位置。~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+		calendar.setTime(this.date);
+		calendar.add(Calendar.SECOND, timeCount);
+		Date startDate1 = calendar.getTime();
+		SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
+		String date1 = format2.format(startDate1);
+		return date1;
+	}
+	
+	/**
+	 * @description
+	 * 注意：dataBytes的字节数（下标），以及通道是哪几个，若123通道则必须放在x1，y1，z1中，456通道放在x2，y2，z2中
+	 * @param dataBytes
+	 * @return
+	 * @author Chengfeng Liu, Hanlin Zhang, Rui Cao.
+	 * @return 
+	 */
+	@SuppressWarnings("unused")
+	private DataElement getDataElementFromDataBytes() {
+		DataElement dataElement = new DataElement();
+		
+		if(channel==456){
+			if(manager.isMrMa[sensorID]==true){
+				short x2 =dataByte[0];
+				short y2 =dataByte[1];
+				short z2 =dataByte[2];
+				dataElement.setX2(x2);
+				dataElement.setY2(y2);
+				dataElement.setZ2(z2);
+			}
+			else {
+				short x2 = DataTypeConversion.joint2BytesToShort(dataByte[0], dataByte[1]);
+				short y2 = DataTypeConversion.joint2BytesToShort(dataByte[2], dataByte[3]);
+				short z2 = DataTypeConversion.joint2BytesToShort(dataByte[4], dataByte[5]);		
+				
+				dataElement.setX2(x2);
+				dataElement.setY2(y2);
+				dataElement.setZ2(z2);
+			}
+		}
+		if(channel==123){
+			short x1 = DataTypeConversion.joint2BytesToShort(dataByte[0], dataByte[1]);
+			short y1 = DataTypeConversion.joint2BytesToShort(dataByte[2], dataByte[3]);
+			short z1 = DataTypeConversion.joint2BytesToShort(dataByte[4], dataByte[5]);		
+
+			dataElement.setX1(x1);
+			dataElement.setY1(y1);
+			dataElement.setZ1(z1);
+		}
+		if(channel==123456){
+			short x1 = DataTypeConversion.joint2BytesToShort(dataByte[0], dataByte[1]);
+			short y1 = DataTypeConversion.joint2BytesToShort(dataByte[2], dataByte[3]);
+			short z1 = DataTypeConversion.joint2BytesToShort(dataByte[4], dataByte[5]);		
+			short x2 = DataTypeConversion.joint2BytesToShort(dataByte[6], dataByte[7]);
+			short y2 = DataTypeConversion.joint2BytesToShort(dataByte[8], dataByte[9]);
+			short z2 = DataTypeConversion.joint2BytesToShort(dataByte[10], dataByte[11]);
+			
+			dataElement.setX1(x1);
+			dataElement.setY1(y1);
+			dataElement.setZ1(z1);
+			
+			dataElement.setX2(x2);
+			dataElement.setY2(y2);
+			dataElement.setZ2(z2);
+		}
+		return dataElement;
 	}
 }

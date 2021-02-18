@@ -37,7 +37,6 @@ public class MainThread extends Thread{
     /**volatile decorate String promises the latest String in current thread.*/
     public static volatile boolean exitVariable_visual = true;
     
-    @SuppressWarnings("unused")
     public void run() {
     	/** the visual model controller variable.*/
     	exitVariable_visual=false;
@@ -46,7 +45,6 @@ public class MainThread extends Thread{
     	/** global super administrator saves all status in system for replacing the global variables.*/
     	ADMINISTRATOR manager = new ADMINISTRATOR();
     	
-    	/**when we need to read data offline, we can use the absolute path as follows.*/
 //        fileStr[0] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/3-西风井/";
 //        fileStr[1] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/4-铁塔/";
         if(Parameters.offline==false) {
@@ -56,7 +54,8 @@ public class MainThread extends Thread{
         else if(Parameters.offline==true) {
         	
             System.out.println("开始读历史数据部分！");
-            manager.offlineProcessing();
+            try {manager.offlineProcessing();} 
+            catch (Exception e) {e.printStackTrace();}
         }
     }
 }

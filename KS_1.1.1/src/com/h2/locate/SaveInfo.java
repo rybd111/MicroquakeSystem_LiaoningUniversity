@@ -111,7 +111,6 @@ public class SaveInfo {
 			ADMINISTRATOR manager) 
 					throws ParseException {
 		int dif = TimeDifferent.DateDifferent(intequackTime, manager.getLastDate());
-//		int dif = TimeDifferent.DateDifferent(intequackTime, WriteRecords.lastDate);
 		//cut the quack time to the day.
 		String dateInFileName = intequackTime.substring(0, 10);
 		//If the difference between the current calculated time and the last time is more than 1 day, the storage file is changed to a new.

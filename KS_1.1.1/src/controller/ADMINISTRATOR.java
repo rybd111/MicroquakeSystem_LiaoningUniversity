@@ -18,6 +18,7 @@ import com.h2.main.EarthQuake;
 import com.ibm.icu.text.DateFormat.BooleanAttribute;
 
 import DataExchange.vectorExchange;
+import javazoom.jl.decoder.Manager;
 import mutiThread.MainThread;
 import mutiThread.ReconnectToRemoteDisk;
 import mutiThread.moveBufferPosition;
@@ -25,9 +26,9 @@ import mutiThread.obtainHeadTime;
 import mutiThread.readTask;
 import read.rqma.history.AlignFile;
 import read.rqma.history.GetReadArray;
-import read.rqma.history.SubStrUtil;
 import read.yang.readFile.ReadData;
 import utils.DateArrayToIntArray;
+import utils.SubStrUtil;
 
 /**
  * Manage the status of the system for replacing static variables.
@@ -58,6 +59,8 @@ public class ADMINISTRATOR {
 	private String lastDate = "2019-1-13 02:05:03";
 	//record the baseline sensor number.
 	private int baseCoordinate = 0;
+	//max time series of align.
+	private int maxTimeSeries = 0;
 	//file Name
 	private String[] nameF = new String[Parameters.SensorNum];
 	//align different array.
@@ -182,6 +185,13 @@ public class ADMINISTRATOR {
 	}
 	public int getBaseCoordinate() {
 		return this.baseCoordinate;
+	}
+	
+	public void setMaxTimeSeries(int maxSeries) {
+		this.maxTimeSeries = maxSeries;
+	}
+	public int getMaxTimeSeries() {
+		return this.maxTimeSeries;
 	}
 	
 	//nameF
@@ -467,7 +477,7 @@ public class ADMINISTRATOR {
         final CountDownLatch threadSignal = new CountDownLatch(Parameters.SensorNum);
 
         for (int i = 0; i < Parameters.SensorNum; i++) {
-            readTask task = new readTask(threadSignal, i, this.dataRecArray[i], this.readDataArray[i], MainThread.fileStr[i], this);
+            readTask task = new readTask(threadSignal, i, this.dataRecArray[i], this.readDataArray[i], this);
             executor.execute(task);
         }
         try {
@@ -491,6 +501,8 @@ public class ADMINISTRATOR {
         } catch (ParseException e) {e.printStackTrace();}
         try {System.out.println("对齐数组读取完毕！ 对齐的最大时间： "+aDateArrayToIntArray.getDateStr());
 		} catch (ParseException e) {e.printStackTrace();}
+        //获取最大时间对应的文件序号，用于新仪器的对齐。
+        this.setMaxTimeSeries(aDateArrayToIntArray.getMaxSeries());
 	}
 	
 	/**
@@ -544,9 +556,10 @@ public class ADMINISTRATOR {
 	 * offline processing process.
 	 * 
 	 * @author Rq Ma, Hanlin Zhang.
+	 * @throws Exception 
 	 * @date revision 2021年2月15日下午2:55:44
 	 */
-	public void offlineProcessing() {
+	public void offlineProcessing() throws Exception {
 		/**
          * 要计算的起始时间
          */
@@ -567,8 +580,9 @@ public class ADMINISTRATOR {
          * AlignFile ：类似于读最新文件里的 Duiqi
          * 注意，注意，注意！！！在整个程序里必须只定义一次
          */
-        AlignFile alignFile = new AlignFile();
-        this.setReadData(GetReadArray.getDataArray(alignFile, timeStr, this));
+        AlignFile alignFile = new AlignFile(MainThread.fileStr, timeStr);
+        GetReadArray getReadArray = new GetReadArray(alignFile, this);
+        this.setReadData(getReadArray.getDataArray());
 
         if (this.getReadData() != null)
             System.out.println("----------开始处理第 " + count + " 组数据---------");
@@ -581,7 +595,7 @@ public class ADMINISTRATOR {
         			this.setNewFile(false);
         			count++;
                     System.out.println("----------开始处理第 " + count + " 组数据---------");
-                    this.setReadData(GetReadArray.getDataArray(alignFile, timeStr, this));
+                    this.setReadData(getReadArray.getDataArray());
 
                     if(this.getReadData() == null)
                     	continue;

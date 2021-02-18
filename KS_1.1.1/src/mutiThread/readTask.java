@@ -23,7 +23,6 @@ import read.yang.readFile.ReadData;
 public class readTask implements Runnable{
     private CountDownLatch downLatch;
     private int sensorID;
-    private String sensorName;
     private vectorExchange dataRec;
     private ReadData readData;
     private Vector<String> aVector;
@@ -33,15 +32,13 @@ public class readTask implements Runnable{
 
     public readTask(
     		CountDownLatch downLatch, 
-    		int sensorName, 
+    		int sensorNum, 
     		vectorExchange dataRec, 
     		ReadData readData,
-    		String fileStr,
     		ADMINISTRATOR manager) {
         super();
         this.downLatch = downLatch;
-        this.sensorID = sensorName;
-        this.sensorName = fileStr;
+        this.sensorID = sensorNum;
         this.dataRec = dataRec;
         this.readData = readData;
         this.manager = manager;
@@ -55,15 +52,11 @@ public class readTask implements Runnable{
     private void doWork() throws Exception {
 
         while (num <= Parameters.readLen) {//读取10s的数据
-            if(manager.isMrMa[this.sensorID]==false) {
-	        	if(Parameters.offline==true)
-	                temVector = readData.getOfflineData(sensorName, sensorID);
-	            else
-	                temVector = readData.getData(sensorName,sensorID);//获取1s数据，传递盘符、盘号
-            }
-            else {
-            	temVector = readData.getData(sensorName, sensorID);
-            }
+        	if(Parameters.offline==true)
+                temVector = readData.getOfflineData();
+            else
+                temVector = readData.getData();//获取1s数据，传递盘符、盘号
+        	
             //新文件拦截器
             if(manager.getNewFile() == true) {
                 System.out.println("第"+sensorID+"号"+manager.getNewFile()+"进入while");

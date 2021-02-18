@@ -97,40 +97,8 @@ public class ReadDateFromHead {
 		String st = FindByte.bytesToHexString(xd);//将byte[]转化成16进制字符串		
 		long dec_num = Long.parseLong(st, 16); //十六进制数字符串,转换为正的十进制数 
 		
-//		String startDate;
-//		startDate=FindByte.longToDate(dec_num);
 		Date startDate = FindByte.longToDate(dec_num);
 		return startDate;
-	}
-	
-	public Date readDataSegmentHead(String fileName) throws Exception {
-
-		// 用于承装数据段头的字节
-		byte[] dataSegmentHeadByte = new byte[34];
-		File file = new File(fileName);
-		// 打开流
-		HfmedHead hfmedHead = new ReadHfmedHead().readHead(file);//读文件头，文件头内容
-		BufferedInputStream buffered = new BufferedInputStream(new FileInputStream(file));
-//		if(hfmedHead.getChannelOnNum()==7) {
-//			Parameters.WenJianTou=284;
-//		}
-//		else if(hfmedHead.getChannelOnNum()==4) {
-//			Parameters.WenJianTou=242;
-//			Parameters.TongDaoDiagnose=0;
-//		}
-		buffered.skip(Parameters.WenJianTou);
-		buffered.read(dataSegmentHeadByte);
-		buffered.close();
-		byte[] segmentDate = FindByte.searchByteSeq(dataSegmentHeadByte, 8, 17);
-		String startDate;
-		startDate = "20" + segmentDate[0]+"-";
-		startDate = startDate + segmentDate[1]+"-";
-		startDate = startDate + segmentDate[2]+" ";
-		startDate = startDate + segmentDate[3]+":";
-		startDate = startDate + segmentDate[4]+":";
-		startDate = startDate + segmentDate[5];
-		Date d = String2Date.str2Date(startDate);
-		return d;
 	}
 	
 	/**
@@ -151,21 +119,11 @@ public class ReadDateFromHead {
 		//用于承装数据段头的字节
     	 
     	byte[] dataSegmentHeadByte = new byte[34] ;
-		
-		HfmedHead hfmedHead = new ReadHfmedHead().readHead(file);//读文件头，文件头内容
 		//打开流
 		BufferedInputStream buffered = new BufferedInputStream(new FileInputStream(file)) ;
-//		if(hfmedHead.getChannelOnNum()==7) {
-//			Parameters.WenJianTou=284;
-//		}
-//		else if(hfmedHead.getChannelOnNum()==4) {
-//			Parameters.WenJianTou=242;
-//			Parameters.TongDaoDiagnose=0;
-//		}
 		buffered.skip(Parameters.WenJianTou);
 		int count = buffered.read(dataSegmentHeadByte);
-		//System.out.println("count :  " + count) ;
-		buffered.close() ;
+		buffered.close();
 		byte[] segmentDate = FindByte.searchByteSeq(dataSegmentHeadByte, 8, 17) ;
 		String startDate;
 		startDate = "20" + segmentDate[0]+"-";

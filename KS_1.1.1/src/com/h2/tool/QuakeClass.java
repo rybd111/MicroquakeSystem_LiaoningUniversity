@@ -147,29 +147,6 @@ public class QuakeClass
 //	}
 	
 	/**
-	 * Cut the 30s data as unit of seconds.
-	 * @param data the 30s data.
-	 * @param line motivation data.
-	 * @param startTime the length before the time of P arrival.
-	 * @param endTime the length after the time of P arrival.
-	 * @return Return the data after cutting. "Vector<String>"
-	 * @author Hanlin Zhang.
-	 */
-	private static Vector<String> cutOdata1(Vector<String> data, int line, int startTime, int endTime) {
-		Vector<String> resultSet = new Vector<String>();
-		
-		for(int i = line-Parameters.FREQUENCY*startTime; i < line+Parameters.FREQUENCY*endTime; i++){//设置为6s，当在now容器中的初始时刻激发时
-			if(i<=0){
-				System.out.println("当i小于0时，输出line"+line);
-				System.out.println("当i小于0时，输出data大小"+data.size());
-				System.out.println("当i小于0时，输出i"+i);
-			}
-			resultSet.add(data.get(i));
-		}
-		return resultSet;
-	}
-	
-	/**
 	 * 确定读取哪一个通道. 先扫一遍10秒的数据，确定用哪一个通道,顺便确定通道的最大值，若超出阈值，则flag为true
 	 * @param data the data after cutting operation.
 	 * @param sen the motivated sensor.
@@ -409,7 +386,7 @@ public class QuakeClass
 	 * @return A flag which is true indicates exceed the max scope or not.
 	 * @author Baishuo Han, Hanlin Zhang.
 	 */
-	private static boolean testValue(String s)
+	public static boolean testValue(String s)
 	{
 		int a = Integer.parseInt(s);
 		if (a >= Parameters.HEAD || a <= Parameters.TAIL){

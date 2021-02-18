@@ -15,8 +15,6 @@ import read.yang.util.FindByte;
 public class ReadHfmedHead {
     
 	
-	
-	
 	public HfmedHead readHead(String fileName) throws IOException{
 		
 		/**
@@ -143,7 +141,7 @@ public HfmedHead readHead(File file) throws IOException{
 		//将读到的头文件放入到字符数组缓冲区中
 	    byte[] tempByte = new byte[186] ;
 	    
-	    buffered.read(tempByte) ;
+	    buffered.read(tempByte);
 	    
 	    buffered.close() ;
 	    

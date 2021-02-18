@@ -6,11 +6,22 @@ package Entrance;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.jar.Attributes.Name;
+
+import javax.swing.filechooser.FileSystemView;
 
 import com.h2.constant.Parameters;
+import com.ibm.icu.impl.UResource.Array;
+import com.ibm.icu.impl.UResource.Value;
+import com.mysql.cj.x.protobuf.MysqlxResultset.RowOrBuilder;
+import com.orsoncharts.data.Values;
+
 import mutiThread.MainThread;
 import utils.ArrayMatch;
 import utils.outArray;
+import org.xvolks.jnative.misc.*;
+import org.xvolks.jnative.util.Kernel32;
+import org.xvolks.jnative.util.Kernel32.FileAttribute;
 
 /**
  * 自动根据当前路径配置离线运行下的参数运行，并区分各个不同的矿区。
@@ -24,40 +35,87 @@ import utils.outArray;
 public class MainTestInitialConfig {
 	
 	
+	
 	private String[] dataForm = Parameters.suffix;
 	
 	/** 封装地点名词，该词必须在以下变量中出现*/
 	private String lo_pingdingshan[] = {"平顶山","平顶山十一矿","十一矿"};
 	private String lo_hongyang[] = {"红阳三矿","三矿","红阳"};
 	private String lo_madaotou[] = {"马道头"};
+	private String lo_datong[] = {"大同","塔山矿","塔山"};
 	
-	private String[][] lo = {lo_pingdingshan, lo_hongyang, lo_madaotou};
+	private String[][] lo = {lo_pingdingshan, lo_hongyang, lo_madaotou,lo_datong};
 	
 	/** 路径下需要有几个离线跑数据的盘符*/
 	private String prePath = "";
 	
 	/**
-	 * 通过读取对应路径下的文件夹文字来获取盘符名称以及完整路径。
+	 * 
+	 */
+	public MainTestInitialConfig() {
+		super();
+	}
+	/**
+	 * 通过读取对应路径下的文件夹文字来获取盘符名称以及完整路径及传感器数量。
 	 * 根据路径中的矿区名自动配置矿区变量。
-	 * 离线在线均可。
+	 * 输出参数配置情况。
 	 * @param prePath can be "pull" or the absolute path of offline
 	 * @throws IOException 
 	 */
 	@SuppressWarnings("unused")
 	public MainTestInitialConfig(String prePath) throws IOException {
-		
-		if(prePath==null) {
-			return;
-		}
+		//前缀路径长度不足2，则认为前缀路径错误。
 		if(prePath.length()<=1) {
-			System.out.println("路径长度为1不正确，请检查后再继续，退出程序");
+			System.out.println("请配置正确的带有‘Testa-Testz’的离线数据路径。");
 			System.exit(0);
 		}
 		if(Parameters.offline == true) {
 			this.prePath = prePath;
 			
 			/** 读取当前路径下的所有文件夹，并提取出运行的盘符和对应的路径*/
-			MainThread.fileStr = obtainPath();
+			MainThread.fileStr = obtainOfflinePath();
+			
+			// 我们认为小于2个盘符的路径并不符合，数量不够
+			if(MainThread.fileStr.length<=2) {
+				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
+				System.in.read();
+			}
+			
+			/** 根据路径个数配置传感器数量*/
+			Parameters.SensorNum = MainThread.fileStr.length;
+			
+			/** 配置区域*/
+			regionConfig();
+			
+			/** 输出所有离线运行参数，供用户确认*/
+			printAllParameters();
+		}
+		//拉取远端数据。
+		else if(prePath.equals("pull")) {
+			/** 返回存有HFMED的盘符，但此时不能确定是网络映射盘符，因此需要进一步验证*/
+			MainThread.fileStr = scanAlldisk();
+			
+			// 我们认为小于2个盘符的路径并不符合，数量不够
+			if(MainThread.fileStr.length<=2) {
+				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
+				System.in.read();
+			}
+			
+			/** 根据路径个数配置传感器数量*/
+			Parameters.SensorNum = MainThread.fileStr.length;
+			
+			/** 按照区域配置diskNameNum*/
+			Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station ,Parameters.region);
+			
+			/** 输出所有离线运行参数，供用户确认*/
+			printAllParameters();
+		}
+		//为了测试在线部分代码。
+		else if(Parameters.offline == false) {
+			this.prePath = prePath;
+			
+			/** 读取当前路径下的所有文件夹，并提取出运行的盘符和对应的路径*/
+			MainThread.fileStr = obtainOfflinePath();
 			
 			/** 我们认为小于2个盘符的路径并不符合，数量不够*/
 			if(MainThread.fileStr.length<=2) {
@@ -74,47 +132,6 @@ public class MainTestInitialConfig {
 			/** 输出所有离线运行参数，供用户确认*/
 			printAllParameters();
 		}
-		else if(prePath.equals("pull")) {
-			/** 返回存有HFMED的盘符，但此时不能确定是挂载盘符，因此需要进一步验证*/
-			MainThread.fileStr = scanAlldisk();
-			
-			/** 我们认为小于2个盘符的路径并不符合，数量不够*/
-			if(MainThread.fileStr.length<=2) {
-				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
-				System.in.read();
-			}
-			
-			/** 根据路径个数配置传感器数量*/
-			Parameters.SensorNum = MainThread.fileStr.length;
-			
-			/** 按照区域配置diskNameNum*/
-			Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station ,Parameters.region);
-			
-			/** 输出所有离线运行参数，供用户确认*/
-			printAllParameters();
-		}
-		//-----------------------------------------别忘记删掉
-//		else if(Parameters.offline == false) {
-//			this.prePath = prePath;
-//			
-//			/** 读取当前路径下的所有文件夹，并提取出运行的盘符和对应的路径*/
-//			MainThread.fileStr = obtainPath();
-//			
-//			/** 我们认为小于2个盘符的路径并不符合，数量不够*/
-//			if(MainThread.fileStr.length<=2) {
-//				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
-//				System.in.read();
-//			}
-//			
-//			/** 根据路径个数配置传感器数量*/
-//			Parameters.SensorNum = MainThread.fileStr.length;
-//			
-//			/** 配置区域*/
-//			regionConfig();
-//			
-//			/** 输出所有离线运行参数，供用户确认*/
-//			printAllParameters();
-//		}
 	}
 	
 	/**
@@ -125,7 +142,7 @@ public class MainTestInitialConfig {
 	 * @throws IOException 
 	 * @date revision 2021年1月30日上午8:39:11
 	 */
-	private String[] obtainPath() throws IOException {
+	private String[] obtainOfflinePath() throws IOException {
 		File file = new File(prePath);
 		File[] fs = file.listFiles();
 		
@@ -144,8 +161,7 @@ public class MainTestInitialConfig {
 				}
 				/** 当前目录下没有数据*/
 				else {
-					System.out.println("存在- " + "传感器数量不足" + " -问题               是否继续？按任意键继续——————————" + 
-							fs[i].getPath()+"下，没有HFMED数据文件");
+					System.out.println(fs[i].getPath()+"下，没有HFMED数据文件，是否继续？？？");
 					System.in.read();
 				}
 			}
@@ -208,7 +224,7 @@ public class MainTestInitialConfig {
 		for(int z=0;z<part.length;z++) {
 		for(int i=0;i<lo.length;i++) {
 			for(int j=0;j<lo[i].length;j++) {
-				if(this.lo[i][j].equals(part[z])) {
+				if(part[z].contains(this.lo[i][j])) {
 					switch (i) {
 					case 0:
 						Parameters.region = "pingdingshan";
@@ -218,6 +234,9 @@ public class MainTestInitialConfig {
 						break;
 					case 2:
 						Parameters.region = "madaotou";
+						break;
+					case 3:
+						Parameters.region = "datong";
 						break;
 					default:
 						System.out.println("路径中不包含能够识别的矿区位置！默认矿区为0号：红阳三矿");
@@ -257,34 +276,41 @@ public class MainTestInitialConfig {
 	}
 	
 	/**
-	 * 扫描所有二级目录下有HFMED或bin的数据文件，但不能确定他们一定是挂载的盘符。
-	 * 而且必须二级目录下有HFMED文件，否则该函数失效。
+	 * 查看他们是否为网络映射盘，若是，还需要判断他们是否为传感器映射盘符。
+	 * 通过查看磁盘根目录下是否包含多个含有Test_开头的文件夹进一步识别。
 	 * @return
 	 * @author Hanlin Zhang.
+	 * @throws IOException 
 	 * @date revision 2021年1月30日下午10:36:21
 	 */
-	private String[] scanAlldisk() {
+	private String[] scanAlldisk() throws IOException {
 		File[] roots = File.listRoots();
 		String[] sasroots = new String[0];
+		//加入数字位数约束，为0时，不加数字位数约束
+		int numberNum = 12;
 		
+		//决定网络映射盘符。
 		for(int i=0;i<roots.length;i++) {
-			File[] tem = roots[i].listFiles();
-			if(tem == null) {
-				continue;
-			}
-			String firstDic = determineDisk(tem);
-			if(firstDic != null) {
-				if(firstDic.contains("_")) {
+			String Type = FileSystemView.getFileSystemView().getSystemTypeDescription(roots[i]);
+			if(Type.equals("网络驱动器")) {
+				if(determineDisk(roots[i].listFiles(), numberNum)==true) {
 					sasroots = Arrays.copyOf(sasroots, sasroots.length+1);
-					sasroots[sasroots.length-1] = roots[i].getPath();
+					sasroots[sasroots.length-1] = roots[i].getName();
 				}
 			}
+			//测试用代码。
+//			if(Type.equals("本地磁盘")) {
+//				if(determineDisk(roots[i].listFiles(), numberNum)==true) {
+//					sasroots = Arrays.copyOf(sasroots, sasroots.length+1);
+//					sasroots[sasroots.length-1] = roots[i].getAbsolutePath();
+//				}
+//			}
 		}
 		return sasroots;
 	}
 	
 	/**
-	 * 基于2级目录下一定有HFMED或bin为后缀的文件为基础来定义
+	 * 基于1级目录下一定有HFMED或bin为后缀的文件为基础来定义
 	 * 在此基础上，区分本地磁盘与挂载磁盘
 	 * 否则此函数失效。
 	 * @param roots
@@ -292,23 +318,23 @@ public class MainTestInitialConfig {
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年1月30日下午7:36:50
 	 */
-	private String determineDisk(File[] roots) {
-		for(int i=0;i<roots.length;i++) {
-			String[] s = roots[i].list();
-			if(s == null) {
-				continue;
+	private boolean determineDisk(File[] files, int numberNum) {
+		for(File file : files) {
+			String name = file.getName();
+			if(numberNum <= 0) {
+				if(name.contains("_")) {
+					return true;
+				}
 			}
-			for(int j=0;j<s.length;j++) {
-				String[] reso = s[j].split("\\.");
-				if(reso.length>1) {
-					if(reso[1].equals(this.dataForm[0]) || reso[1].equals(this.dataForm[1])) {
-						return roots[i].getName();
+			else if(name.contains("_")) {
+				if(name.split("_").length>=2) {
+					if(name.split("_")[1].length() >= numberNum) {
+						return true;
 					}
 				}
 			}
 		}
-		
-		return null;
+		return false;
 	}
 	/**
 	 * @param args

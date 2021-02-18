@@ -48,7 +48,7 @@ public class moveBufferPosition extends Thread{
 				//计时。
 				manager.setStartInstance(System.currentTimeMillis());
 				//读对象指针挪动。
-				kuai = manager.getNReadData(i).readDataDui(MainThread.fileStr[i],i);
+				kuai = manager.getNReadData(i).readDataDui();
 			}
 			if(kuai==-1){
 				System.out.println(MainThread.fileStr[i]+"盘网络状况不佳，重新对齐");
@@ -57,7 +57,7 @@ public class moveBufferPosition extends Thread{
 			else {
 				//计时
 				manager.setEndInstance(System.currentTimeMillis());
-				System.out.println(MainThread.fileStr[i]+"盘对齐花费："+(manager.getEndInstance()-manager.getStartInstance())/1000+"s");
+				System.out.println(MainThread.fileStr[i]+"盘对齐花费："+(manager.getEndInstance()-manager.getStartInstance())/Parameters.TEMP+"秒");
 			}
 		}
 		catch (Exception e) {

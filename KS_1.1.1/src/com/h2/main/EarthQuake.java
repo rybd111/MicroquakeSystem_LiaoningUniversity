@@ -47,10 +47,14 @@ public class EarthQuake {
 		
 		Vector<String> judgeMotiData = new Vector<String>();
 		
+		
+		/**精细判断时，前面附加的数据条数*/
+		int range = Parameters.refineRange;
+		
 		//Set every sensor's motivation flag to indicate the sensor is inspired or not.
 		for (int i = 0; i < Parameters.SensorNum; i++) {
 			//add extra data used to judge sensor's motivation status.
-			for(int k=ssen[i][0].size()-(Parameters.refineRange);k<ssen[i][0].size();k++)
+			for(int k=ssen[i][0].size()-range;k<ssen[i][0].size();k++)
 				judgeMotiData.addElement(ssen[i][0].get(k));
 			
 			judgeMotiData.addAll(ssen[i][1]);
@@ -70,7 +74,7 @@ public class EarthQuake {
 //				temp = temp.replaceAll(":", "");
 //				writeToDisk.write_array("E:/"+temp+".txt", judgeMotiData);
 //			}
-			SensorTool.motivate(judgeMotiData, sensors[i],i);//存储了激发时间和激发的标志位
+			SensorTool.motivate(judgeMotiData, sensors[i], i, range);//存储了激发时间和激发的标志位
 			judgeMotiData.clear();
 		}
 		
@@ -152,7 +156,7 @@ public class EarthQuake {
 			}
 			//we can hide this print when the console are so much content or display this print when we want to adjust the procedure.
             //output the reasons why the calculation process is not executing.
-			System.out.println("激发数："+countNumber+" 台站间的激发间隔时间是否小于"+Parameters.IntervalToOtherSensors+"? "+
+			System.out.println("激发数："+countNumber+" 台站间的激发间隔时间是否小于"+Parameters.IntervalToOtherSensors+"秒? "+
 					manager.getIsRealMoti()+" time："+ssen[0][0].get(0).split(" ")[6]);
 		}
 		

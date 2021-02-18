@@ -93,7 +93,7 @@ public class Parameters
 	/**
 	 * 用于单位转换，采样频率是秒，长短时窗的单位是毫秒
 	 */
-	private static final int TEMP = 1000;// 单位转换
+	public static final double TEMP = 1000.0;// 单位转换
 	/**
 	 * 用于通道转换中使用的阈值，HEAD表示通道上限与下限，超过上限或下限，则转换大量程通道进行判断与计算
 	 */
@@ -102,15 +102,15 @@ public class Parameters
 	/**
 	 * 长时窗采样点个数
 	 */
-	public static final int N1 = LONGTIMEWINDOW * (FREQUENCY+200) / TEMP;
+	public static final int N1 = LONGTIMEWINDOW * (FREQUENCY+200) / (int)TEMP;
 	/**
 	 * 短时窗采样点个数
 	 */
-	public static final int N2 = SHORTTIMEWINDOW * (FREQUENCY+200) / TEMP;
+	public static final int N2 = SHORTTIMEWINDOW * (FREQUENCY+200) / (int)TEMP;
 	/**
 	 * (一个长时窗+一个短时窗)时窗采样点总个数
 	 */
-	public static final int N = (LONGTIMEWINDOW + SHORTTIMEWINDOW) * (FREQUENCY+200) / TEMP;
+	public static final int N = (LONGTIMEWINDOW + SHORTTIMEWINDOW) * (FREQUENCY+200) / (int)TEMP;
 	/**
 	 * 方差，计算持续时间和持续震级时使用
 	 */
@@ -201,7 +201,7 @@ public class Parameters
 	/**
 	 * the time to read when procedure start.
 	 */
-	public static String StartTimeStr = "200214000000";
+	public static String StartTimeStr = "180214130000";
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.
 	 * This variable will effect the coordination of this procedure, please confirm it twice.

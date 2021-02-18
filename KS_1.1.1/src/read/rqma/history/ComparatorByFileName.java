@@ -12,10 +12,8 @@ public class ComparatorByFileName implements Comparator<File> {
     	
     	
     	int diff=0;
-    	if(Parameters.region=="datong")
-    		diff = SubStrUtil.getSubParentPackage(f1.getName()).compareTo(SubStrUtil.getSubParentPackage(f2.getName()));
-    	else if(Parameters.region=="pingdingshan")
-    		diff = f1.getName().compareTo(f2.getName());
+
+    	diff = f1.getName().compareTo(f2.getName());
     	
         if (diff > 0)
             return 1;

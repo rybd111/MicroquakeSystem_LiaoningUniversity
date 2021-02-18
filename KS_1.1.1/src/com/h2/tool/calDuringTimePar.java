@@ -1,9 +1,5 @@
 package com.h2.tool;
 
-import org.jblas.DoubleMatrix;
-import org.jblas.Solve;
-
-import com.h2.constant.Parameters;
 
 import DataExchange.Sensor;
 

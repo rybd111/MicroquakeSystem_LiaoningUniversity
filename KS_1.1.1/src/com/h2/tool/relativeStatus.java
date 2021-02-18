@@ -286,7 +286,7 @@ public class relativeStatus {
 	 * @throws ParseException
 	 * @author Hanlin Zhang.
 	 */
-	public static String PArrivalTime(Vector<String> data, Sensor sensor,int i) throws ParseException {
+	public static String PArrivalTime(Vector<String> data, Sensor sensor) throws ParseException {
 		String P = "";
 		P=String.valueOf(sensor.getSecTime());
 //		System.out.print(MainThread.fileStr[i]+data.get(0).split(" ")[6]+" ");
@@ -307,6 +307,40 @@ public class relativeStatus {
 			d=calendar.getTime();
 			String date = Date2String.date2str(d)+"."+P.split("\\.")[1];
 //			System.out.println(date);
+			return date;
+		}
+		
+	}
+	
+	/**
+	 * motivation_Diagnose_alone used.
+	 * @param data
+	 * @param SecTime
+	 * @return
+	 * @throws ParseException
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年2月18日上午10:33:35
+	 */
+	public static String PArrivalTime(
+			Vector<String> data,
+			double SecTime
+			) throws ParseException {
+		String P = "";
+		P=String.valueOf(SecTime);
+		
+		Date d = new Date();
+		if(SecTime<1) {
+			d=String2Date.str2Date(data.get(0).split(" ")[6]);
+			String date=Date2String.date2str(d)+"."+P.split("\\.")[1];
+			return date;
+		}
+		else {
+			d=String2Date.str2Date(data.get(0).split(" ")[6]);
+			Calendar calendar = Calendar.getInstance(); //内存溢出的出错位置。~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+			calendar.setTime(d);
+			calendar.add(Calendar.SECOND, (int) Math.floor(SecTime));
+			d=calendar.getTime();
+			String date = Date2String.date2str(d)+"."+P.split("\\.")[1];
 			return date;
 		}
 		

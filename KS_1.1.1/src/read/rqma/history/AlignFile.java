@@ -1,11 +1,13 @@
 package read.rqma.history;
 
 import com.h2.constant.Parameters;
-
 import mutiThread.MainThread;
 import read.yang.readFile.ReadDateFromHead;
+import utils.Date2String;
 import utils.DateArrayToIntArray;
+import utils.String2Date;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,97 +18,69 @@ import java.util.Date;
  * @Date: 4/25/2019 5:54 PM
  */
 public class AlignFile {
-    String str_oldest;
-    String str_newest;
-    /**
-     * 五个台站所读文件中的最老时间
-     */
-    long oldest_date;
-    /**
-     * 五个台站所读文件中的最最新时间
-     */
-    long newest_date;
-
+	//当前目录下的最早最晚时间。
+    String str_oldest_s;
+    String str_newest_s;
+    //五个台站所读文件中的最老最新时间
+    long oldest_date_s;
+    long newest_date_s;
+    long oldest_date_e;
+    long newest_date_e;
+    //所有输入的存放hfmed文件的根目录
+    private String[] fileStr;
+    //时间线，小于该时间线的所有文件全部舍弃。
+    private String timeStr;
+    
     private String dateStr;
-
+    //文件排序类
     public TimeLine time_sorted[] = new TimeLine[Parameters.SensorNum];
-
-    /**
-     * 五个台站的全路径
-     */
+    //五个台站的全路径
     public String[] paths_original = new String[Parameters.SensorNum];
-
-    /**
-     * 存放所有文件名和所在文件夹名
-     */
-    private String[][] allfilesname = new String[Parameters.SensorNum][24 * 360];
-    /**
-     * 第一次读，需要根据输入的目录名读文件，
-     */
+    //存放所有文件名和所在文件夹名
+    private File[][] allfiles = new File[Parameters.SensorNum][24 * 360];
+    //第一次读，需要根据输入的目录名读文件
     private boolean first = true;
-    /**
-     * 第一次以后，从数组读，速度快
-     */
-    private boolean notfirst = false;
-
+    //文件时间差数组，单位：秒。
     public static int align[] = new int[Parameters.SensorNum];
     
-
-    public AlignFile() {
+    public AlignFile(String[] fileStr, String timeStr) {
         super();
-    }
-
-    public int[] getAlign(String fileName[], String time) throws Exception {
-    	for(int i=0;i<Parameters.SensorNum;i++) {
+        this.fileStr = fileStr;
+        this.timeStr = timeStr;
+        for(int i=0;i<Parameters.SensorNum;i++) {
     		align[i] = -1;
     	}
+    }
+
+    //获取时间距离单位：秒。
+    public int[] getAlign() throws Exception {
         if (first) {
+        	//找到所有大于time的文件，此时每个同目录下的文件已经有序，并存于time_sorted。
             for (int i = 0; i < Parameters.SensorNum; i++) {
-
-                this.allfilesname[i] = FindHistoryFile.get(fileName[i], i, time);//得到输入目录下的所有文件名
-
-                time_sorted[i] = new TimeLine();//定义
+                this.allfiles[i] = get(fileStr[i]);//得到输入目录下的所有文件名
+                //设置每个大目录下的第一个大于time的文件属性，分别为大目录序号、位置、文件名、大目录的根目录。
+                time_sorted[i] = new TimeLine();
                 time_sorted[i].setId(i);
                 time_sorted[i].setPosition(0);
-                time_sorted[i].setFilename(allfilesname[i][0]);
-                time_sorted[i].setFilepath(fileName[i]);
+                String name = allfiles[i][0].getName();
+                time_sorted[i].setFilename(contentCut(name));
+                time_sorted[i].setFilepath(fileStr[i]);
+                time_sorted[i].setFile(allfiles[i][0]);
             }
-            timecheck(time_sorted);
+            timecheck();
             first = false;
         }
-        if (notfirst) {
-            int id = time_sorted[0].getId();
-            time_sorted[0].position += 1;
-            int pos = (time_sorted[0].position);
-            if(pos>=allfilesname[id].length){
-                System.out.println("该台站此目录下的所有文件已处理完毕");
-                MainThread.exitVariable_visual = true;
-                System.exit(0);
-            }
-
-            time_sorted[0].setFilename(allfilesname[id][pos]);
-
-            timecheck(time_sorted);
-
+        else {
+        	updatedNewFile();
+            timecheck();
         }
-        notfirst = true;
-
-   /*     System.out.println("timeLine数组当前值");
-        for (int i = 0; i < Parameters.SensorNum; i++) {
-           System.out.println(time_sorted[i].getId() + " " + time_sorted[i].getFilename() + " " + time_sorted[i].getFilepath());
-        }*/
 
         /**
          * for循环用于路径还原
          */
-        for (int i = 0; i < Parameters.SensorNum; i++) {
-           // System.out.println(path);
-            for(int j=0;j<time_sorted.length;j++) {
-            	if(time_sorted[j].id==i) {
-            		String path = time_sorted[j].getFilepath() + time_sorted[j].getFilename();
-            		paths_original[i]=path;
-            	}
-            }
+        for(int j=0;j<time_sorted.length;j++) {
+    		String path = time_sorted[time_sorted[j].id].getFile().getAbsolutePath();
+    		paths_original[time_sorted[j].id]=path;
         }
 
         /**
@@ -127,7 +101,7 @@ public class AlignFile {
             }
             return AlignFile.align;//返回了-1的数组
         }
-        System.out.println("文件第一个数据段段头时间：");
+        System.out.println("当前组的段头时间：");
 
         for (int i = 0; i < Parameters.SensorNum; i++) {
             System.out.println(dateString[i]);
@@ -137,159 +111,120 @@ public class AlignFile {
 
         Date DateMax = aDateArrayToIntArray.getDate();
 
-        this.dateStr = DateUtil.toString(DateMax);
-        System.out.println("文件第一个数据段段头最大时间：" + this.dateStr);
-        System.out.print("文件时间差：");
+        this.dateStr = Date2String.date2str(DateMax);
+        System.out.println("当前组最大时间：" + this.dateStr);
+        System.out.print("当前组时间差：");
         for (int i = 0; i < Parameters.SensorNum; i++) {
             System.out.print(TimeDifferertInt[i] + " ");
         }
         System.out.println();
         return TimeDifferertInt;
     }
-
+    
     @SuppressWarnings("unused")
-	private void timecheck(TimeLine timeLine[]) throws ParseException {
-
-        Arrays.sort(timeLine, new ComparatorTimeLine());//巨坑，平顶山和大同硬件生成的文件命名就不能统一吗?????????
-        
-        if(Parameters.region=="datong") {
-	        str_oldest = "20" + SubStrUtil.getSubParentPackage(timeLine[0].getFilename());//最老时间字符串
-	        str_newest = "20" + SubStrUtil.getSubParentPackage(timeLine[Parameters.SensorNum-1].getFilename());//最新时间字符串
-        }
-        else if(Parameters.region=="pingdingshan"||Parameters.region=="hongyang") {
-        	str_oldest = "20" + timeLine[0].getFilename().substring(5, 17);//最老时间字符串
-            str_newest = "20" + timeLine[Parameters.SensorNum-1].getFilename().substring(5, 17);//最新时间字符串
-        }
-        	
-        oldest_date = DateUtil.toDate(str_oldest).getTime(); //最老时间
-        newest_date = DateUtil.toDate(str_newest).getTime(); ///最新时间
+	private void timecheck() throws ParseException {
+    	updatedStartEndTime();
         /**
          * 必须保证需要处理的一组文件的时间差在一小时内，所以  (newest_date - oldest_date) >= 3600 * 1000
          * 后来跑程序发现，一个台站的下一个文件与上一个文件相隔不是严格的一小时，可能57，58分钟左右，如果按照一小时算，当五台站中有几个是同一个台站时，会导致一个台站的上一个文件与下一个文件在同一组计算
            因此,时间差取 57分钟  (3600-3*60) * 1000
            注意，以后若观察到下一个文件与上一个文件相差更少，需要再调整时间差
-         */
-
-        
-        /**
-         *意想不到是，大同的文件半小时产生一份，少年，这个bug找累了吗，哈哈哈...... 2019.06.19
-         */
-        if(Parameters.region=="datong") {
-	        while ((newest_date - oldest_date) >= (1800-1*60) * 1000) {
-	            int id = timeLine[0].getId();
-	            timeLine[0].position += 1;
-	            int pos = (timeLine[0].position);
-	            if(pos>=allfilesname[id].length){
-	                System.out.println("该台站此目录下的所有文件已处理完毕(---没有能够对齐的文件---)");
-	                MainThread.exitVariable_visual = true;
-	                System.exit(0);
-	            }
-	
-	            timeLine[0].setFilename(allfilesname[id][pos]);
-	            Arrays.sort(timeLine, new ComparatorTimeLine());
-	            str_oldest = "20" + SubStrUtil.getSubParentPackage(timeLine[0].getFilename());
-	            str_newest = "20" + SubStrUtil.getSubParentPackage(timeLine[Parameters.SensorNum-1].getFilename());
-	
-	            oldest_date = DateUtil.toDate(str_oldest).getTime();
-	            newest_date = DateUtil.toDate(str_newest).getTime();
-	        }
+        */
+	    /**
+	    * 意想不到是，大同的文件半小时产生一份，少年，这个bug找累了吗，哈哈哈...... 2019.06.19
+	    * 但实际情况不可能所有文件都是一个间隔，会有变化，因此此方法失效。2021.02.18
+	    * 实际只需使用最早结束时间和最新开始时间作比较就可以得知他们是否有重叠。
+	    */
+        while ((newest_date_s - oldest_date_e) >= 0) {//再次更新。
+        	updatedNewFile();
+            updatedStartEndTime();
         }
-        else if(Parameters.region=="pingdingshan"||Parameters.region=="hongyang") {
-//        	while ((newest_date - oldest_date) >= (3600-3*60) * 1000) {
-        	while ((newest_date - oldest_date) >= (3600) * 1000) {
-                int id = timeLine[0].getId();
-                timeLine[0].position += 1;
-                int pos = (timeLine[0].position);
-                if(pos>=allfilesname[id].length){
-                    System.out.println("该台站此目录下的所有文件已处理完毕(---没有能够对齐的文件---)");
-                    MainThread.exitVariable_visual = true;
-                    System.exit(0);
-                }
-
-                timeLine[0].setFilename(allfilesname[id][pos]);
-                Arrays.sort(timeLine, new ComparatorTimeLine());
-                str_oldest = "20" + timeLine[0].filename.substring(5, 17);
-                str_newest = "20" + timeLine[Parameters.SensorNum-1].filename.substring(5, 17);
-
-                oldest_date = DateUtil.toDate(str_oldest).getTime();
-                newest_date = DateUtil.toDate(str_newest).getTime();
-            }
-        }
-
-
     }
 
     /**
-     * 这是之前的想法，一次读一个文件，一小时处理之后，再去找文件，费时间，不采用
-     *
-     * @param fileName
+     * 得到所有大于time的文件名
+     * @param path
+     * @param sid
      * @param time
-     * @return
-     * @throws Exception
+     * @return 所有文件名
      */
     @SuppressWarnings("unused")
-	public int[] AlignMain(String fileName[], String time) throws Exception {
-
-        String str_oldest;
-        String str_newest;
-        long oldest_date;
-        long newest_date;
-        for (int i = 0; i < Parameters.SensorNum; i++) {
-            time_sorted[i] = new TimeLine();
-            time_sorted[i].setId(i);
-            time_sorted[i].setFilename(FindHistoryFile.getFile(fileName[i], i, time).getName());
-            time_sorted[i].setFilepath(FindHistoryFile.getFile(fileName[i], i, time).getParent());
-
-        }
-        Arrays.sort(time_sorted, new ComparatorTimeLine()); //五个台站时间排序
-
-        for (int i = 0; i < Parameters.SensorNum; i++) {
-            System.out.println(time_sorted[i].getId() + " " + time_sorted[i].getFilename() + " " + time_sorted[i].getFilepath());
-
-        }
-
-        str_oldest = "20" + time_sorted[0].filename.substring(5, 17);//最老时间字符串
-        str_newest = "20" + time_sorted[Parameters.SensorNum-1].filename.substring(5, 17);//最新时间字符串
-
-        oldest_date = DateUtil.toDate(str_oldest).getTime(); //最老时间
-        newest_date = DateUtil.toDate(str_newest).getTime(); ///最新时间
-        if(Parameters.region=="datong") {
-        	while ((newest_date - oldest_date) > 1800 * 1000) {
-                String next_time = DateUtil.toString(new Date(oldest_date + 1800 * 1000)).substring(2);
-
-                time_sorted[0].setFilename(FindHistoryFile.getFile(time_sorted[0].getFilepath(), time_sorted[0].getId(), next_time).getName());
-
-                Arrays.sort(time_sorted, new ComparatorTimeLine());
-
-                str_oldest = "20" + time_sorted[0].filename.substring(5, 17);
-                str_newest = "20" + time_sorted[Parameters.SensorNum-1].filename.substring(5, 17);
-
-                oldest_date = DateUtil.toDate(str_oldest).getTime();
-                newest_date = DateUtil.toDate(str_newest).getTime();
+	private File [] get(String path) {
+        
+    	File file = new File(path);
+        //过滤器，过滤后缀为HFMED的文件。
+    	FileAccept fileAccept = new FileAccept();
+        fileAccept.setExtendName("HFMED");
+        
+        File[] files = file.listFiles(fileAccept);
+        
+        if (files == null)
+            return null;
+        
+        //排序根据文件名，此处排序只跟同目录下文件比较，因此不用考虑文件名不匹配的问题。
+        Arrays.sort(files, new ComparatorByFileName());
+        
+        int i=0;
+        
+        //取大于timeStr的所有文件。
+        for (; i <  files.length; i++) {
+            if(contentCut(files[i].getName()).compareTo(timeStr)>=0){
+                break;
             }
         }
-        else if(Parameters.region=="pingdingshan") {
-        	while ((newest_date - oldest_date) > 3600 * 1000) {
-                String next_time = DateUtil.toString(new Date(oldest_date + 3600 * 1000)).substring(2);
-
-                time_sorted[0].setFilename(FindHistoryFile.getFile(time_sorted[0].getFilepath(), time_sorted[0].getId(), next_time).getName());
-
-                Arrays.sort(time_sorted, new ComparatorTimeLine());
-
-                str_oldest = "20" + time_sorted[0].filename.substring(5, 17);
-                str_newest = "20" + time_sorted[Parameters.SensorNum-1].filename.substring(5, 17);
-
-                oldest_date = DateUtil.toDate(str_oldest).getTime();
-                newest_date = DateUtil.toDate(str_newest).getTime();
-            }
+        
+        File temp[] = new File[0];
+        
+        for(int j=i;j<files.length;j++) {
+        	temp = Arrays.copyOf(temp, temp.length+1);
+        	temp[temp.length-1] = files[j];
         }
-
-        for (int i = 0; i < Parameters.SensorNum; i++) {
-            System.out.println(time_sorted[i].filename);
-        }
-
-
-        return null;
+        
+        return temp;
     }
-
+    
+    /**
+     * 获得下划线后面的时间内容。
+     * @param fileName
+     * @return
+     * @author Hanlin Zhang.
+     * @date revision 2021年2月18日下午7:01:11
+     */
+    private String contentCut(String fileName) {
+    	String part[] = fileName.split("_");
+    	if(part.length<=1) {
+    		return null;
+    	}
+    	else {
+    		String []str=new String[2];
+            str = fileName.split("_");
+            String results = str[1].split("\\u002E")[0];
+            return  results;
+    	}
+    }
+    
+    private void updatedNewFile() {
+    	int id = time_sorted[0].getId();
+        time_sorted[0].position += 1;
+        int pos = (time_sorted[0].position);
+        if(pos>=allfiles[id].length){
+            System.out.println("该台站此目录下的所有文件已处理完毕");
+            MainThread.exitVariable_visual = true;
+            System.exit(0);
+        }
+        time_sorted[0].setFilename(contentCut(allfiles[id][pos].getName()));
+        time_sorted[0].setFile(allfiles[id][pos]);
+    }
+    
+    private void updatedStartEndTime() throws ParseException {
+    	Arrays.sort(time_sorted, new ComparatorTimeLine());
+    	
+    	str_oldest_s = "20" + time_sorted[0].getFilename();//最老时间字符串
+        str_newest_s = "20" + time_sorted[Parameters.SensorNum-1].getFilename();//最新时间字符串
+        
+        oldest_date_s = String2Date.str2Date2(str_oldest_s).getTime(); //最老开始时间
+        newest_date_s = String2Date.str2Date2(str_newest_s).getTime(); ///最新开始时间
+        oldest_date_e = time_sorted[0].getFile().lastModified();//最老结束时间。
+        newest_date_e = time_sorted[0].getFile().lastModified(); //最新开始时间
+    }
 }

@@ -26,4 +26,13 @@ public class String2Date {
 		
 		return date;
 	}
+	
+    public static Date str2Date2(String dateStr) throws ParseException {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        
+        Date date = simpleDateFormat.parse(dateStr);
+        
+        return date;
+    }
 }

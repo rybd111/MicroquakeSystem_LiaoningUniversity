@@ -24,7 +24,6 @@ public class MainTest {
 	public static int runningModel = LOCAL_OFFLINE_UNSTORAGE;
 	
 	public static void main(String[] agrs) throws IOException {//定时器
-		
 		/** 情景配置，共有8种模式，每一种对应一个整形数值，在MainTest类中定义。*/
 		new RunningSceneConfig(runningModel);
 		
@@ -32,11 +31,11 @@ public class MainTest {
 		 * 具体参看MainTestInitialConfig类说明
 		 * */
 		String prePath = "I:/矿山/矿山数据/红阳三矿/20200214/";
-		new MainTestInitialConfig(prePath);
+//		String prePath = "I:\\矿山\\矿山数据\\1月14日大同塔山矿震动\\";
+		MainTestInitialConfig mainTestInitialConfig = new MainTestInitialConfig(prePath);
 		
 		/** 启动线程*/
 		MainThread aMain = new MainThread();
 		aMain.start();
-
 	}
 }
