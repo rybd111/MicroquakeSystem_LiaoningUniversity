@@ -1,7 +1,7 @@
 /**
  * 
  */
-package DataExchange;
+package middleware;
 
 import java.io.File;
 import java.io.IOException;
