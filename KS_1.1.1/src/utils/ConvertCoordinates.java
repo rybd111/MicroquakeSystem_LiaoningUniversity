@@ -2,7 +2,7 @@ package utils;
 
 /**
  * 平顶山坐标转换函数
- * @author Haiyou Yu
+ * @author Boqiang Chen, Haiyou Yu.
  */
 public class ConvertCoordinates {
 

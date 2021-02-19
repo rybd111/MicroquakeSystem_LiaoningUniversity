@@ -14,7 +14,7 @@ import com.h2.backupData.WriteRecords;
 import com.h2.constant.Parameters;
 
 import controller.ADMINISTRATOR;
-import middleware.FindHistoryFile;
+import middleware.tool.FindHistoryFile;
 import mutiThread.obtainHeadTime;
 import mutiThread.MainThread;
 import read.rqma.history.AlignFile;

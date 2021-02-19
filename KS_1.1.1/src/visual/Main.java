@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.h2.constant.ConfigToParameters;
 
 import Entrance.MainTest;
-import Entrance.MainTestInitialConfig;
+import Entrance.InitialConfig;
 import Entrance.RunningSceneConfig;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -112,7 +112,7 @@ public class Main extends Application {
 		new RunningSceneConfig(MainTest.REMOTE_ONLINE_STORAGE);
 		
 		/** 输出参数*/
-		MainTestInitialConfig m = new MainTestInitialConfig();
+		InitialConfig m = new InitialConfig();
 		m.printAllParameters();
 //		Tools_DataCommunication.getCommunication().showandcloseMyConsole();
 

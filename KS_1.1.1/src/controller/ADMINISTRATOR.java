@@ -560,13 +560,9 @@ public class ADMINISTRATOR {
 	 * @date revision 2021年2月15日下午2:55:44
 	 */
 	public void offlineProcessing() throws Exception {
-		/**
-         * 要计算的起始时间
-         */
+		/** 要计算的起始时间 */
         String timeStr = Parameters.StartTimeStr;
-        /**
-         * 五个传感器数据
-         */
+        /** 传感器数据 */
         final Vector<String> sensorData[][] = new Vector[Parameters.SensorNum][3];
         int count = 1;
         //注意，不要删除这行注释
@@ -575,7 +571,6 @@ public class ADMINISTRATOR {
         
         //初始化数据交换容器，暂不消除全局变量aDataRec
         this.resetDataRec();
-
         /**
          * AlignFile ：类似于读最新文件里的 Duiqi
          * 注意，注意，注意！！！在整个程序里必须只定义一次

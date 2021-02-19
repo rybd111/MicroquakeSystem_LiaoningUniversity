@@ -18,12 +18,39 @@ public class SubStrUtil {
         }
         return SubStr;
     }
-	public static String  getSubParentPackage(String parent) {
-		
-        String []str=new String[2];
-        str = parent.split("_");
+	
+	/**
+     * 截取下划线后面，与.前面的字符串。
+     * @param parent
+     * @return
+     * @author Hanlin Zhang.
+     * @date revision 2021年2月19日上午10:42:45
+     */
+    public static String contentCut(String parent) {
+        String []str = parent.split("_");
         String results = str[1].split("\\u002E")[0];
         return  results;
-
+    }
+    
+    /**
+     * 截取路径中带有：的部分，我们认为根目录是文件所在的传感器名。
+     * @param parent
+     * @return
+     * @author Hanlin Zhang.
+     * @date revision 2021年2月19日上午10:06:21
+     */
+    public static String contentCut1(String parent) {
+    	String []str = parent.split("\\\\");
+        int series = 0;
+    	
+        for(int i=0;i<str.length;i++) {
+        	if(str[i].contains(":")) {
+        		series = i;
+        		break;
+        	}
+        }
+        String results = str[series].replaceAll(":", "");
+        
+        return results;
     }
 }

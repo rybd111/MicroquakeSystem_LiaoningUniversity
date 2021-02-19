@@ -1,19 +1,16 @@
-package read.rqma.history;
+package utils;
 
 import java.io.File;
 import java.util.Comparator;
 
-import com.h2.constant.Parameters;
+import read.rqma.history.TimeLine;
 
-public class ComparatorByFileName implements Comparator<File> {
-    private TimeLine timeLine;
+public class ComparatorByCutName implements Comparator<File> {
     @SuppressWarnings("unused")
 	public int compare(File f1, File f2) {
-    	
-    	
     	int diff=0;
 
-    	diff = f1.getName().compareTo(f2.getName());
+    	diff = SubStrUtil.contentCut(f1.getName()).compareTo(SubStrUtil.contentCut(f2.getName()));
     	
         if (diff > 0)
             return 1;
@@ -22,6 +19,4 @@ public class ComparatorByFileName implements Comparator<File> {
         else
             return -1;
     }
-
-
 }

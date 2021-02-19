@@ -308,7 +308,7 @@ public class motivation_Diagnose_alone {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

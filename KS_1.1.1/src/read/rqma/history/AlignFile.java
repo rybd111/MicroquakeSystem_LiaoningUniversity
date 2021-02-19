@@ -6,6 +6,8 @@ import read.yang.readFile.ReadDateFromHead;
 import utils.Date2String;
 import utils.DateArrayToIntArray;
 import utils.String2Date;
+import utils.SubStrUtil;
+import utils.fileFilter;
 
 import java.io.File;
 import java.text.ParseException;
@@ -51,19 +53,18 @@ public class AlignFile {
     		align[i] = -1;
     	}
     }
-
     //获取时间距离单位：秒。
     public int[] getAlign() throws Exception {
         if (first) {
         	//找到所有大于time的文件，此时每个同目录下的文件已经有序，并存于time_sorted。
             for (int i = 0; i < Parameters.SensorNum; i++) {
-                this.allfiles[i] = get(fileStr[i]);//得到输入目录下的所有文件名
+                this.allfiles[i] = fileFilter.HFMEDFilter(fileStr[i],timeStr);//得到输入目录下的所有文件名
                 //设置每个大目录下的第一个大于time的文件属性，分别为大目录序号、位置、文件名、大目录的根目录。
                 time_sorted[i] = new TimeLine();
                 time_sorted[i].setId(i);
                 time_sorted[i].setPosition(0);
                 String name = allfiles[i][0].getName();
-                time_sorted[i].setFilename(contentCut(name));
+                time_sorted[i].setFilename(SubStrUtil.contentCut(name));
                 time_sorted[i].setFilepath(fileStr[i]);
                 time_sorted[i].setFile(allfiles[i][0]);
             }
@@ -141,68 +142,6 @@ public class AlignFile {
         }
     }
 
-    /**
-     * 得到所有大于time的文件名
-     * @param path
-     * @param sid
-     * @param time
-     * @return 所有文件名
-     */
-    @SuppressWarnings("unused")
-	private File [] get(String path) {
-        
-    	File file = new File(path);
-        //过滤器，过滤后缀为HFMED的文件。
-    	FileAccept fileAccept = new FileAccept();
-        fileAccept.setExtendName("HFMED");
-        
-        File[] files = file.listFiles(fileAccept);
-        
-        if (files == null)
-            return null;
-        
-        //排序根据文件名，此处排序只跟同目录下文件比较，因此不用考虑文件名不匹配的问题。
-        Arrays.sort(files, new ComparatorByFileName());
-        
-        int i=0;
-        
-        //取大于timeStr的所有文件。
-        for (; i <  files.length; i++) {
-            if(contentCut(files[i].getName()).compareTo(timeStr)>=0){
-                break;
-            }
-        }
-        
-        File temp[] = new File[0];
-        
-        for(int j=i;j<files.length;j++) {
-        	temp = Arrays.copyOf(temp, temp.length+1);
-        	temp[temp.length-1] = files[j];
-        }
-        
-        return temp;
-    }
-    
-    /**
-     * 获得下划线后面的时间内容。
-     * @param fileName
-     * @return
-     * @author Hanlin Zhang.
-     * @date revision 2021年2月18日下午7:01:11
-     */
-    private String contentCut(String fileName) {
-    	String part[] = fileName.split("_");
-    	if(part.length<=1) {
-    		return null;
-    	}
-    	else {
-    		String []str=new String[2];
-            str = fileName.split("_");
-            String results = str[1].split("\\u002E")[0];
-            return  results;
-    	}
-    }
-    
     private void updatedNewFile() {
     	int id = time_sorted[0].getId();
         time_sorted[0].position += 1;
@@ -212,7 +151,7 @@ public class AlignFile {
             MainThread.exitVariable_visual = true;
             System.exit(0);
         }
-        time_sorted[0].setFilename(contentCut(allfiles[id][pos].getName()));
+        time_sorted[0].setFilename(SubStrUtil.contentCut(allfiles[id][pos].getName()));
         time_sorted[0].setFile(allfiles[id][pos]);
     }
     

@@ -1,9 +1,9 @@
-package middleware;
+package utils;
 
 import java.io.File;
 import java.io.FilenameFilter;
 
-class FileAccept implements FilenameFilter {
+public class HFMEDAccept implements FilenameFilter {
 
     private String extendName;
 
@@ -15,3 +15,4 @@ class FileAccept implements FilenameFilter {
         return name.endsWith(extendName);//是否是以某个格式结尾。是否是某个类型文件
     }
 }
+

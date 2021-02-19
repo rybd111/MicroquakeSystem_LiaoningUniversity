@@ -1,6 +1,7 @@
 package Entrance;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import mutiThread.MainThread;
 
@@ -23,7 +24,7 @@ public class MainTest {
 
 	public static int runningModel = LOCAL_OFFLINE_UNSTORAGE;
 	
-	public static void main(String[] agrs) throws IOException {//定时器
+	public static void main(String[] agrs) throws IOException, ParseException {//定时器
 		/** 情景配置，共有8种模式，每一种对应一个整形数值，在MainTest类中定义。*/
 		new RunningSceneConfig(runningModel);
 		
@@ -32,7 +33,7 @@ public class MainTest {
 		 * */
 		String prePath = "I:/矿山/矿山数据/红阳三矿/20200214/";
 //		String prePath = "I:\\矿山\\矿山数据\\1月14日大同塔山矿震动\\";
-		MainTestInitialConfig mainTestInitialConfig = new MainTestInitialConfig(prePath);
+		InitialConfig config = new InitialConfig("pull");
 		
 		/** 启动线程*/
 		MainThread aMain = new MainThread();

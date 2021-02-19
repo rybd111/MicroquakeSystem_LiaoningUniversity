@@ -5,9 +5,10 @@ package middleware;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Arrays;
 
-import Entrance.MainTestInitialConfig;
+import Entrance.InitialConfig;
 import mutiThread.MainThread;
 import utils.ScanInNum;
 import utils.outArray;
@@ -29,14 +30,15 @@ public class pullDataFromSensor {
 	 * kind select in "file" or "filedata".
 	 * @param timeString
 	 * @throws IOException 
+	 * @throws ParseException 
 	 */
-	pullDataFromSensor(String startTime, String endTime, String timeStamp, String kind) throws IOException {
+	pullDataFromSensor(String startTime, String endTime, String timeStamp, String kind) throws IOException, ParseException {
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.timeStamp = timeStamp;
 		
 		if(kind.equals("file")) {
-			pullFileFromRemoteDisk();
+			pullFileFromRemoteDiskInFile();
 		}
 		if(kind.equals("filedata")) {
 			pullDataFromRemoteDiskInSec();
@@ -44,33 +46,16 @@ public class pullDataFromSensor {
 	}
 	
 	/**
-	 * 
+	 * 从所有网络盘符中获取给定时刻的文件。
 	 * @author Hanlin Zhang.
 	 * @throws IOException 
+	 * @throws ParseException 
 	 * @date revision 2021年2月2日下午8:44:18
 	 */
-	private void pullFileFromRemoteDisk() throws IOException {
-		//确定盘符
-		new MainTestInitialConfig("pull");
+	private void pullFileFromRemoteDiskInFile() throws IOException, ParseException {
+		InitialConfig config = new InitialConfig();
 		
-		//确定最终查找的盘符。
-		outArray.outArray_String(MainThread.fileStr);
-		
-		System.out.println("请输入选择的盘符序号");
-		int series[] = ScanInNum.ScanInNum();
-		String[] newfileStr = new String[0]; 
-		
-		for(int i=0;i<series.length;i++) {	
-			newfileStr = Arrays.copyOf(newfileStr, newfileStr.length+1);
-			newfileStr[newfileStr.length-1] = MainThread.fileStr[series[i]];  
-		}
-		
-		//查找某时刻对应的所有盘符上的文件
-		File[] f = comingPullFiles();
-		
-		//写入Windows脚本程序并执行。
-		writeToEcho();
-		excuteEcho();
+		config.pullFileFromRemote();
 	}
 	
 	private File[] comingPullFiles() {
@@ -82,15 +67,6 @@ public class pullDataFromSensor {
 		
 		return false;
 	}
-	
-	private void writeToEcho() {
-		
-	}
-	
-	private void excuteEcho() {
-		
-	}
-	
 	
 	private void pullDataFromRemoteDiskInSec() {
 		

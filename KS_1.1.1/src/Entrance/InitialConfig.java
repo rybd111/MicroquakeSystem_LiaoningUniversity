@@ -5,7 +5,9 @@ package Entrance;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.jar.Attributes.Name;
 
 import javax.swing.filechooser.FileSystemView;
@@ -16,8 +18,11 @@ import com.ibm.icu.impl.UResource.Value;
 import com.mysql.cj.x.protobuf.MysqlxResultset.RowOrBuilder;
 import com.orsoncharts.data.Values;
 
+import middleware.tool.FindHistoryFile;
 import mutiThread.MainThread;
 import utils.ArrayMatch;
+import utils.String2Date;
+import utils.SubStrUtil;
 import utils.outArray;
 import org.xvolks.jnative.misc.*;
 import org.xvolks.jnative.util.Kernel32;
@@ -32,7 +37,7 @@ import org.xvolks.jnative.util.Kernel32.FileAttribute;
  * 
  * @author Hanlin Zhang
  */
-public class MainTestInitialConfig {
+public class InitialConfig {
 	
 	
 	
@@ -52,7 +57,7 @@ public class MainTestInitialConfig {
 	/**
 	 * 
 	 */
-	public MainTestInitialConfig() {
+	public InitialConfig() {
 		super();
 	}
 	/**
@@ -61,76 +66,21 @@ public class MainTestInitialConfig {
 	 * 输出参数配置情况。
 	 * @param prePath can be "pull" or the absolute path of offline
 	 * @throws IOException 
+	 * @throws ParseException 
 	 */
 	@SuppressWarnings("unused")
-	public MainTestInitialConfig(String prePath) throws IOException {
+	public InitialConfig(String prePath) throws IOException, ParseException {
 		//前缀路径长度不足2，则认为前缀路径错误。
 		if(prePath.length()<=1) {
 			System.out.println("请配置正确的带有‘Testa-Testz’的离线数据路径。");
 			System.exit(0);
 		}
-		if(Parameters.offline == true) {
-			this.prePath = prePath;
-			
-			/** 读取当前路径下的所有文件夹，并提取出运行的盘符和对应的路径*/
-			MainThread.fileStr = obtainOfflinePath();
-			
-			// 我们认为小于2个盘符的路径并不符合，数量不够
-			if(MainThread.fileStr.length<=2) {
-				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
-				System.in.read();
-			}
-			
-			/** 根据路径个数配置传感器数量*/
-			Parameters.SensorNum = MainThread.fileStr.length;
-			
-			/** 配置区域*/
-			regionConfig();
-			
-			/** 输出所有离线运行参数，供用户确认*/
-			printAllParameters();
-		}
-		//拉取远端数据。
-		else if(prePath.equals("pull")) {
-			/** 返回存有HFMED的盘符，但此时不能确定是网络映射盘符，因此需要进一步验证*/
-			MainThread.fileStr = scanAlldisk();
-			
-			// 我们认为小于2个盘符的路径并不符合，数量不够
-			if(MainThread.fileStr.length<=2) {
-				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
-				System.in.read();
-			}
-			
-			/** 根据路径个数配置传感器数量*/
-			Parameters.SensorNum = MainThread.fileStr.length;
-			
-			/** 按照区域配置diskNameNum*/
-			Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station ,Parameters.region);
-			
-			/** 输出所有离线运行参数，供用户确认*/
-			printAllParameters();
+		if(Parameters.offline == true && prePath.equals("pull") == false) {
+			commonProcess(prePath);
 		}
 		//为了测试在线部分代码。
-		else if(Parameters.offline == false) {
-			this.prePath = prePath;
-			
-			/** 读取当前路径下的所有文件夹，并提取出运行的盘符和对应的路径*/
-			MainThread.fileStr = obtainOfflinePath();
-			
-			/** 我们认为小于2个盘符的路径并不符合，数量不够*/
-			if(MainThread.fileStr.length<=2) {
-				System.out.println("存在- " + "传感器数量不足" + " -问题         是否继续？按任意键继续——————————");
-				System.in.read();
-			}
-			
-			/** 根据路径个数配置传感器数量*/
-			Parameters.SensorNum = MainThread.fileStr.length;
-			
-			/** 配置区域*/
-			regionConfig();
-			
-			/** 输出所有离线运行参数，供用户确认*/
-			printAllParameters();
+		else if(Parameters.offline == false && prePath.equals("pull") == false) {
+			commonProcess(prePath);
 		}
 	}
 	
@@ -293,10 +243,11 @@ public class MainTestInitialConfig {
 		for(int i=0;i<roots.length;i++) {
 			String Type = FileSystemView.getFileSystemView().getSystemTypeDescription(roots[i]);
 			if(Type.equals("网络驱动器")) {
-				if(determineDisk(roots[i].listFiles(), numberNum)==true) {
+//				if(determineDisk(roots[i].listFiles(), numberNum)==true) {
 					sasroots = Arrays.copyOf(sasroots, sasroots.length+1);
-					sasroots[sasroots.length-1] = roots[i].getName();
-				}
+					sasroots[sasroots.length-1] = roots[i].getAbsolutePath();
+					sasroots[sasroots.length-1].toLowerCase();
+//				}
 			}
 			//测试用代码。
 //			if(Type.equals("本地磁盘")) {
@@ -306,6 +257,8 @@ public class MainTestInitialConfig {
 //				}
 //			}
 		}
+		
+		
 		return sasroots;
 	}
 	
@@ -336,6 +289,57 @@ public class MainTestInitialConfig {
 		}
 		return false;
 	}
+	
+	private void commonProcess(String prePath) throws IOException {
+		this.prePath = prePath;
+		
+		/** 读取当前路径下的所有文件夹，并提取出运行的盘符和对应的路径*/
+		MainThread.fileStr = obtainOfflinePath();
+		
+		// 我们认为小于2个盘符的路径并不符合，数量不够
+		if(MainThread.fileStr.length<=2) {
+			System.out.println("传感器数量不足，个数为：" + MainThread.fileStr.length + "         是否继续？按任意键继续——————————");
+			System.in.read();
+		}
+		
+		/** 根据路径个数配置传感器数量*/
+		Parameters.SensorNum = MainThread.fileStr.length;
+		
+		/** 配置区域*/
+		regionConfig();
+		
+		/** 输出所有离线运行参数，供用户确认*/
+		printAllParameters();
+	}
+	
+	public void pullFileFromRemote()) throws IOException, ParseException {
+		/** 返回存有HFMED的盘符，但此时不能确定是网络映射盘符，因此需要进一步验证*/
+		MainThread.fileStr = scanAlldisk();
+		
+		// 我们认为小于2个盘符的路径并不符合，数量不够
+		if(MainThread.fileStr.length<=2) {
+			System.out.println("传感器数量不足，个数为：" + MainThread.fileStr.length + "         是否继续？按任意键继续——————————");
+			System.in.read();
+		}
+		
+		/** 根据路径个数配置传感器数量*/
+		Parameters.SensorNum = MainThread.fileStr.length;
+		
+		/** 按照区域配置diskNameNum*/
+		Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station ,Parameters.region);
+		
+		/** 输出所有离线运行参数，供用户确认*/
+		printAllParameters();
+		
+		/**拉取*/
+		//注意此路径后面必须加上"/".
+        String destiPath = "I:\\矿山\\矿山数据\\大同\\1月14日大同塔山矿震动/";
+//        String time = "20"+Parameters.StartTimeStr;
+        String timeStr = "20" + "190114020001";
+        
+        FindHistoryFile.launch(MainThread.fileStr, destiPath, timeStr);
+	}
+	
 	/**
 	 * @param args
 	 * @author Hanlin Zhang.
