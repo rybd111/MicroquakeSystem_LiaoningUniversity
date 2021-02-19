@@ -312,7 +312,7 @@ public class InitialConfig {
 		printAllParameters();
 	}
 	
-	public void pullFileFromRemote()) throws IOException, ParseException {
+	public void pullFileFromRemote() throws IOException, ParseException {
 		/** 返回存有HFMED的盘符，但此时不能确定是网络映射盘符，因此需要进一步验证*/
 		MainThread.fileStr = scanAlldisk();
 		
