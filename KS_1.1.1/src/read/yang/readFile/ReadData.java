@@ -379,7 +379,7 @@ public class ReadData {
 							}
 						}
 					}
-					else	
+					else
 						return;
 					
 					if(count==(Parameters.FREQUENCY+200)*3) {

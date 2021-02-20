@@ -1,25 +1,11 @@
 package mutiThread;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
-import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import com.h2.constant.Parameters;
-import com.h2.main.EarthQuake;
-
 import DataExchange.vectorExchange;
 import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
-import utils.Date2String;
-import utils.DateArrayToIntArray;
 import controller.ADMINISTRATOR;
-import read.rqma.history.*;
-import read.yang.readFile.ReadData;
 
 /**
  * main procedure entrance.

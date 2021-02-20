@@ -101,8 +101,8 @@ public class InitialConfig {
 		
 		for(int i=0;i<fs.length;i++) {
 			int pathLen = fs[i].getPath().length();
-			String identity = fs[i].getPath().substring(pathLen-5, pathLen-1);
-			if(fs[i].isDirectory() && identity.compareTo("Test")==0) {
+//			String identity = fs[i].getPath().substring(pathLen-5, pathLen-1);
+			if(fs[i].isDirectory()) {
 				if(checkHFMEDData(fs[i]) || checkBINData(fs[i])) {
 					panfu = Arrays.copyOf(panfu, panfu.length+1);
 					panfu[panfu.length-1] = fs[i].getAbsolutePath();
@@ -312,7 +312,7 @@ public class InitialConfig {
 		printAllParameters();
 	}
 	
-	public void pullFileFromRemote() throws IOException, ParseException {
+	public void pullFileFromRemote(String destiPath, String timeStr) throws IOException, ParseException {
 		/** 返回存有HFMED的盘符，但此时不能确定是网络映射盘符，因此需要进一步验证*/
 		MainThread.fileStr = scanAlldisk();
 		
@@ -332,11 +332,6 @@ public class InitialConfig {
 		printAllParameters();
 		
 		/**拉取*/
-		//注意此路径后面必须加上"/".
-        String destiPath = "I:\\矿山\\矿山数据\\大同\\1月14日大同塔山矿震动/";
-//        String time = "20"+Parameters.StartTimeStr;
-        String timeStr = "20" + "190114020001";
-        
         FindHistoryFile.launch(MainThread.fileStr, destiPath, timeStr);
 	}
 	

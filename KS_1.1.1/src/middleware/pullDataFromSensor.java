@@ -24,6 +24,7 @@ public class pullDataFromSensor {
 	private String startTime="";
 	private String endTime="";
 	private String timeStamp = "";
+	private String destPath = "";
 	
 	/**
 	 * timeString must be yyyy-MM-ddHH:mm:ss
@@ -32,15 +33,22 @@ public class pullDataFromSensor {
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
-	pullDataFromSensor(String startTime, String endTime, String timeStamp, String kind) throws IOException, ParseException {
+	pullDataFromSensor(
+			String startTime,
+			String endTime,
+			String timeStamp,
+			String kind,
+			String destPath) throws IOException, ParseException {
+		
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.timeStamp = timeStamp;
+		this.destPath = destPath;
 		
-		if(kind.equals("file")) {
+		if(kind.equals("getfile")) {
 			pullFileFromRemoteDiskInFile();
 		}
-		if(kind.equals("filedata")) {
+		if(kind.equals("getSpecialdata")) {
 			pullDataFromRemoteDiskInSec();
 		}
 	}
@@ -54,8 +62,12 @@ public class pullDataFromSensor {
 	 */
 	private void pullFileFromRemoteDiskInFile() throws IOException, ParseException {
 		InitialConfig config = new InitialConfig();
-		
-		config.pullFileFromRemote();
+		//注意此路径后面必须加上"/".
+        String destiPath = "I:\\矿山\\矿山数据\\大同\\1月14日大同塔山矿震动/";
+//        String time = "20"+Parameters.StartTimeStr;
+        String timeStr = "20" + "190114020001";
+        
+		config.pullFileFromRemote(destiPath, timeStr);
 	}
 	
 	private File[] comingPullFiles() {
