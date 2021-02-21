@@ -9,6 +9,8 @@ import java.util.Date;
 
 import com.h2.constant.Parameters;
 
+import controller.ADMINISTRATOR;
+import javazoom.jl.decoder.Manager;
 import read.yang.unity.HfmedHead;
 import read.yang.util.FindByte;
 import utils.String2Date;
@@ -21,8 +23,8 @@ import utils.String2Date;
  */
 public class ReadDateFromHead {
 	
-	public static String readDataSegmentHeadall(String fileName) throws Exception {
-		boolean flag = true;
+	
+	public static String readDataSegmentHead_MrLiu_String(String fileName) throws Exception {
 		// 用于承装数据段头的字节
 		byte[] dataSegmentHeadByte = new byte[34];
 		File file = new File(fileName);
@@ -31,14 +33,11 @@ public class ReadDateFromHead {
 		BufferedInputStream buffered = new BufferedInputStream(new FileInputStream(file));
 		if(hfmedHead.getChannelOnNum()==7) {
 			Parameters.WenJianTou=284;
-			if(flag == true) {
-				Parameters.TongDaoDiagnose=1;
-			}
+			Parameters.TongDaoDiagnose = 1;
 		}
 		else if(hfmedHead.getChannelOnNum()==4) {
-			flag = false;
 			Parameters.WenJianTou=242;
-			Parameters.TongDaoDiagnose=0;
+			Parameters.TongDaoDiagnose = 0;
 		}
 		buffered.skip(Parameters.WenJianTou);
 		buffered.read(dataSegmentHeadByte);
@@ -78,11 +77,33 @@ public class ReadDateFromHead {
 		return startDate;
 	}
    
-	public Date readDataSegmentHead_MrMa_Date(String fileName) throws Exception {
+	public static Date readDataSegmentHead_MrMa_Date(String fileName) throws Exception {
 		
 		// 用于承装数据头(时间戳)的4个字节数组
 		byte[] dataSegmentHeadByte = new byte[4];
 		File file = new File(fileName);
+		// 打开流
+		FileInputStream fs = new FileInputStream(file);
+		fs.read(dataSegmentHeadByte);
+		fs.close();
+		
+		byte[] xd = new byte[4];
+		xd[0]=dataSegmentHeadByte[3];
+		xd[1]=dataSegmentHeadByte[2];
+		xd[2]=dataSegmentHeadByte[1];
+		xd[3]=dataSegmentHeadByte[0];
+		
+		String st = FindByte.bytesToHexString(xd);//将byte[]转化成16进制字符串		
+		long dec_num = Long.parseLong(st, 16); //十六进制数字符串,转换为正的十进制数 
+		
+		Date startDate = FindByte.longToDate(dec_num);
+		return startDate;
+	}
+	
+	public static Date readDataSegmentHead_MrMa_Date(File file) throws Exception {
+		
+		// 用于承装数据头(时间戳)的4个字节数组
+		byte[] dataSegmentHeadByte = new byte[4];
 		// 打开流
 		FileInputStream fs = new FileInputStream(file);
 		fs.read(dataSegmentHeadByte);
@@ -114,7 +135,7 @@ public class ReadDateFromHead {
 	 * @return  String  represents the date of the first data segment
 	 * @throws Exception
 	 */
-     public Date readDataSegmentHead(File file) throws Exception{
+     public static Date readDataSegmentHead(File file) throws Exception{
     	
 		//用于承装数据段头的字节
     	 

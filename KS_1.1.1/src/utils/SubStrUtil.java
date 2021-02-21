@@ -21,15 +21,30 @@ public class SubStrUtil {
 	
 	/**
      * 截取下划线后面，与.前面的字符串。
+     * 获取刘老师仪器文件名中的时间字符串
      * @param parent
      * @return
      * @author Hanlin Zhang.
      * @date revision 2021年2月19日上午10:42:45
      */
-    public static String contentCut(String parent) {
+    public static String contentCut_liu(String parent) {
         String []str = parent.split("_");
         String results = str[1].split("\\u002E")[0];
         return  results;
+    }
+    
+    /**
+     * 新设备文件名中的时间截取 ；如 NO4_2020-01-02 19-39-24.bin 截取为 20200102193924
+     * @param fileName
+     * @return
+     */
+    public static String contentCut_ma(String fileName) {
+
+        String []str1= fileName.split("_");  //分割“_”
+        String []str2= str1[1].split("\\."); //分割“.”
+        String time= str2[0].replace("-","");
+        time=time.replace(" ","");
+        return time;
     }
     
     /**
@@ -39,7 +54,7 @@ public class SubStrUtil {
      * @author Hanlin Zhang.
      * @date revision 2021年2月19日上午10:06:21
      */
-    public static String contentCut1(String parent) {
+    public static String contentCut_root(String parent) {
     	String []str = parent.split("\\\\");
         int series = 0;
     	

@@ -160,7 +160,7 @@ public class Parameters
 	/**
 	 * The during time we set to cut the data from 30s data.
 	 */
-	public static int startTime = 3;//开始的截取时间，激发位置前面5s
+	public static int startTime = 3;//开始的截取时间，激发位置前面3s
 	public static int endTime = 15;//结束的截取时间，激发位置后面10s
 	public static final int READTIMER = startTime + endTime;// 单位是秒
 	/**
@@ -201,7 +201,7 @@ public class Parameters
 	/**
 	 * the time to read when procedure start.
 	 */
-	public static String StartTimeStr = "180214130000";
+	public static String StartTimeStr = "200214130000";
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.
 	 * This variable will effect the coordination of this procedure, please confirm it twice.

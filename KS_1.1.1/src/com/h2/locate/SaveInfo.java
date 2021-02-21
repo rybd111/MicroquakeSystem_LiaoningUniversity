@@ -152,7 +152,7 @@ public class SaveInfo {
 		//We integrate every sensors quake magnitude to compute the last quake magnitude.
 		float earthQuakeFinal = 0;
 		for (Sensor sen : sensors1)	earthQuakeFinal += sen.getEarthClassFinal();
-		earthQuakeFinal /= 5;//For this method is only support 5 sensors, so we must divide 5 to calculate the last quake magnitude.
+		earthQuakeFinal /= sensors1.length;//For this method is only support 5 sensors, so we must divide 5 to calculate the last quake magnitude.
 		if(Parameters.MinusAFixedOnMagtitude==true)
 			earthQuakeFinal = (float) (earthQuakeFinal-Parameters.MinusAFixedValue);// We discuss the consequen to minus 0.7 to reduce the final quake magnitude at datong coal mine.
 		
@@ -167,7 +167,6 @@ public class SaveInfo {
 	 * @date revision 2021年2月12日下午6:22:11
 	 */
 	public double calEnergy() {
-		
 		//We compute the minimum energy of all sensors as the final energy.
 		double finalEnergy = 0.0;double []energy = new double[sensors1.length];
 		for (int i=0;i<sensors1.length;i++) {
@@ -233,12 +232,12 @@ public class SaveInfo {
 		double b_value = bValue(earthQuakeFinal);
 		//we will set 0 when the consequence appears NAN value.
 		String quakeString = (Float.compare(Float.NaN, earthQuakeFinal) == 0) ? "0"	: String.format("%.2f", earthQuakeFinal);//修改震级，保留两位小数
+		//save to database.
+		saveInfo(kind, quakeString, finalEnergy, tensor_c, b_value, manager);
 		//we also record the quake location in a '.csv' file for manually computation.
 		if(Parameters.isStorageEventRecord==1) {
 			saveEventRecord(location_refine.getquackTime(), quakeString, finalEnergy, tensor_c, b_value, manager);
 		}
-		//save to database.
-		saveInfo(kind, quakeString, finalEnergy, tensor_c, b_value, manager);
 	}
 	
 	//get all variables.

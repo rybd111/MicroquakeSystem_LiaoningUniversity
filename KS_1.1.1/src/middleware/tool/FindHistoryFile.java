@@ -93,7 +93,6 @@ public class FindHistoryFile implements Runnable {
 				//文件夹名符合传感器文件的格式？
 				if(filePatternMatch.match(Dic[i].getName())==true) {
 //					System.out.println("location定位结果" + Dic[i].getPath());
-					
 					if(getFile(Dic[i].getPath())==false) {
 						System.out.println("在" + Dic[i].getPath() + "下，没有找到符合给定时间：" + Date2String.date2str(time) + " 的文件。");
 					}
@@ -117,7 +116,7 @@ public class FindHistoryFile implements Runnable {
 	private boolean getFile(String parent) throws ParseException, IOException {
     	boolean flag = false;
     	//过滤符合给定时间点的文件。
-    	this.files = fileFilter.HFMEDFilter(parent, this.time);
+    	this.files = fileFilter.TimeFilter(parent, this.time);
         //拷贝这些文件，并设置标志位。
         if(this.files.length>0) {
         	copyFileFromRemote();
@@ -137,7 +136,7 @@ public class FindHistoryFile implements Runnable {
     public void copyFileFromRemote() throws IOException, ParseException {
 		for(int i=0;i<this.files.length;i++) {
 			//获取根目录作为盘符名字。
-			String panfu = SubStrUtil.contentCut1(this.files[i].getParent());
+			String panfu = SubStrUtil.contentCut_root(this.files[i].getParent());
 			//在目的路径创建文件夹。
 			String filePathInter = this.destiPath + panfu;
 			createFolder(filePathInter);
@@ -190,11 +189,10 @@ public class FindHistoryFile implements Runnable {
      * @date revision 2021年2月19日下午4:11:39
      */
     public static void launch(String[] sourcePath, String destiPath, String timeStr) throws ParseException, IOException {
-    	ExecutorService executor = Executors.newFixedThreadPool(Parameters.SensorNum);
-        final CountDownLatch threadSignal = new CountDownLatch(Parameters.SensorNum);
+    	ExecutorService executor = Executors.newFixedThreadPool(sourcePath.length);
+        final CountDownLatch threadSignal = new CountDownLatch(sourcePath.length);
         
         Date specifyTime = String2Date.str2Date2(timeStr);
-        
         
         System.out.println("抓取开始---------------------------！！");
     	long m1 = System.currentTimeMillis();
@@ -209,7 +207,7 @@ public class FindHistoryFile implements Runnable {
             e1.printStackTrace();
         }
         double cost = (System.currentTimeMillis() - m1)/1000.0;
-    	System.out.println("抓取完毕---------------------------！！_ 共用时："+ cost);
+    	System.out.println("抓取完毕---------------------------！！_ 共用时："+ cost + "秒");
     }
     
     public static void main(String[] args) throws ParseException, IOException {

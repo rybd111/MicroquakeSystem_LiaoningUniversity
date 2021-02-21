@@ -8,11 +8,13 @@ import java.io.File;
  * @Date: 4/26/2019 1:19 PM
  */
 public class TimeLine {
-    int id;
-    String filename;
-    String filepath;//文件夹
-    int position;//记录位置
-    File file;//记录文件。
+	public int id;
+    public String filename;
+    private String filepath;//文件夹
+    public int position;//记录位置
+    private File file;//记录文件。
+    private long begintime;//file start time
+    private long endtime;//file end time
 
     public int getPosition() {
         return position;
@@ -48,4 +50,19 @@ public class TimeLine {
     public void setFile(File file) {
     	this.file = file;
     }
+    
+    public long getBegintime() {
+        return begintime;
+    }
+    public void setBegintime(long begintime) {
+        this.begintime = begintime;
+    }
+
+    public long getEndtime() {
+        return endtime;
+    }
+    public void setEndtime(long endtime) {
+        this.endtime = endtime;
+    }
+
 }

@@ -17,6 +17,7 @@ import com.h2.constant.Parameters;
 
 import DataExchange.Sensor;
 import controller.ADMINISTRATOR;
+import middleware.motivation_Diagnose_alone;
 import mutiThread.MainThread;
 import utils.ArrayMatch;
 
@@ -42,7 +43,7 @@ public class SensorTool
 		Sensor[] sensors = new Sensor[count];
 		//a sequence of correspond places.
 		int [] k = new int [Parameters.SensorNum];
-		//匹配盘符的序号。
+		//匹配地区的序号。
 		int th = ArrayMatch.match_String(Parameters.station ,Parameters.region);
 		k = baseSort(Str, k, th,manager);
 		
@@ -61,11 +62,22 @@ public class SensorTool
 		return sensors;
 	}
 	
+	/**
+	 * 确定一个根盘符，然后用其余盘符减去它，求相对坐标。
+	 * @param Str 求得路径中的盘符号，与diskName作比较，相等就保存这个序号。
+	 * @param k 对应不同的传感器序号
+	 * @param region
+	 * @param manager
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年2月21日上午10:12:04
+	 */
 	public static int[] baseSort(
 			String[] Str, 
 			int [] k, 
 			int region,
 			ADMINISTRATOR manager) {
+		
 		for(int j=0;j<Str.length;j++){
 			for(int i=0;i<Parameters.diskName[region].length;i++) {
 				String s = null;
@@ -96,68 +108,79 @@ public class SensorTool
 	 * @return
 	 * @author Baishuo Han, Hanlin Zhang.
 	 */
-	private static boolean tunnel=false;
+	private static boolean tunnel = false;
 	@SuppressWarnings("unused")
 	public static void motivate(Vector<String> data, Sensor sensor,int th, int range) throws ParseException
 	{
-		int lineSeries = 0;
-		boolean flag=false;
-		//the hop number is 100, i starts from the first data of the first sliding window to the first data of the last sliding window.
-		for(int i=range;i<data.size()-Parameters.N-range;i+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
-		{
-			if(!sensor.isSign())
-			{
-				lineSeries=getToken(data, i);//激发位置，滑动距离为Parameters.INTERVAL个点，并判断使用哪三个通道
-				//if there has a sensor has motivated, it perhaps the last windows.
-				if(lineSeries!=0)
-				{
-					//进入精细判断，即加上各项阈值。
-					if(Parameters.motivationDiagnose==1) {
-						flag=getAverage(data,lineSeries,th);
-						if(flag==true) {
-							//set the flag signal.
-							sensor.setSign(true);
-							//there set the position(series) in now vector, it means the relative position in 10s vector.
-							sensor.setlineSeries(lineSeries-range);
-//							System.out.println("激发位置："+"  "+sensor.getlineSeries());
-							//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
-							sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
-							//Set the absolute time in GPS time.
-							sensor.setAbsoluteTime(relativeStatus.PArrivalTime(data, sensor));
-							//we obtain the time of the motivation time of the now vector. we abandoned this item.
-							sensor.setTime(data.get(lineSeries-range).split(" ")[6]);
-							lineSeries = lineSeries - range;
-						}
-					}
-					else {
-						//set the flag signal.
-						sensor.setSign(true);
-						//there set the position(series) in now vector, it means the relative position in 10s vector.
-						sensor.setlineSeries(lineSeries);
-						//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
-						sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
-						//Set the absolute time in GPS time.
-						sensor.setAbsoluteTime(relativeStatus.PArrivalTime(data, sensor));
-						//we obtain the time of the first time of the now vector.
-						sensor.setTime(data.get(lineSeries).split(" ")[6]);
-					}
-				}
-				
-				//if the 456 chunnel is overflow, then we select the 123 chunnel.
-				if(tunnel){
-					CrestorTrough temcre=new CrestorTrough(Double.parseDouble(data.get(lineSeries).split(" ")[0]),
-														   Double.parseDouble(data.get(lineSeries).split(" ")[1]),
-							                               Double.parseDouble(data.get(lineSeries).split(" ")[2]));
-					sensor.setCrestortrough(temcre);
-				}else{
-					CrestorTrough temcre=new CrestorTrough(Double.parseDouble(data.get(lineSeries).split(" ")[3]),
-							                               Double.parseDouble(data.get(lineSeries).split(" ")[4]),
-                                                           Double.parseDouble(data.get(lineSeries).split(" ")[5]));
-					sensor.setCrestortrough(temcre);
-				}
-			}
+		motivation_Diagnose_alone m = new motivation_Diagnose_alone(data, range, th);
+		
+		if(m.MotivationDiag()) {
+			sensor.setSign(m.getIsMoti());
+			sensor.setlineSeries(m.getMotiPos());
+			sensor.setSecTime(m.getRelativeMSTime());
+			sensor.setAbsoluteTime(m.getAbsoluteMSTime());
+			sensor.setTime(m.getAbsoluteSTime());
+			sensor.setCrestortrough(m.getCrestorThrough());
 		}
-		tunnel=false;
+		
+//		int lineSeries = 0;
+//		boolean flag=false;
+//		//the hop number is 100, i starts from the first data of the first sliding window to the first data of the last sliding window.
+//		for(int i=range;i<data.size()-Parameters.N-range;i+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
+//		{
+//			if(!sensor.isSign())
+//			{
+//				lineSeries=getToken(data, i);//激发位置，滑动距离为Parameters.INTERVAL个点，并判断使用哪三个通道
+//				//if there has a sensor has motivated, it perhaps the last windows.
+//				if(lineSeries!=0)
+//				{
+//					//进入精细判断，即加上各项阈值。
+//					if(Parameters.motivationDiagnose==1) {
+//						flag=getAverage(data,lineSeries,th);
+//						if(flag==true) {
+//							//set the flag signal.
+//							sensor.setSign(true);
+//							//there set the position(series) in now vector, it means the relative position in 10s vector.
+//							sensor.setlineSeries(lineSeries-range);
+////							System.out.println("激发位置："+"  "+sensor.getlineSeries());
+//							//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
+//							sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
+//							//Set the absolute time in GPS time.
+//							sensor.setAbsoluteTime(relativeStatus.PArrivalTime(data, sensor));
+//							//we obtain the time of the motivation time of the now vector. we abandoned this item.
+//							sensor.setTime(data.get(lineSeries-range).split(" ")[6]);
+//							lineSeries = lineSeries - range;
+//						}
+//					}
+//					else {
+//						//set the flag signal.
+//						sensor.setSign(true);
+//						//there set the position(series) in now vector, it means the relative position in 10s vector.
+//						sensor.setlineSeries(lineSeries);
+//						//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
+//						sensor.setSecTime(Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200)));
+//						//Set the absolute time in GPS time.
+//						sensor.setAbsoluteTime(relativeStatus.PArrivalTime(data, sensor));
+//						//we obtain the time of the first time of the now vector.
+//						sensor.setTime(data.get(lineSeries).split(" ")[6]);
+//					}
+//				}
+//				
+//				//if the 456 chunnel is overflow, then we select the 123 chunnel.
+//				if(tunnel){
+//					CrestorTrough temcre=new CrestorTrough(Double.parseDouble(data.get(lineSeries).split(" ")[0]),
+//														   Double.parseDouble(data.get(lineSeries).split(" ")[1]),
+//							                               Double.parseDouble(data.get(lineSeries).split(" ")[2]));
+//					sensor.setCrestortrough(temcre);
+//				}else{
+//					CrestorTrough temcre=new CrestorTrough(Double.parseDouble(data.get(lineSeries).split(" ")[3]),
+//							                               Double.parseDouble(data.get(lineSeries).split(" ")[4]),
+//                                                           Double.parseDouble(data.get(lineSeries).split(" ")[5]));
+//					sensor.setCrestortrough(temcre);
+//				}
+//			}
+//		}
+//		tunnel=false;
 	}
 
 	/**
@@ -195,7 +218,7 @@ public class SensorTool
 			String[] str = s.split(" ");
 			
 			if(QuakeClass.testValue(str[5])) {
-				channel = true;tunnel = channel;
+				channel = true; tunnel = channel;
 			}
 			container.add(s);
 			count++;

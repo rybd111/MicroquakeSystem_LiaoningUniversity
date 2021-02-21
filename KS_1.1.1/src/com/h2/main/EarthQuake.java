@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import mutiThread.MainThread;
 import utils.diagDataNum;
+import utils.printRunningParameters;
 
 import com.h2.backupData.WriteRecords;
 import com.h2.backupData.writeToDiskasCSV;
@@ -13,6 +14,7 @@ import com.h2.locate.locate;
 import com.h2.tool.SensorTool;
 import com.h2.tool.relativeStatus;
 import DataExchange.Sensor;
+import Entrance.MainTest;
 import controller.ADMINISTRATOR;
 
 /**
@@ -97,18 +99,30 @@ public class EarthQuake {
 					//the series of correspond with the name of path, which stow the motivated sensor.
 					sensors[i].setSensorNum(i);
 					for(int j=0;j<Parameters.diskName[Parameters.diskNameNum].length;j++) {
-						if(Parameters.offline==false) {
-							identity = MainThread.fileStr[i].replace(":/", "");
+						if(MainTest.runningModel != MainTest.LOCAL_ONLINE_UNSTORAGE || MainTest.runningModel != MainTest.LOCAL_ONLINE_STORAGE) {
+							if(Parameters.offline==false) {
+								identity = MainThread.fileStr[i].replace(":/", "");
+							}
+							else {
+								identity = MainThread.fileParentPackage[i].replace("Test", "");
+							}
 						}
+						//测试本地在线时的计算部分。
 						else {
 							identity = MainThread.fileParentPackage[i].replace("Test", "");
 						}
+						
 						if(identity.equals(Parameters.diskName[Parameters.diskNameNum][j])) {
 							l[i]=i+1;//record the number of motivated sensors.
 							l1[countNumber]=i;
 							countNumber++;
 							sensors[i].setlineSeries(sensors[i].getlineSeries()+ssen[i][0].size());
-							System.out.println("激发台站"+MainThread.fileStr[i]+"激发位置"+sensors[i].getlineSeries());
+							System.out.println(
+									"激发台站: "+
+									printRunningParameters.formToChar(MainThread.fileStr[i])+
+									" "+
+									"激发位置: "+
+									printRunningParameters.formToChar(String.valueOf(sensors[i].getlineSeries())));
 						}
 					}
 				}
@@ -141,23 +155,30 @@ public class EarthQuake {
 			
 			//if countNumber>=5, the procedure start calculating the earthquake magnitude and the location of quake happening.
 			if(countNumber >= 5 && manager.getIsRealMoti() == true) {
-				loc.temporal_spatio_strength("five", sensors, status.getSensors1(), countNumber,manager);
+//				loc.temporal_spatio_strength("five", S, status.getSensors1(), countNumber, manager);
 			}
 			
 			//if the number of motivated sensors is greater than 3, we will calculate three location and PSO location.
 			if(countNumber>=3 && manager.getIsRealMoti() == true){
-				loc.temporal_spatio_strength("three", sensors, status.getSensors1(), countNumber,manager);
-				loc.temporal_spatio_strength("PSO", sensors, status.getSensors1(), countNumber,manager);
+//				loc.temporal_spatio_strength("three", S, status.getSensors1(), countNumber, manager);
+				loc.temporal_spatio_strength("PSO", S, status.getSensors1(), countNumber, manager);
 			}
 			
 			//if the number of motivated sensors is greater than 4, we will calculate four location-main event location.
 			if(countNumber>=4 && manager.getIsRealMoti() == true) {
-				loc.temporal_spatio_strength("major", sensors, status.getSensors1(), countNumber,manager);
+//				loc.temporal_spatio_strength("major", S, status.getSensors1(), countNumber, manager);
 			}
 			//we can hide this print when the console are so much content or display this print when we want to adjust the procedure.
             //output the reasons why the calculation process is not executing.
-			System.out.println("激发数："+countNumber+" 台站间的激发间隔时间是否小于"+Parameters.IntervalToOtherSensors+"秒? "+
-					manager.getIsRealMoti()+" time："+ssen[0][0].get(0).split(" ")[6]);
+			System.out.println(
+					"激发数: "+ 
+					printRunningParameters.formToChar(String.valueOf(countNumber))+
+					" 台站间的激发间隔时间是否小于"+
+					printRunningParameters.formToChar(String.valueOf(Parameters.IntervalToOtherSensors))+
+					"秒? "+
+					printRunningParameters.formToChar(String.valueOf(manager.getIsRealMoti()))+
+					" time："+
+					printRunningParameters.formToChar(ssen[0][0].get(0).split(" ")[6]));
 		}
 		
 		//reset the global variable.

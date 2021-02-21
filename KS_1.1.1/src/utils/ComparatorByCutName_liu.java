@@ -5,12 +5,12 @@ import java.util.Comparator;
 
 import read.rqma.history.TimeLine;
 
-public class ComparatorByCutName implements Comparator<File> {
+public class ComparatorByCutName_liu implements Comparator<File> {
     @SuppressWarnings("unused")
 	public int compare(File f1, File f2) {
     	int diff=0;
 
-    	diff = SubStrUtil.contentCut(f1.getName()).compareTo(SubStrUtil.contentCut(f2.getName()));
+    	diff = SubStrUtil.contentCut_liu(f1.getName()).compareTo(SubStrUtil.contentCut_liu(f2.getName()));
     	
         if (diff > 0)
             return 1;

@@ -7,17 +7,21 @@ import java.text.ParseException;
 import java.util.Vector;
 
 import com.h2.constant.Parameters;
+import com.h2.tool.CrestorTrough;
 import com.h2.tool.QuakeClass;
 import com.h2.tool.relativeStatus;
+import com.ibm.icu.util.Output;
 
 import javafx.scene.chart.XYChart.Series;
 import mutiThread.MainThread;
+import utils.printRunningParameters;
 
 /**
  * @author Hanlin Zhang
  */
 public class motivation_Diagnose_alone {
-
+	//determine which chunnel we select, true is the 123 chunnel, or 456 chunnel.
+	private boolean channel = false;
 	//motivation flag.
 	private boolean isMoti = false;
 	//sensor motivation position.
@@ -30,13 +34,43 @@ public class motivation_Diagnose_alone {
 	private String absoluteSTime = "";
 	//sensor data.
 	private Vector<String> data;
+	//startPos。
+	private int range = 0;
+	//sensorID
+	private int th = -1;
+	//CrestorTrough temcre
+	private CrestorTrough temcre;
 	
-	public motivation_Diagnose_alone(Vector<String> data) {
+	public boolean getIsMoti() {
+		return isMoti;
+	}
+	public int getMotiPos() {
+		return motiPos;
+	}
+	public double getRelativeMSTime() {
+		return relativeMSTime;
+	}
+	public String getAbsoluteMSTime() {
+		return absoluteMSTime;
+	}
+	public String getAbsoluteSTime() {
+		return absoluteSTime;
+	}
+	public CrestorTrough getCrestorThrough() {
+		return temcre;
+	}
+	
+	public motivation_Diagnose_alone(Vector<String> data, int range, int th) throws ParseException {
 		this.data = data;
+		this.range = range;
+		this.th = th;
 	}
 	
 	/**
-	 * 单独判断一个Vector容器内数据是否激发。 
+	 * 单独判断一个Vector容器内数据是否激发。
+	 * 在这10s内激发的传感器,并设置激发传感器的标识和激发时间
+	 * 一旦激发就不再继续判断后续的数据，即弃之，采用过早放弃策略。
+	 * date并不是整10s，而是加上了前面的一个refineRange的范围数据。
 	 * @return
 	 * @throws ParseException
 	 * @author Hanlin Zhang.
@@ -46,7 +80,7 @@ public class motivation_Diagnose_alone {
 		int lineSeries = 0;
 		boolean flag=false;
 		//the hop number is 100, i starts from the first data of the first sliding window to the first data of the last sliding window.
-		for(int startPos=0; startPos<this.data.size()-Parameters.N; startPos+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
+		for(int startPos=this.range; startPos<this.data.size()-Parameters.N-this.range; startPos+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
 		{
 			//ensure the early abandon strategy.
 			if(!this.isMoti)
@@ -58,12 +92,11 @@ public class motivation_Diagnose_alone {
 					//进入精细判断，即加上各项阈值。
 					if(Parameters.motivationDiagnose == 1) {
 						flag=getAverage(this.data, lineSeries);
-						
 						if(flag==true) {
 							//set the flag signal.
 							this.isMoti = true;
 							//there set the position(series) in now vector, it means the relative position in 10s vector.
-							this.motiPos = lineSeries;
+							this.motiPos = lineSeries-this.range;
 							//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
 							this.relativeMSTime = Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200));
 							//Set the absolute time in GPS time as String.
@@ -76,7 +109,7 @@ public class motivation_Diagnose_alone {
 						//set the flag signal.
 						this.isMoti = true;
 						//there set the position(series) in now vector, it means the relative position in 10s vector.
-						this.motiPos = lineSeries;
+						this.motiPos = lineSeries-this.range;
 						//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
 						this.relativeMSTime = Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200));
 						//Set the absolute time in GPS time as String.
@@ -85,8 +118,20 @@ public class motivation_Diagnose_alone {
 						this.absoluteSTime = this.data.get(lineSeries).split(" ")[6];
 					}
 				}
+				//if the 456 chunnel is overflow, then we select the 123 chunnel.
+				if(this.channel){
+					this.temcre=new CrestorTrough(Double.parseDouble(data.get(lineSeries).split(" ")[0]),
+														   Double.parseDouble(data.get(lineSeries).split(" ")[1]),
+							                               Double.parseDouble(data.get(lineSeries).split(" ")[2]));
+				}else{
+					this.temcre=new CrestorTrough(Double.parseDouble(data.get(lineSeries).split(" ")[3]),
+							                               Double.parseDouble(data.get(lineSeries).split(" ")[4]),
+                                                           Double.parseDouble(data.get(lineSeries).split(" ")[5]));
+				}
 			}
 		}
+		
+		this.channel = false;
 		return flag;
 	}
 	
@@ -103,7 +148,7 @@ public class motivation_Diagnose_alone {
 	{
 		//返回是0，则说明没有激发。
 		int line=0;
-		boolean channel = false;//determine which chunnel we select, true is the 123 chunnel, or 456 chunnel.
+		
 		int inte = -1;//the average value.
 		String s;
 		Vector<String> container = new Vector<String>();//the current data in window. 
@@ -229,10 +274,7 @@ public class motivation_Diagnose_alone {
 							noiseMinus(data, lineSeries, 4);
 							//减去底噪后，若还能达到大范围约束，则认为激发。
 							if(sumA>=Parameters.refineRange_ThresholdMax) {
-								if(Parameters.offline==true)
-									System.out.println("large-"+"当前传感器在"+Parameters.refineRange+"范围内的平均振幅为"+sumA+"noise"+sumB);
-								else
-									System.out.println("large-"+"当前传感器在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+								printStatus(sumA, sumB, "large");
 								return true;
 							}
 							//减去底噪后，未达标。
@@ -253,10 +295,7 @@ public class motivation_Diagnose_alone {
 					
 					//减去2倍底噪后的大范围绝对值均值是否达到小能量事件约束？达到则返回真。
 					if(sumA>=Parameters.refineRange_ThresholdMin) {
-						if(Parameters.offline==true)
-							System.out.println("small"+"当前传感器在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
-						else
-							System.out.println("small"+"当前传感器在"+Parameters.refineRange+"范围内的平均振幅为"+sumA);
+						printStatus(sumA, sumB, "small");
 						return true;
 					}
 					//减去底噪后，未达标。
@@ -282,7 +321,7 @@ public class motivation_Diagnose_alone {
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月18日上午8:41:57
 	 */
-	private static double noiseMinus(Vector<String> data, int lineSeries, int magnification) {
+	private double noiseMinus(Vector<String> data, int lineSeries, int magnification) {
 		//sumB由（afterRange到refineRange区间求绝对值均值）变为底噪。
 		double sumA=0.0;
 		double sumB=0.0;
@@ -299,6 +338,45 @@ public class motivation_Diagnose_alone {
 		sumA = sumA/Parameters.refineRange;
 		
 		return sumA;
+	}
+	
+	private void printStatus(double sumA, double sumB, String kind) {
+		String refineRange = printRunningParameters.formToChar(String.valueOf(Parameters.refineRange));
+		String sumAF = printRunningParameters.formToChar(String.valueOf(sumA));
+		String sumBF = printRunningParameters.formToChar(String.valueOf(sumB));
+		
+		if(kind.equals("large")) {
+			if(this.th == -1) {
+				System.out.println("large-"+"当前传感器在"+Parameters.refineRange+"范围内的平均振幅为"+sumA+"noise"+sumB);
+			}
+			else {
+				String fileStr = printRunningParameters.formToChar(MainThread.fileStr[th]);
+				String fileParent = printRunningParameters.formToChar(MainThread.fileParentPackage[th]);
+				
+				if(Parameters.offline==true) {
+					System.out.println("large-"+fileParent+"在"+refineRange+"范围内的平均振幅为"+sumAF+"noise"+sumBF);
+				}
+				else {
+					System.out.println("large-"+fileStr+"在"+refineRange+"范围内的平均振幅为"+sumAF+"noise"+sumBF);
+				}
+			}
+		}
+		else {
+			if(this.th == -1) {
+				System.out.println("small-"+"当前传感器在"+Parameters.refineRange+"范围内的平均振幅为"+sumA+"noise"+sumB);
+			}
+			else {
+				String fileStr = printRunningParameters.formToChar(MainThread.fileStr[th]);
+				String fileParent = printRunningParameters.formToChar(MainThread.fileParentPackage[th]);
+				
+				if(Parameters.offline==true) {
+					System.out.println("small-"+fileParent+"在"+refineRange+"范围内的平均振幅为"+sumAF+"noise"+sumBF);
+				}
+				else {
+					System.out.println("small-"+fileStr+"在"+refineRange+"范围内的平均振幅为"+sumAF+"noise"+sumBF);
+				}
+			}
+		}
 	}
 	
 	/**

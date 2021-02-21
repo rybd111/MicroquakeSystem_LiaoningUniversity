@@ -51,7 +51,7 @@ public class obtainHeadTime extends Thread{
 				System.out.println(MainThread.fileStr[i]+"MrMa  " + manager.getNDateString(i));
 			}
 			else {
-				manager.setNDateString(i, ReadDateFromHead.readDataSegmentHeadall(manager.getNFile1(i)));
+				manager.setNDateString(i, ReadDateFromHead.readDataSegmentHead_MrLiu_String(manager.getNFile1(i)));
 				System.out.println(MainThread.fileStr[i]+"MrLiu  ：" + manager.getNDateString(i));
 			}
 		}

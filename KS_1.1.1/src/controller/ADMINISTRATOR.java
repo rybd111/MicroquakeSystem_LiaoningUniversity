@@ -37,6 +37,10 @@ import utils.SubStrUtil;
 public class ADMINISTRATOR {
 	//use which type of sensor.
 	public boolean []isMrMa = new boolean[Parameters.SensorNum];
+	//保存不同通道传感器的状态。
+	public boolean mix_Or_not = false;
+	public boolean mix_flag1 = false;
+	public boolean mix_flag2 = false;
 	//discSymbol indicate the number of different connection circumstances.
 	private int discSymbol = -1;
 	//read processing is normal or irregular.
@@ -560,8 +564,6 @@ public class ADMINISTRATOR {
 	 * @date revision 2021年2月15日下午2:55:44
 	 */
 	public void offlineProcessing() throws Exception {
-		/** 要计算的起始时间 */
-        String timeStr = Parameters.StartTimeStr;
         /** 传感器数据 */
         final Vector<String> sensorData[][] = new Vector[Parameters.SensorNum][3];
         int count = 1;
@@ -575,31 +577,26 @@ public class ADMINISTRATOR {
          * AlignFile ：类似于读最新文件里的 Duiqi
          * 注意，注意，注意！！！在整个程序里必须只定义一次
          */
-        AlignFile alignFile = new AlignFile(MainThread.fileStr, timeStr);
-        GetReadArray getReadArray = new GetReadArray(alignFile, this);
-        this.setReadData(getReadArray.getDataArray());
-
-        if (this.getReadData() != null)
-            System.out.println("----------开始处理第 " + count + " 组数据---------");
+        AlignFile alignFile = new AlignFile(MainThread.fileStr, Parameters.StartTimeStr, this);
+        GetReadArray readDataArray = new GetReadArray(alignFile, this);
+        this.setReadData(readDataArray.getDataArray());
         
         while (true) {
             
-        	synchronized (this) {
-        		
-        		while (this.getReadData() == null || this.getNewFile() == true) {
-        			this.setNewFile(false);
-        			count++;
-                    System.out.println("----------开始处理第 " + count + " 组数据---------");
-                    this.setReadData(getReadArray.getDataArray());
+    		while (this.getReadData() == null || this.getNewFile() == true) {
+    			this.setNewFile(false);
+    			count++;
+                System.out.println("----------开始处理第 " + count + " 组数据---------");
+                this.setReadData(readDataArray.getDataArray());
 
-                    if(this.getReadData() == null)
-                    	continue;
-                }
-        		
-                //start the thread pool to read data from different position.
-                if(this.getNetError() == false) {
-                	this.readDateMuti();
-                }
+                if(this.getReadData() == null)
+                	continue;
+                
+            }
+    		
+            //start the thread pool to read data from different position.
+            if(this.getNetError() == false) {
+            	this.readDateMuti();
             }
         	
         	this.dataCollector();
@@ -622,6 +619,8 @@ public class ADMINISTRATOR {
 
         //初始化数据交换容器，暂不消除全局变量aDataRec
         this.resetDataRec();
+        //测试用。
+        MainThread.fileParentPackage= SubStrUtil.getFileParentPackage(MainThread.fileStr);//文件所在的目录名
         
         while(true) {
         	//当isdelay为1时睡眠器生效。

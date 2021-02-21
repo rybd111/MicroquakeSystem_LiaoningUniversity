@@ -56,11 +56,21 @@ public class stringJoin {
 	 * @author Hanlin Zhang.
 	 * @date revision 下午7:31:43
 	 */
-	public static String SJoin_Array(String[] A) {
+	public static String SJoin_ArrayAsSpace(String[] A) {
 		String result = null;
 		
 		for(int i=0;i<A.length;i++) {
 			result += " "+A[i];
+		}
+		
+		return result;
+	}
+	
+	public static String SJoin_Array(String[] A) {
+		String result = null;
+		
+		for(int i=0;i<A.length;i++) {
+			result +=A[i];
 		}
 		
 		return result;

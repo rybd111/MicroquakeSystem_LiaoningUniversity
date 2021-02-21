@@ -6,7 +6,6 @@ package read.rqma.history;
 import static org.junit.Assert.assertNotNull;
 
 import com.h2.constant.Parameters;
-
 import controller.ADMINISTRATOR;
 import javafx.util.converter.TimeStringConverter;
 import mutiThread.MainThread;
@@ -37,7 +36,6 @@ public class GetReadArray {
 	 * @throws Exception 
      */
     public ReadData[] getDataArray() throws Exception {
-        
         
         if(StopperFindFile() == true) {
         	return null;
@@ -87,8 +85,8 @@ public class GetReadArray {
         
     	for (int i = 0; i < Parameters.SensorNum; i++) {
             try {
-                readDataArray[i].timeCount = 0;
-                kuai[i] = readDataArray[i].readDataAlign();
+                kuai[i] = readDataArray[i].readDataAlignOffline();
+                
                 if (kuai[i] == -1) {
                     System.out.println("该组数据无法对齐，开始对齐下一组---------");
                     readDataArray=null;
@@ -98,4 +96,5 @@ public class GetReadArray {
         }
     	return false;
     }
+    
 }

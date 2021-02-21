@@ -44,7 +44,7 @@ public class locate {
 		double [] PArrival = new double[sensors1.length];
 		//Take the top countNumber to calculate the quake location and quake magnitude, it may need to optimize later.
 		for(int i = 0; i < countNumber; i++) {
-			sensors1[i]=sensors[i];
+			sensors1[i] = sensors[i];
 			PArrival[i] = sensors1[i].getSecTime();
 		}
 		saveAndcal.setsensors1(sensors1);
@@ -61,7 +61,6 @@ public class locate {
 		 		}
 		 		
 				//compute the quake coordination.
-				
 				location_refine = QuakeClass.PSO(coor);
 				//the locate process probably return a NAN value or a INF value, so when this situation appears, the procedure will skip the current circulation.
 				if(Double.isNaN(location_refine.getLatitude())==false && Double.isInfinite(location_refine.getLatitude()) == false){

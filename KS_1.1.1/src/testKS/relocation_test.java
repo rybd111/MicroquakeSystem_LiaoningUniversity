@@ -51,7 +51,7 @@ public class relocation_test {
 		String absolutetime="2021-01-22 06-11-50`63";
 		String[] result=ReLocation.locate(coor, kind, absolutetime);
 		
-		System.out.println(stringJoin.SJoin_Array(result));
+		System.out.println(stringJoin.SJoin_ArrayAsSpace(result));
 	}
 
 }

@@ -55,7 +55,7 @@ public class readTask implements Runnable{
         	if(Parameters.offline==true)
                 temVector = readData.getOfflineData();
             else
-                temVector = readData.getData();//获取1s数据，传递盘符、盘号
+                temVector = readData.getOnlineData();//获取1s数据，传递盘符、盘号
         	
             //新文件拦截器
             if(manager.getNewFile() == true) {

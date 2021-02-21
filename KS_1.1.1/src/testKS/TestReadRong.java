@@ -20,7 +20,7 @@ public class TestReadRong {
 		ReadData readData = new ReadData(file,1,manager);
 		Vector<String> temVector = new Vector<String>();
 		Vector<String> aVector= new Vector<String>();
-		temVector = readData.getData();
+//		temVector = readData.getData();
 		/*aVector.addAll(temVector);
 		temVector = readData.getData(file,1);
 		aVector.addAll(temVector);

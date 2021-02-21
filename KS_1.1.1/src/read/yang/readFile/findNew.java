@@ -14,6 +14,7 @@ import java.util.Date;
 import com.h2.constant.Parameters;
 
 import controller.ADMINISTRATOR;
+import utils.ComparatorByCutName_liu_DESC;
 public class findNew {
 	@SuppressWarnings("unused")
 	public static File find(String path,int th,ADMINISTRATOR manager) {
@@ -24,8 +25,8 @@ public class findNew {
 		File file = new File(path);
 		File[] fs = file.listFiles();
 		for(int j=0;j<fs.length;j++) {
-			Arrays.sort(fs, new CompratorByLastModified());
-			
+//			Arrays.sort(fs, new CompratorByLastModified());
+			Arrays.sort(fs, new ComparatorByCutName_liu_DESC());
 			for (int i = 0; i < fs.length; i++) {
 				if(fs[i].getPath().length()>8) {
 					if(fs[i].isDirectory()&&fs[i].getPath().substring(3, 8).compareTo("Test_")==0) {

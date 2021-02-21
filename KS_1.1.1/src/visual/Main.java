@@ -20,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import utils.printRunningParameters;
 import visual.util.Tools_DataCommunication;
 import visual.view.UIController;
 
@@ -109,11 +110,11 @@ public class Main extends Application {
 		new ConfigToParameters();
 		
 		/** 情景配置，共有8中模式，每一种对应一个整形数值，在MainTest类中定义。*/
-		new RunningSceneConfig(MainTest.REMOTE_ONLINE_STORAGE);
+		new RunningSceneConfig(MainTest.LOCAL_OFFLINE_STORAGE);
 		
 		/** 输出参数*/
-		InitialConfig m = new InitialConfig();
-		m.printAllParameters();
+		printRunningParameters.printAllParameters();
+		
 //		Tools_DataCommunication.getCommunication().showandcloseMyConsole();
 
 		// 启动JavaFX程序

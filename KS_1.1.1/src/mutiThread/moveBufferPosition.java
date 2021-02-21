@@ -48,7 +48,7 @@ public class moveBufferPosition extends Thread{
 				//计时。
 				manager.setStartInstance(System.currentTimeMillis());
 				//读对象指针挪动。
-				kuai = manager.getNReadData(i).readDataDui();
+				kuai = manager.getNReadData(i).readDataAlignOnline();
 			}
 			if(kuai==-1){
 				System.out.println(MainThread.fileStr[i]+"盘网络状况不佳，重新对齐");
