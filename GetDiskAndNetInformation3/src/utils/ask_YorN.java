@@ -6,9 +6,6 @@ package utils;
 import java.io.IOException;
 import java.util.Scanner;
 
-import ch.qos.logback.core.boolex.Matcher;
-import mutiThread.MainThread;
-
 /**
  * @author Hanlin Zhang
  */

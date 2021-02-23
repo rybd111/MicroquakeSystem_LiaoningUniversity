@@ -207,7 +207,7 @@ public class InitialConfig {
 		MainThread.fileStr = obtainOfflinePath();
 		
 		/**询问是否继续？*/
-		ask_YorN.askWhenHasLess();
+		ask_YorN.askWhenHasLess(MainThread.fileStr);
 		
 		/** 根据路径个数配置传感器数量*/
 		Parameters.SensorNum = MainThread.fileStr.length;

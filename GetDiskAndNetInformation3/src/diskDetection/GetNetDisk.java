@@ -1,28 +1,16 @@
 /**
  * 
  */
-package middleware;
+package diskDetection;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
-import java.util.Date;
 
 import javax.swing.filechooser.FileSystemView;
 
-import org.eclipse.jface.text.source.AnnotationPainter.ITextStyleStrategy;
-
-import com.h2.constant.Parameters;
-
-import Entrance.InitialConfig;
-import middleware.tool.FindHistoryFile;
-import mutiThread.MainThread;
-import utils.Date2String;
-import utils.ScanInNum;
-import utils.String2Date;
 import utils.ask_YorN;
-import utils.outArray;
 import utils.printRunningParameters;
 
 /**
@@ -31,12 +19,8 @@ import utils.printRunningParameters;
  * @author Hanlin Zhang
  * 
  */
-public class pullDataFromSensor {
+public class GetNetDisk {
 	
-	private String startTime="";
-	private String endTime="";
-	private String timeStr = "";
-	private String destPath = "";
 	private boolean isTest;
 	
 	/**
@@ -46,26 +30,11 @@ public class pullDataFromSensor {
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
-	pullDataFromSensor(
-			String startTime,
-			String endTime,
-			String timeStr,
-			String kind,
-			String destPath,
+	GetNetDisk(
 			boolean isTest) throws IOException, ParseException {
 		
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.timeStr = timeStr;
-		this.destPath = destPath;
 		this.isTest = isTest;
 		
-		if(kind.equals("file")) {
-			pullFileFromRemoteInFile();
-		}
-		if(kind.equals("data")) {
-			pullDataFromRemoteDiskInSec();
-		}
 	}
 	
 	/**
@@ -77,35 +46,21 @@ public class pullDataFromSensor {
 	 */
 	private void pullFileFromRemoteInFile() throws IOException, ParseException {
 		/** 返回存有HFMED的盘符，但此时不能确定是网络映射盘符，因此需要进一步验证*/
-		MainThread.fileStr = scanAlldisk();
+		String[] fileStr = scanAlldisk();
 		
 		if(ask_YorN.askYesOrNo() == true) {
-			MainThread.fileStr = ask_YorN.determineDisk(MainThread.fileStr);
+			fileStr = ask_YorN.determineDisk(fileStr);
 		}
 		
 		/**询问是否继续？*/
-		ask_YorN.askWhenHasLess(MainThread.fileStr);
+		ask_YorN.askWhenHasLess(fileStr);
 		
 		/** 输出所有离线运行参数，供用户确认*/
-		printRunningParameters.printpullParameters(this.timeStr);
+		printRunningParameters.printpullParameters(fileStr);
 		
 		/**拉取*/
-        FindHistoryFile.launch(MainThread.fileStr, destPath, timeStr);
 	}
 	
-	private void pullDataFromRemoteDiskInSec() {
-		
-	}
-	
-	private File[] comingPullFiles() {
-		
-		return null;
-	}
-	
-	private boolean queryFile() {
-		
-		return false;
-	}
 	
 	/**
 	 * 查看他们是否为网络映射盘，若是，还需要判断他们是否为传感器映射盘符。
@@ -190,11 +145,11 @@ public class pullDataFromSensor {
 		//注意此路径后面必须加上"/".
         String destPath = "I:\\矿山\\矿山数据\\大同\\1月14日大同塔山矿震动/";
 //        String time = "20"+Parameters.StartTimeStr;
-        String timeStr = "20" + "190114020001";
+//        String timeStr = "20" + "190114020001";
         String kind = "file";
         boolean isTest = true;
         
-        pullDataFromSensor p = new pullDataFromSensor("", "", timeStr, kind, destPath, isTest);
+        GetNetDisk p = new GetNetDisk(isTest);
         
 	}
 

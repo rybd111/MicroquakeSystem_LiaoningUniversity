@@ -3,6 +3,7 @@ package visual;
 import java.io.FileInputStream;
 import java.io.IOException;
 import com.h2.constant.ConfigToParameters;
+import com.h2.constant.Parameters;
 
 import Entrance.MainTest;
 import Entrance.InitialConfig;
@@ -20,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import mutiThread.MainThread;
 import utils.printRunningParameters;
 import visual.util.Tools_DataCommunication;
 import visual.view.UIController;

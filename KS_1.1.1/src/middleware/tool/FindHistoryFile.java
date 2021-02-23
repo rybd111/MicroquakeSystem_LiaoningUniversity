@@ -89,7 +89,7 @@ public class FindHistoryFile implements Runnable {
 			if(Dic[i].isDirectory()) {
 				flag = true;
 				//文件夹名符合传感器文件的格式？
-				if(filePatternMatch.match(Dic[i].getName())==true) {
+				if(filePatternMatch.match_HFMED(Dic[i].getName())==true) {
 //					System.out.println("location定位结果" + Dic[i].getPath());
 					if(getFile(Dic[i].getPath())==false) {
 						System.out.println("在" + Dic[i].getPath() + "下，没有找到符合给定时间：" + Date2String.date2str(time) + " 的文件。");

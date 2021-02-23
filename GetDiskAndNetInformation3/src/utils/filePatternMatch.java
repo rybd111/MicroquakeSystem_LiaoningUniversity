@@ -6,8 +6,6 @@ package utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jfree.data.xy.VectorDataItem;
-
 /**
  * @author Hanlin Zhang
  */
@@ -21,7 +19,7 @@ public class filePatternMatch {
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月19日下午12:14:40
 	 */
-	public static boolean match_HFMED(String str) {
+	public static boolean match(String str) {
 		
 		String str1 =str;
 		//该方法接受一个正则表达式作为它的第一个参数。

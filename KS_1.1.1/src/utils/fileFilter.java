@@ -45,7 +45,7 @@ public class fileFilter {
              */
             //5-17形式 ：190101124000
 			//过滤掉那些文件名不符合的文件。
-			if(filePatternMatch.match(file2.getName())==false) {
+			if(filePatternMatch.match_HFMED(file2.getName())==false) {
 				break;
 			}
             if(("20"+SubStrUtil.contentCut_liu(file2.getName())).compareTo(time1) <=0 && 
