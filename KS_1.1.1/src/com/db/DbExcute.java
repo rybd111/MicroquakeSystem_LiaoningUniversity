@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.h2.backupData.writeToDiskasCSV;
+import com.h2.backupData.WriteWaveIntoCSVFile;
 import com.h2.constant.Parameters;
 
 import DataExchange.QuackResults;

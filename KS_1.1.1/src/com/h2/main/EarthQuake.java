@@ -1,6 +1,7 @@
 
 package com.h2.main;
 
+import java.util.Arrays;
 import java.util.Vector;
 
 import mutiThread.MainThread;
@@ -8,7 +9,7 @@ import utils.diagDataNum;
 import utils.printRunningParameters;
 
 import com.h2.backupData.WriteRecords;
-import com.h2.backupData.writeToDiskasCSV;
+import com.h2.backupData.WriteWaveIntoCSVFile;
 import com.h2.constant.Parameters;
 import com.h2.locate.locate;
 import com.h2.tool.SensorTool;
@@ -81,7 +82,7 @@ public class EarthQuake {
 		}
 		
 		//we will diagnose there has a motivational sensor or not to reduce the complexity.
-		Sensor sensor_latest = new Sensor();
+		Sensor sensor_latest = null;
 		for(int i=0;i<sensors.length;i++) {
 			if(sensors[i].getSecTime()!=0)
 				sensor_latest = sensors[i];
@@ -92,8 +93,10 @@ public class EarthQuake {
 			//Meanwhile, we will move the position to the absolute position in 30 seconds, which is point to the position in the now Vector. It's used to cut the motiData and used to calculate during quake magnitude.
 			int countNumber = 0;
 			int[] l = new int[Parameters.SensorNum];
-			int[] l1 = new int[Parameters.SensorNum];
+//			int[] l1 = new int[Parameters.SensorNum];
+			int[] l1 = new int[0];
 			String identity = null;
+			
 			for (int i=0;i<Parameters.SensorNum;i++){
 				if (sensors[i].isSign()) {
 					//the series of correspond with the name of path, which stow the motivated sensor.
@@ -114,8 +117,9 @@ public class EarthQuake {
 						
 						if(identity.equals(Parameters.diskName[Parameters.diskNameNum][j])) {
 							l[i]=i+1;//record the number of motivated sensors.
-							l1[countNumber]=i;
-							countNumber++;
+							l1 = Arrays.copyOf(l1, l1.length+1);
+							l1[l1.length-1] = i;//记录激发序号，从0开始。
+							countNumber++;//统计激发数。
 							sensors[i].setlineSeries(sensors[i].getlineSeries()+ssen[i][0].size());
 							System.out.println(
 									"激发台站: "+
@@ -128,12 +132,13 @@ public class EarthQuake {
 				}
 			}
 			
+			//按照激发顺序先保存激发的，再保存未激发的。
 			Sensor[] S = new Sensor[sensors.length];
 			statusOfCompute status = new statusOfCompute();
 			
-			if(countNumber>2) {
+			if(countNumber >= 3) {
 				//stow the info of all sensors.
-				S = relativeStatus.stowInfoSensor(l, l1, countNumber, sensors, ssen, status, manager);
+				S = new relativeStatus(l, l1, countNumber, sensors, ssen, status, manager).stowInfoSensor();
 			}
 			
 			/**
@@ -143,12 +148,12 @@ public class EarthQuake {
 			 * THIS FUNTION IS TO WIRTE THE MOTIVATION DATA ON THE DISK.
 			 */
 			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && manager.getIsRealMoti() == true) {
-				writeToDiskasCSV.saveAllMotivationSensors(countNumber, S, status.getPanfu());
+				new WriteWaveIntoCSVFile().saveAllMotivationSensors(countNumber, S, status.getPanfu());
 			}
 			
 			if(countNumber >= 3 && manager.getIsRealMoti() == true) {
 				//write to a txt file to indicate the motivation time of each sensor.
-				WriteRecords.WriteSeveralMotiTime(status.getSensors1(), Parameters.AbsolutePath_allMotiTime_record);
+				new WriteRecords().WriteSeveralMotiTime(status.getSensors1(), Parameters.AbsolutePath_allMotiTime_record);
 			}
 			
 			locate loc = new locate();

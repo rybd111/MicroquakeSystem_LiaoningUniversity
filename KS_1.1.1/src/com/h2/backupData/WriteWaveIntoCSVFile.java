@@ -11,32 +11,9 @@ import com.h2.constant.Parameters;
 import DataExchange.Sensor;
 import utils.one_dim_array_max_min;
 
-public class writeToDiskasCSV {
-	/**
-	 * record the DB records.
-	 * @param DatabaseRecord
-	 * @author Hanlin Zhang.
-	 * @date revision 2021年01月16日
-	 */
-	public static void DatabaseREC(String DatabaseRecord) {
-        File file = new File(Parameters.AbsolutePath5_record+"DBREC.txt");
-        BufferedWriter out = null;
-        try {
-			out = new BufferedWriter(new FileWriter(file, true));
-		} catch (IOException e1) {e1.printStackTrace();}
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            out.write(DatabaseRecord+"\r\n");//向文件中写数据库记录，防止外网切断时，无法进行记录的保存。
-            out.flush();
-        } catch (IOException e) {e.printStackTrace();}
-        finally{
-            if(out != null){
-                try { out.close();} catch (IOException e) {e.printStackTrace();}
-            }
-        }
-	}
+public class WriteWaveIntoCSVFile {
+	
+	
 	/**
 	 * write a array to disk.
 	 * @param filePath
@@ -45,7 +22,7 @@ public class writeToDiskasCSV {
 	 * @throws IOException
 	 * @date revision 2020年10月25日
 	 */
-	public static void write_array(String filePath, Vector<String> A) throws IOException {
+	public void write_array(String filePath, Vector<String> A) throws IOException {
 		File file=new File(filePath);
 		BufferedWriter out = null;
 		if(!file.exists())file.createNewFile();
@@ -79,7 +56,7 @@ public class writeToDiskasCSV {
 	 */
 	@SuppressWarnings("unused")
 //	public static void writeToCSV(Sensor[] s1, Sensor[] s2, int motiNum, String motiDate, String panfu) throws ParseException, IOException {
-	public static void writeToCSV(Sensor[] s1, int motiNum, String motiDate, String panfu) throws ParseException, IOException {
+	public void preProcess(Sensor[] s1, int motiNum, String motiDate, String panfu) throws ParseException, IOException {
 		
 		//the name of write file - the most early time in all motivated sensors.
 		motiDate=motiDate.replace(":","-");//替换掉时间中的:
@@ -99,7 +76,6 @@ public class writeToDiskasCSV {
 		for(int i=0;i<s1.length;i++) {
 			MOTIDATA[i].addAll(s1[i].getCutVectorData());
 		}
-		
 		
 		if(Parameters.offline==false) {
 			
@@ -134,7 +110,7 @@ public class writeToDiskasCSV {
 		}
 	}
 	
-	public static void deleteWritemotidata(String filepath) {
+	public void deleteWriteMotidata(String filepath) {
 		System.out.println(filepath);
 		File file = new File(filepath);
 		if(file.exists())  file.delete();
@@ -151,7 +127,7 @@ public class writeToDiskasCSV {
 	 * @author Hanlin Zhang.
 	 */
     @SuppressWarnings("unused")
-	public static void writeToCSV(Vector<String>[] totalMotiData, String filePath, int[] line, Sensor[] s1) throws ParseException, IOException {
+	public void writeToCSV(Vector<String>[] totalMotiData, String filePath, int[] line, Sensor[] s1) throws ParseException, IOException {
     	File file=new File(filePath);
 		BufferedWriter out = null;
 		String result="";//every line data ready to write.
@@ -220,9 +196,9 @@ public class writeToDiskasCSV {
 	
 	@SuppressWarnings("unused")
 //	public static void saveAllMotivationSensors(int countNumber, Sensor [] s1, Sensor[] s2, String panfu) throws ParseException, IOException {
-	public static void saveAllMotivationSensors(int countNumber, Sensor [] s1, String panfu) throws ParseException, IOException {
+	public void saveAllMotivationSensors(int countNumber, Sensor [] s1, String panfu) throws ParseException, IOException {
 			//the name of csv file is named by the first data's date in seconds.
-			writeToDiskasCSV.writeToCSV(s1, countNumber, s1[0].getAbsoluteTime(), panfu+" ");
+			preProcess(s1, countNumber, s1[0].getAbsoluteTime(), panfu+" ");
 	}
 	
 }

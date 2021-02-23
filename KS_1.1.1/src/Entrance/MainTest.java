@@ -32,7 +32,7 @@ public class MainTest {
 		 * 具体参看MainTestInitialConfig类说明
 		 * */
 //		String prePath = "I:/矿山/矿山数据/新设备数据/5/";
-		String prePath = "I:/矿山/矿山数据/红阳三矿/20200214/";
+		String prePath = "I:/矿山/矿山数据/红阳三矿/20200726/";
 		InitialConfig config = new InitialConfig(prePath);
 		
 		/** 启动线程*/

@@ -38,7 +38,6 @@ public class ADMINISTRATOR {
 	//use which type of sensor.
 	public boolean []isMrMa = new boolean[Parameters.SensorNum];
 	//保存不同通道传感器的状态。
-	public boolean mix_Or_not = false;
 	public boolean mix_flag1 = false;
 	public boolean mix_flag2 = false;
 	//discSymbol indicate the number of different connection circumstances.

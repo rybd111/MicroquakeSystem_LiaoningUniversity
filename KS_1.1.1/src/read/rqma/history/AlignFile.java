@@ -78,10 +78,6 @@ public class AlignFile {
         /**
          * for循环用于路径还原
          */
-//        for(int j=0;j<time_sorted.length;j++) {
-//    		String path = time_sorted[time_sorted[j].id].getFile().getAbsolutePath();
-//    		paths_original[time_sorted[j].id]=path;
-//        }
         for (int i = 0; i < Parameters.SensorNum; i++) {
             // System.out.println(path);
              for(int j=0;j<time_sorted.length;j++) {
@@ -101,7 +97,11 @@ public class AlignFile {
         
         try {
             for (int i = 0; i < Parameters.SensorNum; i++) {
-                System.out.print("第个"+(i+1)+"台站欲处理的文件为"+paths_original[i]);
+                System.out.print(
+                		"第个"+
+                		printRunningParameters.formToChar(String.valueOf(i+1))+
+                		"台站欲处理的文件为"+
+                		printRunningParameters.formToChar(paths_original[i]));
                 if(isMrMaEquipment(paths_original[i])) {
                 	manager.isMrMa[i] = true;
                 	dateString[i] = ReadDateFromHead.readDataSegmentHead_MrMa_String(paths_original[i]);

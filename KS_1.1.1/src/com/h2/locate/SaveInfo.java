@@ -29,8 +29,8 @@ import utils.one_dim_array_max_min;
 public class SaveInfo {
 
 	private Sensor[] allsensors;
-	private Sensor[] sensors;
-	private Sensor[] sensors1;
+	private String earlistTime;
+	private Sensor[] MotisensorsAfterCut;
 	private Sensor location_refine;
 	private QuackResults aQuackResults;
 	private DbExcute aDbExcute;
@@ -69,9 +69,9 @@ public class SaveInfo {
 		aQuackResults.setQuackGrade(Double.parseDouble(quakeString));//近震震级
 		aQuackResults.setDuringGrade(0);//持续时间震级
 		aQuackResults.setParrival(location_refine.getSecTime());//P波到时，精确到毫秒
-		aQuackResults.setPanfu(sensors1[0].getpanfu());//盘符
+		aQuackResults.setPanfu(MotisensorsAfterCut[0].getpanfu());//盘符
 		aQuackResults.setNengliang(finalEnergy);//能量
-		aQuackResults.setFilename_S(sensors1[0].getFilename());//文件名，当前第一个台站的文件名，其他台站需要进一步改变第一个字符为其他台站，则为其他台站的文件名。
+		aQuackResults.setFilename_S(MotisensorsAfterCut[0].getFilename());//文件名，当前第一个台站的文件名，其他台站需要进一步改变第一个字符为其他台站，则为其他台站的文件名。
 		aQuackResults.setTensor(tensor_c);//矩张量
 		aQuackResults.setbvalue(b_value);//b值
 		
@@ -110,20 +110,20 @@ public class SaveInfo {
 			double b_value,
 			ADMINISTRATOR manager) 
 					throws ParseException {
-		int dif = TimeDifferent.DateDifferent(intequackTime, manager.getLastDate());
+//		int dif = TimeDifferent.DateDifferent(intequackTime, manager.getLastDate());
 		//cut the quack time to the day.
 		String dateInFileName = intequackTime.substring(0, 10);
 		//If the difference between the current calculated time and the last time is more than 1 day, the storage file is changed to a new.
-		if(dif>=1) {
-			WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+
-					"_QuakeRecords.csv",quakeString, finalEnergy, "粒子群",
-					tensor_c, b_value);
-		}
-		else {
-			WriteRecords.Write(sensors1,sensors[0],location_refine,Parameters.AbsolutePath5_record+dateInFileName+
-					"_QuakeRecords.csv",quakeString, finalEnergy, "粒子群",
-					tensor_c, b_value);
-		}
+		new WriteRecords().WriteCalculationResults(
+				MotisensorsAfterCut,
+				earlistTime,
+				location_refine,
+				Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv",
+				quakeString, 
+				finalEnergy, 
+				"粒子群",
+				tensor_c,
+				b_value);
 	}
 	
 	/**
@@ -140,19 +140,20 @@ public class SaveInfo {
 		
 		//Compute the near quake magnitude which data only must from the motivated sensors we selected, so the sensors1 is used.
 		ExecutorService executor_cal = Executors.newFixedThreadPool(Parameters.SensorNum);
-		final CountDownLatch threadSignal_cal = new CountDownLatch(sensors1.length);
+		final CountDownLatch threadSignal_cal = new CountDownLatch(MotisensorsAfterCut.length);
 		//calculate the near earthquake magnitude et al.
-		for(int i=0;i<sensors1.length;i++) {
-			sensorThread3[i] = new calStrength(sensors1[i], location_refine, i, threadSignal_cal);
+		for(int i=0;i<MotisensorsAfterCut.length;i++) {
+			sensorThread3[i] = new calStrength(MotisensorsAfterCut[i], location_refine, i, threadSignal_cal);
 			executor_cal.execute(sensorThread3[i]);//计算单个传感器的近震震级
 		}
 		try {threadSignal_cal.await();}
         catch (InterruptedException e1) {e1.printStackTrace();}
+		executor_cal.shutdown();
 		
 		//We integrate every sensors quake magnitude to compute the last quake magnitude.
 		float earthQuakeFinal = 0;
-		for (Sensor sen : sensors1)	earthQuakeFinal += sen.getEarthClassFinal();
-		earthQuakeFinal /= sensors1.length;//For this method is only support 5 sensors, so we must divide 5 to calculate the last quake magnitude.
+		for (Sensor sen : MotisensorsAfterCut)	earthQuakeFinal += sen.getEarthClassFinal();
+		earthQuakeFinal /= MotisensorsAfterCut.length;//For this method is only support 5 sensors, so we must divide 5 to calculate the last quake magnitude.
 		if(Parameters.MinusAFixedOnMagtitude==true)
 			earthQuakeFinal = (float) (earthQuakeFinal-Parameters.MinusAFixedValue);// We discuss the consequen to minus 0.7 to reduce the final quake magnitude at datong coal mine.
 		
@@ -168,9 +169,9 @@ public class SaveInfo {
 	 */
 	public double calEnergy() {
 		//We compute the minimum energy of all sensors as the final energy.
-		double finalEnergy = 0.0;double []energy = new double[sensors1.length];
-		for (int i=0;i<sensors1.length;i++) {
-			energy[i] = sensors1[i].getEnergy();
+		double finalEnergy = 0.0;double []energy = new double[MotisensorsAfterCut.length];
+		for (int i=0;i<MotisensorsAfterCut.length;i++) {
+			energy[i] = MotisensorsAfterCut[i].getEnergy();
 		}
 		finalEnergy = one_dim_array_max_min.mindouble(energy);
 		
@@ -206,7 +207,7 @@ public class SaveInfo {
 	 */
 	public void quackTime() throws ParseException {
 		//we calculate the real quake time by reduce the first receiving quake signal sensor and the quake time in second.
-		String intequackTime = TimeDifferent.TimeDistance(sensors[0].getAbsoluteTime(), location_refine.getSecTime()); //the time of refine quake time;
+		String intequackTime = TimeDifferent.TimeDistance(earlistTime, location_refine.getSecTime()); //the time of refine quake time;
 		//compute the quake time and quake coordination, the two sensors' locate is also adapt to the three location.
 		location_refine.setquackTime(intequackTime);
 	}
@@ -227,7 +228,7 @@ public class SaveInfo {
 		//能量
 		double finalEnergy = calEnergy();
 		//矩张量计算
-		double tensor_c = Tensor.moment_tensor(allsensors, sensors1, location_refine);
+		double tensor_c = Tensor.moment_tensor(allsensors, MotisensorsAfterCut, location_refine);
 		//b值
 		double b_value = bValue(earthQuakeFinal);
 		//we will set 0 when the consequence appears NAN value.
@@ -250,11 +251,11 @@ public class SaveInfo {
 	public void setAllsensors(Sensor[] all) {
 		this.allsensors = all;
 	}
-	public void setsensors(Sensor[] sensors) {
-		this.sensors = sensors;
+	public void setEarlistTime(String earlistTime) {
+		this.earlistTime = earlistTime;
 	}
-	public void setsensors1(Sensor[] sensors1) {
-		this.sensors1 = sensors1;
+	public void setMotisensorsAfterCut(Sensor[] MotisensorsAfterCut) {
+		this.MotisensorsAfterCut = MotisensorsAfterCut;
 	}
 	public void setlocation_refine(Sensor refine) {
 		this.location_refine = refine;

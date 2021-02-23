@@ -1,6 +1,7 @@
 package com.h2.tool;
 
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
@@ -8,61 +9,92 @@ import java.util.Vector;
 import com.h2.constant.Parameters;
 import com.h2.main.EarthQuake;
 import com.h2.main.statusOfCompute;
+import com.ibm.icu.impl.UResource.Array;
 
 import DataExchange.Sensor;
 import controller.ADMINISTRATOR;
 import mutiThread.MainThread;
+import utils.ComparatorBySectime;
+import utils.CutData;
 import utils.Date2String;
 import utils.String2Date;
 import utils.TimeDifferent;
 import utils.stringJoin;
 
 
-public class relativeStatus {
+public class relativeStatus implements SensorSectimeSortProcess{
+	//保存序号数组
+	private int[] numberMotiSeries;
+	//激发的传感器位置不为0.
+	private int[] l;
+	//所有激发传感器的序号，与激发传感器个数相同。
+	private int[] newl;
+	//激发个数。
+	private int countNumber;
+	//数据。
+	private Vector<String>[][] ssen;
+	//所有传感器的状态对象数组。
+	private Sensor[] sensors;
+	//保存激发的传感器数组。
+	private statusOfCompute status;
+	private ADMINISTRATOR manager;
 	
-//	public static int[] numberMotiSeries;
+	public relativeStatus() {
+		
+	}
+	
+	public relativeStatus(
+			int [] l, 
+			int [] newl, 
+			int countNumber, 
+			Sensor[] sensors,
+			Vector<String>[][] ssen,
+			statusOfCompute status,
+			ADMINISTRATOR manager) {
+		
+		this.l = l;
+		this.newl = newl;
+		this.countNumber = countNumber;
+		this.ssen = ssen;
+		this.sensors = sensors;
+		this.status = status;
+		this.manager = manager;
+	}
+	
 	/**
-	 * this function is used to get the relative P arrival time point as the sensor which the PArrival is not 0 for the sensor_latest. 
+	 * this function is used to get the relative P arrival time point as the sensor 
+	 * which the PArrival is not 0 for the sensor_latest. 
 	 * @param sensors all sensor the procedure initializing at starting.
 	 * @author Hanlin Zhang
 	 */
 	@SuppressWarnings("unused")
-	public static Sensor[] P_RelativeArrivalTime(
-			Sensor[] sensors, 
-			int[] l, 
-			int num,
-			ADMINISTRATOR manager) throws ParseException {
-		int nqk=-1;
-//		numberMotiSeries = new int[num];
-		manager.initNumberMotiSeries(num);
-		Sensor[] S = sortAccordingToPArrival(sensors,l,num,manager);
+	public Sensor[] P_RelativeArrivalTime() {
 		
-		for(int i=1;i<num;i++){
+		int nqk=-1;
+		//初始化保存序号数组。
+		this.numberMotiSeries = new int[this.newl.length];
+		//按照到时排序。
+		Sensor[] S = sortAccordingToPArrival();
+		//计算相对于第一个到时的相对时间。
+		for(int i=1;i<this.newl.length;i++){
 			S[i].setSecTime(S[i].getSecTime()-S[0].getSecTime());//主要减去第一个不为零的时间
 		}
-//		sensors[nqk].setAbsoluteTime(TimeDifferent.TimeDistance(sensors[nqk].getTime(), sensors[nqk].getSecTime()));//set the absolute time to save to the csv file.
+		//置第一个到时传感器的到时为0.
 		S[0].setSecTime(0.0);//we set the first sensor's P arrival time to 0.
-
-//		for(int i=0;i<num;i++){
-//			System.out.println("after minus"+S[i].getSecTime());
-//		}
-		
-//		System.out.println("P波到时："+sensors[i].getSecTime());
+		//调试模式下不对到时差做约束。
 		if(Parameters.Adjust==true){
 			manager.setIsRealMoti(true);
-//			EarthQuake.realMoti=true;//其中若有一个台站的相对其他台站相差大于1s则认为该事件不是同时激发的，且他们无效	
 		}
+		//倒时差小于IntervalToOtherSensors时，认为是一个事件，否则不是一个事件。
 		else{
 			if(Parameters.SSIntervalToOtherSensors==true){
-				if(Math.abs(S[num-1].getSecTime())>Parameters.IntervalToOtherSensors)
+				if(Math.abs(S[this.newl.length-1].getSecTime())>Parameters.IntervalToOtherSensors)
 					manager.setIsRealMoti(false);
-//					EarthQuake.realMoti=false;//其中若有一个台站的相对其他台站相差大于1s则认为该事件不是同时激发的，且他们无效	
 			}
 			else
 				manager.setIsRealMoti(true);
-//				EarthQuake.realMoti=true;
 		}
-
+		
 		return S;	
 	}
 	
@@ -73,49 +105,28 @@ public class relativeStatus {
 	 * @param num
 	 * @return
 	 */
-	public static Sensor[] sortAccordingToPArrival(
-			Sensor[] sensors, 
-			int[] l, 
-			int num,
-			ADMINISTRATOR manager) {
+	public Sensor[] sortAccordingToPArrival() {
 		
-		Sensor[] S = new Sensor[num];
+		//缩减当前sensors为激发传感器个数。
+		Sensor[] S = new Sensor[this.newl.length];
 		int count = 0;
-		
-		for(int i=0;i<l.length;i++) {
-			S[count] = sensors[l[i]];//the motivation sensor.
+		//赋值。
+		for(int i=0;i<this.newl.length;i++) {
+			S[count] = sensors[this.newl[i]];//the motivation sensor.
 			count++;
 		}
 		
-		count=0;
-		double min=1.0/0;//a INF number.
-		Sensor[] newS = new Sensor[num];
-		double[] PArrival = new double[num];
-		int nqk = 0;
-		
-		for(int i=0;i<num;i++) {
-			PArrival[i] = S[i].getSecTime();
+		//sort according to SecTime,可使用comparator进行排序。
+		Arrays.sort(S, new ComparatorBySectime());
+		//保存排序后的传感器号。
+		for(int i=0;i<this.newl.length;i++) {
+			this.numberMotiSeries[i] = S[i].getSensorNum();
 		}
 		
-		//sort according to SecTime.
-		for(int j=0;j<num;j++) {
-			for(int i=0;i<num;i++) {
-				if(PArrival[i]<min) {
-					min = PArrival[i];
-					nqk=i;
-				}
-			}
-			if(min<1.0/0) {
-				PArrival[nqk]=1.0/0;
-				newS[j] = S[nqk];
-				manager.setNNumberMotiSeries(count, S[nqk].getSensorNum());
-//				numberMotiSeries[count]=S[nqk].getSensorNum();
-				count++;
-			}
-			min = 1.0/0;
-		}
+		Sensor[] newS = new Sensor[this.newl.length];
+		newS = S.clone();
 		
-//		for(int i=0;i<num;i++) {
+//		for(int i=0;i<l.length;i++) {
 //			System.out.println("老到时 "+S[i].getSecTime()+" Series:"+S[i].getSensorNum());
 //			System.out.println("到时排序是否正确 "+newS[i].getSecTime()+" newSeries:"+newS[i].getSensorNum());
 //			
@@ -134,45 +145,26 @@ public class relativeStatus {
 	 * @throws ParseException
 	 * @author Hanlin Zhang.
 	 */
-	public static Sensor[] stowInfoSensor(
-			int[] l, 
-			int[] l1, 
-			int countNumber, 
-			Sensor[] sensors, 
-			Vector<String> ssen[][], 
-			statusOfCompute status,
-			ADMINISTRATOR manager) throws ParseException {
+	public Sensor[] stowInfoSensor() {
 		
+		//sensors1为激发传感器，sensors2为未激发的传感器。
 		Sensor[] sensors1 = new Sensor[countNumber];//save the sensors after sorting from short to long.
 		Sensor[] sensors2 = new Sensor[Parameters.SensorNum-countNumber];
-		
+		//S保存所有的。
 		Sensor[] S = new Sensor[sensors1.length+sensors2.length];
 		
 		//used to stow the data of each sensor's 10s or 18s length.
 		@SuppressWarnings("unchecked")
+		//保存所有截取后的激发数据。
 		Vector<String>[] motiPreLa = new Vector[Parameters.SensorNum];
 		@SuppressWarnings("unchecked")
+		//保存所有数据，按照传感器号。
 		Vector<String>[] inteData = new Vector[Parameters.SensorNum];
-		
+		//保存当前激发盘符。
 		String panfu="";
-		int[] newl = new int[countNumber];//merge l to newl.
-		int count=0;// a counter.
 		
-		//merge l to avoid the series array l appearing two series number repetition.
-		for(int i=0;i<Parameters.SensorNum;i++) {
-			if(l1[i]==0&&i==0) {
-				newl[count] = l1[i];
-				count++;
-			}
-			else if(l1[i]!=0) {
-				newl[count] = l1[i];
-				count++;
-			}
-		}
-		
-		//Get the relative time point as second, this function is update the sensors object's setSecTime method's Sectime variable.
-		//Meanwhile, this function's return sensors is sorted.
-		sensors1 = relativeStatus.P_RelativeArrivalTime(sensors,newl,countNumber,manager);//sort the sensors and calculate the relative P arrival time according Sectime variable.
+		//更新传感器的相对到时，并根据到时排序。
+		sensors1 = P_RelativeArrivalTime();//sort the sensors and calculate the relative P arrival time according Sectime variable.
 		
 		//storage the current motivation sensors.
 		if(Parameters.offline==false) {
@@ -192,30 +184,27 @@ public class relativeStatus {
 		
 		//integrate 30s data to one Vector.
 		for(int i=0;i<countNumber;i++) {
-
-			inteData[i].addAll(ssen[manager.getNNumberMotiSeries(i)][0]);
-			inteData[i].addAll(ssen[manager.getNNumberMotiSeries(i)][1]);
-			inteData[i].addAll(ssen[manager.getNNumberMotiSeries(i)][2]);
-//			inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][0]);
-//			inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][1]);
-//			inteData[i].addAll(ssen[relativeStatus.numberMotiSeries[i]][2]);
+			inteData[i].addAll(ssen[this.numberMotiSeries[i]][0]);
+			inteData[i].addAll(ssen[this.numberMotiSeries[i]][1]);
+			inteData[i].addAll(ssen[this.numberMotiSeries[i]][2]);
 		}
+		//剪切数据并对齐，保存剪切数据。
 		for(int i=0;i<countNumber;i++) {
-			motiPreLa[i] = QuakeClass.cutOdata(inteData[i], sensors1, Parameters.startTime, Parameters.endTime, sensors1[i]);
+			motiPreLa[i] = CutData.cutOdata(inteData[i], sensors1, Parameters.startTime, Parameters.endTime, sensors1[i]);
 			sensors1[i].setCutVectorData(motiPreLa[i]);
 		}
 		
 		//no motivation sensor also need to set the wave data according to the first motivated sensor's time.
 		int n=countNumber;
-		for(int i=0;i<Parameters.SensorNum;i++) {
-			if(n<Parameters.SensorNum) {
+		for(int i=countNumber;i<Parameters.SensorNum;i++) {
+//			if(n<Parameters.SensorNum) {
 				if(l[i]==0) {
 					inteData[n].addAll(ssen[i][0]);
 					inteData[n].addAll(ssen[i][1]);
 					inteData[n].addAll(ssen[i][2]);
 					n++;
 				}
-			}
+//			}
 		}
 		
 		int n1 = 0;
@@ -232,7 +221,7 @@ public class relativeStatus {
 				sensors[i].setTime(sensors1[0].getTime());
 				
 				//cut the position the same as sensors1[0] with no motivation sensors.
-				motiPreLa[n] = QuakeClass.cutOdata(inteData[n], sensors1, Parameters.startTime, Parameters.endTime, sensors[i]);
+				motiPreLa[n] = CutData.cutOdata(inteData[n], sensors1, Parameters.startTime, Parameters.endTime, sensors[i]);
 				sensors[i].setCutVectorData(motiPreLa[n]);
 				sensors[i].setlineSeriesNew(0);
 				sensors2[n1] = sensors[i];
@@ -249,18 +238,7 @@ public class relativeStatus {
 			panfu = panfu+ " " + stringJoin.SJoin_Array(MainThread.fileParentPackage, sensors2);
 			panfu = panfu.replaceAll("Test", "");
 		}
-		
-		//set the name of path all.
-		for(int i=0;i<sensors2.length;i++) {
-			sensors2[i].setpanfu(panfu);//存储盘符字符串
-		}
-		for(int i=0;i<sensors1.length;i++) {
-			sensors1[i].setpanfu(panfu);//存储盘符字符串
-		}
-		
-		//save to the status.
-		status.setPanfu(panfu);
-		status.setSensors1(sensors1);
+		//复制数组。
 		
 		//merge sensor1 sensor2 to S.
 		n=0;
@@ -274,6 +252,15 @@ public class relativeStatus {
 			}
 		}
 		
+		//set the name of path all.
+		for(int i=0;i<S.length;i++) {
+			S[i].setpanfu(panfu);//存储盘符字符串
+		}
+		
+		//save to the status.
+		status.setPanfu(panfu);
+		status.setSensors1(sensors1);
+		
 		return S;
 	}
 	
@@ -286,6 +273,7 @@ public class relativeStatus {
 	 * @throws ParseException
 	 * @author Hanlin Zhang.
 	 */
+	@Deprecated
 	public static String PArrivalTime(Vector<String> data, Sensor sensor) throws ParseException {
 		String P = "";
 		P=String.valueOf(sensor.getSecTime());
@@ -314,33 +302,52 @@ public class relativeStatus {
 	
 	/**
 	 * motivation_Diagnose_alone used.
+	 * 计算激发位置的绝对时间，通过data第一条+到时来确定，即返回值激发位置时间一定大于data第一条数据的绝对时间。
 	 * @param data
 	 * @param SecTime
 	 * @return
-	 * @throws ParseException
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月18日上午10:33:35
 	 */
-	public static String PArrivalTime(
+	public String PArrivalAbsoluteTime(
 			Vector<String> data,
 			double SecTime
-			) throws ParseException {
+			) {
 		String P = "";
 		P=String.valueOf(SecTime);
-		
+		String date = "";
 		Date d = new Date();
+		
+		
 		if(SecTime<1) {
-			d=String2Date.str2Date(data.get(0).split(" ")[6]);
-			String date=Date2String.date2str(d)+"."+P.split("\\.")[1];
+			try {
+				d=String2Date.str2Date(data.get(0).split(" ")[6]);
+				date=Date2String.date2str(d)+"."+P.split("\\.")[1];
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			return date;
 		}
 		else {
-			d=String2Date.str2Date(data.get(0).split(" ")[6]);
+			try {
+				d=String2Date.str2Date(data.get(0).split(" ")[6]);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			Calendar calendar = Calendar.getInstance(); //内存溢出的出错位置。~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 			calendar.setTime(d);
 			calendar.add(Calendar.SECOND, (int) Math.floor(SecTime));
 			d=calendar.getTime();
-			String date = Date2String.date2str(d)+"."+P.split("\\.")[1];
+			try {
+				date = Date2String.date2str(d)+"."+P.split("\\.")[1];
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			return date;
 		}
 		

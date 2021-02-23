@@ -57,7 +57,6 @@ public class FindHistoryFile implements Runnable {
     		try {
 				entranceDirectory(Dic);
 			} catch (ParseException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	}
@@ -68,7 +67,6 @@ public class FindHistoryFile implements Runnable {
 					entranceDirectory(Dic);
 				}
 			} catch (ParseException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	}
@@ -202,10 +200,11 @@ public class FindHistoryFile implements Runnable {
         }
         try {
             threadSignal.await();
-            executor.shutdown();
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         }
+        executor.shutdown();
+        
         double cost = (System.currentTimeMillis() - m1)/1000.0;
     	System.out.println("抓取完毕---------------------------！！_ 共用时："+ cost + "秒");
     }

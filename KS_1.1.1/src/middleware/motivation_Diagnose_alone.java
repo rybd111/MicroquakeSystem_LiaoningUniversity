@@ -14,6 +14,7 @@ import com.ibm.icu.util.Output;
 
 import javafx.scene.chart.XYChart.Series;
 import mutiThread.MainThread;
+import utils.SelectChannel;
 import utils.printRunningParameters;
 
 /**
@@ -100,7 +101,7 @@ public class motivation_Diagnose_alone {
 							//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
 							this.relativeMSTime = Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200));
 							//Set the absolute time in GPS time as String.
-							this.absoluteMSTime = relativeStatus.PArrivalTime(this.data, this.relativeMSTime);
+							this.absoluteMSTime = new relativeStatus().PArrivalAbsoluteTime(this.data, this.relativeMSTime);
 							//we obtain the time of the motivation time of the now vector. we abandoned this item.
 							this.absoluteSTime = this.data.get(lineSeries).split(" ")[6];
 						}
@@ -113,7 +114,7 @@ public class motivation_Diagnose_alone {
 						//The unit is in milliseconds, the frequency of sensor is calculated in 5000Hz.
 						this.relativeMSTime = Double.valueOf(lineSeries)/Double.valueOf((Parameters.FREQUENCY+200));
 						//Set the absolute time in GPS time as String.
-						this.absoluteMSTime = relativeStatus.PArrivalTime(this.data, this.relativeMSTime);
+						this.absoluteMSTime = new relativeStatus().PArrivalAbsoluteTime(this.data, this.relativeMSTime);
 						//we obtain the time of the motivation time of the now vector. we abandoned this item.
 						this.absoluteSTime = this.data.get(lineSeries).split(" ")[6];
 					}
@@ -165,7 +166,7 @@ public class motivation_Diagnose_alone {
 			s = this.data.get(lineNumber + count);
 			String[] str = s.split(" ");
 			
-			if(QuakeClass.testValue(str[5])) {
+			if(SelectChannel.testValue(str[5])) {
 				channel = true;
 			}
 			container.add(s);

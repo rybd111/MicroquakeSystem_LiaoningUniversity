@@ -9,6 +9,7 @@ import java.util.Date;
 import com.h2.constant.Parameters;
 
 import DataExchange.Sensor;
+import utils.DistanceAroundSensors;
 
 /**
  * this function is used to calculate the two location.
@@ -96,7 +97,7 @@ public class Doublelocate {
 		}
 		//发震时刻=触发时间-传播用时（其中涉及到类型转换）
 		public static double quakeTime(Sensor sensor,Sensor location) {
-			double distance=QuakeClass.getDistance(location, sensor);//震源与传感器之间的距离
+			double distance=DistanceAroundSensors.getDistance(location, sensor);//震源与传感器之间的距离
 			double t0=distance/Parameters.C;
 			double time=0.0;
 			time = sensor.getSecTime()-t0;

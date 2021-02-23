@@ -1,11 +1,8 @@
 package utils;
 
-import java.util.Vector;
 
 import com.h2.constant.Parameters;
 import com.mathworks.toolbox.javabuilder.MWException;
-
-import DataExchange.QuackResults;
 import DataExchange.Sensor;
 import tensor_pro.Tensor_Pro_Class;
 

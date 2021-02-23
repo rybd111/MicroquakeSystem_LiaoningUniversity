@@ -19,8 +19,8 @@ import java.io.IOException;
  * @Auther: RQMA, Hanlin Zhang.
  * @Date: 5/10/2019 12:28 PM
  */
-public class WriteRecords {
-	
+public class WriteRecords{
+
 //	public static String lastDate = "2019-1-13 02:05:03";//update at the creating ReadData function's object to make sure this variable is the last day all the way.
 
     /**
@@ -31,8 +31,16 @@ public class WriteRecords {
      * @author RQMa, Hanlin Zhang
      */
     @SuppressWarnings("unused")
-	public static void Write(Sensor[]sensors , Sensor sensor_latest, Sensor result, String filepath, 
-			String quakeGrade, double finalEnergy, String kindOfCalculation, double tensor, double b_value) {
+	public void WriteCalculationResults(
+			Sensor[]sensors,
+			String earlestTime,
+			Sensor result,
+			String filepath,
+			String quakeGrade,
+			double finalEnergy,
+			String kindOfCalculation,
+			double tensor,
+			double b_value) {
         File file = new File(filepath);
         BufferedWriter out = null;
         BufferedWriter out1 = null;
@@ -53,7 +61,7 @@ public class WriteRecords {
         	}
         	
             int lastk=0;
-            record = sensor_latest.getAbsoluteTime()+"\t,";
+            record = earlestTime+"\t,";
             String i1 = null;
             for (int i = 0; i < Parameters.diskName[Parameters.diskNameNum].length; i++) {
             	for(int j=0;j<sensors.length;j++) {
@@ -117,7 +125,7 @@ public class WriteRecords {
      * @author RQMa, Hanlin Zhang.
      */
     @SuppressWarnings("unused")
-	public static void WriteSeveralMotiTime(Sensor[]sensors, String filepath) {
+	public void WriteSeveralMotiTime(Sensor[]Motisensors, String filepath) {
         File file = new File(filepath);
         BufferedWriter out = null;
         String record="";
@@ -136,18 +144,18 @@ public class WriteRecords {
         	}
         	//record the quack time of each event.
             int lastk=0;
-            record = sensors[0].getAbsoluteTime()+"\t,";
+            record = Motisensors[0].getAbsoluteTime()+"\t,";
             String i1 = null;
             
             for (int i = 0; i < Parameters.diskName[Parameters.diskNameNum].length; i++) {
-            	for(int j=0;j<sensors.length;j++) {
+            	for(int j=0;j<Motisensors.length;j++) {
             		if(Parameters.offline == true) {
-            			i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
+            			i1=MainThread.fileParentPackage[Motisensors[j].getSensorNum()].replace("Test", "");
             		}
             		else {
-            			i1 = MainThread.fileStr[sensors[j].getSensorNum()].replace(":/", "");
+            			i1 = MainThread.fileStr[Motisensors[j].getSensorNum()].replace(":/", "");
             		}
-            		if(i1.equals(Parameters.diskName[Parameters.diskNameNum][i]) && sensors[j].isSign()) {
+            		if(i1.equals(Parameters.diskName[Parameters.diskNameNum][i]) && Motisensors[j].isSign()) {
             			if(flag1==true) {
 	            			for(int k=0;k<i;k++) {
 	            				record = record+",";
@@ -164,7 +172,7 @@ public class WriteRecords {
             				else
             					lastk++;
             			}
-            			record = record+String.valueOf(sensors[j].getSecTime())+",";
+            			record = record+String.valueOf(Motisensors[j].getSecTime())+",";
             		}
             	}
             }
@@ -193,7 +201,7 @@ public class WriteRecords {
      * insert a null line in xlxs file.
      * @param filepath
      */
-    public static void insertALine(String filepath) {
+    public void insertALine(String filepath) {
     	File file = new File(filepath);
         BufferedWriter out = null;
         String record="";

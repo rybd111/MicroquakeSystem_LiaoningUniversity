@@ -18,42 +18,44 @@ import DataExchange.Sensor;
  */
 public class calStrength extends Thread 
 {
-	private Sensor sensor;
-	private Sensor location;
+	private Sensor MotiSensorsAfterCut;
+	private Sensor location_refine;
 	private int i;
 	private CountDownLatch downLatch;
 	
-	public calStrength(Sensor s, Sensor lo, int i, CountDownLatch downLatch)
+	public calStrength(Sensor MotiSensorsAfterCut, Sensor location_refine, int i, CountDownLatch downLatch)
 	{
-		this.sensor = s;
+		this.MotiSensorsAfterCut = MotiSensorsAfterCut;
 		this.i=i;//sensor ID.
-		this.location = lo;
+		this.location_refine = location_refine;
 		this.downLatch = downLatch;
 	}
 	
 	public void run()
 	{
+		QuakeClass q = new QuakeClass(location_refine);
 		//calculate the near quake magnitude and energy.
 		try {
-			QuakeClass.SensorMaxFudu(this.sensor, this.i);
+			q.SensorMaxFudu(this.MotiSensorsAfterCut, this.i);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (MWException e) {
 			e.printStackTrace();
 		}
-		QuakeClass.getOneEarthQuakeGrade(location, sensor);
+		q.getOneEarthQuakeGrade(this.location_refine, this.MotiSensorsAfterCut);
 		this.downLatch.countDown();
 	}
 	public void cal()
 	{
+		QuakeClass q = new QuakeClass(location_refine);
 		//calculate the near quake magnitude.
 		try {
-			QuakeClass.SensorMaxFudu(this.sensor, this.i);
+			q.SensorMaxFudu(this.MotiSensorsAfterCut, this.i);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (MWException e) {
 			e.printStackTrace();
 		}
-		QuakeClass.getOneEarthQuakeGrade(location, sensor);
+		q.getOneEarthQuakeGrade(this.location_refine, this.MotiSensorsAfterCut);
 	}
 }
