@@ -60,45 +60,46 @@ public class InitialValue
 		}
 	}
 	 
-	 private double mean(double[] array){
-		 double sum=0;
-		 for(int i=0;i<array.length;i++)
-		 {
-			 sum+=array[i];
-		 }
-		 double avg=sum/array.length;
-		 return avg;	 
-	 }
+	private double mean(double[] array){
+		double sum=0;
+		for(int i=0;i<array.length;i++)
+		{
+			sum+=array[i];
+		}
+		double avg=sum/array.length;
+		return avg;	 
+	}
 	 
-	 public	double getInitialextremum(Vector<String> data, int getlineSeriesNew) {
-		 //切分数据
-		 cutOdata1(data, getlineSeriesNew);
-		 //滤波
-		 movingAverageFilter();
-		 //求初动极值
-		 
-		 double [] abslvbo=new double[lvbo.length];
-		 double a=0;
-		 for(int i=0;i<lvbo.length;i++)
-		 {
+	public	double getInitialextremum(Vector<String> data, int getlineSeriesNew) {
+		//切分数据
+		cutOdata1(data, getlineSeriesNew);
+		//滤波
+		movingAverageFilter();
+		//求初动极值
+		
+		double [] abslvbo=new double[lvbo.length];
+		double a=0;
+		for(int i=0;i<lvbo.length;i++)
+		{
 			abslvbo[i]=Math.abs(lvbo[i]);
-		 }
-		 
-         for(int i=1;i<abslvbo.length-1;i++) 
-         {
-        	 if(abslvbo[i]>abslvbo[i-1]&&abslvbo[i]>abslvbo[i+1]) 
-       		 {
-        		 a = abslvbo[i];//波峰
-        		 break;
-       		 } 
-       		 else if(abslvbo[i]<abslvbo[i-1]&&abslvbo[i]<abslvbo[i+1])
-       		 {
-       			 a = abslvbo[i];//波谷
-       			 break;
-       		 }
-         }
-         return a;
-	 }
+		}
+		
+		for(int i=1;i<abslvbo.length-1;i++) 
+		{
+			if(abslvbo[i]>abslvbo[i-1]&&abslvbo[i]>abslvbo[i+1]) 
+			{
+				a = abslvbo[i];//波峰
+				break;
+			} 
+			else if(abslvbo[i]<abslvbo[i-1]&&abslvbo[i]<abslvbo[i+1])
+			{
+				a = abslvbo[i];//波谷
+				break;
+			}
+		}
+		
+		return a;
+	}
 }
 	 
 	 

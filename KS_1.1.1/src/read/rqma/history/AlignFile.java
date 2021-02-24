@@ -10,6 +10,7 @@ import utils.DateArrayToIntArray;
 import utils.String2Date;
 import utils.SubStrUtil;
 import utils.fileFilter;
+import utils.filePatternMatch;
 import utils.printRunningParameters;
 
 import java.io.File;
@@ -238,8 +239,11 @@ public class AlignFile {
      * @return
      */
      public boolean isMrMaEquipment(String filename){
-         //filename太长的话，调用endsWith出错，先取最后10个字符，再判断扩展名类型
-         filename=filename.length()>10?filename.substring(filename.length() -10):filename;
-         return filename.endsWith(".bin");
+         boolean flag = false;
+         if(filePatternMatch.match_BIN(filename) && filename.endsWith(".bin")) {
+        	 flag = true;
+         }
+         
+         return flag;
      }
 }

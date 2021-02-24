@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.Executors;  
 import java.util.concurrent.ScheduledExecutorService;  
-import java.util.concurrent.TimeUnit;  
+import java.util.concurrent.TimeUnit;
+
+import utils.Parameters;  
 
 
 /**
@@ -13,12 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @author Haiyou Yu
  * @version 1.0 2020-11-14
  */
-public class TimedTask implements Runnable{
-
-	
-	public TimedTask() {
-		
-	}
+public class SensorDiskMonitor {
 
 	//---------------------------------------------------------------
 	//This is the test code
@@ -28,11 +25,11 @@ public class TimedTask implements Runnable{
 	//end test code
 	//----------------------------------------------------------------
 	
-	
-	@Override
-	public void run() {
+	public static void runMain() {
 		System.out.println("---------------------------------------");
-		ArrayList<TableProperty> al = GetStationInformation.getAllStationsInformation(new Date());
+		//请先选择地区----------------------------------------------------------
+		Parameters.region = "hongyang";
+		ArrayList<TableProperty> al = new GetStationInfo().getAllStationsInformation(new Date());
 		
 		for(TableProperty tp:al) {
 			String[] str = tp.getStringArray();
@@ -46,17 +43,25 @@ public class TimedTask implements Runnable{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
 		System.out.println("---------------------------------------"); 
-
-	}  
+	}
 	
 	public static void doTask() {
-		TimedTask task = new TimedTask();
-		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-
-		// parameters: the specified task, the first running delay, running period, time unit for period
-		service.scheduleAtFixedRate(task, 0, 12, TimeUnit.HOURS); 
+//		SensorDiskMonitor task = new SensorDiskMonitor();
+//		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+//		// parameters: the specified task, the first running delay, running period, time unit for period
+//		service.scheduleAtFixedRate(task, 0, 12, TimeUnit.MINUTES);
+		int SleepTime = 1000*60*60;//one hour.
+		
+		while(true) {
+			runMain();
+			try {
+				Thread.sleep(SleepTime);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }
 

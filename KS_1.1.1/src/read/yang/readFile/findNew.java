@@ -15,6 +15,8 @@ import com.h2.constant.Parameters;
 
 import controller.ADMINISTRATOR;
 import utils.ComparatorByCutName_liu_DESC;
+import utils.fileFilter;
+import utils.filePatternMatch;
 public class findNew {
 	@SuppressWarnings("unused")
 	public static File find(String path,int th,ADMINISTRATOR manager) {
@@ -38,13 +40,15 @@ public class findNew {
 					}
 					if(Parameters.readSecond==true){
 						if(fs[i].getPath().endsWith(".bin")){
-							if(count==2) {
-								manager.isMrMa[th]=true;
-								l=i;
-								flag=true;
-								break;
+							if(filePatternMatch.match_BIN(fs[i].getName())) {
+								if(count==2) {
+									manager.isMrMa[th]=true;
+									l=i;
+									flag=true;
+									break;
+								}
+								count++;
 							}
-							count++;
 						}
 						if(fs[i].getPath().endsWith(".HFMED")){
 							if(count==2){

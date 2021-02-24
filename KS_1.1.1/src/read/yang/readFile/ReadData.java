@@ -377,15 +377,8 @@ public class ReadData {
 							}
 						}
 						else {
-							manager.setNewFile(setState());
-							if(manager.getNewFile() == true) {
-								System.out.println("第"+sensorID+"号台站"+sensorName+"产生了新文件");
-								data.clear();timeCount = 0;
-								return;
-							}
-							else{
-								continue;//直接等待直到出现数据，写入data容器
-							}
+							this.tailOfflineProcessing();
+							return;
 						}
 					}
 					catch(IOException e){

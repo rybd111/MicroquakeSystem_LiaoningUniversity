@@ -52,9 +52,9 @@ public class printRunningParameters {
 		
 	}
 	
-	public static void printpullParameters(String timeStr) throws IOException {
+	public static void printScanPath(String timeStr) throws IOException {
 		
-		System.out.println("自动配置的主路径为： ");
+		System.out.println("扫描到的包含数据文件的远程路径：  ");
 		for(int i=0;i<MainThread.fileStr.length;i++) {
 			System.out.println(formToChar(MainThread.fileStr[i]));
 		}
@@ -69,8 +69,6 @@ public class printRunningParameters {
 		}
 		
 		System.out.println("给定的时刻为： "+ formToChar(timeStamp));
-		
-		System.out.println("自动配置完毕——————————");
 	}
 	
 	/**

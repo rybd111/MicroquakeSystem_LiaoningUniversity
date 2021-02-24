@@ -83,6 +83,7 @@ public class EarthQuake {
 		
 		//we will diagnose there has a motivational sensor or not to reduce the complexity.
 		Sensor sensor_latest = null;
+		int countNumber = 0;
 		for(int i=0;i<sensors.length;i++) {
 			if(sensors[i].getSecTime()!=0)
 				sensor_latest = sensors[i];
@@ -91,9 +92,8 @@ public class EarthQuake {
 		if(sensor_latest!=null) {
 			//calculate the number of motivation sensors, and save the series to the l array.
 			//Meanwhile, we will move the position to the absolute position in 30 seconds, which is point to the position in the now Vector. It's used to cut the motiData and used to calculate during quake magnitude.
-			int countNumber = 0;
+			
 			int[] l = new int[Parameters.SensorNum];
-//			int[] l1 = new int[Parameters.SensorNum];
 			int[] l1 = new int[0];
 			String identity = null;
 			
@@ -173,19 +173,18 @@ public class EarthQuake {
 			if(countNumber>=4 && manager.getIsRealMoti() == true) {
 //				loc.temporal_spatio_strength("major", S, status.getSensors1(), countNumber, manager);
 			}
-			//we can hide this print when the console are so much content or display this print when we want to adjust the procedure.
-            //output the reasons why the calculation process is not executing.
-			System.out.println(
-					"激发数: "+ 
-					printRunningParameters.formToChar(String.valueOf(countNumber))+
-					" 台站间的激发间隔时间是否小于"+
-					printRunningParameters.formToChar(String.valueOf(Parameters.IntervalToOtherSensors))+
-					"秒? "+
-					printRunningParameters.formToChar(String.valueOf(manager.getIsRealMoti()))+
-					" time："+
-					printRunningParameters.formToChar(ssen[0][0].get(0).split(" ")[6]));
 		}
-		
+		//we can hide this print when the console are so much content or display this print when we want to adjust the procedure.
+        //output the reasons why the calculation process is not executing.
+		System.out.println(
+				"激发数: "+ 
+				printRunningParameters.formToChar(String.valueOf(countNumber))+
+				" 台站间的激发间隔时间是否小于"+
+				printRunningParameters.formToChar(String.valueOf(Parameters.IntervalToOtherSensors))+
+				"秒? "+
+				printRunningParameters.formToChar(String.valueOf(manager.getIsRealMoti()))+
+				" time："+
+				printRunningParameters.formToChar(ssen[0][0].get(0).split(" ")[6]));
 		//reset the global variable.
 		manager.setIsRealMoti(true);
 	}

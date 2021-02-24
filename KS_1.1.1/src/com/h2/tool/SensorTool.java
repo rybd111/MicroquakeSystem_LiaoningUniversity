@@ -3,22 +3,14 @@
  */
 package com.h2.tool;
 
-import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Vector;
-
-import org.jfree.ui.RefineryUtilities;
 
 import com.h2.constant.Parameters;
 
 import DataExchange.Sensor;
 import controller.ADMINISTRATOR;
 import middleware.motivation_Diagnose_alone;
-import mutiThread.MainThread;
 import utils.ArrayMatch;
 
 /**
@@ -37,7 +29,6 @@ public class SensorTool
 	 * @date revision 下午5:15:34
 	 * @author Baishuo Han, Hanlin Zhang.
 	 */
-	@SuppressWarnings("unused")
 	public static Sensor[] initSensorInfo(int count,String [] Str, ADMINISTRATOR manager)
 	{
 		Sensor[] sensors = new Sensor[count];
@@ -108,8 +99,6 @@ public class SensorTool
 	 * @return
 	 * @author Baishuo Han, Hanlin Zhang.
 	 */
-	private static boolean tunnel = false;
-	@SuppressWarnings("unused")
 	public static void motivate(Vector<String> data, Sensor sensor,int th, int range) throws ParseException
 	{
 		motivation_Diagnose_alone m = new motivation_Diagnose_alone(data, range, th);

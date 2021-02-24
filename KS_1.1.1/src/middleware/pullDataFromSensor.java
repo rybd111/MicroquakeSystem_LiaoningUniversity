@@ -22,6 +22,7 @@ import utils.Date2String;
 import utils.ScanInNum;
 import utils.String2Date;
 import utils.ask_YorN;
+import utils.filePatternMatch;
 import utils.outArray;
 import utils.printRunningParameters;
 
@@ -87,7 +88,7 @@ public class pullDataFromSensor {
 		ask_YorN.askWhenHasLess(MainThread.fileStr);
 		
 		/** 输出所有离线运行参数，供用户确认*/
-		printRunningParameters.printpullParameters(this.timeStr);
+		printRunningParameters.printScanPath(this.timeStr);
 		
 		/**拉取*/
         FindHistoryFile.launch(MainThread.fileStr, destPath, timeStr);
@@ -118,23 +119,21 @@ public class pullDataFromSensor {
 	private String[] scanAlldisk() throws IOException {
 		File[] roots = File.listRoots();
 		String[] sasroots = new String[0];
-		//加入数字位数约束，为0时，不加数字位数约束
-		int numberNum = 12;
 		
 		//决定网络映射盘符。
 		for(int i=0;i<roots.length;i++) {
 			String Type = FileSystemView.getFileSystemView().getSystemTypeDescription(roots[i]);
 			if(Type.equals("网络驱动器")) {
-//				if(determineDisk(roots[i].listFiles(), numberNum)==true) {
+				if(determineDiskIsContainsHFMED_BIN(roots[i].listFiles())==true) {
 					sasroots = Arrays.copyOf(sasroots, sasroots.length+1);
 					sasroots[sasroots.length-1] = roots[i].getAbsolutePath();
 					sasroots[sasroots.length-1].toLowerCase();
-//				}
+				}
 			}
 			//测试用代码。
 			if(this.isTest == true) {
 				if(Type.equals("本地磁盘")) {
-					if(determineDisk(roots[i].listFiles(), numberNum)==true) {
+					if(determineDiskIsContainsHFMED_BIN(roots[i].listFiles())==true) {
 						sasroots = Arrays.copyOf(sasroots, sasroots.length+1);
 						sasroots[sasroots.length-1] = roots[i].getAbsolutePath();
 						sasroots[sasroots.length-1].toLowerCase();
@@ -151,28 +150,22 @@ public class pullDataFromSensor {
 	}
 	
 	/**
-	 * 基于1级目录下一定有HFMED或bin为后缀的文件为基础来定义
-	 * 在此基础上，区分本地磁盘与挂载磁盘
+	 * 老仪器刘老师基于1级目录下一定有装有HFMED的文件夹。
+	 * 新仪器马老师根目录下有数据文件bin。
+	 * 在此基础上，区分本地磁盘与挂载磁盘下是否有数据文件，否则就不处理了，因为可能是挂载的其他用途的磁盘。
 	 * 否则此函数失效。
 	 * @param roots
 	 * @return
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年1月30日下午7:36:50
 	 */
-	private boolean determineDisk(File[] files, int numberNum) {
+	private boolean determineDiskIsContainsHFMED_BIN(File[] files) {
 		for(File file : files) {
-			String name = file.getName();
-			if(numberNum <= 0) {
-				if(name.contains("_")) {
-					return true;
-				}
-			}
-			else if(name.contains("_")) {
-				if(name.split("_").length>=2) {
-					if(name.split("_")[1].length() >= numberNum) {
-						return true;
-					}
-				}
+			if(
+					filePatternMatch.match_HFMED(file.getName()) || 
+					filePatternMatch.match_BIN(file.getName())
+					){
+				return true;
 			}
 		}
 		return false;

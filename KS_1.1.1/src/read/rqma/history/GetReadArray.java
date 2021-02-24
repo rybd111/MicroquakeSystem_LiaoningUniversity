@@ -79,6 +79,12 @@ public class GetReadArray {
     	return false;
     }
     
+    /**
+     * 文件移动阻拦器。
+     * @return
+     * @author Hanlin Zhang.
+     * @date revision 2021年2月24日下午2:02:10
+     */
     private boolean StopperMoveBuffer() {
     	/**保存对齐后的timeCount变量*/
         int kuai[] = new int[Parameters.SensorNum];

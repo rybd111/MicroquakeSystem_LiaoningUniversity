@@ -13,14 +13,12 @@ import java.util.Date;
  */
 public class printRunningParameters {
 
-	public static void printpullParameters(String[] fileStr) throws IOException {
-		
-		System.out.println("自动配置的主路径为： ");
+	public static void printScanPath(String[] fileStr) throws IOException {
+		System.out.println("扫描到的包含数据文件的远程路径：  ");
 		for(int i=0;i<fileStr.length;i++) {
 			System.out.println(formToChar(fileStr[i]));
 		}
 		
-		System.out.println("自动配置完毕——————————");
 	}
 	
 	/**

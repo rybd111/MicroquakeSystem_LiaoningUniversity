@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import utils.Parameters;
+
 /**
  * This class is used for adding,querying,updating for the database table of  mine_quack_stationcondition
  * @author Haiyou Yu
@@ -25,34 +27,25 @@ public class DatabaseUtil {
 	private static Connection connection = null;
 	private static Statement statement;
 	private static ResultSet resultSet;
-	private static final String TABLENAME = "mine_quack_stationcondition";
+	public static String TABLENAME = "mine_quack_station_hongyang";
 
 	public static Connection getConnection() {
 		try {
-			Properties properties = new Properties();
-			InputStream in = DatabaseUtil.class.getClassLoader().getResourceAsStream("./jdbc.properties");
-
-			properties.load(in);
-			properties.setProperty("driver", "com.mysql.cj.jdbc.Driver");
-			driver = properties.getProperty("driver");
-			properties.setProperty("url", "jdbc:mysql://182.92.239.30:3306/ks?serverTimezone=UTC&useSSL=false");
-			url = properties.getProperty("url");
-//			username = properties.getProperty("username");
-//			password = properties.getProperty("password");
-
+			url = "jdbc:mysql://"+Parameters.SevIP+"?serverTimezone=UTC&useSSL=false";
+			driver = "com.mysql.cj.jdbc.Driver";
 			username = "root";
 			password = "root";
-
+			
 			Class.forName(driver);
-			if(connection == null)
+			if(connection == null) {
 				connection = DriverManager.getConnection(url, username, password);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
+		
 		return connection;
 	}
 
@@ -104,8 +97,7 @@ public class DatabaseUtil {
 		ResultSet rs = null;
 		TableProperty tp = null;
 		try {
-			rs = DatabaseUtil.getConnection().
-					createStatement().executeQuery(sql);
+			rs = DatabaseUtil.getConnection().createStatement().executeQuery(sql);
 			
 			while (rs.next()) {	
 				tp = new TableProperty();
@@ -132,8 +124,7 @@ public class DatabaseUtil {
 	public static boolean insert(String sql) {
 		boolean successful = false;
 		try {
-			successful = DatabaseUtil.getConnection().
-			createStatement().execute(sql);
+			successful = DatabaseUtil.getConnection().createStatement().execute(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
@@ -185,18 +176,18 @@ public class DatabaseUtil {
 			ResultSet rs = null;
 			String sql = "select * from "+TABLENAME+" where day='"
 						+values[0]+"' and panfu='"+values[1]+"' ";
-			//System.out.println(sql);
 			try {
-				rs = DatabaseUtil.getConnection().
-						createStatement().executeQuery(sql);
+				//获取
+				rs = DatabaseUtil.getConnection().createStatement().executeQuery(sql);
+				
 				if(rs.next()) {
 					String updateSql =  "update "+TABLENAME+" set status='"+values[6]
 							+"',unused='"+values[7]+"',used='"+values[8]+"',total='"+values[9]
 							+"',netspeed='"+values[10]+"' where day='"+values[0]
 							+"' and panfu='"+values[1]+"' ";
-					flag = DatabaseUtil.getConnection().
-							createStatement().execute(updateSql);
+					flag = DatabaseUtil.getConnection().createStatement().execute(updateSql);
 				}else {
+					System.out.println(flag);
 					flag = insert(values);
 				}
 			} catch (SQLException e) {

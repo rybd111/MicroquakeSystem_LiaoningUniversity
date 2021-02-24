@@ -53,7 +53,7 @@ public class FindHistoryFile implements Runnable {
 	public void run() {
     	File[] Dic = new File(this.sourcePath).listFiles();
     	//根路径下没有HFMED文件，则查找是否有给定时间的文件夹？
-    	if(fileFilter.filter(this.sourcePath) == false) {
+    	if(fileFilter.boolfilter(this.sourcePath) == false) {
     		try {
 				entranceDirectory(Dic);
 			} catch (ParseException | IOException e) {
@@ -88,12 +88,9 @@ public class FindHistoryFile implements Runnable {
 			//看是否在文件夹内？
 			if(Dic[i].isDirectory()) {
 				flag = true;
-				//文件夹名符合传感器文件的格式？
-				if(filePatternMatch.match_HFMED(Dic[i].getName())==true) {
-//					System.out.println("location定位结果" + Dic[i].getPath());
-					if(getFile(Dic[i].getPath())==false) {
-						System.out.println("在" + Dic[i].getPath() + "下，没有找到符合给定时间：" + Date2String.date2str(time) + " 的文件。");
-					}
+//				System.out.println("location定位结果" + Dic[i].getPath());
+				if(getFile(Dic[i].getPath())==false) {
+					System.out.println("在" + Dic[i].getPath() + "下，没有找到符合给定时间：" + Date2String.date2str(time) + " 的文件。");
 				}
 			}
 		}
@@ -141,10 +138,10 @@ public class FindHistoryFile implements Runnable {
 			//根据目的路径生成新的绝对路径。
 			String filePathA = filePathInter + "/" + this.files[i].getName();
 			//在绝对路径申请新的file。
-			File dest = new File(filePathA);
+			File destfile = new File(filePathA);
 			//拷贝文件，并计时
 			long m1 = System.currentTimeMillis();
-			copyFile(this.files[i], dest);
+			copyFile(this.files[i], destfile);
 			double cost = (System.currentTimeMillis() - m1)/1000.0/60;
 	    	System.out.println(filePathA + "拷贝完成 用时：" + cost + "分钟。");
 		}

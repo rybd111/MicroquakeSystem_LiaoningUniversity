@@ -7,9 +7,7 @@ import java.util.Date;
 import java.util.Vector;
 
 import com.h2.constant.Parameters;
-import com.h2.main.EarthQuake;
 import com.h2.main.statusOfCompute;
-import com.ibm.icu.impl.UResource.Array;
 
 import DataExchange.Sensor;
 import controller.ADMINISTRATOR;
@@ -18,11 +16,10 @@ import utils.ComparatorBySectime;
 import utils.CutData;
 import utils.Date2String;
 import utils.String2Date;
-import utils.TimeDifferent;
 import utils.stringJoin;
 
 
-public class relativeStatus implements SensorSectimeSortProcess{
+public class relativeStatus{
 	//保存序号数组
 	private int[] numberMotiSeries;
 	//激发的传感器位置不为0.

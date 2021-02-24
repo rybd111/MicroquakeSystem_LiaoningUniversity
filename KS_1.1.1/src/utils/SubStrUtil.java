@@ -22,6 +22,7 @@ public class SubStrUtil {
 	/**
      * 截取下划线后面，与.前面的字符串。
      * 获取刘老师仪器文件名中的时间字符串
+     * 使用该函数前，必须使用正则表达式判断是马老师文件，否则会报错。
      * @param parent
      * @return
      * @author Hanlin Zhang.
@@ -35,6 +36,7 @@ public class SubStrUtil {
     
     /**
      * 新设备文件名中的时间截取 ；如 NO4_2020-01-02 19-39-24.bin 截取为 20200102193924
+     * 使用该函数前，必须使用正则表达式判断是马老师文件，否则会报错。
      * @param fileName
      * @return
      */

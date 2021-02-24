@@ -220,6 +220,12 @@ public class Parameters
 		{ "z", "t", "y", "v", "x", "w", "u"},//pingdingshan
 		{ "o", "p", "q", "z"}//madaotou
 	};
+	public static final String[][] diskName1 = {
+		{ "杨甸子" , "树碑子" , "北青堆子" , "车队" , "工业广场" , "火药库" , "南风井" , "蒿子屯" , "李大人"},//hongyang
+		{ "3", "4", "5", "6", "7", "2", "1"},//datong
+		{ "牛家村", "洗煤厂", "香山矿", "王家村", "工业广场", "西风井", "打钻工区"},//pingdingshan
+		{ "sel", "nhy", "wmz", "tbz"}//madaotou
+	};
 	/**the location of all sensor which must be correspond with diskName in sequence.*/
 	public static final double[][] SENSORINFO_datong = {
 		{ 541689, 4422383, 1561.2 },//3号V we also need to confirm the coordination of datong for the sensors removing from the original position.
