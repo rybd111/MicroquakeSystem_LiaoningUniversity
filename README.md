@@ -1,7 +1,7 @@
 # MicroquakeSystem_LiaoningUniversity
 A system about coal mine monitor.
 
-    集中式程序为KS_1.0.8，包括前台jsp内容，主类为multiThread包下的mainThread.java，测试后台程序可通过mainTest运行。
+    集中式程序为KS_1.1.2，包括前台jsp内容，主类为multiThread包下的mainThread.java，测试后台程序可通过mainTest运行。
 	测点程序为KS_1.1_Remote，测点程序还需精简。
 	中心程序为KS_1.1_Center，中心机程序汇总时注意汇总时间对齐。
 
@@ -15,3 +15,14 @@ A system about coal mine monitor.
 	简化了配置文件。
 	数据库记录保存至服务器端数据库和本地txt各一份，以防断网时远程数据库无法获取数据。
 	封装四个主要模块（对齐，读取、激发、计算、保存）
+###20210224更新中心机程序 KS_1.1.2
+	加入了新的自动配置路径机制与情景模式配置
+	简化了常量类
+	增加了拉取远程文件中间件
+	进一步简化了配置文件
+	数据库改为远程服务器数据库
+	增加了台站工况的监测系统
+	进一步降低了各模块耦合性
+	优化了历史文件对齐逻辑
+	
+	

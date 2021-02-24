@@ -1,7 +1,3 @@
-/META-INF/
-/jdbc - 副本.properties
-/jdbc.properties
-/logback.xml
 /DataExchange/
 /Entrance/
 /com/
@@ -14,4 +10,3 @@
 /utils/
 /visual/
 /visual_data/
-/说明.txt
