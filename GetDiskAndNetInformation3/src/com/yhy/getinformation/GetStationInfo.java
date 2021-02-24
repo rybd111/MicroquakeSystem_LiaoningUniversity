@@ -1,10 +1,14 @@
 package com.yhy.getinformation;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
@@ -20,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import utils.ArrayMatch;
+import utils.Date2String;
 import utils.GetNetDisk;
 import utils.Parameters;
 
@@ -34,11 +39,7 @@ public class GetStationInfo {
 	private String remoteDisk[];
 	//存储
 	private float[] averageNetSpeed = new float[0];
-	public GetStationInfo(){
-		
-	}
-	
-	private static Map<String,ArrayList<String>> map = new HashMap<String,ArrayList<String>>();
+	private Map<String,ArrayList<String>> map = new HashMap<String,ArrayList<String>>();
 	
 	/**
 	 * 获取包括网络速度、磁盘信息、盘符号、盘符名在内的4项指标。
@@ -53,22 +54,18 @@ public class GetStationInfo {
 		} catch (IOException e1) {e1.printStackTrace();}
 		catch (ParseException e1) {e1.printStackTrace();}
 		
-		ArrayList<TableProperty> all = new ArrayList<TableProperty>();
-		
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-		String day = sf.format(date);
-		
 		//若没有连通磁盘，则返回空，此时所有台站均为offline。
 		if(remoteDisk == null) {
-			TableProperty tp = new TableProperty();
-			tp.setDay(day);
+			return null;
 		}
+		
+		String day = "";
+		ArrayList<TableProperty> all = new ArrayList<TableProperty>();
+		try {day = Date2String.date2str3(date);} catch (ParseException e1) {e1.printStackTrace();}
 		
 		//获取传感器盘符名称以及坐标。
 		initStationInformation();
 		
-		
-		//System.out.println("day:"+day);
 		Set<String> setKey = map.keySet();
 		for(String key:setKey) {
 			TableProperty tp = new TableProperty();
@@ -103,7 +100,6 @@ public class GetStationInfo {
 					tp.setUsed(information.get(2));
 					tp.setTotal(information.get(3));
 				}
-				//System.out.println(tp.toString());
 				all.add(tp);
 			}
 		}
@@ -114,6 +110,8 @@ public class GetStationInfo {
 	 * save the station's basic information to the map,including panfu,location,xData,yData,zData
 	 */
 	private void initStationInformation() {
+		//获取当前区域。
+		try {getRegionFromConfig();} catch (IOException e) {e.printStackTrace();}		
 		//获取当前区域的序号。
 		Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station, Parameters.region);
 		//确定当前数据库名。
@@ -168,76 +166,57 @@ public class GetStationInfo {
 		//destination path
 		String filePath = diskNumber + File.separator + "testnetspeed.txt";
 		File dest = new File(filePath);
-		
-		if(!dest.exists()) {
-			try {
-				dest.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		String networkSpeed = "";
+		//测量拷贝文件的时间。
 		long start = System.currentTimeMillis();
-		long end;
-		float netSpeed = 0;
-		boolean result = false;
-		try {
-			result = copyFileUsingFileChannels(source, dest);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if(result) {
-			end = System.currentTimeMillis();
-			//拷贝文件的时间。
-			long timeDifference = end -start;
-			
-			//change milliseconds to seconds
-			BigDecimal a = new BigDecimal(timeDifference);
-			BigDecimal b = new BigDecimal(1000);
-			BigDecimal seconds = a.divide(b, 2, BigDecimal.ROUND_HALF_UP);
-		    
-		    //change file's byte size to KB
-		    BigDecimal fileSize = new BigDecimal(sourceFileSize/1024);
-		    //change BigDecimal to float, as kbps kb/s and save 2 bit after decimal point.
-		    netSpeed =  fileSize.divide(seconds,2, BigDecimal.ROUND_HALF_UP).floatValue();
-		    //计算平均网速，以提高精度。
-		    this.averageNetSpeed = Arrays.copyOf(this.averageNetSpeed, this.averageNetSpeed.length+1);
-		    this.averageNetSpeed[this.averageNetSpeed.length-1] = netSpeed;
-		    float averageSpeed = mean(averageNetSpeed);
-		    
-		    // if network speed greater than 1000kbps, its unit becomes Mbps.
-		    if(averageSpeed > 1000) {
-			    BigDecimal temp = new BigDecimal(averageSpeed);
-			    averageSpeed = temp.divide(new BigDecimal(1000),2, BigDecimal.ROUND_HALF_UP).floatValue();
-			    networkSpeed = String.valueOf(averageSpeed)+"Mbps";
-			    //System.out.println("The network speed is : " + netSpeed+"Mbps");
-		    }else{
-			    networkSpeed = String.valueOf(averageSpeed)+"kbps";
-		    	//System.out.println("The network speed is : " + netSpeed+"kbps");
-		    }
-		    
-		}else {
-			System.out.println("something wrong.");
-		}
+		try {copyFileUsingFileChannels(source, dest);} catch (IOException e) {e.printStackTrace();}
+		long end = System.currentTimeMillis();
+		//拷贝文件的时间。
+		long timeDifference = end -start;
+		//change milliseconds to seconds
+		BigDecimal a = new BigDecimal(timeDifference);
+		BigDecimal b = new BigDecimal(1000);
+		BigDecimal seconds = a.divide(b, 2, BigDecimal.ROUND_HALF_UP);
+	    //change file's byte size to KB
+	    BigDecimal fileSize = new BigDecimal(sourceFileSize/1024);
+	    //change BigDecimal to float, as kbps kb/s and save 2 bit after decimal point.
+	    float netSpeed =  fileSize.divide(seconds,2, BigDecimal.ROUND_HALF_UP).floatValue();
+	    //计算平均网速，以提高精度。
+	    this.averageNetSpeed = Arrays.copyOf(this.averageNetSpeed, this.averageNetSpeed.length+1);
+	    this.averageNetSpeed[this.averageNetSpeed.length-1] = netSpeed;
+	    float averageSpeed = mean(averageNetSpeed);
+	    // if network speed greater than 1000kbps, its unit becomes Mbps.
+	    String networkSpeed = "";
+	    if(averageSpeed > 1000) {
+		    BigDecimal temp = new BigDecimal(averageSpeed);
+		    averageSpeed = temp.divide(new BigDecimal(1000),2, BigDecimal.ROUND_HALF_UP).floatValue();
+		    networkSpeed = String.valueOf(averageSpeed)+"Mbps";
+	    }else{
+		    networkSpeed = String.valueOf(averageSpeed)+"kbps";
+	    }
+	    
 		return networkSpeed;
 	}
 	
+	/**
+	 * 拷贝文件。
+	 * @param source
+	 * @param dest
+	 * @throws IOException
+	 * @author Haiyou Yu, Hanlin Zhang.
+	 * @date revision 2021年2月24日下午10:44:02
+	 */
 	@SuppressWarnings("resource")
-	private static boolean copyFileUsingFileChannels(File source, File dest) throws IOException {
+	private static void copyFileUsingFileChannels(File source, File dest) throws IOException {
 		FileChannel inputChannel = null;
 		FileChannel outputChannel = null;
-		boolean flag =false;
 		try {
 			inputChannel = new FileInputStream(source).getChannel();
 			outputChannel = new FileOutputStream(dest).getChannel();
 			outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
-			flag = true;
 		} finally {
 			inputChannel.close();
 			outputChannel.close();
 		}
-		return flag;
 	}
 	
 	/**
@@ -284,21 +263,49 @@ public class GetStationInfo {
 		return avg;
 	}
 	
-	//----------------------------------------------------------------
-	//This is the test code.
+	private void getRegionFromConfig() throws IOException {
+		String j = System.getProperty("user.dir");//get the procedure absolute path.
+		String configPath = j+"/regionConfig.ini";
+		
+		File file = new File(configPath);
+		//(文件完整路径),编码格式
+        @SuppressWarnings("resource")
+		BufferedReader reader =	reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "GBK"));
+        String line = null;
+
+        while((line=reader.readLine())!=null){//when the procedure read the last line in csv file, the length of it will become 1.
+            if(line.length()>1) { //this line has content.
+				if(!line.substring(0, 1).equals("#")) {//this line is an annotation.
+					String item[] = line.split("=");
+					//去除空格。
+					item[0] = item[0].replaceAll(" ", "");
+					item[1] = item[1].replaceAll(" ", "");
+					 
+					if(item[0].equals("region")) {
+						Parameters.region = String.valueOf(item[1]);
+					}
+				}
+            }
+        }
+	}
+	
+	/**
+	 * test code.
+	 * @param args
+	 * @author Haiyou Yu.
+	 * @date revision 2021年2月24日下午10:45:03
+	 */
 	public static void main(String[] args) {
 		
-		Parameters.region = "hongyang";
-		GetStationInfo get = new GetStationInfo();
-		
-		ArrayList<TableProperty> all = get.getAllStationsInformation(new Date());
-		
-		for(TableProperty t:all) {
-			System.out.println(t.toString());
-		}
+//		Parameters.region = "hongyang";
+//		GetStationInfo get = new GetStationInfo();
+//		
+//		ArrayList<TableProperty> all = get.getAllStationsInformation(new Date());
+//		
+//		for(TableProperty t:all) {
+//			System.out.println(t.toString());
+//		}
 
 	}
-	//end test code.
-	//---------------------------------------------------------------
 	
 }

@@ -135,9 +135,19 @@ public class TableProperty {
 
 	@Override
 	public String toString() {
-		return "TableProperty [day=" + day + ", panfu=" + panfu + ", location=" + location + ", xData=" + xData
-				+ ", yData=" + yData + ", zData=" + zData + ", status=" + status + ", unused=" + unused + ", used="
-				+ used + ", total=" + total + ", netspeed=" + netspeed + "]";
+		
+		return "[day=" + day +
+				", panfu=" + panfu +
+				", location=" + location +
+//				", xData=" + xData+
+//				", yData=" + yData +
+//				", zData=" + zData +
+				", status=" + status +
+//				", unused=" + unused +
+				", total=" + total +
+				", used=" + used +
+				", netspeed=" + netspeed +
+				"]";
 	}
 
     public String[] getStringArray() {

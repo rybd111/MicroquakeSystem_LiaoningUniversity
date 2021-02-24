@@ -9,16 +9,23 @@ import java.util.Date;
 
 
 /**
+ * 输出远程盘符信息，没有则返回空
  * @author Hanlin Zhang
  */
 public class printRunningParameters {
 
 	public static void printScanPath(String[] fileStr) throws IOException {
 		System.out.println("扫描到的包含数据文件的远程路径：  ");
-		for(int i=0;i<fileStr.length;i++) {
-			System.out.println(formToChar(fileStr[i]));
-		}
 		
+		if(fileStr == null) {
+			System.out.println("没有远程路径！");
+		}
+		else {
+			for(int i=0;i<fileStr.length;i++) {
+				System.out.print(formToChar(fileStr[i]));
+			}
+			System.out.println();
+		}
 	}
 	
 	/**

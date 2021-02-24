@@ -60,8 +60,6 @@ public class ConfigToParameters {
 		
 		//(文件完整路径),编码格式
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "GBK"));//GBK
-        String variableName = "";
-        String value = "";
         
         String line = null;
         while((line=reader.readLine())!=null){//when the procedure read the last line in csv file, the length of it will become 1.
@@ -71,8 +69,6 @@ public class ConfigToParameters {
 	            	//save different data from config file.
 	            	item[0] = item[0].replaceAll(" ", "");
 	            	item[1] = item[1].replaceAll(" ", "");
-//		            System.out.println("name of variable:"+item[0]);
-//		            System.out.println("value of variable:"+item[1]);
 		            //save new value to Parameters.
 		            /**distanceToSquareWave*/
 	            	if(item[0].equals("FREQUENCY")) {

@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;  
 import java.util.concurrent.TimeUnit;
 
+import com.mysql.cj.exceptions.StatementIsClosedException;
+
 import utils.Parameters;  
 
 
@@ -27,10 +29,10 @@ public class SensorDiskMonitor {
 	
 	public static void runMain() {
 		System.out.println("---------------------------------------");
-		//请先选择地区----------------------------------------------------------
-		Parameters.region = "hongyang";
+
 		ArrayList<TableProperty> al = new GetStationInfo().getAllStationsInformation(new Date());
 		
+		if(al == null) return;
 		for(TableProperty tp:al) {
 			String[] str = tp.getStringArray();
 			System.out.println(tp.toString());
@@ -46,22 +48,22 @@ public class SensorDiskMonitor {
 		System.out.println("---------------------------------------"); 
 	}
 	
+	public static int SleepTime = 1000*60*60;//one hour.
+	
+	/**
+	 * 通过设置SleepTime进行更新频率间隔时间的设置。
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年2月24日下午11:14:32
+	 */
 	public static void doTask() {
 //		SensorDiskMonitor task = new SensorDiskMonitor();
 //		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 //		// parameters: the specified task, the first running delay, running period, time unit for period
 //		service.scheduleAtFixedRate(task, 0, 12, TimeUnit.MINUTES);
-		int SleepTime = 1000*60*60;//one hour.
-		
 		while(true) {
 			runMain();
-			try {
-				Thread.sleep(SleepTime);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			try {Thread.sleep(SleepTime);} catch (InterruptedException e) {e.printStackTrace();}
 		}
-		
 	}
 }
 

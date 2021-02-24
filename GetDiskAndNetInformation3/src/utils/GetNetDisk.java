@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 import javax.swing.filechooser.FileSystemView;
 
+import com.yhy.getinformation.SensorDiskMonitor;
+
 /**
  * Pull a fixed data range or file querying from different remote disks.(not accomplish)
  * @revision 2020-09-23
@@ -21,9 +23,7 @@ public class GetNetDisk {
 	private boolean isTest = false;
 	
 	public GetNetDisk() {
-		// TODO Auto-generated constructor stub
 	}
-	
 	/**
 	 * timeString must be yyyy-MM-ddHH:mm:ss
 	 * kind select in "file" or "filedata".
@@ -87,8 +87,8 @@ public class GetNetDisk {
 			}
 		}
 		if(sasroots.length==0) {
-			System.out.println("没有扫描到任何盘，请使用调试模式，程序退出");
-			System.exit(0);
+			System.out.println("没有扫描到任何盘，程序继续，下一个单位时间"+SensorDiskMonitor.SleepTime/1000+"秒后再次更新。");
+			return null;
 		}
 		
 		return sasroots;
