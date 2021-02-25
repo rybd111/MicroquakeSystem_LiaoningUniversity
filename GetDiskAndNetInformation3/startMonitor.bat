@@ -1,2 +1,7 @@
+pushd c:\remoteDiskMonitor
+
 echo off
-call "C:\remoteDiskMonitor\1.bat"
+call "1.bat"
+
+
+pause

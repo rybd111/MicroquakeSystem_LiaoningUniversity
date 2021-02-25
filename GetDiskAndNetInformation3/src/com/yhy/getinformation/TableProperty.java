@@ -136,17 +136,17 @@ public class TableProperty {
 	@Override
 	public String toString() {
 		
-		return "[day=" + day +
-				", panfu=" + panfu +
-				", location=" + location +
+		return "[" + day +
+				", " + panfu +
+				", " + location +
 //				", xData=" + xData+
 //				", yData=" + yData +
 //				", zData=" + zData +
-				", status=" + status +
+				", " + status +
 //				", unused=" + unused +
 				", total=" + total +
 				", used=" + used +
-				", netspeed=" + netspeed +
+				", speed=" + netspeed +
 				"]";
 	}
 

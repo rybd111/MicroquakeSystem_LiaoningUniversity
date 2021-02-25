@@ -1,6 +1,8 @@
 package com.yhy.getinformation;
 
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.Executors;  
@@ -14,23 +16,17 @@ import utils.Parameters;
 
 /**
  * The aim of this class is executing the task regularly.
- * @author Haiyou Yu
+ * @author Haiyou Yu, Hanlin Zhang.
  * @version 1.0 2020-11-14
  */
 public class SensorDiskMonitor {
-
-	//---------------------------------------------------------------
-	//This is the test code
-	public static void main(String[] args) {  
-		 doTask();
-	}
-	//end test code
-	//----------------------------------------------------------------
+	//睡眠时间。
+	public static int SleepTime = 1000*60*60;//one hour.
 	
-	public static void runMain() {
+	public static void runMain() throws IOException, ParseException {
 		System.out.println("---------------------------------------");
 
-		ArrayList<TableProperty> al = new GetStationInfo().getAllStationsInformation(new Date());
+		ArrayList<TableProperty> al = new GetStationInfo().getAllStationsInformation();
 		
 		if(al == null) return;
 		for(TableProperty tp:al) {
@@ -48,22 +44,22 @@ public class SensorDiskMonitor {
 		System.out.println("---------------------------------------"); 
 	}
 	
-	public static int SleepTime = 1000*60*60;//one hour.
-	
 	/**
 	 * 通过设置SleepTime进行更新频率间隔时间的设置。
 	 * @author Hanlin Zhang.
+	 * @throws ParseException 
+	 * @throws IOException 
 	 * @date revision 2021年2月24日下午11:14:32
 	 */
-	public static void doTask() {
-//		SensorDiskMonitor task = new SensorDiskMonitor();
-//		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-//		// parameters: the specified task, the first running delay, running period, time unit for period
-//		service.scheduleAtFixedRate(task, 0, 12, TimeUnit.MINUTES);
+	public static void doTask() throws IOException, ParseException {
 		while(true) {
 			runMain();
 			try {Thread.sleep(SleepTime);} catch (InterruptedException e) {e.printStackTrace();}
 		}
+	}
+	
+	public static void main(String[] args) throws IOException, ParseException {  
+		 doTask();
 	}
 }
 

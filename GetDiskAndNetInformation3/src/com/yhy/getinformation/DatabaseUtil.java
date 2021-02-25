@@ -187,7 +187,6 @@ public class DatabaseUtil {
 							+"' and panfu='"+values[1]+"' ";
 					flag = DatabaseUtil.getConnection().createStatement().execute(updateSql);
 				}else {
-					System.out.println(flag);
 					flag = insert(values);
 				}
 			} catch (SQLException e) {

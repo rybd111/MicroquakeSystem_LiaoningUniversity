@@ -31,7 +31,7 @@ public class GetNetDisk {
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
-	GetNetDisk(boolean isTest) throws IOException, ParseException {
+	public GetNetDisk(boolean isTest) throws IOException, ParseException {
 		this.isTest = isTest;
 	}
 	
@@ -64,16 +64,22 @@ public class GetNetDisk {
 	private String[] scanAlldisk() throws IOException {
 		File[] roots = File.listRoots();
 		String[] sasroots = new String[0];
+		System.out.println("开始扫描");
+		
+		if(roots.length==0) {
+			System.out.println("没有扫描到任何盘，程序继续，下一个单位时间"+SensorDiskMonitor.SleepTime/1000+"秒后再次更新。");
+			return null;
+		}
 		
 		//决定网络映射盘符。
 		for(int i=0;i<roots.length;i++) {
 			String Type = FileSystemView.getFileSystemView().getSystemTypeDescription(roots[i]);
 			if(Type.equals("网络驱动器")) {
-				if(determineDiskIsContainsHFMED_BIN(roots[i].listFiles())==true) {
+//				if(determineDiskIsContainsHFMED_BIN(roots[i].listFiles())==true) {
 					sasroots = Arrays.copyOf(sasroots, sasroots.length+1);
 					sasroots[sasroots.length-1] = roots[i].getAbsolutePath();
 					sasroots[sasroots.length-1].toLowerCase();
-				}
+//				}
 			}
 			//测试用代码。
 			if(this.isTest == true) {
