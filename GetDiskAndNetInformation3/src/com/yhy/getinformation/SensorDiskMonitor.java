@@ -28,7 +28,11 @@ public class SensorDiskMonitor {
 
 		ArrayList<TableProperty> al = new GetStationInfo().getAllStationsInformation();
 		
-		if(al == null) return;
+		if(al == null) {
+			//虽然提前返回了，但仍需要标识当前循环结束了。
+			System.out.println("---------------------------------------"); 
+			return;
+		}
 		for(TableProperty tp:al) {
 			String[] str = tp.getStringArray();
 			System.out.println(tp.toString());
