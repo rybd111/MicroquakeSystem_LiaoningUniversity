@@ -25,7 +25,7 @@ public class SensorDiskMonitor {
 	
 	public static void runMain() throws IOException, ParseException {
 		System.out.println("---------------------------------------");
-
+		System.out.println("当前扫描间隔时间："+ SleepTime/1000 +"秒");
 		ArrayList<TableProperty> al = new GetStationInfo().getAllStationsInformation();
 		
 		if(al == null) {
