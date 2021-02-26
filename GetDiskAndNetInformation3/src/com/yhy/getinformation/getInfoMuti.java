@@ -113,6 +113,16 @@ public class getInfoMuti implements Runnable{
 		//destination path
 		String filePath = diskname + File.separator + "testnetspeed.txt";
 		File dest = new File(filePath);
+		
+		if(!dest.exists()) {
+			try {
+				dest.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		
 		//测量拷贝文件的时间。
 		long start = System.currentTimeMillis();
 		try {copyFileUsingFileChannels(source, dest);} catch (IOException e) {e.printStackTrace();}

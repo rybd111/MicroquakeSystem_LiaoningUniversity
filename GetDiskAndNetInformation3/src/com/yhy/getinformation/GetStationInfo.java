@@ -142,7 +142,6 @@ public class GetStationInfo {
 	private void getRegionFromConfig() throws IOException {
 		String j = System.getProperty("user.dir");//get the procedure absolute path.
 		String configPath = j+"/regionConfig.ini";
-		System.out.println(j);
 		File file = new File(configPath);
 		//(文件完整路径),编码格式
         @SuppressWarnings("resource")

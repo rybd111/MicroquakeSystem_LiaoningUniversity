@@ -13,8 +13,8 @@ public class Parameters {
 	public static String DatabaseName[] = {
 			"mine_quake_station_hongyang",
 			"mine_quake_station_datong",
-			"mine_quake_station_madaotou",
-			"mine_quake_station_pingdingshan"
+			"mine_quake_station_pingdingshan",
+			"mine_quake_station_madaotou"
 			};
 	/**
 	 * 远程数据库IP地址，在部署时修改，但一般情况下不用修改
