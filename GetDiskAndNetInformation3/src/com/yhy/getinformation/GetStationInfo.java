@@ -80,23 +80,28 @@ public class GetStationInfo {
 		Parameters.diskNameNum = ArrayMatch.match_String(Parameters.station, Parameters.region);
 		//确定当前数据库名。
 		DatabaseUtil.TABLENAME = Parameters.DatabaseName[Parameters.diskNameNum];
-		
+		//将坐标保留至小数点后两位。
 		DecimalFormat df = new DecimalFormat("0.00");
-		for(String panfu:remoteDisk) {
-			if(!map.containsKey(panfu)) {
-				//获取当前盘符在预定义盘符数组中所在的位置。
-				String newpanfu = panfu.replace(":\\", "").toLowerCase();
-				int series = ArrayMatch.match_String(Parameters.diskName[Parameters.diskNameNum], newpanfu);
-				ArrayList<String> values = new ArrayList<String>();
-				values.add(Parameters.diskName1[Parameters.diskNameNum][series]);
-				String x = df.format(Parameters.SENSORINFO1[Parameters.diskNameNum][series][0]);
-				String y = df.format(Parameters.SENSORINFO1[Parameters.diskNameNum][series][1]);
-				String z = df.format(Parameters.SENSORINFO1[Parameters.diskNameNum][series][2]);
-				values.add(x);
-				values.add(y);
-				values.add(z);
-				map.put(panfu, values);
+		try {
+			for(String panfu:remoteDisk) {
+				if(!map.containsKey(panfu)) {
+					//获取当前盘符在预定义盘符数组中所在的位置。
+					String newpanfu = panfu.replace(":\\", "").toLowerCase();
+					int series = ArrayMatch.match_String(Parameters.diskName[Parameters.diskNameNum], newpanfu);
+					ArrayList<String> values = new ArrayList<String>();
+					values.add(Parameters.diskName1[Parameters.diskNameNum][series]);
+					String x = df.format(Parameters.SENSORINFO1[Parameters.diskNameNum][series][0]);
+					String y = df.format(Parameters.SENSORINFO1[Parameters.diskNameNum][series][1]);
+					String z = df.format(Parameters.SENSORINFO1[Parameters.diskNameNum][series][2]);
+					values.add(x);
+					values.add(y);
+					values.add(z);
+					map.put(panfu, values);
+				}
 			}
+		}
+		catch (Exception e) {
+			System.out.println("很有可能是矿区写错了，导致初始化时扫描到的盘符与diskName中的名字不符，出现越界异常，请修改配置文件'regionConfig.ini'文件。");
 		}
 	}
 	
