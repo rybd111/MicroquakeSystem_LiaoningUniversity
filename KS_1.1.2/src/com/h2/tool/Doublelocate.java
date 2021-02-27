@@ -19,12 +19,12 @@ public class Doublelocate {
 	//双台定位
 		public static Sensor doubleStationLocate(Sensor[] triggersensor){
 			double x1,y1,z1,x2,y2,z2;//取出触发的两个传感器的坐标
-			x1=triggersensor[0].getLatitude();
-			y1=triggersensor[0].getLongtitude();
-			z1=triggersensor[0].getAltitude();
-			x2=triggersensor[1].getLatitude();
-			y2=triggersensor[1].getLongtitude();
-			z2=triggersensor[1].getAltitude();
+			x1=triggersensor[0].getx();
+			y1=triggersensor[0].gety();
+			z1=triggersensor[0].getz();
+			x2=triggersensor[1].getx();
+			y2=triggersensor[1].gety();
+			z2=triggersensor[1].getz();
 			//取出波峰或波谷
 			CrestorTrough crestortrough1=triggersensor[0].getCrestortrough();
 			CrestorTrough crestortrough2=triggersensor[1].getCrestortrough();
@@ -35,9 +35,9 @@ public class Doublelocate {
 						(crestortrough2.getL()*crestortrough1.getM()-crestortrough1.getL()*crestortrough2.getM()));
 				//double t2=((crestortrough1.getM()*(sensor2.getX()-sensor1.getX())-crestortrough1.getL()*(sensor2.getY()-sensor1.getY()))/(crestortrough1.getL()*crestortrough2.getM()-crestortrough2.getL()*crestortrough1.getM()));
 				
-				epicenter.setLatitude(x1+crestortrough1.getL()*t1);
-				epicenter.setLongtitude(y1+crestortrough1.getM()*t1);
-				epicenter.setAltitude(z1+crestortrough1.getN()*t1);
+				epicenter.setx(x1+crestortrough1.getL()*t1);
+				epicenter.sety(y1+crestortrough1.getM()*t1);
+				epicenter.setz(z1+crestortrough1.getN()*t1);
 			}else{
 				//异面
 				double gc1=crestortrough1.getN()*crestortrough2.getM()-crestortrough2.getN()*crestortrough1.getM();//公垂线方向向量三分量
@@ -53,22 +53,22 @@ public class Doublelocate {
 				//两个交点
 				Sensor intersection1=new Sensor();
 				Sensor intersection2=new Sensor();
-				intersection1.setLatitude(x2+crestortrough2.getL()*t1);
-				intersection1.setLongtitude(y2+crestortrough2.getM()*t1);
-				intersection1.setAltitude(z2+crestortrough2.getN()*t1);
+				intersection1.setx(x2+crestortrough2.getL()*t1);
+				intersection1.sety(y2+crestortrough2.getM()*t1);
+				intersection1.setz(z2+crestortrough2.getN()*t1);
 				//System.out.println(intersection1);
 				//System.out.println(sensor2.getZ()+"  "+crestortrough2.getN()*t1);
 				//System.out.println(sensor2.getZ()+crestortrough2.getN()*t1);
 				
-				intersection2.setLatitude(x1+crestortrough1.getL()*t2);
-				intersection2.setLongtitude(y1+crestortrough1.getM()*t2);
-				intersection2.setAltitude(z1+crestortrough1.getN()*t2);
+				intersection2.setx(x1+crestortrough1.getL()*t2);
+				intersection2.sety(y1+crestortrough1.getM()*t2);
+				intersection2.setz(z1+crestortrough1.getN()*t2);
 				//System.out.println(intersection2);
 				//System.out.println(sensor1.getY()+"  "+crestortrough1.getM()*t2);
 				//两个交点的中点
-				epicenter.setLatitude((intersection1.getLatitude()+intersection2.getLatitude())/2);
-				epicenter.setLongtitude((intersection1.getLongtitude()+intersection2.getLongtitude())/2);
-				epicenter.setAltitude((intersection1.getAltitude()+intersection2.getAltitude())/2);
+				epicenter.setx((intersection1.getx()+intersection2.getx())/2);
+				epicenter.sety((intersection1.gety()+intersection2.gety())/2);
+				epicenter.setz((intersection1.getz()+intersection2.getz())/2);
 				
 			}
 			return epicenter;
@@ -76,12 +76,12 @@ public class Doublelocate {
 		//判断是否在同一平面
 		public static boolean isSamePlane(Sensor[] triggersensor){
 			double x1,y1,z1,x2,y2,z2;//取出触发的两个传感器的坐标
-			x1=triggersensor[0].getLatitude();
-			y1=triggersensor[0].getLongtitude();
-			z1=triggersensor[0].getAltitude();
-			x2=triggersensor[1].getLatitude();
-			y2=triggersensor[1].getLongtitude();
-			z2=triggersensor[1].getAltitude();
+			x1=triggersensor[0].getx();
+			y1=triggersensor[0].gety();
+			z1=triggersensor[0].getz();
+			x2=triggersensor[1].getx();
+			y2=triggersensor[1].gety();
+			z2=triggersensor[1].getz();
 			//取出波峰或波谷
 			CrestorTrough crestortrough1=triggersensor[0].getCrestortrough();
 			CrestorTrough crestortrough2=triggersensor[1].getCrestortrough();
@@ -165,9 +165,9 @@ public class Doublelocate {
 			point1=Doublelocate.doubleStationLocate(sen1);
 			point2=Doublelocate.doubleStationLocate(sen2);
 			point3=Doublelocate.doubleStationLocate(sen3);
-			epicenter.setLatitude((point1.getLatitude()+point2.getLatitude()+point3.getLatitude())/3);
-			epicenter.setLongtitude((point1.getLongtitude()+point2.getLongtitude()+point3.getLongtitude())/3);
-			epicenter.setAltitude((point1.getAltitude()+point2.getAltitude()+point3.getAltitude())/3);
+			epicenter.setx((point1.getx()+point2.getx()+point3.getx())/3);
+			epicenter.sety((point1.gety()+point2.gety()+point3.gety())/3);
+			epicenter.setz((point1.getz()+point2.getz()+point3.getz())/3);
 			return epicenter;
 		}
 

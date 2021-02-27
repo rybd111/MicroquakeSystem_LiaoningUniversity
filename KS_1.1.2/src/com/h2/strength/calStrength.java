@@ -42,6 +42,7 @@ public class calStrength extends Thread
 		} catch (MWException e) {
 			e.printStackTrace();
 		}
+		//这里加上了震中距，但宋义敏老师说矿震范围小，不宜加震中距。
 		q.getOneEarthQuakeGrade(this.location_refine, this.MotiSensorsAfterCut);
 		this.downLatch.countDown();
 	}

@@ -11,8 +11,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
-
 /**
  * @revision 2019-12-21 
  * @Description:record the P arrival time of each senosr and the consequence the procedure calculated.
@@ -20,8 +18,6 @@ import java.io.IOException;
  * @Date: 5/10/2019 12:28 PM
  */
 public class WriteRecords{
-
-//	public static String lastDate = "2019-1-13 02:05:03";//update at the creating ReadData function's object to make sure this variable is the last day all the way.
 
     /**
      * write the info. of the motivation of all sensors to a csv file.
@@ -99,7 +95,7 @@ public class WriteRecords{
             		record = record+",";
             	}
             }
-            record = record + String.valueOf(result.getLatitude())+","+String.valueOf(result.getLongtitude())+","+String.valueOf(result.getAltitude())+","
+            record = record + String.valueOf(result.getx())+","+String.valueOf(result.gety())+","+String.valueOf(result.getz())+","
             		+String.valueOf(result.getSecTime())+","+String.valueOf(quakeGrade)+","
             		+String.valueOf(finalEnergy)+","+kindOfCalculation+","+String.valueOf(result.getquackTime())+"\t,"
             		+String.valueOf(tensor)+","+String.valueOf(b_value)+",";
@@ -117,6 +113,7 @@ public class WriteRecords{
             }
         }
     }
+    
     /**
      * Write all motivation sensors to a txt file.
      * @param sensors all sensors initialize at beginning. 
@@ -124,7 +121,6 @@ public class WriteRecords{
      * @param filepath the absolute path write on our disk.
      * @author RQMa, Hanlin Zhang.
      */
-    @SuppressWarnings("unused")
 	public void WriteSeveralMotiTime(Sensor[]Motisensors, String filepath) {
         File file = new File(filepath);
         BufferedWriter out = null;
@@ -198,14 +194,12 @@ public class WriteRecords{
     }
     
     /**
-     * insert a null line in xlxs file.
+     * insert a null line in csv file.
      * @param filepath
      */
     public void insertALine(String filepath) {
     	File file = new File(filepath);
         BufferedWriter out = null;
-        String record="";
-        boolean flag1 = true;
         try {
             out = new BufferedWriter(new FileWriter(file, true));
             

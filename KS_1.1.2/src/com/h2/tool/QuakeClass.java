@@ -446,9 +446,9 @@ public class QuakeClass
 		
 		Sensor s = new Sensor();
 		
-		s.setLatitude(Double.parseDouble(result[0].toString()));
-		s.setLongtitude(Double.parseDouble(result[1].toString()));
-		s.setAltitude(Double.parseDouble(result[2].toString()));
+		s.setx(Double.parseDouble(result[0].toString()));
+		s.sety(Double.parseDouble(result[1].toString()));
+		s.setz(Double.parseDouble(result[2].toString()));
 		s.setSecTime(Double.parseDouble(result[3].toString()));
 		
 		return s;

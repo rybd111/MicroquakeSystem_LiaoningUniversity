@@ -23,10 +23,10 @@ public class DistanceAroundSensors {
 	public static double getDistance(Sensor s1, Sensor s2)
 	{
 		// http://www.jianshu.com/p/18efaabab98e
-		double radLat1 = rad(s1.getLatitude() / 100);
-		double radLat2 = rad(s2.getLatitude() / 100);
+		double radLat1 = rad(s1.getx() / 100);
+		double radLat2 = rad(s2.getx() / 100);
 		double a = radLat1 - radLat2;
-		double b = rad(s1.getLongtitude() / 100) - rad(s2.getLongtitude() / 100);
+		double b = rad(s1.gety() / 100) - rad(s2.gety() / 100);
 		double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
 		s = s * EARTH_RADIUS;
 		return Math.abs(s / 1000);

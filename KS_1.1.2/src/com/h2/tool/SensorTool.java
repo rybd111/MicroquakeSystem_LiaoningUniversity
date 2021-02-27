@@ -43,11 +43,11 @@ public class SensorTool
 			sensors[i]=new Sensor();
 			sensors[i].SetSensorSeries(i);
 			//(sensors[i]).setBackupFile(Parameters.EARTHDATAFILE[k[i]]);
-			(sensors[i]).setLatitude(Parameters.SENSORINFO1[Parameters.diskNameNum][k[i]][0]-Parameters.SENSORINFO1[Parameters.diskNameNum][k[0]][0]);
+			(sensors[i]).setx(Parameters.SENSORINFO1[Parameters.diskNameNum][k[i]][0]-Parameters.SENSORINFO1[Parameters.diskNameNum][k[0]][0]);
 //				(sensors[i]).setLatitude(Parameters.SENSORINFO_offline_hongyang[k[i]][0]);
-			(sensors[i]).setLongtitude(Parameters.SENSORINFO1[Parameters.diskNameNum][k[i]][1]-Parameters.SENSORINFO1[Parameters.diskNameNum][k[0]][1]);
+			(sensors[i]).sety(Parameters.SENSORINFO1[Parameters.diskNameNum][k[i]][1]-Parameters.SENSORINFO1[Parameters.diskNameNum][k[0]][1]);
 //				(sensors[i]).setLongtitude(Parameters.SENSORINFO_offline_hongyang[k[i]][1]);
-			(sensors[i]).setAltitude(Parameters.SENSORINFO1[Parameters.diskNameNum][k[i]][2]-Parameters.SENSORINFO1[Parameters.diskNameNum][k[0]][2]);
+			(sensors[i]).setz(Parameters.SENSORINFO1[Parameters.diskNameNum][k[i]][2]-Parameters.SENSORINFO1[Parameters.diskNameNum][k[0]][2]);
 //				(sensors[i]).setAltitude(Parameters.SENSORINFO_offline_hongyang[k[i]][2]);
 		}
 		return sensors;

@@ -54,9 +54,9 @@ public class Majorlocate {
 		}	
 		//只传入定位结果，未传入发震时刻，需要后续计算
 		Sensor sensor=new Sensor();
-		sensor.setLatitude(x+xx);
-		sensor.setLongtitude(y+yy);
-		sensor.setAltitude(z+zz);
+		sensor.setx(x+xx);
+		sensor.sety(y+yy);
+		sensor.setz(z+zz);
 //		System.out.println("定位点x="+sensor.getLatitude()+" y="+sensor.getLongtitude()+" z="+sensor.getAltitude());
 		return sensor;
 	}

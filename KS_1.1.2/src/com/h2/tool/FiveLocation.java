@@ -35,9 +35,9 @@ public class FiveLocation
 		B = Solve.pinv(A).mmul(C);//表示要进行矩阵乘法运算的两个数组
 		// 通过B给sensor赋值
 		sensor.setSecTime(B.get(0));//t
-		sensor.setLatitude(B.get(1));//x
-		sensor.setLongtitude(B.get(2));//y
-		sensor.setAltitude(B.get(3));//z
+		sensor.setx(B.get(1));//x
+		sensor.sety(B.get(2));//y
+		sensor.setz(B.get(3));//z
 		
 		return sensor;
 	}
@@ -75,7 +75,7 @@ public class FiveLocation
 	{
 		//System.out.println("getT:"+getTime(sensor));
 		return Math.pow(Parameters.C, 2) * Math.pow(sensor.getSecTime(), 2)
-			- (Math.pow(sensor.getAltitude(), 2) + Math.pow(sensor.getLatitude(), 2) + Math.pow(sensor.getLongtitude(), 2));
+			- (Math.pow(sensor.getz(), 2) + Math.pow(sensor.getx(), 2) + Math.pow(sensor.gety(), 2));
 		//C*C*t*t-(x*x+y*y+z*z)
 	}
 
@@ -104,9 +104,9 @@ public class FiveLocation
 	{
 		DoubleMatrix v = DoubleMatrix.zeros(1, 4);//1行4列一维数组
 		v.put(0, Math.pow(Parameters.C, 2) * (sensors[i].getSecTime()-sensors[0].getSecTime()));//c*c*第一个传感器与其余传感器的时间差
-		v.put(1, sensors[0].getLatitude() - sensors[i].getLatitude());//第一个传感器与其余传感器的坐标差值y
-		v.put(2, sensors[0].getLongtitude() - sensors[i].getLongtitude());//第一个传感器与其余传感器的坐标差值x
-		v.put(3, sensors[0].getAltitude() - sensors[i].getAltitude());//第一个传感器与其余传感器的坐标差值
+		v.put(1, sensors[0].getx() - sensors[i].getx());//第一个传感器与其余传感器的坐标差值y
+		v.put(2, sensors[0].gety() - sensors[i].gety());//第一个传感器与其余传感器的坐标差值x
+		v.put(3, sensors[0].getz() - sensors[i].getz());//第一个传感器与其余传感器的坐标差值
 		
 		return v;
 	}

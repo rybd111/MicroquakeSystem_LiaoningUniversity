@@ -17,7 +17,9 @@ import DataExchange.Sensor;
 import cn.hutool.core.lang.Tuple;
 import controller.ADMINISTRATOR;
 import read.yang.unity.SensorProperties;
-import utils.ConvertCoordinates;
+import utils.ConvertCoordination_base;
+import utils.ConvertCoordination_pingdingshan;
+import utils.CoorProcess;
 import utils.TimeDifferent;
 import utils.TimeTransform;
 
@@ -46,32 +48,25 @@ public class ReLocation {
 			for(int i=0;i<senserInformation.length;i++) {
 				sensors1[i]=new Sensor();	
 				sensors1[i].setSecTime(senserInformation[i][0]);//到时
-				sensors1[i].setLatitude(senserInformation[i][1]);//x
-				sensors1[i].setLongtitude(senserInformation[i][2]);//y
-				sensors1[i].setAltitude(senserInformation[i][3]);//z
+				sensors1[i].setx(senserInformation[i][1]);//x
+				sensors1[i].sety(senserInformation[i][2]);//y
+				sensors1[i].setz(senserInformation[i][3]);//z
 			}
 			sensors1[0].setAbsoluteTime(absolutetime);//绝对时间
 			if(kind=="Five_Locate")	{
 				Sensor location_refine = FiveLocation.getLocation(sensors1);
 				location_refine.toString();
-				double xdata=Double.parseDouble(nf.format(location_refine.getLatitude()));//事件x坐标
-				double ydata=Double.parseDouble(nf.format(location_refine.getLongtitude()));//事件坐标
-				double zdata=Double.parseDouble(nf.format(location_refine.getAltitude()));//事件z坐标
+				double xdata=Double.parseDouble(nf.format(location_refine.getx()));//事件x坐标
+				double ydata=Double.parseDouble(nf.format(location_refine.gety()));//事件坐标
+				double zdata=Double.parseDouble(nf.format(location_refine.getz()));//事件z坐标
 				location_refine.setSecTime(Doublelocate.quakeTime(sensors1[0], location_refine));
 				double parrival=location_refine.getSecTime();//到时
 				String intequackTime =TimeTransform.TimeDistance(sensors1[0].getAbsoluteTime(), location_refine.getSecTime()); //发震时刻
 				
-				//平顶山需要转换坐标
-				if(Parameters.region.equals("pingdingshan")) {
-					ConvertCoordinates c = new ConvertCoordinates(xdata, ydata);
-					System.out.println("坐标转换完毕！！！");
-					result[0] = String.valueOf(c.getX());
-					result[1] = String.valueOf(c.getY());
-				}
-				else {
-					result[0] = String.valueOf(xdata);
-					result[1] = String.valueOf(ydata);
-				}
+				//转换坐标
+				double xy[] = CoorProcess.coorProcess(xdata, ydata);
+				result[0] = String.valueOf(xy[0]);
+				result[1] = String.valueOf(xy[1]);
 				result[2] = String.valueOf(zdata);
 				result[3] = String.valueOf(parrival);
 				result[4] = String.valueOf(intequackTime);
@@ -102,32 +97,25 @@ public class ReLocation {
 		 		double coor[][] = new double[sensors1.length][4];
 		 		for(int i=0;i<sensors1.length;i++)
 		 		{
-	 				coor[i][0]=sensors1[i].getLatitude();
-	 				coor[i][1]=sensors1[i].getLongtitude();
-	 				coor[i][2]=sensors1[i].getAltitude();
+	 				coor[i][0]=sensors1[i].getx();
+	 				coor[i][1]=sensors1[i].gety();
+	 				coor[i][2]=sensors1[i].getz();
 	 				coor[i][3]=sensors1[i].getSecTime();
 		 		}
 				Sensor location_refine = new Sensor();
 				location_refine=QuakeClass.PSO(coor);
 				location_refine.toString();
-				double xdata=Double.parseDouble(nf.format(location_refine.getLatitude()));//事件x坐标
-				double ydata=Double.parseDouble(nf.format(location_refine.getLongtitude()));//事件坐标
-				double zdata=Double.parseDouble(nf.format(location_refine.getAltitude()));//事件z坐标
+				double xdata=Double.parseDouble(nf.format(location_refine.getx()));//事件x坐标
+				double ydata=Double.parseDouble(nf.format(location_refine.gety()));//事件坐标
+				double zdata=Double.parseDouble(nf.format(location_refine.getz()));//事件z坐标
 				location_refine.setSecTime(Doublelocate.quakeTime(sensors1[0], location_refine));
 				double parrival=location_refine.getSecTime();//到时
 				String intequackTime =TimeTransform.TimeDistance(sensors1[0].getAbsoluteTime(), location_refine.getSecTime()); //发震时刻
 				
-				//平顶山需要转换坐标
-				if(Parameters.region.equals("pingdingshan")) {
-					ConvertCoordinates c = new ConvertCoordinates(xdata, ydata);
-					System.out.println("坐标转换完毕！！！");
-					result[0] = String.valueOf(c.getX());
-					result[1] = String.valueOf(c.getY());
-				}
-				else {
-					result[0] = String.valueOf(xdata);
-					result[1] = String.valueOf(ydata);
-				}
+				//转换坐标
+				double xy[] = CoorProcess.coorProcess(xdata, ydata);
+				result[0] = String.valueOf(xy[0]);
+				result[1] = String.valueOf(xy[1]);
 				result[2] = String.valueOf(zdata);
 				result[3] = String.valueOf(parrival);
 				result[4] = String.valueOf(intequackTime);
@@ -142,6 +130,7 @@ public class ReLocation {
 		return null;
 	}
 	
+	//---------------------------------------------------------------------------
 	/**
 	 * 手动重定位使用。
 	 * @param count
@@ -176,9 +165,9 @@ public class ReLocation {
 		Sensor[] s = SensorTool.initSensorInfo(count, filePath, manager);
 		
 		for(int i=0;i<count;i++) {
-			coor[i][1] = s[i].getLatitude();
-			coor[i][2] = s[i].getLongtitude();
-			coor[i][3] = s[i].getAltitude();
+			coor[i][1] = s[i].getx();
+			coor[i][2] = s[i].gety();
+			coor[i][3] = s[i].getz();
 			coor[i][0] = daoshi[i];
 		}
 		

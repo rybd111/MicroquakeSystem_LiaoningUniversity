@@ -23,17 +23,23 @@ import utils.TimeDifferent;
 import utils.one_dim_array_max_min;
 
 /**
- * calculation process.
+ * Calculation process which contains the quake time, energy, near earth quake, and tensor value, b value.
+ * also, the most important is the coordination of quake event- coal mine quake.
  * @author Hanlin Zhang
  */
 public class SaveInfo {
-
+	//存储所有传感器，不论激发还是未激发的。
 	private Sensor[] allsensors;
+	//最早到时，是个绝对时间。
 	private String earlistTime;
+	//删减后的激发传感器，对于三台定位来说是有效的，对于其他定位方法，该变量存储的与激发判断算法得到的传感器数量相同。
 	private Sensor[] MotisensorsAfterCut;
+	//存储定位结果，一般只存储定位方法的X、Y、Z、T。
 	private Sensor location_refine;
-	private QuackResults aQuackResults;
-	private DbExcute aDbExcute;
+	//存储存在数据库中的数据项。
+	private QuackResults aQuackResults = new QuackResults();
+	//执行数据库操作。
+	private DbExcute aDbExcute = new DbExcute();
 	
 	
 	/**
@@ -56,16 +62,18 @@ public class SaveInfo {
 			double finalEnergy, 
 			double tensor_c, 
 			double b_value,
-			ADMINISTRATOR manager) {
+			ADMINISTRATOR manager
+			) {
+		//加上减去的相对坐标，不可省略。
 		location_refine.toString(manager);
 		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setGroupingUsed(false);
 		
 		aQuackResults.setKind(kind);
-		aQuackResults.setxData(Double.parseDouble(nf.format(location_refine.getLatitude())));
-		aQuackResults.setyData(Double.parseDouble(nf.format(location_refine.getLongtitude())));
-		aQuackResults.setzData(Double.parseDouble(nf.format(location_refine.getAltitude())));
-		aQuackResults.setQuackTime(location_refine.getquackTime());
+		aQuackResults.setxData(Double.parseDouble(nf.format(location_refine.getx())));
+		aQuackResults.setyData(Double.parseDouble(nf.format(location_refine.gety())));
+		aQuackResults.setzData(Double.parseDouble(nf.format(location_refine.getz())));
+		aQuackResults.setQuackTime(location_refine.getquackTime());//绝对到时
 		aQuackResults.setQuackGrade(Double.parseDouble(quakeString));//近震震级
 		aQuackResults.setDuringGrade(0);//持续时间震级
 		aQuackResults.setParrival(location_refine.getSecTime());//P波到时，精确到毫秒
@@ -104,13 +112,12 @@ public class SaveInfo {
 	 */
 	public void saveEventRecord(
 			String intequackTime, 
-			String quakeString, 
-			double finalEnergy, 
-			double tensor_c, 
+			String quakeString,
+			double finalEnergy,
+			double tensor_c,
 			double b_value,
-			ADMINISTRATOR manager) 
+			ADMINISTRATOR manager)
 					throws ParseException {
-//		int dif = TimeDifferent.DateDifferent(intequackTime, manager.getLastDate());
 		//cut the quack time to the day.
 		String dateInFileName = intequackTime.substring(0, 10);
 		//If the difference between the current calculated time and the last time is more than 1 day, the storage file is changed to a new.
@@ -119,11 +126,12 @@ public class SaveInfo {
 				earlistTime,
 				location_refine,
 				Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv",
-				quakeString, 
+				quakeString,
 				finalEnergy, 
 				"粒子群",
 				tensor_c,
-				b_value);
+				b_value
+				);
 	}
 	
 	/**
@@ -153,7 +161,9 @@ public class SaveInfo {
 		//We integrate every sensors quake magnitude to compute the last quake magnitude.
 		float earthQuakeFinal = 0;
 		for (Sensor sen : MotisensorsAfterCut)	earthQuakeFinal += sen.getEarthClassFinal();
-		earthQuakeFinal /= MotisensorsAfterCut.length;//For this method is only support 5 sensors, so we must divide 5 to calculate the last quake magnitude.
+		//For this method is support any number sensors, so we can input any number sensors.
+		earthQuakeFinal /= MotisensorsAfterCut.length;
+		//minus the fixed number to get the final earth quake grade.
 		if(Parameters.MinusAFixedOnMagtitude==true)
 			earthQuakeFinal = (float) (earthQuakeFinal-Parameters.MinusAFixedValue);// We discuss the consequen to minus 0.7 to reduce the final quake magnitude at datong coal mine.
 		
@@ -168,11 +178,13 @@ public class SaveInfo {
 	 * @date revision 2021年2月12日下午6:22:11
 	 */
 	public double calEnergy() {
-		//We compute the minimum energy of all sensors as the final energy.
+		//We compute the energy of all sensors at the same time of quake grade.
 		double finalEnergy = 0.0;double []energy = new double[MotisensorsAfterCut.length];
+		
 		for (int i=0;i<MotisensorsAfterCut.length;i++) {
 			energy[i] = MotisensorsAfterCut[i].getEnergy();
 		}
+		//set the final energy with the minumum value of all sensors.
 		finalEnergy = one_dim_array_max_min.mindouble(energy);
 		
 		return finalEnergy;

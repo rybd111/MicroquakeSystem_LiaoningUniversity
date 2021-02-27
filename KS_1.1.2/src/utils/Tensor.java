@@ -25,15 +25,15 @@ public class Tensor {
 			{
 				if(j==1)
 				{
-					a[i][j]=sensors[i].getLatitude();
+					a[i][j]=sensors[i].getx();
 				}
 				if(j==2)
 				{
-					a[i][j]=sensors[i].getLongtitude();
+					a[i][j]=sensors[i].gety();
 				}
 				if(j==3)
 				{
-					a[i][j]=sensors[i].getAltitude();
+					a[i][j]=sensors[i].getz();
 				}
 			}
 		}
@@ -67,11 +67,11 @@ public class Tensor {
 //		}
 		double [] tlineb=new double[4];//存放震源信息，包括x，y，z
 		tlineb[0]=1;
-		double x=location_refine.getLatitude();
+		double x=location_refine.getx();
 		tlineb[1]=x;
-		double y=location_refine.getLongtitude();
+		double y=location_refine.gety();
 		tlineb[2]=y;
-		double z=location_refine.getAltitude();
+		double z=location_refine.getz();
 		tlineb[3]=z;
 			Tensor_Pro_Class c1=new Tensor_Pro_Class();
 		Object[] pso=c1.tensor_pro(1,a,tongdao,tlineb,density,velocity);

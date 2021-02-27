@@ -26,16 +26,8 @@ import controller.ADMINISTRATOR;
  */
 public class EarthQuake {
 	/**
-	 * @param ssen all sensors' data in three vectors.
-	 * @return the " " or the consequence of computation, " " indicates there are no sensors are inspired or the number of data is not enough.
-	 */
-	
-//	/**indicate the motivation is not a real valid motivation, if this is a real motivation it will become true, or it will be set to false.*/
-//	public static boolean realMoti = true;
-	
-	/**
 	 * calculate the space-time strength, and save the motivation information of all motivation sensors, save the information of motivation of three or five motivated sensors.
-	 * @param ssen
+	 * @param ssen all sensors' data in three vectors.
 	 * @return the information of space-time strength.
 	 * @throws Exception
 	 * @author Baishuo Han, Hanlin Zhang.
@@ -45,9 +37,9 @@ public class EarthQuake {
 		//判断数据量是否足够？
 		if(diagDataNum.diagnose(ssen)==false) return;	
 		
-		//We must initialize the Sensor object, when the procedure first use.
+		//We must initialize the Sensor object every time.
 		Sensor[] sensors = SensorTool.initSensorInfo(Parameters.SensorNum,MainThread.fileStr,manager);
-		
+		//
 		Vector<String> judgeMotiData = new Vector<String>();
 		
 		
@@ -147,7 +139,7 @@ public class EarthQuake {
 			 * S is the array of the Sensor class's object.
 			 * THIS FUNTION IS TO WIRTE THE MOTIVATION DATA ON THE DISK.
 			 */
-			if(countNumber>2 && Parameters.isStorageAllMotivationCSV==1 && manager.getIsRealMoti() == true) {
+			if(countNumber >= 3 && Parameters.isStorageAllMotivationCSV==1 && manager.getIsRealMoti() == true) {
 				new WriteWaveIntoCSVFile().saveAllMotivationSensors(countNumber, S, status.getPanfu());
 			}
 			

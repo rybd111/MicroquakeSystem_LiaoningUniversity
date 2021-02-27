@@ -18,7 +18,8 @@ import com.h2.constant.Parameters;
 import DataExchange.QuackResults;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
-import utils.ConvertCoordinates;
+import utils.ConvertCoordination_base;
+import utils.CoorProcess;
 import javafx.application.Platform;
 import javazoom.jl.decoder.JavaLayerException;
 
@@ -234,13 +235,10 @@ public class DbExcute {
 		connection = JdbcUtil.getConnection();
 		PreparedStatement aStatement = null;
 		try {
-			
-			//平顶山需要转换坐标
-			if(Parameters.region.equals("pingdingshan")) {
-				ConvertCoordinates c = new ConvertCoordinates(aQuackResults.getxData(), aQuackResults.getyData());
-				aQuackResults.setxData(c.getX());aQuackResults.setyData(c.getY());
-				System.out.println("坐标转换完毕！！！");
-			}
+			//先进行坐标转换。
+			double xy[] = CoorProcess.coorProcess(aQuackResults.getxData(), aQuackResults.getyData());
+			aQuackResults.setxData(xy[0]);
+			aQuackResults.setyData(xy[1]);
 			
 			aStatement = connection.prepareStatement(sqlStr);
 			aStatement.setString(1, aQuackResults.getKind());
@@ -271,6 +269,7 @@ public class DbExcute {
 		return true;
 	}
 
+	@Deprecated
 	public ArrayList<String> getData(String paras[]) {
 		// String sql="select * from mine_quack_results where 1=?";
 

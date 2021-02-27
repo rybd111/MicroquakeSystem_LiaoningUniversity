@@ -1,7 +1,9 @@
 /DataExchange/
 /Entrance/
+/META-INF/
 /com/
 /controller/
+/logback.xml
 /middleware/
 /mutiThread/
 /org/

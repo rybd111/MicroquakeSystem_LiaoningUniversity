@@ -42,8 +42,6 @@ import org.xvolks.jnative.util.Kernel32.FileAttribute;
  */
 public class InitialConfig {
 	
-	
-	
 	private String[] dataForm = Parameters.suffix;
 	
 	/** 封装地点名词，该词必须在以下变量中出现*/
@@ -51,15 +49,10 @@ public class InitialConfig {
 	private String lo_hongyang[] = {"红阳三矿","三矿","红阳"};
 	private String lo_madaotou[] = {"马道头"};
 	private String lo_datong[] = {"大同","塔山矿","塔山"};
-	
 	private String[][] lo = {lo_pingdingshan, lo_hongyang, lo_madaotou,lo_datong};
-	
 	/** 路径下需要有几个离线跑数据的盘符*/
 	private String prePath = "";
-	
-	/**
-	 * 
-	 */
+
 	public InitialConfig() {
 		super();
 	}
@@ -155,7 +148,7 @@ public class InitialConfig {
 		String[] bin = fs.list();
 		
 		for(int i=0;i<bin.length;i++) {
-			//检测到有hfmed，则可以执行
+			//检测到有bin，则可以执行
 			String suff = bin[i].split("\\.")[1];
 			if(suff.equals(this.dataForm[1])) {
 				flag = true;
