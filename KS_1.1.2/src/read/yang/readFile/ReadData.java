@@ -119,7 +119,7 @@ public class ReadData {
 				 this.file=new File(this.sensorName);
 				 HfmedHead hfmedHead = new ReadHfmedHead().readHead(this.file);//读文件头，文件头内容
 				 this.settings(hfmedHead);
-				 this.date = ReadDateFromHead.readDataSegmentHead(this.file);// 从第一个数据段头中获得数据文件起始记录时间
+				 this.date = ReadDateFromHead.readDataSegmentHead_MrLiu_Date(this.file);// 从第一个数据段头中获得数据文件起始记录时间
 				 manager.setLastDate(Date2String.date2str(date));//update the date for the record P arrival txt file's name.
 				 SensorProperties[] sensor = new ReadSensorProperties().readSensorProperties(this.file);
 				 this.chCahi = sensor[0].getChCali();//由于通道单位都一样，所以用第一个通道单位就可以
@@ -158,7 +158,7 @@ public class ReadData {
 				this.file=new File(manager.getNFile1(th));
 				HfmedHead hfmedHead = new ReadHfmedHead().readHead(file);//读文件头，文件头内容
 				this.settings(hfmedHead);
-				this.date = ReadDateFromHead.readDataSegmentHead(file);// 从第一个数据段头中获得数据文件起始记录时间
+				this.date = ReadDateFromHead.readDataSegmentHead_MrLiu_Date(file);// 从第一个数据段头中获得数据文件起始记录时间
 				manager.setLastDate(Date2String.date2str(date));//update the date for the record P arrival txt file's name.
 				SensorProperties[] sensor = new ReadSensorProperties().readSensorProperties(manager.getNFile1(th));
 				this.chCahi = sensor[0].getChCali();//由于通道单位都一样，所以用第一个通道单位就可以

@@ -566,8 +566,6 @@ public class ADMINISTRATOR {
         /** 传感器数据 */
         final Vector<String> sensorData[][] = new Vector[Parameters.SensorNum][3];
         int count = 1;
-        //注意，不要删除这行注释
-        //牛家村(Test1)、洗煤厂(Test2)、香山矿(Test3)、王家村(Test4)、十一矿工业广场老办公楼西南角花坛(Test5)、西风井(Test6)、
         MainThread.fileParentPackage= SubStrUtil.getFileParentPackage(MainThread.fileStr);//文件所在的目录名
         
         //初始化数据交换容器，暂不消除全局变量aDataRec

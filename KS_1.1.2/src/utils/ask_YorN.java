@@ -14,7 +14,12 @@ import mutiThread.MainThread;
  */
 public class ask_YorN {
 
-	
+	/**
+	 * 询问是还是否。
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年2月28日下午1:46:30
+	 */
 	public static boolean askYesOrNo() {
 
 	    String yesOrNo = null;

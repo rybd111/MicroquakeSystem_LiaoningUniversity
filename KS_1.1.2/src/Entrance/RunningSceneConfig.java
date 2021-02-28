@@ -3,8 +3,6 @@
  */
 package Entrance;
 
-import java.io.File;
-
 import com.h2.constant.Parameters;
 
 /**
@@ -14,8 +12,18 @@ import com.h2.constant.Parameters;
  */
 public class RunningSceneConfig {
 	
+	public RunningSceneConfig() {
+	}
+	
+	/**
+	 * 配置情景模式
+	 * @param s
+	 */
 	public RunningSceneConfig(int s){
 		switch (s) {
+		case 0:
+			ADJUST_LOCAL();
+			break;
 		case 1:
 			LOCAL_OFFLINE_STORAGE();
 			break;
@@ -103,25 +111,23 @@ public class RunningSceneConfig {
 		closeStorage();
 		SetOthers();
 	}
+	private void ADJUST_LOCAL() {
+		LOCAL_ONLINE_UNSTORAGE();
+		openAdjust();
+	}
+	
 	
 	private void SetOthers() {
 		closeArbitaryStart();
 		closeReadSecond();
 	}
-	private void Set_Offline() {
-		Parameters.offline = true;
-	}
-	private void Set_Online() {
-		Parameters.offline = false;
-	}
-	/**
-	 * 根据region设定数据库名称
-	 * 
-	 * @author Hanlin Zhang.
-	 * @date revision 2021年1月31日上午10:17:35
-	 */
+	
+	private void Set_Offline() {Parameters.offline = true;}
+	private void Set_Online() {Parameters.offline = false;}
+	
+	/** 远程数据库*/
 	private void remoteDB() {
-		/** 远程数据库*/
+		
 		Parameters.SevIP = "182.92.239.30:3306/ks";
 		/** 设置数据库名称*/
 		switch(Parameters.region) {
@@ -136,30 +142,34 @@ public class RunningSceneConfig {
 			break;
 		}
 	}
+	/** 本地数据库*/
 	private void localDB() {
-		/** 本地数据库*/
 		Parameters.SevIP = "localhost:3306/ks";
 		/** 设置数据库名称*/
 		Parameters.DatabaseName5 = "mine_quake_results";
 	}
-	
+	/** 打开存储*/
 	private void openStorage() {
-		/** 打开存储*/
 		Parameters.isStorageAllMotivationCSV = 1;
 		Parameters.isStorageEventRecord = 1;
 		Parameters.isStorageDatabase = 1;
 	}
+	/** 关闭存储*/
 	private void closeStorage() {
-		/** 关闭存储*/
 		Parameters.isStorageAllMotivationCSV = 0;
 		Parameters.isStorageEventRecord = 0;
 		Parameters.isStorageDatabase = 0;
 	}
+	/**开启调试模式*/
 	private void openAdjust() {
 		Parameters.Adjust = true;
+		//关闭传感器间的到时差判断。
+		Parameters.SSIntervalToOtherSensors = false;
 	}
 	private void closeAdjust() {
 		Parameters.Adjust = false;
+		//开启传感器间的到时差判断。
+		Parameters.SSIntervalToOtherSensors = false;
 	}
 	private void openArbitaryStart() {
 		Parameters.isDelay = 1;
@@ -175,32 +185,6 @@ public class RunningSceneConfig {
 	}
 	
 	/**
-	 * 4 channels and 7 channels both exists in all files path.
-	 * 所有的传感器4通道和7通道同时存在的情景，只针对老仪器
-	 * @author Hanlin Zhang.
-	 * @date revision 2021年2月2日下午6:03:13
-	 */
-	private void setMixChannelPattern() {
-		Parameters.TongDaoDiagnose = 0;
-	}
-	/**
-	 * 所有的传感器均为4通道的情景，只针对老仪器
-	 * @author Hanlin Zhang.
-	 * @date revision 2021年2月2日下午6:04:29
-	 */
-	private void set4ChannelPattern() {
-		Parameters.TongDaoDiagnose = 0;
-	}
-	/**
-	 * 所有的传感器均为7通道的情景，只针对老仪器
-	 * @author Hanlin Zhang.
-	 * @date revision 2021年2月2日下午6:06:05
-	 */
-	private void set7ChannelPattern() {
-		Parameters.TongDaoDiagnose = 1;
-	}
-	
-	/**
 	 * @param args
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年1月30日下午3:11:34
@@ -208,7 +192,6 @@ public class RunningSceneConfig {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		RunningSceneConfig r = new RunningSceneConfig(1);
-		
 	}
 
 }

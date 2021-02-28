@@ -22,11 +22,8 @@ public class QuakeClass
 {
 	//用于指示是否使用45通道进行判断。
 	private Boolean isChannel45 = false;
-	private Sensor location_refine;
 	
-	public QuakeClass(Sensor location_refine) {
-		this.location_refine = location_refine;
-		
+	public QuakeClass() {
 		
 	}
 	
@@ -41,19 +38,14 @@ public class QuakeClass
 	public void SensorMaxFudu(Sensor sen, int th) throws ParseException, MWException
 	{
 
-		//store the data cutting from 30s data.
+		//get the data cutting from 30s data.
 		Vector<String> motiPreLa = sen.getCutVectorData();
 		
 		//矩张量的初动极值，需要
 		InitialValue filter=new InitialValue();
 		sen.setInitialextremum(filter.getInitialextremum(motiPreLa,sen.getlineSeriesNew()));
-		
-		//calculate the quack grade of each sensor.
-		// 1：先扫一遍10秒的数据，确定用哪一个通道,顺便确定通道的最大值
-		getFlagMaxValue(motiPreLa, sen);
-		
-		// 3：计算最大振幅,并将结果存入传感器
-		sen.setFudu(getBTime(sen, motiPreLa, th));//单位是秒
+		//计算近震震级
+		calQuakeProcess(motiPreLa, sen);
 		
 		//计算持续时间震级		
 //		sen.setDuring(calDuringTime(motiPreLa, sen, th));//持续时间，取lg，然后直接存入duringTime中，作为一个参数使用
@@ -64,6 +56,15 @@ public class QuakeClass
 //		sen.setEnergy(EMD(motiPreLa, sen, th));
 		sen.setEnergy(Energy_MATLAB(motiPreLa));
 //		sen.setClass1(ELM_MATLAB(motiPreLa));
+	}
+	
+	private void calQuakeProcess(Vector<String> motiPreLa, Sensor sen) {
+		//calculate the quack grade of each sensor.
+		// 1：先扫一遍10秒的数据，确定用哪一个通道,顺便确定通道的最大值
+		getFlagMaxValue(motiPreLa, sen);
+		
+		// 3：计算最大振幅,并将结果存入传感器
+		sen.setFudu(getBTime(sen, motiPreLa));//单位是秒
 	}
 	
 	/**
@@ -123,7 +124,7 @@ public class QuakeClass
 	 */
 	///对应算法公式中的     a - b
 	@SuppressWarnings("unused")
-	private double getBTime(Sensor sen, Vector<String> data, int th)
+	private double getBTime(Sensor sen, Vector<String> data)
 	{
 		int num=0;
 		//System.out.println("第"+th+"台站"+data.size()+"的getBTime函数数据大小");
@@ -305,8 +306,9 @@ public class QuakeClass
 	public void getOneEarthQuakeGrade(Sensor s, Sensor s2)
 	{
 		double distance = DistanceAroundSensors.getDistance(s, s2);
+		//此处如果不加震中距，则震级计算相对偏大，而且能量在10E7与10E8几乎差不多，故采用减去固定震级、加上震中距的方式。
 		s2.setEarthClassFinal(Math.log10(s2.getFudu()) + getR(distance));
-			
+//		s2.setEarthClassFinal(Math.log10(s2.getFudu()));	
 	}
 
 	/**

@@ -192,11 +192,9 @@ public class AlignFile {
             timestr = "20" + SubStrUtil.contentCut_liu(file.getName());//
             begintime = String2Date.str2Date2(timestr).getTime();
 //            endtime = file.lastModified();
-          //大同台站
             if (Parameters.region.equals("datong")) {
                 endtime = begintime + (1800 - 1 * 60) * 1000;
             }
-            //平顶山或红阳台站
             else if (Parameters.region.equals("pingdingshan") || Parameters.region.equals("hongyang")) {
                 endtime = begintime + (3600 - 3 * 60) * 1000;
             }

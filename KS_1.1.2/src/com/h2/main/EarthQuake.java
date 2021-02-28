@@ -77,14 +77,14 @@ public class EarthQuake {
 		Sensor sensor_latest = null;
 		int countNumber = 0;
 		for(int i=0;i<sensors.length;i++) {
-			if(sensors[i].getSecTime()!=0)
+			if(sensors[i].getSecTime()!=0) {
 				sensor_latest = sensors[i];
+			}
 		}
 		
 		if(sensor_latest!=null) {
 			//calculate the number of motivation sensors, and save the series to the l array.
 			//Meanwhile, we will move the position to the absolute position in 30 seconds, which is point to the position in the now Vector. It's used to cut the motiData and used to calculate during quake magnitude.
-			
 			int[] l = new int[Parameters.SensorNum];
 			int[] l1 = new int[0];
 			String identity = null;
@@ -113,6 +113,7 @@ public class EarthQuake {
 							l1[l1.length-1] = i;//记录激发序号，从0开始。
 							countNumber++;//统计激发数。
 							sensors[i].setlineSeries(sensors[i].getlineSeries()+ssen[i][0].size());
+							
 							System.out.println(
 									"激发台站: "+
 									printRunningParameters.formToChar(MainThread.fileStr[i])+
@@ -129,6 +130,7 @@ public class EarthQuake {
 			statusOfCompute status = new statusOfCompute();
 			
 			if(countNumber >= 3) {
+				printRunningParameters.splitLine();
 				//stow the info of all sensors.
 				S = new relativeStatus(l, l1, countNumber, sensors, ssen, status, manager).stowInfoSensor();
 			}

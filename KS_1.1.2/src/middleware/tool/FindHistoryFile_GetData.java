@@ -21,18 +21,24 @@ import utils.fileFilter;
 import utils.filePatternMatch;
 import visual.Start;
 
-public class FindHistoryFile implements Runnable {
+/**
+ * 此类只能找到二级目录，再往深处寻找没意义。
+ * @author Hanlin Zhang
+ */
+public class FindHistoryFile_GetData implements Runnable {
 	//parent是实际数据文件的根路径。
 	private String sourcePath = "";
 	//目的路径.
 	private String destiPath = "";
 	//Date是限定的时间约束。
 	private Date time;
-	//保存所有符合条件的文件。
-	private File[] files = new File[0];
+	//保存所有符合给定时间的文件。
+	private File[] specifyFiles = new File[0];
+	//保存所有在文件夹下满足文件特征的数据文件。
+	private File[] satisfiedFiles = new File[0];
 	private CountDownLatch latch;
 	
-    public FindHistoryFile(
+    public FindHistoryFile_GetData(
     		String parent,
     		String destiPath,
     		Date time,
@@ -49,11 +55,12 @@ public class FindHistoryFile implements Runnable {
      * @author Hanlin Zhang.
      * @date revision 2021年2月19日上午11:15:38
      */
-    @SuppressWarnings({ "deprecation", "unused" })
 	public void run() {
     	File[] Dic = new File(this.sourcePath).listFiles();
+    	this.satisfiedFiles = fileFilter.useFileFilter(this.sourcePath);
+    	
     	//根路径下没有HFMED文件，则查找是否有给定时间的文件夹？
-    	if(fileFilter.boolfilter(this.sourcePath) == false) {
+    	if(this.satisfiedFiles.length > 0) {
     		try {
 				entranceDirectory(Dic);
 			} catch (ParseException | IOException e) {
@@ -88,7 +95,6 @@ public class FindHistoryFile implements Runnable {
 			//看是否在文件夹内？
 			if(Dic[i].isDirectory()) {
 				flag = true;
-//				System.out.println("location定位结果" + Dic[i].getPath());
 				if(getFile(Dic[i].getPath())==false) {
 					System.out.println("在" + Dic[i].getPath() + "下，没有找到符合给定时间：" + Date2String.date2str(time) + " 的文件。");
 				}
@@ -111,9 +117,9 @@ public class FindHistoryFile implements Runnable {
 	private boolean getFile(String parent) throws ParseException, IOException {
     	boolean flag = false;
     	//过滤符合给定时间点的文件。
-    	this.files = fileFilter.TimeFilter(parent, this.time);
+    	this.specifyFiles = fileFilter.TimeFilter(this.satisfiedFiles, this.time);
         //拷贝这些文件，并设置标志位。
-        if(this.files.length>0) {
+        if(this.specifyFiles.length>0) {
         	copyFileFromRemote();
         	flag = true;
         }
@@ -129,19 +135,19 @@ public class FindHistoryFile implements Runnable {
      * @date revision 2021年2月19日上午9:05:23
      */
     public void copyFileFromRemote() throws IOException, ParseException {
-		for(int i=0;i<this.files.length;i++) {
+		for(int i=0;i<this.specifyFiles.length;i++) {
 			//获取根目录作为盘符名字。
-			String panfu = SubStrUtil.contentCut_root(this.files[i].getParent());
+			String panfu = SubStrUtil.contentCut_root(this.specifyFiles[i].getParent());
 			//在目的路径创建文件夹。
 			String filePathInter = this.destiPath + panfu;
 			createFolder(filePathInter);
 			//根据目的路径生成新的绝对路径。
-			String filePathA = filePathInter + "/" + this.files[i].getName();
+			String filePathA = filePathInter + "/" + this.specifyFiles[i].getName();
 			//在绝对路径申请新的file。
 			File destfile = new File(filePathA);
 			//拷贝文件，并计时
 			long m1 = System.currentTimeMillis();
-			copyFile(this.files[i], destfile);
+			copyFile(this.specifyFiles[i], destfile);
 			double cost = (System.currentTimeMillis() - m1)/1000.0/60;
 	    	System.out.println(filePathA + "拷贝完成 用时：" + cost + "分钟。");
 		}
@@ -192,7 +198,7 @@ public class FindHistoryFile implements Runnable {
         System.out.println("抓取开始---------------------------！！");
     	long m1 = System.currentTimeMillis();
         for(int i=0;i<sourcePath.length;i++) {
-	        FindHistoryFile findHistoryFile = new FindHistoryFile(sourcePath[i], destiPath, specifyTime,threadSignal);
+	        FindHistoryFile_GetData findHistoryFile = new FindHistoryFile_GetData(sourcePath[i], destiPath, specifyTime,threadSignal);
 	        executor.execute(findHistoryFile);
         }
         try {
@@ -220,7 +226,7 @@ public class FindHistoryFile implements Runnable {
         final CountDownLatch threadSignal = new CountDownLatch(Parameters.SensorNum);
         
         for(int i=0;i<sourcePath.length;i++) {
-	        FindHistoryFile findHistoryFile = new FindHistoryFile(sourcePath[i], destiPath, specifyTime, threadSignal);
+	        FindHistoryFile_GetData findHistoryFile = new FindHistoryFile_GetData(sourcePath[i], destiPath, specifyTime, threadSignal);
 	        executor.execute(findHistoryFile);
         }
         

@@ -42,10 +42,19 @@ public class printRunningParameters {
 		System.out.println("FREQUENCY： "+ formToChar(String.valueOf(Parameters.FREQUENCY)));
 		System.out.println("distanceToSquareWave： "+ formToChar(String.valueOf(Parameters.distanceToSquareWave)));
 		System.out.println("SevIP： "+ formToChar(Parameters.SevIP));
-		System.out.println("SENSORINFO1： ");
+		System.out.println("到时差判断："+ Parameters.SSIntervalToOtherSensors);
+		System.out.println("调试模式："+ Parameters.Adjust);
+		if(Parameters.TongDaoDiagnose == 1) {
+			System.out.println("通道判断是否为混合模式：否    " + "是否进行通道判断" + printRunningParameters.formToChar(String.valueOf(Parameters.TongDaoDiagnose)));
+		}
+		else {
+			System.out.println("通道判断是否为混合模式：是    " + "是否进行通道判断" + printRunningParameters.formToChar(String.valueOf(Parameters.TongDaoDiagnose)));
+		}
 		
+		System.out.println("SENSORINFO1： ");
 		outArray.outArray_double(Parameters.SENSORINFO1, Parameters.diskNameNum);
 		System.out.println("StartTimeStr： "+ formToChar(Parameters.StartTimeStr));
+		
 		
 		System.out.println("自动配置完毕，是否继续？按任意键继续——————————");
 		System.in.read();System.in.read();
@@ -64,7 +73,6 @@ public class printRunningParameters {
 			Date date = String2Date.str2Date2(timeStr);
 			timeStamp = Date2String.date2str(date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -79,6 +87,10 @@ public class printRunningParameters {
 	 */
 	public static String formToChar(String out) {
 		return "["+out+"]";
+	}
+	
+	public static void splitLine() {
+		System.out.println("_________________________________________________________________________________________________________________________");
 	}
 	
 	/**

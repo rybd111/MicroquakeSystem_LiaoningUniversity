@@ -1,7 +1,7 @@
 /**
  * 
  */
-package middleware;
+package middleware.tool;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import org.eclipse.jface.text.source.AnnotationPainter.ITextStyleStrategy;
 import com.h2.constant.Parameters;
 
 import Entrance.InitialConfig;
-import middleware.tool.FindHistoryFile;
 import mutiThread.MainThread;
 import utils.Date2String;
 import utils.ScanInNum;
@@ -32,7 +31,7 @@ import utils.printRunningParameters;
  * @author Hanlin Zhang
  * 
  */
-public class pullDataFromSensor {
+public class pullDataFromSensor_GetData {
 	
 	private String startTime="";
 	private String endTime="";
@@ -47,7 +46,7 @@ public class pullDataFromSensor {
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
-	pullDataFromSensor(
+	pullDataFromSensor_GetData(
 			String startTime,
 			String endTime,
 			String timeStr,
@@ -62,10 +61,10 @@ public class pullDataFromSensor {
 		this.isTest = isTest;
 		
 		if(kind.equals("file")) {
-			pullFileFromRemoteInFile();
+			pullFileInFile();
 		}
 		if(kind.equals("data")) {
-			pullDataFromRemoteDiskInSec();
+			pullDataInSec();
 		}
 	}
 	
@@ -76,7 +75,7 @@ public class pullDataFromSensor {
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月20日上午11:33:29
 	 */
-	private void pullFileFromRemoteInFile() throws IOException, ParseException {
+	private void pullFileInFile() throws IOException, ParseException {
 		/** 返回存有HFMED的盘符，但此时不能确定是网络映射盘符，因此需要进一步验证*/
 		MainThread.fileStr = scanAlldisk();
 		
@@ -91,10 +90,14 @@ public class pullDataFromSensor {
 		printRunningParameters.printScanPath(this.timeStr);
 		
 		/**拉取*/
-        FindHistoryFile.launch(MainThread.fileStr, destPath, timeStr);
+        FindHistoryFile_GetData.launch(MainThread.fileStr, destPath, timeStr);
 	}
 	
-	private void pullDataFromRemoteDiskInSec() {
+	private void pullDataInSec() {
+		
+	}
+	
+	private void readDataFromLocalDiskInSec() {
 		
 	}
 	
@@ -187,7 +190,7 @@ public class pullDataFromSensor {
         String kind = "file";
         boolean isTest = true;
         
-        pullDataFromSensor p = new pullDataFromSensor("", "", timeStr, kind, destPath, isTest);
+        pullDataFromSensor_GetData p = new pullDataFromSensor_GetData("", "", timeStr, kind, destPath, isTest);
         
 	}
 

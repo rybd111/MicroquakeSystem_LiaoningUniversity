@@ -135,7 +135,7 @@ public class ReadDateFromHead {
 	 * @return  String  represents the date of the first data segment
 	 * @throws Exception
 	 */
-     public static Date readDataSegmentHead(File file) throws Exception{
+     public static Date readDataSegmentHead_MrLiu_Date(File file) throws Exception{
     	
 		//用于承装数据段头的字节
     	 

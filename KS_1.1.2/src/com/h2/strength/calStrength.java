@@ -12,9 +12,7 @@ import DataExchange.Sensor;
 
 /**
  * 用于计算近震震级、能量的线程
- * 
  * @author 韩百硕, Hanlin Zhang.
- *
  */
 public class calStrength extends Thread 
 {
@@ -33,7 +31,7 @@ public class calStrength extends Thread
 	
 	public void run()
 	{
-		QuakeClass q = new QuakeClass(location_refine);
+		QuakeClass q = new QuakeClass();
 		//calculate the near quake magnitude and energy.
 		try {
 			q.SensorMaxFudu(this.MotiSensorsAfterCut, this.i);
@@ -45,18 +43,5 @@ public class calStrength extends Thread
 		//这里加上了震中距，但宋义敏老师说矿震范围小，不宜加震中距。
 		q.getOneEarthQuakeGrade(this.location_refine, this.MotiSensorsAfterCut);
 		this.downLatch.countDown();
-	}
-	public void cal()
-	{
-		QuakeClass q = new QuakeClass(location_refine);
-		//calculate the near quake magnitude.
-		try {
-			q.SensorMaxFudu(this.MotiSensorsAfterCut, this.i);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} catch (MWException e) {
-			e.printStackTrace();
-		}
-		q.getOneEarthQuakeGrade(this.location_refine, this.MotiSensorsAfterCut);
 	}
 }

@@ -21,6 +21,8 @@ public class MainTest {
 	public static final int LOCAL_ONLINE_UNSTORAGE = 6;
 	public static final int REMOTE_ONLINE_STORAGE = 7;
 	public static final int REMOTE_ONLINE_UNSTORAGE = 8;
+	//调试模式默认为本地非存储模式。
+	public static final int ADJUST_LOCAL = 0;
 
 	public static int runningModel = LOCAL_OFFLINE_UNSTORAGE;
 	
@@ -29,10 +31,10 @@ public class MainTest {
 		new RunningSceneConfig(runningModel);
 		
 		/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取
-		 * 具体参看MainTestInitialConfig类说明
+		 * 具体参看InitialConfig类说明
 		 * */
 //		String prePath = "I:/矿山/矿山数据/新设备数据/5/";
-		String prePath = "I:/矿山/矿山数据/红阳三矿/20200214/";
+		String prePath = "I:/矿山/矿山数据/红阳三矿/20200726/";
 		InitialConfig config = new InitialConfig(prePath);
 		
 		/** 启动线程*/

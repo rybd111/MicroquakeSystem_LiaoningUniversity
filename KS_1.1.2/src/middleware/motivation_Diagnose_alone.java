@@ -61,6 +61,21 @@ public class motivation_Diagnose_alone {
 		return temcre;
 	}
 	
+	/**
+	 * 单独调用。
+	 * @param data
+	 */
+	public motivation_Diagnose_alone(Vector<String> data) {
+		this.data = data;
+	}
+	
+	/**
+	 * 程序内调用。
+	 * @param data
+	 * @param range
+	 * @param th
+	 * @throws ParseException
+	 */
 	public motivation_Diagnose_alone(Vector<String> data, int range, int th) throws ParseException {
 		this.data = data;
 		this.range = range;
@@ -144,7 +159,6 @@ public class motivation_Diagnose_alone {
 	 * @return 激发的位置
 	 * @author Baishuo Han, Hanlin Zhang.
 	 */
-	@SuppressWarnings("unused")
 	private int getToken(int lineNumber)
 	{
 		//返回是0，则说明没有激发。

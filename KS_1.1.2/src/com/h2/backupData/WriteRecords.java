@@ -61,7 +61,6 @@ public class WriteRecords{
             String i1 = null;
             for (int i = 0; i < Parameters.diskName[Parameters.diskNameNum].length; i++) {
             	for(int j=0;j<sensors.length;j++) {
-            		boolean flag = false;
             		if(Parameters.offline == true) {
             			i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
             		}
@@ -142,7 +141,6 @@ public class WriteRecords{
             int lastk=0;
             record = Motisensors[0].getAbsoluteTime()+"\t,";
             String i1 = null;
-            
             for (int i = 0; i < Parameters.diskName[Parameters.diskNameNum].length; i++) {
             	for(int j=0;j<Motisensors.length;j++) {
             		if(Parameters.offline == true) {

@@ -18,12 +18,13 @@ import com.ibm.icu.impl.UResource.Value;
 import com.mysql.cj.x.protobuf.MysqlxResultset.RowOrBuilder;
 import com.orsoncharts.data.Values;
 
-import middleware.tool.FindHistoryFile;
+import middleware.tool.FindHistoryFile_GetData;
 import mutiThread.MainThread;
 import utils.ArrayMatch;
 import utils.String2Date;
 import utils.SubStrUtil;
 import utils.ask_YorN;
+import utils.fileFilter;
 import utils.outArray;
 import utils.printRunningParameters;
 
@@ -34,7 +35,7 @@ import org.xvolks.jnative.util.Kernel32.FileAttribute;
 /**
  * 自动根据当前路径配置离线运行下的参数运行，并区分各个不同的矿区。
  * 
- * 1、数据的上一级路径中必须包含"Testx"几个文件夹。
+ * 1、数据的上一级路径中必须包含"x"几个文件夹。
  * 
  * 2、路径中必须包含矿区中文名字，用来匹配矿区坐标。
  * 
@@ -83,6 +84,7 @@ public class InitialConfig {
 	/**
 	 * 打开当前目录下面的所有文件，并提取所有文件名。
 	 * 当前目录下必须含有"Testa"-"Testz"的文件夹，且文件夹下有hfmed数据时才有意义。
+	 * 同时我们使用命名正则式进行数据文件的过滤，包括刘老师马老师两种仪器的数据文件。
 	 * 也就是用于离线跑数据。
 	 * @author Hanlin Zhang.
 	 * @throws IOException 
@@ -91,21 +93,20 @@ public class InitialConfig {
 	private String[] obtainOfflinePath() throws IOException {
 		File file = new File(prePath);
 		File[] fs = file.listFiles();
-		
 		//返回结果
 		String panfu[] = new String[0];
 		
 		for(int i=0;i<fs.length;i++) {
-			int pathLen = fs[i].getPath().length();
-//			String identity = fs[i].getPath().substring(pathLen-5, pathLen-1);
 			if(fs[i].isDirectory()) {
-				if(checkHFMEDData(fs[i]) || checkBINData(fs[i])) {
+				//过滤
+				if(fileFilter.boolFileFilter(fs[i])) {
+//				if(checkHFMEDData(fs[i]) || checkBINData(fs[i])) {
 					panfu = Arrays.copyOf(panfu, panfu.length+1);
 					panfu[panfu.length-1] = fs[i].getAbsolutePath();
 					//将正斜杠换成反斜杠
 					panfu[panfu.length-1] = pathProcess(panfu[panfu.length-1]);
 				}
-				/** 当前目录下没有数据*/
+				//当前目录下没有数据
 				else {
 					continue;
 				}
