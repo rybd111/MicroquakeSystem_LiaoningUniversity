@@ -20,6 +20,7 @@ import java.io.IOException;
 public class WriteRecords{
 
     /**
+     * It's data same as the database.
      * write the info. of the motivation of all sensors to a csv file.
      * @param sensors
      * @param result

@@ -18,6 +18,7 @@ import DataExchange.QuackResults;
 import DataExchange.Sensor;
 import b_pro.BClass;
 import controller.ADMINISTRATOR;
+import utils.MutiThreadProcess;
 import utils.Tensor;
 import utils.TimeDifferent;
 import utils.one_dim_array_max_min;
@@ -122,9 +123,9 @@ public class SaveInfo {
 		String dateInFileName = intequackTime.substring(0, 10);
 		//If the difference between the current calculated time and the last time is more than 1 day, the storage file is changed to a new.
 		new WriteRecords().WriteCalculationResults(
-				MotisensorsAfterCut,
-				earlistTime,
-				location_refine,
+				this.MotisensorsAfterCut,
+				this.earlistTime,
+				this.location_refine,
 				Parameters.AbsolutePath5_record+dateInFileName+"_QuakeRecords.csv",
 				quakeString,
 				finalEnergy, 
@@ -143,26 +144,14 @@ public class SaveInfo {
 	 * @date revision 2021年2月12日下午6:15:55
 	 */
 	public float calEarthQuake() {
-		
-		calStrength sensorThread3[] = new calStrength[Parameters.SensorNum];
-		
-		//Compute the near quake magnitude which data only must from the motivated sensors we selected, so the sensors1 is used.
-		ExecutorService executor_cal = Executors.newFixedThreadPool(Parameters.SensorNum);
-		final CountDownLatch threadSignal_cal = new CountDownLatch(MotisensorsAfterCut.length);
-		//calculate the near earthquake magnitude et al.
-		for(int i=0;i<MotisensorsAfterCut.length;i++) {
-			sensorThread3[i] = new calStrength(MotisensorsAfterCut[i], location_refine, i, threadSignal_cal);
-			executor_cal.execute(sensorThread3[i]);//计算单个传感器的近震震级
-		}
-		try {threadSignal_cal.await();}
-        catch (InterruptedException e1) {e1.printStackTrace();}
-		executor_cal.shutdown();
+		//mutiThread calculation.
+		MutiThreadProcess.calStrengthMuti(this.MotisensorsAfterCut, this.location_refine);
 		
 		//We integrate every sensors quake magnitude to compute the last quake magnitude.
 		float earthQuakeFinal = 0;
-		for (Sensor sen : MotisensorsAfterCut)	earthQuakeFinal += sen.getEarthClassFinal();
+		for (Sensor sen : this.MotisensorsAfterCut)	earthQuakeFinal += sen.getEarthClassFinal();
 		//For this method is support any number sensors, so we can input any number sensors.
-		earthQuakeFinal /= MotisensorsAfterCut.length;
+		earthQuakeFinal /= this.MotisensorsAfterCut.length;
 		//minus the fixed number to get the final earth quake grade.
 		if(Parameters.MinusAFixedOnMagtitude==true)
 			earthQuakeFinal = (float) (earthQuakeFinal-Parameters.MinusAFixedValue);// We discuss the consequen to minus 0.7 to reduce the final quake magnitude at datong coal mine.
@@ -181,8 +170,8 @@ public class SaveInfo {
 		//We compute the energy of all sensors at the same time of quake grade.
 		double finalEnergy = 0.0;double []energy = new double[MotisensorsAfterCut.length];
 		
-		for (int i=0;i<MotisensorsAfterCut.length;i++) {
-			energy[i] = MotisensorsAfterCut[i].getEnergy();
+		for (int i=0;i<this.MotisensorsAfterCut.length;i++) {
+			energy[i] = this.MotisensorsAfterCut[i].getEnergy();
 		}
 		//set the final energy with the minumum value of all sensors.
 		finalEnergy = one_dim_array_max_min.mindouble(energy);

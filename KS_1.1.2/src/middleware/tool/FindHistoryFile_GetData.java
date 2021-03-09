@@ -15,6 +15,7 @@ import com.sleepycat.je.txn.ThinLockImpl;
 
 import cn.hutool.bloomfilter.bitMap.LongMap;
 import utils.Date2String;
+import utils.MutiThreadProcess;
 import utils.String2Date;
 import utils.SubStrUtil;
 import utils.fileFilter;
@@ -190,24 +191,12 @@ public class FindHistoryFile_GetData implements Runnable {
      * @date revision 2021年2月19日下午4:11:39
      */
     public static void launch(String[] sourcePath, String destiPath, String timeStr) throws ParseException, IOException {
-    	ExecutorService executor = Executors.newFixedThreadPool(sourcePath.length);
-        final CountDownLatch threadSignal = new CountDownLatch(sourcePath.length);
-        
-        Date specifyTime = String2Date.str2Date2(timeStr);
         
         System.out.println("抓取开始---------------------------！！");
     	long m1 = System.currentTimeMillis();
-        for(int i=0;i<sourcePath.length;i++) {
-	        FindHistoryFile_GetData findHistoryFile = new FindHistoryFile_GetData(sourcePath[i], destiPath, specifyTime,threadSignal);
-	        executor.execute(findHistoryFile);
-        }
-        try {
-            threadSignal.await();
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        }
-        executor.shutdown();
-        
+
+    	MutiThreadProcess.getFileMuti(sourcePath, destiPath, timeStr);
+    	
         double cost = (System.currentTimeMillis() - m1)/1000.0;
     	System.out.println("抓取完毕---------------------------！！_ 共用时："+ cost + "秒");
     }

@@ -179,6 +179,7 @@ public class EarthQuake {
 				printRunningParameters.formToChar(String.valueOf(manager.getIsRealMoti()))+
 				" time："+
 				printRunningParameters.formToChar(ssen[0][0].get(0).split(" ")[6]));
+		
 		//reset the global variable.
 		manager.setIsRealMoti(true);
 	}

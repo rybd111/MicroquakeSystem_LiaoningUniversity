@@ -16,6 +16,7 @@ import org.jfree.data.xy.VectorDataItem;
 import com.h2.constant.Parameters;
 import com.h2.main.EarthQuake;
 import com.ibm.icu.text.DateFormat.BooleanAttribute;
+import com.sleepycat.je.rep.monitor.Protocol.JoinGroup;
 
 import DataExchange.vectorExchange;
 import javazoom.jl.decoder.Manager;
@@ -28,10 +29,12 @@ import read.rqma.history.AlignFile;
 import read.rqma.history.GetReadArray;
 import read.yang.readFile.ReadData;
 import utils.DateArrayToIntArray;
+import utils.MutiThreadProcess;
 import utils.SubStrUtil;
 
 /**
  * Manage the status of the system for replacing static variables.
+ * And put the main process of the procedure to omit some space...
  * @author Hanlin Zhang
  */
 public class ADMINISTRATOR {
@@ -433,62 +436,35 @@ public class ADMINISTRATOR {
 	}
 	
 	/**
-	 * 对齐多线程过程。
+	 * 对齐查找最新文件过程。
+	 * 本质上是对manager实例中的最新文件做了修改。
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月15日下午1:08:54
 	 */
 	public void alignMuti() {
-		final CountDownLatch threadSignal_duiqi = new CountDownLatch(Parameters.SensorNum);
-		ExecutorService executor_duiqi = Executors.newFixedThreadPool(Parameters.SensorNum);
-        //we obtain the time distance among these sensors' remote disk.
-        for(int i=0;i<Parameters.SensorNum;i++) {
-            obtainHeadTime aDuiQi = new obtainHeadTime(threadSignal_duiqi, MainThread.fileStr[i], i, this);
-            executor_duiqi.execute(aDuiQi);
-        }
-        
-        try {threadSignal_duiqi.await();}
-        catch (InterruptedException e1) {e1.printStackTrace();}
-        executor_duiqi.shutdown();
+        MutiThreadProcess.alignMuti(this);
 	}
 	
 	/**
 	 * 挪动读指针多线程过程。
+	 * 本质上是对manager实例中的读对象做了修改。
 	 * @param mo
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月15日下午1:15:07
 	 */
 	public void moveBufferMuti() {
-		final CountDownLatch threadSignal_find = new CountDownLatch(Parameters.SensorNum);
-        ExecutorService executor_find = Executors.newFixedThreadPool(Parameters.SensorNum);
-        for(int i=0;i<Parameters.SensorNum;i++) {
-            this.mo[i] = new moveBufferPosition(threadSignal_find, i, this);
-            executor_find.execute(mo[i]);
-        }
-        try {threadSignal_find.await();}
-        catch (InterruptedException e1) {e1.printStackTrace();}
-        executor_find.shutdown();
+        MutiThreadProcess.moveBufferMuti(mo, this);
 	}
 	
 	/**
 	 * 读数据多线程过程。
+	 * 本质上是对dataRecArray实例中的容器数据进行更新修改。
 	 * @param readDataArray
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月15日下午1:06:22
 	 */
-	public void readDateMuti() {
-		ExecutorService executor = Executors.newFixedThreadPool(Parameters.SensorNum);
-        final CountDownLatch threadSignal = new CountDownLatch(Parameters.SensorNum);
-
-        for (int i = 0; i < Parameters.SensorNum; i++) {
-            readTask task = new readTask(threadSignal, i, this.dataRecArray[i], this.readDataArray[i], this);
-            executor.execute(task);
-        }
-        try {
-            threadSignal.await();
-            executor.shutdown();
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        }
+	public void readDataMuti() {
+        MutiThreadProcess.readDataMuti(dataRecArray, readDataArray, this);
 	}
 	
 	/**
@@ -515,29 +491,22 @@ public class ADMINISTRATOR {
 	 * @date revision 2021年2月15日下午2:32:46
 	 */
 	public void dataCollector() {
-//    	int diagnoseIsFull = 0;
         for(int i=0;i<Parameters.SensorNum;i++) {
             sensorData[i][0] = this.dataRecArray[i].getBeforeVector();
-//            if(sensorData[i][1]==null) {diagnoseIsFull=1;}
             sensorData[i][1] = this.dataRecArray[i].getNowVector();
-//            if(sensorData[i][1]==null) {diagnoseIsFull=1;}
             sensorData[i][2] = this.dataRecArray[i].getAfterVector();
-//            if(sensorData[i][2]==null) {diagnoseIsFull=1;}
         }
-        
-//        if(diagnoseIsFull==1) continue;//when the three vector has data, we will enter the calculate function.
 	}
 	
 	/**
 	 * entrance the calculation.
 	 * 
 	 * @author Hanlin Zhang.
+	 * @throws Exception 
 	 * @date revision 2021年2月15日下午2:42:55
 	 */
-	public void calculation() {
-		 //进入计算模块。
-        try {EarthQuake.runmain(this);
-        } catch (Exception e) {e.printStackTrace();}
+	public void calculation() throws Exception {
+		EarthQuake.runmain(this);
 	}
 	
 	/**
@@ -557,7 +526,6 @@ public class ADMINISTRATOR {
 	
 	/**
 	 * offline processing process.
-	 * 
 	 * @author Rq Ma, Hanlin Zhang.
 	 * @throws Exception 
 	 * @date revision 2021年2月15日下午2:55:44
@@ -588,14 +556,14 @@ public class ADMINISTRATOR {
 
                 if(this.getReadData() == null)
                 	continue;
-                
             }
     		
             //start the thread pool to read data from different position.
             if(this.getNetError() == false) {
-            	this.readDateMuti();
+            	this.readDataMuti();
             }
         	
+          //when produce a new file, there must has a vector is not full, so we discard the last several second data.
         	this.dataCollector();
         	this.calculation();
             
@@ -608,9 +576,10 @@ public class ADMINISTRATOR {
 	/**
 	 * online processing process.
 	 * @author Hanlin Zhang.
+	 * @throws Exception 
 	 * @date revision 2021年2月15日下午2:55:59
 	 */
-	public void onlineProcessing() {
+	public void onlineProcessing() throws Exception {
 		System.out.println("开始读实时数据部分！");
         ReconnectToRemoteDisk ReConnect = new ReconnectToRemoteDisk(3, MainThread.fileStr);//重新分配盘符
 
@@ -671,14 +640,15 @@ public class ADMINISTRATOR {
 	
 	        //开启读取数据线程池--------------------------------------------------------------------
 	        if(this.getNetError() == false) {
-	        	this.readDateMuti();
+	        	this.readDataMuti();
 	        }
 	        
-	        //when produce a new file, there must has a vector is not full, so we discard the last several second data.
+	        //when produce a new file, there must has a vector is not full, so we discard the first 20s data.
 	        if(this.getNewFile() == false && this.getNetError() == false){
 	        	this.dataCollector();
 	        	this.calculation();
 	        }
+	        
 	        if(MainThread.exitVariable_visual==true) {
 	        	break;
 	        }  

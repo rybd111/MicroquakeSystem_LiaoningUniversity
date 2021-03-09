@@ -31,17 +31,13 @@ public class MainThread extends Thread{
     	/** global super administrator saves all status in system for replacing the global variables.*/
     	ADMINISTRATOR manager = new ADMINISTRATOR();
     	
-//        fileStr[0] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/3-西风井/";
-//        fileStr[1] = "I:/研究生阶段/矿山/程序修改记录/读新仪器数据融合-曹睿-马瑞强/新设备数据/2/4-铁塔/";
         if(Parameters.offline==false) {
             System.out.println("开始读实时数据部分！");
-            manager.onlineProcessing();
+            try {manager.onlineProcessing();} catch (Exception e) {e.printStackTrace();}
         }
         else if(Parameters.offline==true) {
-        	
             System.out.println("开始读历史数据部分！");
-            try {manager.offlineProcessing();} 
-            catch (Exception e) {e.printStackTrace();}
+            try {manager.offlineProcessing();} catch (Exception e) {e.printStackTrace();}
         }
     }
 }

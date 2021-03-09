@@ -7,22 +7,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
-import java.util.Date;
-
 import javax.swing.filechooser.FileSystemView;
 
-import org.eclipse.jface.text.source.AnnotationPainter.ITextStyleStrategy;
-
-import com.h2.constant.Parameters;
-
-import Entrance.InitialConfig;
 import mutiThread.MainThread;
-import utils.Date2String;
-import utils.ScanInNum;
-import utils.String2Date;
 import utils.ask_YorN;
 import utils.filePatternMatch;
-import utils.outArray;
 import utils.printRunningParameters;
 
 /**
@@ -40,11 +29,18 @@ public class pullDataFromSensor_GetData {
 	private boolean isTest;
 	
 	/**
-	 * timeString must be yyyy-MM-ddHH:mm:ss
+	 * startTime, endTime, and timeString must be yyyy-MM-ddHH:mm:ss
 	 * kind select in "file" or "filedata".
-	 * @param timeString
-	 * @throws IOException 
-	 * @throws ParseException 
+	 * when we want to pull the data in sec. we should set the timeStr as null.
+	 * when we want to pull the file we should set the  the startTime and endTime as null.
+	 * @param startTime
+	 * @param endTime
+	 * @param timeStr
+	 * @param kind
+	 * @param destPath
+	 * @param isTest
+	 * @throws IOException
+	 * @throws ParseException
 	 */
 	pullDataFromSensor_GetData(
 			String startTime,
@@ -60,10 +56,21 @@ public class pullDataFromSensor_GetData {
 		this.destPath = destPath;
 		this.isTest = isTest;
 		
+		//若拉取文件，则开始结束时间startTime和endTime为空。
 		if(kind.equals("file")) {
+			if(startTime.equals("")==false || endTime.equals("")== false) {
+				System.out.println("选择的是拉取文件，必须设置startTime和endTime为空");
+				return;
+			}
 			pullFileInFile();
 		}
+		
+		//若拉取数据，则时间字符timeStr为空。
 		if(kind.equals("data")) {
+			if(startTime.equals("")==false || endTime.equals("")== false) {
+				System.out.println("选择的是拉取数据，必须设置timeStr为空");
+				return;
+			}
 			pullDataInSec();
 		}
 	}
@@ -101,11 +108,23 @@ public class pullDataFromSensor_GetData {
 		
 	}
 	
+	/**
+	 * 到来的完全文件
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月6日下午2:08:26
+	 */
 	private File[] comingPullFiles() {
 		
 		return null;
 	}
 	
+	/**
+	 * 查询是否存在这个文件。
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月6日下午2:08:13
+	 */
 	private boolean queryFile() {
 		
 		return false;
@@ -145,7 +164,7 @@ public class pullDataFromSensor_GetData {
 			}
 		}
 		if(sasroots.length==0) {
-			System.out.println("没有扫描到任何盘，请使用调试模式，程序退出");
+			System.out.println("没有扫描到任何包含数据的磁盘，请使用调试模式，程序退出");
 			System.exit(0);
 		}
 		
@@ -187,10 +206,12 @@ public class pullDataFromSensor_GetData {
         String destPath = "I:\\矿山\\矿山数据\\大同\\1月14日大同塔山矿震动/";
 //        String time = "20"+Parameters.StartTimeStr;
         String timeStr = "20" + "190114020001";
-        String kind = "file";
-        boolean isTest = true;
+        String kind = "file";//kind只有两种类型file和data
+        boolean isTest = true;//测试打开，监测本地磁盘下的目录。
+        String startTime = "";
+        String endTime = "";
         
-        pullDataFromSensor_GetData p = new pullDataFromSensor_GetData("", "", timeStr, kind, destPath, isTest);
+        pullDataFromSensor_GetData p = new pullDataFromSensor_GetData(startTime, endTime, timeStr, kind, destPath, isTest);
         
 	}
 
