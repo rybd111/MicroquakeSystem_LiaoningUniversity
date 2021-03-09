@@ -1,6 +1,5 @@
 package read.yang.readFile;
 
-import java.io.File;
 
 /**
  * find the hfmed file containing "Test".
@@ -10,81 +9,97 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
-
+import java.io.File;
 import com.h2.constant.Parameters;
 
 import controller.ADMINISTRATOR;
 import utils.ComparatorByCutName_liu_DESC;
-import utils.fileFilter;
+import utils.ComparatorByCutName_ma_DESC;
 import utils.filePatternMatch;
 public class findNew {
+	
+	/**
+	 * 查找最新文件，按照刘老师的名字截取进行排序。
+	 * @param path
+	 * @param manager
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午10:40:18
+	 */
 	@SuppressWarnings("unused")
 	public static File find(String path,int th,ADMINISTRATOR manager) {
-		
 		int l=0;
 		boolean flag=false;
 		int count=1;
 		File file = new File(path);
 		File[] fs = file.listFiles();
+		//fs为所有根目录下的文件数组。
+		
+		//我们只是用了两层for，也就是说只进入第二层目录。
 		for(int j=0;j<fs.length;j++) {
-//			Arrays.sort(fs, new CompratorByLastModified());
-			Arrays.sort(fs, new ComparatorByCutName_liu_DESC());
+			
+			//根据后缀区分仪器，并对其进行排序。
+			if(fs[j].getName().endsWith("HFMED")) {
+				//根据刘老师文件夹名进行比较，进行升序排序，此处暂时不能进行修改。
+				Arrays.sort(fs, new ComparatorByCutName_liu_DESC());
+			}
+			else if(fs[j].getName().endsWith("bin")){
+				//根据马老师文件夹名进行比较，进行升序排序，此处暂时不能进行修改。
+				Arrays.sort(fs, new ComparatorByCutName_ma_DESC());
+			}
+			
 			for (int i = 0; i < fs.length; i++) {
-				if(fs[i].getPath().length()>8) {
-					if(fs[i].isDirectory()&&fs[i].getPath().substring(3, 8).compareTo("Test_")==0) {
-						file = new File(fs[i].getAbsolutePath());
-						fs = file.listFiles();
-						//只提取今天的文件
-	//					fs=cut(df,fs);
-						break;
-					}
-					if(Parameters.readSecond==true){
-						if(fs[i].getPath().endsWith(".bin")){
-							if(filePatternMatch.match_BIN(fs[i].getName())) {
-								if(count==2) {
-									manager.isMrMa[th]=true;
-									l=i;
-									flag=true;
-									break;
-								}
-								count++;
-							}
-						}
-						if(fs[i].getPath().endsWith(".HFMED")){
-							if(count==2){
-								l=i;
-								flag=true;
-								break;
-							}
-							count++;
-						}
-					}
-					else{
-						if(fs[i].getPath().endsWith(".bin")){
+				//若文件是一个文件夹，且符合数据文件命名规范，则我们认为是带有数据的文件夹。
+				//同时我们展开其文件，在下一次循环中继续排序判断。
+				if(fs[i].isDirectory() && filePatternMatch.isHFMEDFile(fs[i].getName())) {
+					file = new File(fs[i].getAbsolutePath());
+					fs = file.listFiles();
+					break;
+				}
+				
+				//一下代码判断数据文件，我们使用fileFilter类来判断是否符合数据文件的命名特征。
+				if(Parameters.readSecond==true){
+					if(filePatternMatch.isBINFile(fs[i].getName())){
+						if(count==2) {
 							manager.isMrMa[th]=true;
 							l=i;
 							flag=true;
 							break;
 						}
-						if(fs[i].getPath().endsWith(".HFMED")){
+						count++;
+					}
+					if(filePatternMatch.isHFMEDFile(fs[i].getName())){
+						if(count==2){
 							l=i;
 							flag=true;
 							break;
 						}
+						count++;
 					}
-					//System.out.println(fs[i].getName()+" "+new Date(fs[i].lastModified()).toLocaleString());
+				}
+				else{
+					if(filePatternMatch.isBINFile(fs[i].getName())){
+						manager.isMrMa[th]=true;
+						l=i;
+						flag=true;
+						break;
+					}
+					if(filePatternMatch.isHFMEDFile(fs[i].getName())){
+						l=i;
+						flag=true;
+						break;
+					}
 				}
 			}
 			if(flag==true)
 				break;
 		}
-//		System.out.println(fs[l].getAbsolutePath()+"_绝对路径");
 		manager.setNNameF(th, fs[l].getName());
 		return fs[l];
 	}
+	
 	@SuppressWarnings("null")
 	public static File[] cut(SimpleDateFormat df,File[] fs) {
-		
 		String SystemDate = df.format(new Date());//获取系统时间
 		int[] l=new int[fs.length];
 		File[] fs0=fs;
@@ -107,6 +122,8 @@ public class findNew {
 		System.out.println("处理后fs的长度"+fs1.length);
 		return fs1;
 	}
+	
+	
 	static class CompratorByLastModified implements Comparator<File> {
 		@Override
         public int compare(File lFile, File rFile) {

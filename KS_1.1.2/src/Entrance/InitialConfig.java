@@ -25,6 +25,7 @@ import utils.String2Date;
 import utils.SubStrUtil;
 import utils.ask_YorN;
 import utils.fileFilter;
+import utils.filePatternMatch;
 import utils.outArray;
 import utils.printRunningParameters;
 
@@ -42,8 +43,6 @@ import org.xvolks.jnative.util.Kernel32.FileAttribute;
  * @author Hanlin Zhang
  */
 public class InitialConfig {
-	
-	private String[] dataForm = Parameters.suffix;
 	
 	/** 封装地点名词，该词必须在以下变量中出现*/
 	private String lo_pingdingshan[] = {"平顶山","平顶山十一矿","十一矿"};
@@ -98,9 +97,9 @@ public class InitialConfig {
 		
 		for(int i=0;i<fs.length;i++) {
 			if(fs[i].isDirectory()) {
-				//过滤
-				if(fileFilter.boolFileFilter(fs[i])) {
-//				if(checkHFMEDData(fs[i]) || checkBINData(fs[i])) {
+				//过滤包含bin和HFMED的所有文件，因此必须在运行前将各种设备文件分开，以免出现错误。
+				File[] fs1 = fileFilter.useFileFilter(fs[i].getPath());
+				if(fs1.length>0) {
 					panfu = Arrays.copyOf(panfu, panfu.length+1);
 					panfu[panfu.length-1] = fs[i].getAbsolutePath();
 					//将正斜杠换成反斜杠
@@ -128,34 +127,6 @@ public class InitialConfig {
 		path = path.replaceAll("\\\\", "/") + "/";
 		
 		return path;
-	}
-	
-	private boolean checkHFMEDData(File fs) {
-		boolean flag = false;
-		String[] hfmed = fs.list();
-		
-		for(int i=0;i<hfmed.length;i++) {
-			//检测到有hfmed，则可以执行
-			String suff = hfmed[i].split("\\.")[1];
-			if(suff.equals(this.dataForm[0])) {
-				flag = true;
-			}
-		}
-		return flag;
-	}
-	
-	private boolean checkBINData(File fs) {
-		boolean flag = false;
-		String[] bin = fs.list();
-		
-		for(int i=0;i<bin.length;i++) {
-			//检测到有bin，则可以执行
-			String suff = bin[i].split("\\.")[1];
-			if(suff.equals(this.dataForm[1])) {
-				flag = true;
-			}
-		}
-		return flag;
 	}
 	
 	/**

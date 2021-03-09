@@ -6,31 +6,19 @@ package controller;
 import java.text.ParseException;
 import java.util.Random;
 import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import org.jblas.benchmark.Main;
-import org.jfree.data.xy.VectorDataItem;
-
 import com.h2.constant.Parameters;
 import com.h2.main.EarthQuake;
-import com.ibm.icu.text.DateFormat.BooleanAttribute;
-import com.sleepycat.je.rep.monitor.Protocol.JoinGroup;
-
 import DataExchange.vectorExchange;
-import javazoom.jl.decoder.Manager;
 import mutiThread.MainThread;
 import mutiThread.ReconnectToRemoteDisk;
 import mutiThread.moveBufferPosition;
-import mutiThread.obtainHeadTime;
-import mutiThread.readTask;
 import read.rqma.history.AlignFile;
 import read.rqma.history.GetReadArray;
 import read.yang.readFile.ReadData;
 import utils.DateArrayToIntArray;
 import utils.MutiThreadProcess;
 import utils.SubStrUtil;
+import utils.printRunningParameters;
 
 /**
  * Manage the status of the system for replacing static variables.
@@ -359,7 +347,9 @@ public class ADMINISTRATOR {
 	 */
 	public void resetter(ReconnectToRemoteDisk ReConnect) {
 		
-            System.out.println("是否第一次？ " + this.getIsFirst() + "  进入了重对齐！");
+            System.out.println("是否第一次？ " + 
+            		printRunningParameters.formToChar(String.valueOf(this.getIsFirst()))
+            		+ "  进入了重对齐！");
 			
             if(MainThread.fileStr.length<3) {
 				this.discSymbol=0;
@@ -478,7 +468,11 @@ public class ADMINISTRATOR {
         DateArrayToIntArray aDateArrayToIntArray = new DateArrayToIntArray();
         try {this.duiqi = (aDateArrayToIntArray.IntArray(this.dateString));
         } catch (ParseException e) {e.printStackTrace();}
-        try {System.out.println("对齐数组读取完毕！ 对齐的最大时间： "+aDateArrayToIntArray.getDateStr());
+        try {
+        	System.out.println(
+        		"对齐数组读取完毕！ 对齐的最大时间： " + 
+        		printRunningParameters.formToChar(aDateArrayToIntArray.getDateStr())
+        		);
 		} catch (ParseException e) {e.printStackTrace();}
         //获取最大时间对应的文件序号，用于新仪器的对齐。
         this.setMaxTimeSeries(aDateArrayToIntArray.getMaxSeries());

@@ -4,6 +4,7 @@ import java.util.concurrent.CountDownLatch;
 import com.h2.constant.Parameters;
 import controller.ADMINISTRATOR;
 import read.yang.readFile.ReadData;
+import utils.printRunningParameters;
 
 
 /**
@@ -51,7 +52,11 @@ public class moveBufferPosition extends Thread{
 			else {
 				//计时
 				manager.setEndInstance(System.currentTimeMillis());
-				System.out.println(MainThread.fileStr[i]+"盘对齐花费："+(manager.getEndInstance()-manager.getStartInstance())/Parameters.TEMP+"秒");
+				System.out.println(
+						printRunningParameters.formToChar(MainThread.fileStr[i])
+						+"盘对齐花费："+
+						printRunningParameters.formToChar((manager.getEndInstance()-manager.getStartInstance())/Parameters.TEMP+"秒")
+						);
 			}
 		}
 		catch (Exception e) {

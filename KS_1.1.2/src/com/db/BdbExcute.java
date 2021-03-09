@@ -3,7 +3,6 @@ package com.db;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Vector;
 
 import com.sleepycat.je.Cursor;
 import com.sleepycat.je.Database;

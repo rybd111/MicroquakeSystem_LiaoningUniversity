@@ -3,8 +3,11 @@
  */
 package utils;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.security.auth.login.FailedLoginException;
 
 import org.jfree.data.xy.VectorDataItem;
 
@@ -15,7 +18,7 @@ import javafx.scene.transform.Scale;
  * @author Hanlin Zhang
  */
 public class filePatternMatch {
-		
+	
 	/**
 	 * 匹配一种以"A-Za-z_"10位开头的文件，并以12位数字结尾的字符串。
 	 * 此方法可以匹配含有HFMED文件的文件夹或HFMED文件，只能用于老仪器。
@@ -62,8 +65,58 @@ public class filePatternMatch {
 		return false;
 	}
 	
+	/**
+	 * 去除后缀。
+	 * @param fileName
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午11:36:50
+	 */
 	public static String delSuffix(String fileName) {
 		return fileName.split("\\.")[0];
+	}
+	
+	/**
+	 * 
+	 * @param filename
+	 *  文件的全名。
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日下午4:12:18
+	 */
+	private static boolean checkSuffix(String filename, String suffixName) {
+		boolean flag = false;
+		//检测到有bin，则可以执行
+		String suffix = filename.split("\\.")[1];
+		if(suffix.equals(suffixName)) {
+			flag = true;
+		}
+		
+		return flag;
+	}
+	
+	/**
+	 * 判断是否满足HFMED文件的特征。
+	 * findNew类使用。
+	 * @param fileName
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日下午4:15:13
+	 */
+	public static boolean isHFMEDFile(String fileName) {
+		return (checkSuffix(fileName, "HFMED") & match_HFMED(fileName));
+	}
+	
+	/**
+	 * 判断是否满足bin文件的特征。
+	 * findNew类使用。
+	 * @param fileName
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日下午4:15:13
+	 */
+	public static boolean isBINFile(String fileName) {
+		return (checkSuffix(fileName, "bin") & match_HFMED(fileName));
 	}
 	
 	/**

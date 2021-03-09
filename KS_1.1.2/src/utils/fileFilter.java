@@ -13,7 +13,6 @@ import java.util.Date;
  * @author Hanlin Zhang
  */
 public class fileFilter {
-
 	/**
 	 * 找到给定路径的下满足给定时间点的所有HFMED对应的File数组，正常来说只能找到是一个给定时间对应的文件。
 	 * @param parent 给定路径到数据的前一个路径。
@@ -39,7 +38,7 @@ public class fileFilter {
      */
     @SuppressWarnings("unused")
 	public static File [] DataFileFilter(
-			String parent, 
+			String parent,
 			String timeStr
 			) {
     	
@@ -130,8 +129,8 @@ public class fileFilter {
      * @date revision 2021年2月19日上午11:08:47
      */
     public static File[] useSufixFilter(String parent) {
+    	
     	File file = new File(parent);
-    	//过滤器，过滤后缀为HFMED的文件。
         File[] files = file.listFiles((dir, name) -> name.endsWith(".bin") || name.endsWith(".HFMED"));
 
         return files;

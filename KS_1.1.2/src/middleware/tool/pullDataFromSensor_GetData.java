@@ -146,7 +146,7 @@ public class pullDataFromSensor_GetData {
 		for(int i=0;i<roots.length;i++) {
 			String Type = FileSystemView.getFileSystemView().getSystemTypeDescription(roots[i]);
 			if(Type.equals("网络驱动器")) {
-				if(determineDiskIsContainsHFMED_BIN(roots[i].listFiles())==true) {
+				if(determineDiskIsContains_HFMED_BIN(roots[i].listFiles())==true) {
 					sasroots = Arrays.copyOf(sasroots, sasroots.length+1);
 					sasroots[sasroots.length-1] = roots[i].getAbsolutePath();
 					sasroots[sasroots.length-1].toLowerCase();
@@ -155,7 +155,7 @@ public class pullDataFromSensor_GetData {
 			//测试用代码。
 			if(this.isTest == true) {
 				if(Type.equals("本地磁盘")) {
-					if(determineDiskIsContainsHFMED_BIN(roots[i].listFiles())==true) {
+					if(determineDiskIsContains_HFMED_BIN(roots[i].listFiles())==true) {
 						sasroots = Arrays.copyOf(sasroots, sasroots.length+1);
 						sasroots[sasroots.length-1] = roots[i].getAbsolutePath();
 						sasroots[sasroots.length-1].toLowerCase();
@@ -181,7 +181,7 @@ public class pullDataFromSensor_GetData {
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年1月30日下午7:36:50
 	 */
-	private boolean determineDiskIsContainsHFMED_BIN(File[] files) {
+	private boolean determineDiskIsContains_HFMED_BIN(File[] files) {
 		for(File file : files) {
 			if(
 					filePatternMatch.match_HFMED(file.getName()) || 

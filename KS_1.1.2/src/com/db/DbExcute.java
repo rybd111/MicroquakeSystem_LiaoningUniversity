@@ -1,24 +1,17 @@
 package com.db;
 
 import java.io.FileNotFoundException;
-import java.lang.reflect.Parameter;
-import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import com.h2.backupData.WriteWaveIntoCSVFile;
 import com.h2.constant.Parameters;
-
 import DataExchange.QuackResults;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
-import utils.ConvertCoordination_base;
 import utils.CoorProcess;
 import javafx.application.Platform;
 import javazoom.jl.decoder.JavaLayerException;

@@ -4,10 +4,8 @@ import com.h2.constant.Parameters;
 
 import DataExchange.Sensor;
 import mutiThread.MainThread;
-import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 

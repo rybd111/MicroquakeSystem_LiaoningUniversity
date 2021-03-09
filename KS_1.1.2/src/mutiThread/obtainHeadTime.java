@@ -9,6 +9,7 @@ import java.util.concurrent.CountDownLatch;
 import com.h2.constant.Parameters;
 
 import utils.DateArrayToIntArray;
+import utils.printRunningParameters;
 import controller.ADMINISTRATOR;
 import read.yang.readFile.FindNewFile;
 import read.yang.readFile.ReadData;
@@ -48,11 +49,15 @@ public class obtainHeadTime extends Thread{
 			manager.setNFile1(i, findNew.find(fileName,i,manager).getAbsolutePath());
 			if(manager.isMrMa[i]==true) {
 				manager.setNDateString(i, ReadDateFromHead.readDataSegmentHead_MrMa_String(manager.getNFile1(i)));
-				System.out.println(MainThread.fileStr[i]+"MrMa  " + manager.getNDateString(i));
+				System.out.println(
+						printRunningParameters.formToChar(MainThread.fileStr[i]+"MrMa：" + manager.getNDateString(i))
+					);
 			}
 			else {
 				manager.setNDateString(i, ReadDateFromHead.readDataSegmentHead_MrLiu_String(manager.getNFile1(i)));
-				System.out.println(MainThread.fileStr[i]+"MrLiu  ：" + manager.getNDateString(i));
+				System.out.println(
+						printRunningParameters.formToChar(MainThread.fileStr[i]+"MrLiu：" + manager.getNDateString(i))
+					);
 			}
 		}
 		catch(Exception e1){//the error of the network when the procedure are finding the file.

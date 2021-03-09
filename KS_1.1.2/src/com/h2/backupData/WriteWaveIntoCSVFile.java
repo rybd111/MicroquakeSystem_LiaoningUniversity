@@ -13,7 +13,6 @@ import utils.one_dim_array_max_min;
 
 public class WriteWaveIntoCSVFile {
 	
-	
 	/**
 	 * write a array to disk.
 	 * @param filePath
@@ -44,6 +43,7 @@ public class WriteWaveIntoCSVFile {
 			out.close();
 		}
 	}
+	
 	/**
 	 * write motivation data to a csv file.
 	 * @param selected sensors
@@ -69,6 +69,7 @@ public class WriteWaveIntoCSVFile {
 		}
 		
 		//get the motidata of each motivation sensor, but it is not align in time.
+		@SuppressWarnings("unchecked")
 		Vector<String> [] MOTIDATA = new Vector[s1.length];
 		for(int i=0;i<s1.length;i++) {
 			MOTIDATA[i] = new Vector<String>();
@@ -110,6 +111,13 @@ public class WriteWaveIntoCSVFile {
 		}
 	}
 	
+	/**
+	 * 删除给定的文件。
+	 * @param filepath
+	 *   绝对路径
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午10:04:43
+	 */
 	public void deleteWriteMotidata(String filepath) {
 		System.out.println(filepath);
 		File file = new File(filepath);
@@ -194,8 +202,20 @@ public class WriteWaveIntoCSVFile {
 		}
     }
 	
-	@SuppressWarnings("unused")
-//	public static void saveAllMotivationSensors(int countNumber, Sensor [] s1, Sensor[] s2, String panfu) throws ParseException, IOException {
+	/**
+	 * 
+	 * @param countNumber
+	 * 	激发的传感器数量
+	 * @param s1
+	 * 	激发传感器对象
+	 * @param panfu
+	 * 	激发盘符
+	 * @throws ParseException
+	 * @throws IOException
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午10:05:27
+	 */
+    @SuppressWarnings("unused")
 	public void saveAllMotivationSensors(int countNumber, Sensor [] s1, String panfu) throws ParseException, IOException {
 			//the name of csv file is named by the first data's date in seconds.
 			preProcess(s1, countNumber, s1[0].getAbsoluteTime(), panfu+" ");

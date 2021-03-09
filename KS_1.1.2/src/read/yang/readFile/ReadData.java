@@ -91,7 +91,6 @@ public class ReadData {
 	/** 对齐要跳过的字节 */
 	private byte[] dataByte1;
 	
-	
 	/** 存放1秒数据的字节 */
 	private byte[] dataYiMiao;
 	/** 三个字节进行显示 */
@@ -101,9 +100,10 @@ public class ReadData {
 	private ADMINISTRATOR manager;
 	
 	/**
+	 * 注意 ：fileName的格式：C:/Users/NiuNiu/Desktop/HYJ/
+	 * 构造函数，其中添加了manager对象，用于替换掉全局变量netError与newFile。
+	 * 根据不同的仪器进行不同的格式读取，并添加了	
 	 * @param filePath
-	 *     注意 ：fileName的格式：C:/Users/NiuNiu/Desktop/HYJ/XFJ/
-	 * @return
 	 * @throws Exception
 	 * @author Xingdong Yang, Hanlin Zhang, Chengfeng Liu, Ruiqiang Ma, Rui Cao.
 	 */
@@ -169,7 +169,15 @@ public class ReadData {
 			}
 		}
 	}
-
+	
+	/**
+	 * 这是在线读取数据的主函数，自动判断是那种仪器的数据，后期可能会扩展。
+	 * 每次存储一秒的数据，我们这里作了与离线数据一样的改进，当GPS出现缺失时，会进行补齐。
+	 * 不用担心当GPS信号出现问题时数据时间错误或程序无法继续正常运行。
+	 * @throws Exception
+	 * @author Xingdong Yang, Hanlin Zhang, Chengfeng Liu.
+	 * @date revision 2021年3月9日上午9:31:17
+	 */
 	public synchronized void readDataOnline() throws Exception {//读取整秒数据
 		if(manager.isMrMa[sensorID] == false) {
 			this.readDataOnline_liu();
@@ -179,6 +187,15 @@ public class ReadData {
 		}
 	}
 	
+	/**
+	 * 在线读取刘老师设备数据，同样每次调用保存1秒。
+	 * 此函数经过多次修改，最开始是无法获取实时数据，到达最新数据就告诉主程序产生了新文件，然后又从文件头开始读取数据。
+	 * 第二版开始，添加了到达末尾等待的机制，但出现波形毛刺的现象，这是因为没有跳过文件的端头。
+	 * 第三版开始，我们添加了文件段头的跳过操作，并使得数据与原数据一致，至此所有刘老师的仪器在线数据读取均完成。
+	 * @throws Exception
+	 * @author Xingdong Yang, Hanlin Zhang, Chengfeng Liu.
+	 * @date revision 2021年3月9日上午9:29:38
+	 */
 	private synchronized void readDataOnline_liu() throws Exception {
 		int by = -1;
 		boolean fileisOver = false;
@@ -271,12 +288,12 @@ public class ReadData {
 	}
 
 	/**
-	 * @param sName
-	 * @param sID
+	 * 这是离线读取数据的主函数，自动判断是那种仪器的数据，后期可能会扩展。
+	 * 每次存储一秒的数据。
 	 * when GPS has gone, we can use this function. Of course, this function used to read offline data, but we also can consider use this function after 
 	 * amount of testing, the procedure can select this function when GPS signal has gone with reading online. In my view, I can't agree to revise to this
 	 * way before the procedure become a more stable version.
-	 * @author rqma
+	 * @author Xingdong Yang, Hanlin Zhang, Chengfeng Liu, rqma.
 	 * @throws Exception
 	 */
 	public synchronized void readDataOffline() throws Exception {//读取整秒数据
@@ -288,6 +305,13 @@ public class ReadData {
 		}
 	}
 	
+	/**
+	 * 离线读取刘老师设备数据，调用它时获取1秒数据。
+	 * @throws InterruptedException
+	 * @throws IOException
+	 * @author Xingdong Yang, Hanlin Zhang, Chengfeng Liu.
+	 * @date revision 2021年3月9日上午9:24:27
+	 */
 	private synchronized void readDateOffline_liu() throws InterruptedException, IOException {
 		int by = -1;
 		boolean fileisOver = false;//标识程序是否到达末尾
@@ -329,7 +353,7 @@ public class ReadData {
 				this.netErrorProcess();
 				return;
 			}
-		
+
 			LoopCount++;
 
 			byte[] feature = {dataByte[0] , dataByte[1] , dataByte[2] , dataByte[3]};//特征码是4个字节，其内容为"HFME"
@@ -347,9 +371,15 @@ public class ReadData {
    			if(this.voltProcessing(volt, LoopCount) == true) {
    				break;
    			}
-		}// end while(true)_
+		}// end while(true)
 	}
 	
+	/**
+	 * 离线读取马老师仪器数据，同对齐数据一样，后期需要根据马老师仪器的数据结构进行修改。
+	 * @throws Exception
+	 * @author Rui Cao, Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:23:36
+	 */
 	private synchronized void readDataOffline_ma() throws Exception {
 		int count=0;//标志位，初始是0
 		int count1=0;
@@ -483,6 +513,14 @@ public class ReadData {
 		}
 	}
 	
+	/**
+	 * 这是离线对齐数据的主函数，自动判断是哪种仪器的数据，后期可能会扩展。
+	 * 不必一秒一秒读取，直接读取到当前对齐时间记录timeCount 和 对象中buffer中的位置即可。
+	 * @return
+	 * @throws Exception
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:21:56
+	 */
 	public int readDataAlignOffline() throws Exception {
 		int result = 0;
 		if(manager.isMrMa[sensorID] == true) {
@@ -495,10 +533,9 @@ public class ReadData {
 	}
 	
 	/**
-	 * @param sName
-	 * @param sID
+	 * 刘老师仪器的离线读取对齐已经基本成形，后期不必更改。
 	 * @return the same as the readDatadui, but this function can work in the environment GPS signal gone.
-	 * @author rqma
+	 * @author rqma, Hanlin Zhang.
 	 * @throws Exception
 	 */
 	private int readDataAlignOffline_liu() throws Exception {
@@ -575,6 +612,13 @@ public class ReadData {
         }// end while(true)
     }
 
+	/**
+	 * 离线对齐马老师仪器数据，后期调整根据马老师数据结构进行，不必对逻辑大动干戈。
+	 * @return
+	 * @throws IOException
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:20:09
+	 */
 	private int readDataAlignOffline_ma() throws IOException {
 //		String FindMaxByte = DateArrayToIntArray.FindFourByte(DuiQi.file1[DateArrayToIntArray.j]);
 //		String FindMaxByteHM = DateArrayToIntArray.FindTwoByte(DuiQi.file1[DateArrayToIntArray.j]);
@@ -627,9 +671,8 @@ public class ReadData {
 	}
 	
 	/**
-	 * 不必一秒一秒读取
-	 * 直接读取到当前对齐时间记录timeCount 和 对象中buffer中的位置即可
-	 * 但目前硬件对齐速度较慢，因此我们对每次的读数据时间进行计时，当每次1s对齐的时间超过2s时，重新选择盘符的组合。
+	 * 这是在线对齐的主函数，自动判断是那种仪器的数据，后期可能会扩展。
+	 * 不必一秒一秒读取，直接读取到当前对齐时间记录timeCount 和 对象中buffer中的位置即可。
 	 * @author Hanlin Zhang.
 	 */
 	public int readDataAlignOnline() throws Exception {
@@ -643,6 +686,13 @@ public class ReadData {
 		return result;
 	}
 	
+	/**
+	 * 在线对齐刘老师设备数据。
+	 * @return
+	 * @throws IOException
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:17:03
+	 */
 	public int readDataAlignOnline_liu() throws IOException {
 		boolean flag1 = false ;
 		boolean flag2 = false ;
@@ -720,12 +770,26 @@ public class ReadData {
 		}// end while(true)
 	}
 	
-	/** 这是对外的数据  ,给用户一秒的数据 
-	 * @throws Exception */
+	/**
+	 * 在线获取1秒数据，每次调用都获得1秒长度的数据。
+	 * 这是对外的数据,给用户一秒的数据
+	 * @return
+	 * @throws Exception
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:18:49
+	 */
 	public Vector<String> getOnlineData() throws Exception {
 		readDataOnline();
 		return data;
 	}
+	/**
+	 * 离线获取1秒数据，每次调用都获得1秒长度的数据。
+	 * 这是对外的数据,给用户一秒的数据
+	 * @return
+	 * @throws Exception
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:18:38
+	 */
 	public Vector<String> getOfflineData() throws Exception{
 		readDataOffline();
 		return data;
@@ -801,8 +865,15 @@ public class ReadData {
 		 }
 	}
 	
+	/**
+	 * 找到文件目录下的最新文件，并把它赋给file
+	 * 相当于刷新目录，并找到当前文件是否还是这个正在读取的文件。
+	 * @return
+	 * @throws Exception
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:16:18
+	 */
 	public boolean setState() throws Exception {
-		// 找到文件目录下的最新文件，并把它赋给file
 		this.nameF1 = manager.getNNameF(sensorID);//上次的文件
 		findNew.find(filePath, sensorID, manager);
 		if(manager.getNNameF(sensorID).compareTo(nameF1)==0 ){//最新文件还是这个，返回
@@ -813,6 +884,13 @@ public class ReadData {
 		}
 	}
 	
+	/**
+	 * 刘老师仪器使用。
+	 * 判断是否为HFMED文件的段头，到了段头就跳过4个字节。
+	 * @throws IOException
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:05:43
+	 */
 	private void HFMEFeature() throws IOException {
 		byte[] feature = {dataByte[0] , dataByte[1] , dataByte[2] , dataByte[3]};//特征码是4个字节，其内容为"HFME"
 		if(new String(feature).compareTo("HFME") == 0){//读到了数据段头
@@ -821,6 +899,11 @@ public class ReadData {
 		}
 	}
 	
+	/**
+	 * 当发生网络错误时，设置网络错误标志位并在控制台提示。
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:06:13
+	 */
 	private void netErrorProcess() {
 		System.out.println(sensorID+"号台站"+this.sensorName+"产生了网络错误，记录当前错误时间！");
 		manager.setTimeInterrupt(timeCount);
@@ -830,11 +913,23 @@ public class ReadData {
 		manager.setNetError(true);//网络错误，同时记录产生网络错误的盘符及年月日
 	}
 	
+	/**
+	 * 设置网络错误标志，并在控制台提示。
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:06:53
+	 */
 	private void netErrorAlign() {
 		manager.setNetError(true);
 		System.out.println("对齐过程产生网络错误");
 	}
 	
+	/**
+	 * 在线的尾部处理，当读到文件末尾时，设置新文件标志位，并输出控制台。
+	 * @return
+	 * @throws Exception
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:07:12
+	 */
 	private boolean tailOnlineProcessing() throws Exception {
 		this.countSetState++;
 		manager.setNewFile(setState());
@@ -848,6 +943,11 @@ public class ReadData {
 		}
 	}
 	
+	/**
+	 * 离线的尾部处理，当读到文件末尾时，设置新文件标志位，并输出控制台。
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:11:42
+	 */
 	private void tailOfflineProcessing() {
 		this.countSetState++;
 		manager.setNewFile(true);
@@ -857,6 +957,15 @@ public class ReadData {
 		data.clear();timeCount = 0;
 	}
 	
+	/**
+	 * 刘老师仪器使用。
+	 * 压力值处理，当出现高电平向低电平过度时，认为是1秒的结束标志。
+	 * @param volt
+	 * @param LoopCount
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:12:15
+	 */
 	private boolean voltProcessing(short volt, int LoopCount) {
 		if (isBroken == false) {//之前对齐时电压没缺失，在读一秒时，出现电压缺失
 			if (LoopCount > (Parameters.FREQUENCY+210)) {//循环5010(一秒最多5010条数据)次时，还没退出，表明文件电平缺失，
@@ -889,6 +998,13 @@ public class ReadData {
 		return false;
 	}
 	
+	/**
+	 * 刘老师仪器使用。
+	 * 时间的规整函数，当GPS压力位出现跳秒时，我们进行时间+1秒操作。
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月9日上午9:13:05
+	 */
 	public String formerDate() {
 		Calendar calendar = Calendar.getInstance(); //内存溢出的出错位置。~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 		calendar.setTime(this.date);
@@ -900,8 +1016,8 @@ public class ReadData {
 	}
 	
 	/**
-	 * @description
-	 * 注意：dataBytes的字节数（下标），以及通道是哪几个，若123通道则必须放在x1，y1，z1中，456通道放在x2，y2，z2中
+	 * 注意：dataBytes的字节数（下标），以及通道是哪几个，若123通道则必须放在x1，y1，z1中，456通道放在x2，y2，z2中。
+	 * 马老师仪器由于更改了6通道，双量程，因此使用channel=123456条件进入。
 	 * @param dataBytes
 	 * @return
 	 * @author Chengfeng Liu, Hanlin Zhang, Rui Cao.

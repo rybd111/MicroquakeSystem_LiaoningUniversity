@@ -3,23 +3,17 @@ package read.yang.readFile;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import com.h2.constant.Parameters;
-
-import controller.ADMINISTRATOR;
-import javazoom.jl.decoder.Manager;
 import read.yang.unity.HfmedHead;
 import read.yang.util.FindByte;
 import utils.String2Date;
 
 /**
- * the class reads date segment head ,
- * but only returns the date of the first data segment 
- * @author Xingdong Yang.
- *
+ * the class reads date segment head's time.
+ * but only returns the date of the first data segment.
+ * @author Xingdong Yang, Hanlin Zhang.
  */
 public class ReadDateFromHead {
 	
@@ -143,7 +137,7 @@ public class ReadDateFromHead {
 		//打开流
 		BufferedInputStream buffered = new BufferedInputStream(new FileInputStream(file)) ;
 		buffered.skip(Parameters.WenJianTou);
-		int count = buffered.read(dataSegmentHeadByte);
+		buffered.read(dataSegmentHeadByte);
 		buffered.close();
 		byte[] segmentDate = FindByte.searchByteSeq(dataSegmentHeadByte, 8, 17) ;
 		String startDate;
