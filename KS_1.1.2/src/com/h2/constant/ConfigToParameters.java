@@ -160,9 +160,6 @@ public class ConfigToParameters {
 		            if(item[0].equals("Yizhen")) {
 		            	Parameters.Yizhen = Integer.parseInt(item[1]);
 		            }
-		            if(item[0].equals("YIMiaoG")) {
-		            	Parameters.YIMiaoG = Integer.parseInt(item[1]);
-		            }
 		            if(item[0].equals("YIMiao")) {
 		            	Parameters.YIMiao = Integer.parseInt(item[1]);
 		            }

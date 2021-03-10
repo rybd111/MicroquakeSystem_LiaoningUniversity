@@ -33,8 +33,8 @@ public class MainTest {
 		/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取
 		 * 具体参看InitialConfig类说明
 		 * */
-//		String prePath = "I:/矿山/矿山数据/新设备数据/5/";
-		String prePath = "I:/矿山/矿山数据/红阳三矿/20200726/";
+		String prePath = "I:/矿山/矿山数据/新设备数据/5/";
+//		String prePath = "I:/矿山/矿山数据/红阳三矿/20200726/";
 		InitialConfig config = new InitialConfig(prePath);
 		
 		/** 启动线程*/

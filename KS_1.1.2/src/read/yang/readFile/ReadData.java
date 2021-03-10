@@ -90,7 +90,6 @@ public class ReadData {
 	private byte[] dataByte;
 	/** 对齐要跳过的字节 */
 	private byte[] dataByte1;
-	
 	/** 存放1秒数据的字节 */
 	private byte[] dataYiMiao;
 	/** 三个字节进行显示 */
@@ -130,11 +129,11 @@ public class ReadData {
 			 }
 			 else if(manager.isMrMa[th]==true) {//offline Mr. Ma.
 				 this.file=new File(this.sensorName);
-				 this.channel=456;
+				 this.channel=123456;
 				 this.date = ReadDateFromHead.readDataSegmentHead_MrMa_Date(this.file);// 从第一个数据段头中获得数据文件起始记录时间
 				 data = new Vector<String>();//用于存放数据
 				 dataByte = new byte[Parameters.Shi];//每次读10个字节的字节数组
-				 dataByte1 = new byte[Parameters.ShuJu];//每次跳过210个字节的数据。
+				 dataByte1 = new byte[Parameters.ShuJu];//每次跳过840个字节的数据。
 				 dataYiMiao=new byte[Parameters.YIMiao];
 				 readsan=new byte[Parameters.San];
 				 this.newS=null;
@@ -144,11 +143,11 @@ public class ReadData {
 		else {//online Mr. Liu.
 			if(manager.isMrMa[th]==true) {
 				this.file=new File(manager.getNFile1(th));
-				this.channel=456;
+				this.channel=123456;
 				this.date = ReadDateFromHead.readDataSegmentHead_MrMa_Date(manager.getNFile1(th));// 从第一个数据段头中获得数据文件起始记录时间
 				data = new Vector<String>();//用于存放数据
 				dataByte = new byte[Parameters.Shi];//每次读10个字节的字节数组
-				dataByte1 = new byte[Parameters.ShuJu];//每次跳过210个字节的数据。
+				dataByte1 = new byte[Parameters.ShuJu];//每次跳过840个字节的数据。
 				dataYiMiao=new byte[Parameters.YIMiao];
 				readsan=new byte[Parameters.San];
 				this.newS=null;
@@ -450,11 +449,19 @@ public class ReadData {
 						//秒数变动
 						else {
 							//变动后，先将dateYiMiao数据保存到前一秒处。
-							for(int i=0;i<count/3;i++) {
-								readsan[0]=dataYiMiao[2*i+i];
-								readsan[1]=dataYiMiao[2*i+i+1];
-								readsan[2]=dataYiMiao[2*i+i+2];
-								
+							for(int i=0;i<count/12;i++) {
+								readsan[0]=dataYiMiao[11*i+i];
+								readsan[1]=dataYiMiao[11*i+i+1];
+								readsan[2]=dataYiMiao[11*i+i+2];
+								readsan[3]=dataYiMiao[11*i+i+3];
+								readsan[4]=dataYiMiao[11*i+i+4];
+								readsan[5]=dataYiMiao[11*i+i+5];
+								readsan[6]=dataYiMiao[11*i+i+6];
+								readsan[7]=dataYiMiao[11*i+i+7];
+								readsan[8]=dataYiMiao[11*i+i+8];
+								readsan[9]=dataYiMiao[11*i+i+9];
+								readsan[10]=dataYiMiao[11*i+i+10];
+								readsan[11]=dataYiMiao[11*i+i+11];
 					   			DataElement dataElement = this.getDataElementFromDataBytes();
 								
 								String date1 = format2.format(date);
@@ -492,12 +499,20 @@ public class ReadData {
 				else
 					return;
 				
-				if(count==(Parameters.FREQUENCY+200)*3) {
-					for(int i=0;i<((Parameters.FREQUENCY+200)*3-count1)/3;i++) {
-						readsan[0]=dataYiMiao[count1+(2*i+i)];
-						readsan[1]=dataYiMiao[count1+(2*i+i+1)];
-						readsan[2]=dataYiMiao[count1+(2*i+i+2)];
-						
+				if(count==(Parameters.FREQUENCY+200)*12) {
+					for(int i=0;i<((Parameters.FREQUENCY+200)*12-count1)/12;i++) {
+						readsan[0]=dataYiMiao[count1+(11*i+i)];
+						readsan[1]=dataYiMiao[count1+(11*i+i+1)];
+						readsan[2]=dataYiMiao[count1+(11*i+i+2)];
+						readsan[3]=dataYiMiao[count1+(11*i+i+3)];
+						readsan[4]=dataYiMiao[count1+(11*i+i+4)];
+						readsan[5]=dataYiMiao[count1+(11*i+i+5)];
+						readsan[6]=dataYiMiao[count1+(11*i+i+6)];
+						readsan[7]=dataYiMiao[count1+(11*i+i+7)];
+						readsan[8]=dataYiMiao[count1+(11*i+i+8)];
+						readsan[9]=dataYiMiao[count1+(11*i+i+9)];
+						readsan[10]=dataYiMiao[count1+(11*i+i+10)];
+						readsan[11]=dataYiMiao[count1+(11*i+i+11)];
 			   			DataElement dataElement = this.getDataElementFromDataBytes();
 						
 						String date1 = format2.format(date);
@@ -1029,9 +1044,9 @@ public class ReadData {
 		
 		if(channel==456){
 			if(manager.isMrMa[sensorID]==true){
-				short x2 =dataByte[0];
-				short y2 =dataByte[1];
-				short z2 =dataByte[2];
+				short x2 = readsan[0];
+				short y2 = readsan[1];
+				short z2 = readsan[2];
 				dataElement.setX2(x2);
 				dataElement.setY2(y2);
 				dataElement.setZ2(z2);
@@ -1056,20 +1071,35 @@ public class ReadData {
 			dataElement.setZ1(z1);
 		}
 		if(channel==123456){
-			short x1 = Byte2Short.byte2Short(dataByte[0], dataByte[1]);
-			short y1 = Byte2Short.byte2Short(dataByte[2], dataByte[3]);
-			short z1 = Byte2Short.byte2Short(dataByte[4], dataByte[5]);		
-			short x2 = Byte2Short.byte2Short(dataByte[6], dataByte[7]);
-			short y2 = Byte2Short.byte2Short(dataByte[8], dataByte[9]);
-			short z2 = Byte2Short.byte2Short(dataByte[10], dataByte[11]);
-			
-			dataElement.setX1(x1);
-			dataElement.setY1(y1);
-			dataElement.setZ1(z1);
-			
-			dataElement.setX2(x2);
-			dataElement.setY2(y2);
-			dataElement.setZ2(z2);
+			if(manager.isMrMa[sensorID]==true){
+				short x1 = Byte2Short.byte2Short(readsan[0], readsan[1]);
+				short y1 = Byte2Short.byte2Short(readsan[2], readsan[3]);
+				short z1 = Byte2Short.byte2Short(readsan[4], readsan[5]);		
+				short x2 = Byte2Short.byte2Short(readsan[6], readsan[7]);
+				short y2 = Byte2Short.byte2Short(readsan[8], readsan[9]);
+				short z2 = Byte2Short.byte2Short(readsan[10], readsan[11]);
+				dataElement.setX1(x1);;
+				dataElement.setY1(y1);
+				dataElement.setZ1(z1);
+				dataElement.setX2(x2);
+				dataElement.setY2(y2);
+				dataElement.setZ2(z2);
+			}else {
+				short x1 = Byte2Short.byte2Short(dataByte[0], dataByte[1]);
+				short y1 = Byte2Short.byte2Short(dataByte[2], dataByte[3]);
+				short z1 = Byte2Short.byte2Short(dataByte[4], dataByte[5]);		
+				short x2 = Byte2Short.byte2Short(dataByte[6], dataByte[7]);
+				short y2 = Byte2Short.byte2Short(dataByte[8], dataByte[9]);
+				short z2 = Byte2Short.byte2Short(dataByte[10], dataByte[11]);
+				
+				dataElement.setX1(x1);
+				dataElement.setY1(y1);
+				dataElement.setZ1(z1);
+				
+				dataElement.setX2(x2);
+				dataElement.setY2(y2);
+				dataElement.setZ2(z2);
+			}
 		}
 		return dataElement;
 	}

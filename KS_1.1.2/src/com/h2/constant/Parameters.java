@@ -191,17 +191,16 @@ public class Parameters
 	 */
 	public static int WenJianTou = 284;//4通道跳过242，7通道跳过284,this variable is changed by ReadData class and 
 	public static int ShuJuTou1=10;//新的设备只有10个字节的头，接下来就是数据。
-	public static int ShuJu=210;//数据占210个字节。
+	public static int ShuJu=840;//数据占840个字节。
 	public static int Shi=10;//每次读10个字节。
 	
 	/**
 	 * 在新设备上使用
 	 * 马老师设备通道不知是否会改变？如果改变需要与刘老师设备一样进行参数的调整。
 	 */
-	public static int Yizhen = 220;//新设备一帧是220个字节其中前10个字节是头。
-	public static int YIMiaoG=15720;//一秒一共有15720个字节,算上了每帧的10个字节头
-	public static int YIMiao=15000;//一秒的数据共有15000个字节
-	public static int San=3;//3个字节进行显示
+	public static int Yizhen = 850;//10+70*6*2 = 850。
+	public static int YIMiao=60000;//一秒的数据共有60000个字节
+	public static int San=12;//12个字节进行显示
 	
 	/**
 	 * 如果我们设置大窗口为30s，则只能最小截取到13秒的数据，最大截取到18s数据。
