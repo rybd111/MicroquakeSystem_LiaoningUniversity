@@ -16,6 +16,15 @@ import mutiThread.MainThread;
  */
 public class printRunningParameters {
 
+	/**
+	 * 输出当前后台使用的模式。
+	 * @param outString
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月10日下午4:10:43
+	 */
+	public static void printModel(String outString) {
+		System.out.println("当前后台使用的模式是："+ outString);
+	}
 	
 	public static void printAllParameters(
 //			String fileStr[],
@@ -44,6 +53,7 @@ public class printRunningParameters {
 		System.out.println("SevIP： "+ formToChar(Parameters.SevIP));
 		System.out.println("到时差判断："+ Parameters.SSIntervalToOtherSensors);
 		System.out.println("调试模式："+ Parameters.Adjust);
+		
 		if(Parameters.TongDaoDiagnose == 1) {
 			System.out.println("通道判断是否为混合模式：否    " + "是否进行通道判断" + printRunningParameters.formToChar(String.valueOf(Parameters.TongDaoDiagnose)));
 		}

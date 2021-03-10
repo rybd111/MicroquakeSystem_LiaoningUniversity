@@ -5,6 +5,8 @@ package Entrance;
 
 import com.h2.constant.Parameters;
 
+import utils.printRunningParameters;
+
 /**
  * 设置8种情景，以方便调试
  * 同时，根据不同情景进行了不同的级联全局变量设置，实现了快速模式设置。
@@ -23,36 +25,46 @@ public class RunningSceneConfig {
 		switch (s) {
 		case 0:
 			ADJUST_LOCAL();
+			printRunningParameters.printModel("ADJUST_LOCAL");
 			break;
 		case 1:
 			LOCAL_OFFLINE_STORAGE();
+			printRunningParameters.printModel("LOCAL_OFFLINE_STORAGE");
 			break;
 		case 2:
 			LOCAL_OFFLINE_UNSTORAGE();
+			printRunningParameters.printModel("LOCAL_OFFLINE_UNSTORAGE");
 			break;
 		case 3:
 			REMOTE_OFFLINE_STORAGE();
+			printRunningParameters.printModel("REMOTE_OFFLINE_STORAGE");
 			break;
 		case 4:
 			REMOTE_OFFLINE_UNSTORAGE();
+			printRunningParameters.printModel("REMOTE_OFFLINE_UNSTORAGE");
 			break;
 		case 5:
 			LOCAL_ONLINE_STORAGE();
+			printRunningParameters.printModel("LOCAL_ONLINE_STORAGE");
 			break;
 		case 6:
 			LOCAL_ONLINE_UNSTORAGE();
+			printRunningParameters.printModel("LOCAL_ONLINE_UNSTORAGE");
 			break;
 		case 7:
 			REMOTE_ONLINE_STORAGE();
+			printRunningParameters.printModel("REMOTE_ONLINE_STORAGE");
 			break;
 		case 8:
 			REMOTE_ONLINE_UNSTORAGE();
+			printRunningParameters.printModel("REMOTE_ONLINE_UNSTORAGE");
 			break;
 		default:
 			System.out.println("请选择模式");
 			System.exit(0);
 			break;
 		}
+		
 	}
 	
 	private void LOCAL_OFFLINE_STORAGE() {
