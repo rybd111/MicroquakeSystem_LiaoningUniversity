@@ -37,7 +37,7 @@ public class MainTest {
 //		String prePath = "I:/矿山/矿山数据/红阳三矿/20200726/";
 		InitialConfig config = new InitialConfig(prePath);
 		
-		/** 启动线程*/
+		/** 启动主线程*/
 		MainThread aMain = new MainThread();
 		aMain.start();
 	}

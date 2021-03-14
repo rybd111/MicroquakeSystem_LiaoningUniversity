@@ -61,7 +61,7 @@ public class SaveInfo {
 			String kind, 
 			String quakeString, 
 			double finalEnergy, 
-			double tensor_c, 
+			double tensor_c,
 			double b_value,
 			ADMINISTRATOR manager
 			) {

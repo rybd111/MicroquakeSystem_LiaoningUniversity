@@ -1,7 +1,5 @@
 package mutiThread;
 
-
-
 import com.h2.constant.Parameters;
 import DataExchange.vectorExchange;
 import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
@@ -12,9 +10,7 @@ import controller.ADMINISTRATOR;
  * @author Yilong Zhang, Hanlin Zhang, Chengfeng Liu, rqma, Rui Cao, et al.
  */
 public class MainThread extends Thread{
-	/**
-     * fileStr must define at first with different path for your destination.
-     */
+	/**fileStr must define at first with different path for your destination.*/
     public static String fileStr[] = new String[Parameters.SensorNum];
     /**this variable obtain the parent fold name.*/
     public static String fileParentPackage[] = new String[Parameters.SensorNum];
