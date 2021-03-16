@@ -1,3 +1,8 @@
+/DataExchange/
+/Entrance/
+/com/
+/controller/
+/middleware/
 /mutiThread/
 /org/
 /read/
@@ -5,8 +10,3 @@
 /utils/
 /visual/
 /visual_data/
-/DataExchange/
-/Entrance/
-/com/
-/controller/
-/middleware/

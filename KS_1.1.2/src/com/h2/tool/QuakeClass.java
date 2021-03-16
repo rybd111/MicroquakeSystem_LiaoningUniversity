@@ -1,12 +1,8 @@
 package com.h2.tool;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Vector;
 import com.h2.constant.Parameters;
-import com.ibm.icu.text.DateFormat.BooleanAttribute;
 import com.mathworks.toolbox.javabuilder.MWException;
 
 import DataExchange.Sensor;
@@ -14,6 +10,7 @@ import PSO.pso_locate;
 import ELMdiag.Class1;
 import Energy_matlab.Energy_;
 import mutiThread.MainThread;
+import timelocation.Time_Locate;
 import utils.Data2Object_MATLAB;
 import utils.DistanceAroundSensors;
 import utils.SelectChannel;
@@ -455,5 +452,38 @@ public class QuakeClass
 		
 		return s;
 	}
+	
+	
+//	时差定位算法
+	public static Sensor timelocate(int c,double[][] stationcoordinates,double[][] coordinate) {
+		Time_Locate tLocate = null;
+		double [] results1=new double[4];
+		Sensor s = new Sensor();	
+		try {
+			tLocate = new Time_Locate();
+		} catch (MWException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			Object station1 = Data2Object_MATLAB.array2Object(stationcoordinates);
+			Object coor1 = Data2Object_MATLAB.array2Object(coordinate);
+			Object c1 = Data2Object_MATLAB.num2Object(Parameters.C);
+			Object[] results=tLocate.timelocation(4, c1, station1, coor1);
+			results1[0]=Double.parseDouble(results[0].toString());
+			results1[1]=Double.parseDouble(results[1].toString());
+			results1[2]=Double.parseDouble(results[2].toString());
+			results1[3]=Double.parseDouble(results[3].toString());
+			s.setx(results1[0]);
+			s.sety(results1[1]);
+			s.setz(results1[2]);
+			s.setSecTime(results1[3]);
+		} catch (MWException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return s;		
+	}
+
 	
 }

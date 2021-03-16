@@ -1,12 +1,8 @@
-/**
- * 
- */
 package com.h2.locate;
 
 import java.text.ParseException;
 import java.util.Arrays;
 
-import com.db.DbExcute;
 import com.h2.constant.Parameters;
 import com.h2.tool.Doublelocate;
 import com.h2.tool.FiveLocation;
@@ -14,7 +10,6 @@ import com.h2.tool.Majorlocate;
 import com.h2.tool.QuakeClass;
 import com.mathworks.toolbox.javabuilder.MWException;
 
-import DataExchange.QuackResults;
 import DataExchange.Sensor;
 import controller.ADMINISTRATOR;
 
@@ -108,6 +103,30 @@ public class locate {
 				saveAndcal.setlocation_refine(location_refine);
 				saveAndcal.generalProcess(kind,manager);
 				break;
+				
+				
+				
+			case "timelocation":
+				double[][] taizhan=Parameters.SENSORINFO1[Parameters.diskNameNum];
+				double [][] stationcoordinates=new double[taizhan.length][3];//各个台站相对坐标
+				int a=manager.getBaseCoordinate();						
+				for (int i = 0; i < taizhan.length; i++) {
+					stationcoordinates[i][0]=taizhan[i][0]-taizhan[manager.getBaseCoordinate()][0];
+					stationcoordinates[i][1]=taizhan[i][1]-taizhan[manager.getBaseCoordinate()][1];
+					stationcoordinates[i][2]=taizhan[i][2]-taizhan[manager.getBaseCoordinate()][2];
+				}
+//				double [][] stationcoordinates=Parameters.SENSORINFO1[Parameters.diskNameNum];//各个台站坐标
+				double [][] coordinate = new double[Motisensors.length][5];//激发坐标和到时
+		 		for(int i=0;i<Motisensors.length;i++) {
+		 			coordinate[i][0]=i;
+		 			coordinate[i][1]=Motisensors[i].getx();
+		 			coordinate[i][2]=Motisensors[i].gety();
+		 			coordinate[i][3]=Motisensors[i].getz();
+		 			coordinate[i][4]=Motisensors[i].getSecTime();
+		 		}
+		 		location_refine=QuakeClass.timelocate(Parameters.C,stationcoordinates, coordinate);
+		 		saveAndcal.setlocation_refine(location_refine);
+				saveAndcal.generalProcess(kind,manager);
 		}
 	}
 	

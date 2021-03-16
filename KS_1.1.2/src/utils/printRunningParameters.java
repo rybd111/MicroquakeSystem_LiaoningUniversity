@@ -26,16 +26,7 @@ public class printRunningParameters {
 		System.out.println("当前后台使用的模式是："+ outString);
 	}
 	
-	public static void printAllParameters(
-//			String fileStr[],
-//			String region,
-//			int sensorNum,
-//			int frequency,
-//			double distanceToSquareWave,
-//			String SevIP,
-//			double[][][] sensorINFO,
-//			int diskNameNum
-			) throws IOException {
+	public static void printAllParameters() throws IOException {
 		
 		System.out.println("自动配置的主路径为： ");
 		for(int i=0;i<MainThread.fileStr.length;i++) {
