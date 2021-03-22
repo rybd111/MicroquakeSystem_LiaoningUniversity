@@ -485,7 +485,7 @@ public class ReadData {
 				   			for(int j=0;j<10;j++) {
 								dataYiMiao[count] = dataByte[j];
 								count=count+1;
-							}	
+							}
 //				   			System.out.println("enter into hop");
 						}
 					}
