@@ -156,7 +156,7 @@ public class WriteWaveIntoCSVFile {
         try {
         	if(file.exists())
 			{
-        		System.gc();
+//        		System.gc();
 				file.delete();
 				file.createNewFile();
 			}
