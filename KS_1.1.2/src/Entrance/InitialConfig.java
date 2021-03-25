@@ -97,8 +97,12 @@ public class InitialConfig {
 		
 		for(int i=0;i<fs.length;i++) {
 			if(fs[i].isDirectory()) {
-				//过滤包含bin和HFMED的所有文件，因此必须在运行前将各种设备文件分开，以免出现错误。
+				//过滤包含bin和HFMED的所有文件，且需要包含Test字符串，因此必须在运行前将各种设备文件分开，以免出现错误。
 				File[] fs1 = fileFilter.useFileFilter(fs[i].getPath());
+				
+				if(fs1 == null) {
+					continue;
+				}
 				if(fs1.length>0) {
 					panfu = Arrays.copyOf(panfu, panfu.length+1);
 					panfu[panfu.length-1] = fs[i].getAbsolutePath();

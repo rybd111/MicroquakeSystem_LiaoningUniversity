@@ -17,7 +17,7 @@ import mutiThread.MainThread;
 public class printRunningParameters {
 
 	/**
-	 * 输出当前后台使用的模式。
+	 * 输出当前后台配置运行的基本信息。
 	 * @param outString
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年3月10日下午4:10:43
@@ -32,18 +32,14 @@ public class printRunningParameters {
 		for(int i=0;i<MainThread.fileStr.length;i++) {
 			System.out.println(formToChar(MainThread.fileStr[i]));
 		}
-		
-		System.out.print("自动配置的矿区为： ");
-		System.out.println(formToChar(Parameters.region));
-		System.out.print("自动配置的传感器数量为： ");
-		System.out.println(formToChar(String.valueOf(Parameters.SensorNum)));
-		
-		System.out.println("其余参数： ");
+		System.out.println("自动配置的矿区为： "+formToChar(Parameters.region));
+		System.out.println("自动配置的传感器数量为： "+formToChar(String.valueOf(Parameters.SensorNum)));
 		System.out.println("FREQUENCY： "+ formToChar(String.valueOf(Parameters.FREQUENCY)));
 		System.out.println("distanceToSquareWave： "+ formToChar(String.valueOf(Parameters.distanceToSquareWave)));
-		System.out.println("SevIP： "+ formToChar(Parameters.SevIP));
-		System.out.println("到时差判断："+ Parameters.SSIntervalToOtherSensors);
-		System.out.println("调试模式："+ Parameters.Adjust);
+		System.out.println("当前配置的服务器IP为： "+ formToChar(Parameters.SevIP));
+		System.out.println("当前存储的数据库名为： "+ formToChar(Parameters.DatabaseName5));
+		System.out.println("到时差判断是否开启："+ Parameters.SSIntervalToOtherSensors);
+		System.out.println("调试模式是否开启："+ Parameters.Adjust);
 		
 		if(Parameters.TongDaoDiagnose == 1) {
 			System.out.println("通道判断是否为混合模式：否    " + "是否进行通道判断" + printRunningParameters.formToChar(String.valueOf(Parameters.TongDaoDiagnose)));
@@ -52,11 +48,9 @@ public class printRunningParameters {
 			System.out.println("通道判断是否为混合模式：是    " + "是否进行通道判断" + printRunningParameters.formToChar(String.valueOf(Parameters.TongDaoDiagnose)));
 		}
 		
-		System.out.println("SENSORINFO1： ");
+		System.out.println("自动配置的传感器坐标--SENSORINFO1： ");
 		outArray.outArray_double(Parameters.SENSORINFO1, Parameters.diskNameNum);
-		System.out.println("StartTimeStr： "+ formToChar(Parameters.StartTimeStr));
-		
-		
+		System.out.println("StartTimeStr： " + formToChar(Parameters.StartTimeStr));
 		System.out.println("自动配置完毕，是否继续？按任意键继续——————————");
 		System.in.read();System.in.read();
 		

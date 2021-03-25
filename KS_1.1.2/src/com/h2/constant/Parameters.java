@@ -293,6 +293,18 @@ public class Parameters
 		{ "sel", "nhy", "wmz", "tbz"}//madaotou
 	};
 	
+	
+	
+	/**
+	 * 端口号
+	 */
+	public static final int[] duankou = {
+		10000,//S1
+		20000,//S2
+		30000,//S3
+		40000//S4
+	};
+	
 	/**
 	 * the location of all sensor which must be correspond with diskName in sequence.
 	 * 每当部署到新矿区，我们就要准确的获取他们的坐标，并找到他们对应的盘符，更新他们。

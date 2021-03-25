@@ -81,7 +81,7 @@ public class fileFilter {
      */
     public static boolean boolFileFilter(String parent) {
     	//过滤器，过滤后缀为HFMED的文件。
-        File[] files = useSufixFilter(parent); 
+        File[] files = useSuffixFilter(parent); 
         files = useFilenameMatcher(files);
         
         if (files.length == 0) {
@@ -116,10 +116,14 @@ public class fileFilter {
      * @date revision 2021年2月28日上午11:53:49
      */
     public static File[] useFileFilter(String parent) {
-    	File files[] = useSufixFilter(parent);
+    	File files[] = useSuffixFilter(parent);
     	files = useFilenameMatcher(files);
     	
-    	return files;
+    	if(parent.contains("Test")) {
+    		return files;
+    	}
+    	
+    	return null;
     }
     
     /**
@@ -128,7 +132,7 @@ public class fileFilter {
      * @author Hanlin Zhang.
      * @date revision 2021年2月19日上午11:08:47
      */
-    public static File[] useSufixFilter(String parent) {
+    public static File[] useSuffixFilter(String parent) {
     	
     	File file = new File(parent);
         File[] files = file.listFiles((dir, name) -> name.endsWith(".bin") || name.endsWith(".HFMED"));
