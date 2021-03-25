@@ -109,21 +109,23 @@ public class fileFilter {
     }
     
     /**
-     * 既过滤后缀又过滤文件名。
+     * 既过滤后缀又过滤文件名，还过滤文件夹名。
      * @param parent
      * @return
      * @author Hanlin Zhang.
      * @date revision 2021年2月28日上午11:53:49
      */
     public static File[] useFileFilter(String parent) {
+    	String fileParentName = lastPartOfAbPath(parent);
+    	
+    	if(filePatternMatch.isLetter(fileParentName) == false) {
+    		return null;
+    	}
+    	
     	File files[] = useSuffixFilter(parent);
     	files = useFilenameMatcher(files);
     	
-    	if(parent.contains("Test")) {
-    		return files;
-    	}
-    	
-    	return null;
+    	return files;
     }
     
     /**
@@ -217,6 +219,20 @@ public class fileFilter {
         }
 		
 		return files;
+    }
+    
+    /**
+     * 获取文件路径中最后一个分隔符的内容，也就是上一级文件夹名。
+     * @param AbPath
+     * @return
+     * @author Hanlin Zhang.
+     * @date revision 2021年3月25日下午4:57:11
+     */
+    public static String lastPartOfAbPath(String AbPath) {
+    	
+    	String[] A = AbPath.split("/");
+    	
+    	return A[A.length-1];
     }
     
     

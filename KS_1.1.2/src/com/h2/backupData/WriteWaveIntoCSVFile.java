@@ -126,6 +126,7 @@ public class WriteWaveIntoCSVFile {
 	
 	/**
 	 * Write the morivation data to a csv file.
+	 * 20210325更新，新生成的同名波形文件，直接覆盖旧的，以减轻每次跑程序的操作压力。
 	 * @param totalMotiData the data we will write to the disk.
 	 * @param filePath the absolute path on our disk.
 	 * @param line the motivation position in motivation data.
@@ -153,7 +154,15 @@ public class WriteWaveIntoCSVFile {
         	out = new BufferedWriter(new FileWriter(file, true));
 		} catch (IOException e1) {e1.printStackTrace();}
         try {
-        	if(!file.exists())file.createNewFile();
+        	if(file.exists())
+			{
+        		System.gc();
+				file.delete();
+				file.createNewFile();
+			}
+			else {
+				file.createNewFile();
+			}
         	if(Parameters.offline==true) {
 	        	for(int j=0;j<minsize;j++) {
 	        	   

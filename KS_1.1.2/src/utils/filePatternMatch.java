@@ -120,6 +120,25 @@ public class filePatternMatch {
 	}
 	
 	/**
+	 * 检测文件名是否以字母开头，若是，则认为当前文件夹是有效的，算作考虑范围，否则不考虑
+	 * @param fileName
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年3月25日下午4:42:42
+	 */
+	public static boolean isLetter(String fileName) {
+		//该方法接受一个正则表达式作为它的第一个参数。
+		String pattern = "^[A-Z a-z]{1}";
+		Pattern r = Pattern.compile(pattern);
+		//对输入fileName进行解释和匹配操作
+		Matcher m = r.matcher(fileName);
+		if(m.find() ==true) {
+			return true;
+		}
+		return false; 
+	}
+	
+	/**
 	 * @param args
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月19日上午11:58:28

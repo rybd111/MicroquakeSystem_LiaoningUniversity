@@ -24,7 +24,7 @@ public class MainTest {
 	//调试模式默认为本地非存储模式。
 	public static final int ADJUST_LOCAL = 0;
 
-	public static int runningModel = LOCAL_OFFLINE_UNSTORAGE;
+	public static int runningModel = LOCAL_OFFLINE_STORAGE;
 	
 	public static void main(String[] agrs) throws IOException, ParseException {//定时器
 		/** 情景配置，共有8种模式，每一种对应一个整形数值，在MainTest类中定义。*/
@@ -34,7 +34,7 @@ public class MainTest {
 		 * 具体参看InitialConfig类说明
 		 * */
 //		String prePath = "I:/矿山/矿山数据/新设备数据/5/";
-		String prePath = "I:/矿山/矿山数据/红阳三矿/20200711/";
+		String prePath = "I:/矿山/矿山数据/红阳三矿/20200726/";
 		InitialConfig config = new InitialConfig(prePath);
 		
 		/** 启动主线程*/
