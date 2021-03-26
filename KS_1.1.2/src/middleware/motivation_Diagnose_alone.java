@@ -92,8 +92,8 @@ public class motivation_Diagnose_alone {
 	public boolean MotivationDiag() throws ParseException {
 		int lineSeries = 0;
 		boolean flag=false;
-		//the hop number is 100, i starts from the first data of the first sliding window to the first data of the last sliding window.
-		for(int startPos=this.range; startPos<this.data.size()-Parameters.N-this.range; startPos+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
+		//因为noise计算需要减去afterRange范围，因此，我们将i从afterRange处开始，防止下标越界。
+		for(int startPos=Parameters.afterRange; startPos<this.data.size()-Parameters.N-Parameters.refineRange; startPos+=Parameters.INTERVAL)//滑动窗口跳数可以任意设置，但小于50时效率极低，i为窗口的第一条数据开始位置，到最后一个窗口
 		{
 			//ensure the early abandon strategy.
 			if(!this.isMoti)
@@ -246,6 +246,9 @@ public class motivation_Diagnose_alone {
 	
 	/**
 	 * experiment function used to calculate the area of 500 points after motivation position
+	   *  此时传进的参数为加上refineRange的数据，总条数为1.2秒，+ 10秒，共计11.2秒的数据。
+	 *  lineseries为两个长短时窗平均值比值大于阈值的位置，此时，先判断后面500个点的激发情况，如果达到触发阈值，再判断后面refineRange内的数据是否触发阈值
+	   *  若后面refineRange也触发阈值，我们将判断为大能量事件，否则判断为小能量事件，若afterRange不触发，则不是一个有效事件。
 	 * @param lineSeries  the absolutely position in now vector. 
 	 * @author Hanlin Zhang.
 	 */

@@ -9,6 +9,12 @@ public class Parameters
 {
 	//---------------------need to modify when we distribute on the central machine in different locations.-------------------------- 
 	/**
+	 * the time to read when procedure start.
+	 * 离线模式使用，用于设定开始读取文件的时间。
+	 */
+	public static String StartTimeStr = "191110070000";
+	
+	/**
 	 * 传感器的采样频率，单位是hz/s，文档中是10k，表示每秒有10000条数据
 	 * 一般设置为：实际频率-200，比如实际频率为5k，则我们设置频率为4800
 	 * 此数更改会导致所有判断均按照此数更新，包括存储。
@@ -251,12 +257,6 @@ public class Parameters
 	 * 现已经通过情景模式类Entrance->RunningSceneConfig.java进行更新。
 	 */
 	public static boolean offline=false;
-	
-	/**
-	 * the time to read when procedure start.
-	 * 离线模式使用，用于设定开始读取文件的时间。
-	 */
-	public static String StartTimeStr = "200214130000";
 	
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.

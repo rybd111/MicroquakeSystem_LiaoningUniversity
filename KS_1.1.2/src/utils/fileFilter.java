@@ -230,7 +230,7 @@ public class fileFilter {
      */
     public static String lastPartOfAbPath(String AbPath) {
     	
-    	String[] A = AbPath.split("/");
+    	String[] A = AbPath.split("\\\\");
     	
     	return A[A.length-1];
     }

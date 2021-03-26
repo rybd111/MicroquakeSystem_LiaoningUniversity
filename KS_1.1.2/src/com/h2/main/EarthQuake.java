@@ -42,7 +42,6 @@ public class EarthQuake {
 		//
 		Vector<String> judgeMotiData = new Vector<String>();
 		
-		
 		/**精细判断时，前面附加的数据条数*/
 		int range = Parameters.refineRange;
 		
