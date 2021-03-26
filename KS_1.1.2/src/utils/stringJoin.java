@@ -67,7 +67,7 @@ public class stringJoin {
 	}
 	
 	public static String SJoin_Array(String[] A) {
-		String result = null;
+		String result = "";
 		
 		for(int i=0;i<A.length;i++) {
 			result +=A[i];
@@ -75,5 +75,7 @@ public class stringJoin {
 		
 		return result;
 	}
+	
+	
 	
 }

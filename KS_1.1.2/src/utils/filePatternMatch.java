@@ -6,6 +6,8 @@ package utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jfree.ui.LengthAdjustmentType;
+
 /**
  * 只比较前缀，不比较后面。
  * @author Hanlin Zhang
@@ -80,10 +82,13 @@ public class filePatternMatch {
 	private static boolean checkSuffix(String filename, String suffixName) {
 		boolean flag = false;
 		//检测到有bin，则可以执行
-		String suffix = filename.split("\\.")[1];
-		if(suffix.equals(suffixName)) {
-			flag = true;
+		String suffix[] = filename.split("\\.");
+		if(suffix.length>1) {
+			if(suffix[1].equals(suffixName)) {
+				flag = true;
+			}
 		}
+		
 		
 		return flag;
 	}

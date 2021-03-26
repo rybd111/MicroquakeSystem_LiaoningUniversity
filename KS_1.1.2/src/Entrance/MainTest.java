@@ -3,7 +3,11 @@ package Entrance;
 import java.io.IOException;
 import java.text.ParseException;
 
+import com.h2.constant.ConfigToParameters;
+import com.h2.constant.Parameters;
+
 import mutiThread.MainThread;
+import utils.printRunningParameters;
 
 
 /**
@@ -29,15 +33,25 @@ public class MainTest {
 		/** 情景配置，共有8种模式，每一种对应一个整形数值，在MainTest类中定义。*/
 		new RunningSceneConfig(runningModel);
 		
-		/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取
-		 * 具体参看InitialConfig类说明
-		 * */
-//		String prePath = "I:/矿山/矿山数据/新设备数据/5/";
-		String prePath = "F:/红阳三矿/201911/";
-		InitialConfig config = new InitialConfig(prePath);
+//		if(Parameters.offline == true) {
+			/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取
+			 * 具体参看InitialConfig类说明
+			 * */
+	//		String prePath = "I:/矿山/矿山数据/新设备数据/5/";
+			String prePath = "I:/矿山/矿山数据/红阳三矿/20200726/";
+			InitialConfig config = new InitialConfig(prePath);
+//		}
+//		else {
+//			/** 载入配置文件*/
+//			new ConfigToParameters();
+//			/** 输出参数*/
+//			printRunningParameters.printAllParameters();
+//		}
 		
 		/** 启动主线程*/
 		MainThread aMain = new MainThread();
 		aMain.start();
+		
+		
 	}
 }

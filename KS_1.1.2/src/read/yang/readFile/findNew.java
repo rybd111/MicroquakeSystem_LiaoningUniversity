@@ -13,8 +13,6 @@ import java.io.File;
 import com.h2.constant.Parameters;
 
 import controller.ADMINISTRATOR;
-import utils.ComparatorByCutName_liu_DESC;
-import utils.ComparatorByCutName_ma_DESC;
 import utils.filePatternMatch;
 public class findNew {
 	
@@ -37,21 +35,13 @@ public class findNew {
 		
 		//我们只是用了两层for，也就是说只进入第二层目录。
 		for(int j=0;j<fs.length;j++) {
-			
-			//根据后缀区分仪器，并对其进行排序。
-			if(fs[j].getName().endsWith("HFMED")) {
-				//根据刘老师文件夹名进行比较，进行升序排序，此处暂时不能进行修改。
-				Arrays.sort(fs, new ComparatorByCutName_liu_DESC());
-			}
-			else if(fs[j].getName().endsWith("bin")){
-				//根据马老师文件夹名进行比较，进行升序排序，此处暂时不能进行修改。
-				Arrays.sort(fs, new ComparatorByCutName_ma_DESC());
-			}
+			//按照最后修改时间排序。
+			Arrays.sort(fs, new CompratorByLastModified());
 			
 			for (int i = 0; i < fs.length; i++) {
 				//若文件是一个文件夹，且符合数据文件命名规范，则我们认为是带有数据的文件夹。
 				//同时我们展开其文件，在下一次循环中继续排序判断。
-				if(fs[i].isDirectory() && filePatternMatch.isHFMEDFile(fs[i].getName())) {
+				if(fs[i].isDirectory()) {
 					file = new File(fs[i].getAbsolutePath());
 					fs = file.listFiles();
 					break;

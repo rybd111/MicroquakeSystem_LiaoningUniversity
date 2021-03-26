@@ -238,7 +238,7 @@ public class ConfigToParameters {
 		            if(item[0].equals("StartTimeStr")) {
 		            	Parameters.StartTimeStr = item[1];
 		            }
-		            if(item[0].equals("region_offline")) {
+		            if(item[0].equals("region")) {
 		            	Parameters.region = item[1];
 		            }
 		            if(item[0].equals("runningModel")) {

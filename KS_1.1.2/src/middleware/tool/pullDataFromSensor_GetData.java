@@ -86,6 +86,9 @@ public class pullDataFromSensor_GetData {
 		/** 返回存有HFMED的盘符，但此时不能确定是网络映射盘符，因此需要进一步验证*/
 		MainThread.fileStr = scanAlldisk();
 		
+		/** 输出所有离线运行参数，供用户确认*/
+		printRunningParameters.printScanPath(this.timeStr);
+		
 		if(ask_YorN.askYesOrNo() == true) {
 			MainThread.fileStr = ask_YorN.determineDisk(MainThread.fileStr);
 		}
@@ -93,8 +96,7 @@ public class pullDataFromSensor_GetData {
 		/**询问是否继续？*/
 		ask_YorN.askWhenHasLess(MainThread.fileStr);
 		
-		/** 输出所有离线运行参数，供用户确认*/
-		printRunningParameters.printScanPath(this.timeStr);
+		
 		
 		/**拉取*/
         FindHistoryFile_GetData.launch(MainThread.fileStr, destPath, timeStr);
@@ -205,7 +207,7 @@ public class pullDataFromSensor_GetData {
 		//注意此路径后面必须加上"/".
         String destPath = "I:\\矿山\\矿山数据\\大同\\1月14日大同塔山矿震动/";
 //        String time = "20"+Parameters.StartTimeStr;
-        String timeStr = "20" + "190114020001";
+        String timeStr = "20" + "210114020001";
         String kind = "file";//kind只有两种类型file和data
         boolean isTest = true;//测试打开，监测本地磁盘下的目录。
         String startTime = "";

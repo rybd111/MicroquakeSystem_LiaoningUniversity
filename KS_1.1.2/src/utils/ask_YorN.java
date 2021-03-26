@@ -97,13 +97,17 @@ public class ask_YorN {
     
     private static boolean Match(String inputFileStr, String[] fileStr) {
     	
-    	String inteFileStr = stringJoin.SJoin_Array(fileStr);
+    	String inteFileStr = stringJoin.SJoin_Array(fileStr).replace(":\\", "");
     	
-    	if(inteFileStr.contains(inputFileStr)) {
-    		return true;
+    	String[] A = String2Array.string2array(inputFileStr);
+    	
+    	for( int i=0;i<A.length;i++) {
+    		if(inteFileStr.toLowerCase().contains(A[i]) == false) {
+        		return false;
+        	}
     	}
     	
-    	return false;
+    	return true;
     }
 	/**
 	 * @param args
