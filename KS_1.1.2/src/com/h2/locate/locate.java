@@ -118,7 +118,7 @@ public class locate {
 //				double [][] stationcoordinates=Parameters.SENSORINFO1[Parameters.diskNameNum];//各个台站坐标
 				double [][] coordinate = new double[Motisensors.length][5];//激发坐标和到时
 		 		for(int i=0;i<Motisensors.length;i++) {
-		 			coordinate[i][0]=i;
+		 			coordinate[i][0]=i+1;
 		 			coordinate[i][1]=Motisensors[i].getx();
 		 			coordinate[i][2]=Motisensors[i].gety();
 		 			coordinate[i][3]=Motisensors[i].getz();
