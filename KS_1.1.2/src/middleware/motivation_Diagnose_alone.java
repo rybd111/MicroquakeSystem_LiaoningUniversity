@@ -8,11 +8,8 @@ import java.util.Vector;
 
 import com.h2.constant.Parameters;
 import com.h2.tool.CrestorTrough;
-import com.h2.tool.QuakeClass;
 import com.h2.tool.relativeStatus;
-import com.ibm.icu.util.Output;
 
-import javafx.scene.chart.XYChart.Series;
 import mutiThread.MainThread;
 import utils.SelectChannel;
 import utils.printRunningParameters;

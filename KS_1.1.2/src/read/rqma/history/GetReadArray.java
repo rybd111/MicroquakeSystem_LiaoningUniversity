@@ -3,12 +3,8 @@
  */
 package read.rqma.history;
 
-import static org.junit.Assert.assertNotNull;
-
 import com.h2.constant.Parameters;
 import controller.ADMINISTRATOR;
-import javafx.util.converter.TimeStringConverter;
-import mutiThread.MainThread;
 import read.yang.readFile.ReadData;
 
 /**

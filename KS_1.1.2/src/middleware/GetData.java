@@ -3,8 +3,6 @@
  */
 package middleware;
 
-import org.eclipse.swt.internal.win32.TCHITTESTINFO;
-
 /**
  * @author Hanlin Zhang
  */

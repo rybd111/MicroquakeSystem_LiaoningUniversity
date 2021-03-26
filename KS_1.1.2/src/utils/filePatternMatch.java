@@ -3,15 +3,8 @@
  */
 package utils;
 
-import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.security.auth.login.FailedLoginException;
-
-import org.jfree.data.xy.VectorDataItem;
-
-import javafx.scene.transform.Scale;
 
 /**
  * 只比较前缀，不比较后面。
