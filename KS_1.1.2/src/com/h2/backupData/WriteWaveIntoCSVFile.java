@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import com.h2.constant.Parameters;
 import DataExchange.Sensor;
+import utils.fileProcess;
 import utils.one_dim_array_max_min;
 
 public class WriteWaveIntoCSVFile {
@@ -138,7 +139,10 @@ public class WriteWaveIntoCSVFile {
     @SuppressWarnings("unused")
 	public void writeToCSV(Vector<String>[] totalMotiData, String filePath, int[] line, Sensor[] s1) throws ParseException, IOException {
     	File file=new File(filePath);
-		BufferedWriter out = null;
+    	
+    	System.out.println("文件是否成功删除？"+file.delete());
+		
+    	BufferedWriter out = null;
 		String result="";//every line data ready to write.
 		
 		//get the min size among all motivation data vector.
@@ -154,15 +158,6 @@ public class WriteWaveIntoCSVFile {
         	out = new BufferedWriter(new FileWriter(file, true));
 		} catch (IOException e1) {e1.printStackTrace();}
         try {
-        	if(file.exists())
-			{
-//        		System.gc();
-				file.delete();
-				file.createNewFile();
-			}
-			else {
-				file.createNewFile();
-			}
         	if(Parameters.offline==true) {
 	        	for(int j=0;j<minsize;j++) {
 	        	   

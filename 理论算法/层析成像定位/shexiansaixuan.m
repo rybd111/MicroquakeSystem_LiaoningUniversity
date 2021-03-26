@@ -4,7 +4,7 @@ a=load('射线选择.txt');
 [tt,rr]=size(a);
 n=1;
 for i=1:tt 
-    
+%限定区域 ？？？   
 if a(i,2)<69700||a(i,2)>69880
     a(i,:)=nan;
 end

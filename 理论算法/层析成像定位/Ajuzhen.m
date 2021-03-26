@@ -1,24 +1,30 @@
 %一条射线与网格交点坐标
 clear all
 clc
+%空间区域的大小？
 m1=180;n1=400;l1=30;
+%是什么的起点？
 xqidian=69700;yqidian=73000;zqidian=-980;
 lx=m1;%试件的长度
 ly=n1;%试件的宽度
 lz=l1;%试件的高度
+
+%每个单元格大小
 xRes=9;%x方向的空间分辨率，即网格间隔
 yRes=13; %y方向的空间分辨率，即网格间隔
 zRes=1; %z方向的空间分辨率，即网格间隔
+%有几个网格吧？
 xUnit=lx/xRes;%每个体单元的长度
 yUnit=ly/yRes;%每个体单元的宽度
 zUnit=lz/zRes;%每个体单元的高度
-
+%载入选区的地层区域内的那些震源？？？
 shuju=load('E:\射线筛选.txt');
 fid=fopen('E:\三维体单位射线长度.txt','w');
 xx=0;
 [ww,gg]=size(shuju);
- for i=1:ww-200 %射线条数
-     xx=xx+1
+
+for i=1:ww-200 %射线条数
+    xx = xx+1;
     xSource=shuju(i,2)-xqidian-lx/2;
     ySource=shuju(i,3)-yqidian-ly/2;
     zSource=shuju(i,4)-zqidian-lz/2;
@@ -32,22 +38,23 @@ x_lineVector=xDetector-xSource; y_lineVector=yDetector-ySource; z_lineVector=zDe
 x_linePoint=xSource;y_linePoint=ySource;z_linePoint=zSource;
 y_planePoint=0;z_planePoint=0;
 m=0;
+
 for k=1:xRes+1
-x_planePoint=-lx/2+xUnit*(k-1);
-vpt =x_lineVector*x_planeVector+y_lineVector*y_planeVector+z_lineVector*z_planeVector;% 判断直线是否与平面平行条件
-if vpt~= 0
-m=m+1;
-t = ((x_planePoint-x_linePoint) *x_planeVector+(y_planePoint-y_linePoint)*y_planeVector+(z_planePoint-z_linePoint)*z_planeVector)/vpt;
-x(m)=x_linePoint+x_lineVector*t;
-y(m)=y_linePoint+y_lineVector*t;
-z(m)=z_linePoint+z_lineVector*t;
-if y(m)>yRes/2*yUnit||y(m)<-yRes/2*yUnit
-x(m)=NaN;y(m)=NaN;z(m)=NaN; 
-end
-if z(m)>zRes/2*zUnit||z(m)<-zRes/2*zUnit
-x(m)=NaN;y(m)=NaN;z(m)=NaN;  
-end    
-end
+    x_planePoint=-lx/2+xUnit*(k-1);
+    vpt =x_lineVector*x_planeVector+y_lineVector*y_planeVector+z_lineVector*z_planeVector;% 判断直线是否与平面平行条件
+    if vpt~= 0
+        m=m+1;
+        t = ((x_planePoint-x_linePoint) *x_planeVector+(y_planePoint-y_linePoint)*y_planeVector+(z_planePoint-z_linePoint)*z_planeVector)/vpt;
+        x(m)=x_linePoint+x_lineVector*t;
+        y(m)=y_linePoint+y_lineVector*t;
+        z(m)=z_linePoint+z_lineVector*t;
+        if y(m)>yRes/2*yUnit||y(m)<-yRes/2*yUnit
+        x(m)=NaN;y(m)=NaN;z(m)=NaN; 
+        end
+        if z(m)>zRes/2*zUnit||z(m)<-zRes/2*zUnit
+        x(m)=NaN;y(m)=NaN;z(m)=NaN;  
+        end
+    end
 end
 %————————xoz平面————————————————————————————
 x_planeVector=0; y_planeVector=1;z_planeVector=0; %y0z平面

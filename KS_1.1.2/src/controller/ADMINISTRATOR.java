@@ -484,12 +484,18 @@ public class ADMINISTRATOR {
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月15日下午2:32:46
 	 */
-	public void dataCollector() {
+	public boolean dataCollector() {
+		
         for(int i=0;i<Parameters.SensorNum;i++) {
             sensorData[i][0] = this.dataRecArray[i].getBeforeVector();
+            if(sensorData[i][0]==null) {return true;}
             sensorData[i][1] = this.dataRecArray[i].getNowVector();
+            if(sensorData[i][1]==null) {return true;}
             sensorData[i][2] = this.dataRecArray[i].getAfterVector();
+            if(sensorData[i][2]==null) {return true;}
         }
+        
+        return false;
 	}
 	
 	/**
@@ -557,8 +563,11 @@ public class ADMINISTRATOR {
             	this.readDataMuti();
             }
         	
-          //when produce a new file, there must has a vector is not full, so we discard the last several second data.
-        	this.dataCollector();
+            //when produce a new file, there must has a vector is not full, so we discard the last several second data.
+        	if(this.dataCollector()) {
+        		continue;
+        	}
+        	
         	this.calculation();
             
             if(MainThread.exitVariable_visual==true) {
@@ -639,7 +648,11 @@ public class ADMINISTRATOR {
 	        
 	        //when produce a new file, there must has a vector is not full, so we discard the first 20s data.
 	        if(this.getNewFile() == false && this.getNetError() == false){
-	        	this.dataCollector();
+	        	if (this.dataCollector()) {
+					continue;
+				}
+	        	
+	        	//enter into the calculation model.
 	        	this.calculation();
 	        }
 	        
