@@ -205,7 +205,7 @@ public class pullDataFromSensor_GetData {
 	public static void main(String[] args) throws IOException, ParseException {
 		// TODO Auto-generated method stub
 		//注意此路径后面必须加上"/".
-        String destPath = "I:\\矿山\\矿山数据\\大同\\1月14日大同塔山矿震动/";
+        String destPath = "C:/Users/zhang/Desktop/TestDataPull/";
 //        String time = "20"+Parameters.StartTimeStr;
         String timeStr = "20" + "210114020001";
         String kind = "file";//kind只有两种类型file和data

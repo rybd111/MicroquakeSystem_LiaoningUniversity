@@ -19,9 +19,9 @@ import controller.ADMINISTRATOR;
 public class locate {
 
 	public void temporal_spatio_strength(
-			String kind, 
-			Sensor[] allsensors, 
-			Sensor[] Motisensors, 
+			String kind,
+			Sensor[] allsensors,
+			Sensor[] Motisensors,
 			int countNumber,
 			ADMINISTRATOR manager) throws MWException, ParseException {
 		//设置计算需用的参数。
@@ -103,9 +103,6 @@ public class locate {
 				saveAndcal.setlocation_refine(location_refine);
 				saveAndcal.generalProcess(kind,manager);
 				break;
-				
-				
-				
 			case "timelocation":
 				double[][] taizhan=Parameters.SENSORINFO1[Parameters.diskNameNum];
 				double [][] stationcoordinates=new double[taizhan.length][3];//各个台站相对坐标
@@ -136,7 +133,6 @@ public class locate {
 	 * @date revision 2021年2月12日下午7:11:37
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 

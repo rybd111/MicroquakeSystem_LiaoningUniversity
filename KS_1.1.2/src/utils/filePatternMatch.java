@@ -114,7 +114,7 @@ public class filePatternMatch {
 	 * @date revision 2021年3月9日下午4:15:13
 	 */
 	public static boolean isBINFile(String fileName) {
-		return (checkSuffix(fileName, "bin") & match_HFMED(fileName));
+		return (checkSuffix(fileName, "bin") & match_BIN(fileName));
 	}
 	
 	/**
