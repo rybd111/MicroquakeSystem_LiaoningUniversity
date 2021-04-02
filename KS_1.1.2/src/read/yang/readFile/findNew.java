@@ -114,7 +114,7 @@ public class findNew {
 	}
 	
 	
-	static class CompratorByLastModified implements Comparator<File> {
+	public static class CompratorByLastModified implements Comparator<File> {
 		@Override
         public int compare(File lFile, File rFile) {
             boolean lInValid = (lFile == null || !lFile.exists());

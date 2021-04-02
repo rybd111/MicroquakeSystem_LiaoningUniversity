@@ -6,6 +6,8 @@ package utils;
 import java.io.IOException;
 import java.util.Scanner;
 
+import com.ibm.icu.util.InitialTimeZoneRule;
+
 import ch.qos.logback.core.boolex.Matcher;
 import mutiThread.MainThread;
 
@@ -83,7 +85,14 @@ public class ask_YorN {
 			}
 		}
 		
-		return String2Array.string2array(inputFileStr);
+		String[] result = String2Array.string2array(inputFileStr);
+		
+		//加入:/可以完成盘符的组合。
+		for (int i = 0; i < result.length; i++) {
+			result[i] += ":/";
+		}
+		
+		return result;
 	}
 	 
 	

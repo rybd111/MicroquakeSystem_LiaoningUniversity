@@ -22,8 +22,8 @@ import utils.stringJoin;
 public class relativeStatus{
 	//保存序号数组
 	private int[] numberMotiSeries;
-	//激发的传感器位置不为0.
-	private int[] l;
+	//激发的传感器位置序号不为0，即下标从1开始。.
+//	private int[] l;
 	//所有激发传感器的序号，与激发传感器个数相同。
 	private int[] newl;
 	//激发个数。
@@ -41,7 +41,7 @@ public class relativeStatus{
 	}
 	
 	public relativeStatus(
-			int [] l, 
+//			int [] l, 
 			int [] newl, 
 			int countNumber, 
 			Sensor[] sensors,
@@ -49,7 +49,6 @@ public class relativeStatus{
 			statusOfCompute status,
 			ADMINISTRATOR manager) {
 		
-		this.l = l;
 		this.newl = newl;
 		this.countNumber = countNumber;
 		this.ssen = ssen;
@@ -195,12 +194,12 @@ public class relativeStatus{
 		int n=countNumber;
 		for(int i=countNumber;i<Parameters.SensorNum;i++) {
 //			if(n<Parameters.SensorNum) {
-				if(l[i]==0) {
+//				if(l[i]==0) {
 					inteData[n].addAll(ssen[i][0]);
 					inteData[n].addAll(ssen[i][1]);
 					inteData[n].addAll(ssen[i][2]);
 					n++;
-				}
+//				}
 //			}
 		}
 		
@@ -321,7 +320,6 @@ public class relativeStatus{
 				d=String2Date.str2Date(data.get(0).split(" ")[6]);
 				date=Date2String.date2str(d)+"."+P.split("\\.")[1];
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -331,7 +329,6 @@ public class relativeStatus{
 			try {
 				d=String2Date.str2Date(data.get(0).split(" ")[6]);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Calendar calendar = Calendar.getInstance(); //内存溢出的出错位置。~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
@@ -341,7 +338,6 @@ public class relativeStatus{
 			try {
 				date = Date2String.date2str(d)+"."+P.split("\\.")[1];
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

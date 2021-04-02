@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+import org.jfree.ui.LengthAdjustmentType;
+
 /**
  * @author Hanlin Zhang
  */
@@ -110,6 +112,7 @@ public class fileFilter {
     
     /**
      * 既过滤后缀又过滤文件名，还过滤文件夹名。
+     * 该函数使用时必须满足传入的parent是数据文件的上级目录
      * @param parent
      * @return
      * @author Hanlin Zhang.
@@ -118,6 +121,7 @@ public class fileFilter {
     public static File[] useFileFilter(String parent) {
     	String fileParentName = lastPartOfAbPath(parent);
     	
+    	//检测文件名是否以字母开头。
     	if(filePatternMatch.isLetter(fileParentName) == false) {
     		return null;
     	}
@@ -127,6 +131,56 @@ public class fileFilter {
     	
     	return files;
     }
+    
+    /**
+     *只 过滤文件名，返回所有满足条件的文件数组。
+     * @param parent
+     * @return
+     * @author Hanlin Zhang.
+     * @date revision 2021年2月28日上午11:53:49
+     */
+    public static File[] useFileFilterFileArray(File[] f) {
+    	File[] resultsFiles = new File[0];
+    	
+    	//载入每个传入文件的绝对路径，并获取绝对路径的最后部分，对于这个函数，最后部分为文件名。
+    	for(int i=0;i<f.length;i++) {
+    		String fileName = f[i].getName();
+    		if(filePatternMatch.isHFMEDFile(fileName) || filePatternMatch.isBINFile(fileName)) {
+    			resultsFiles = Arrays.copyOf(resultsFiles, resultsFiles.length+1);
+    			resultsFiles[resultsFiles.length-1] = f[i];
+    		}
+    	}
+    	
+    	return resultsFiles;
+    }
+    
+    /**
+     * parent是各root根路径。
+     * 进入parent后，再进行文件夹命名的过滤，是对文件夹的过滤。
+     * 这里假设ma也是按照二级目录生成的数据盘，与liu设备存储的格式一样。
+     * @param parent
+     * @return
+     */
+//    public static File[] useFileFilterEnter(String parent) {
+//    	File enter = new File(parent);
+//    	String fileNameArray[] = enter.list();
+//    	
+//    	//在文件名数组中寻找满足条件的文件。
+//    	for(int i=0;i<fileNameArray.length;i++) {
+//    		
+//    		//先检测文件名是否以字母开头。
+//    		if(filePatternMatch.isLetter(fileNameArray[i]) == false) {
+//        		return null;
+//        	}
+//    		
+//    		//检测当前目录下的文件是否存在以bin或hfmed结尾的文件。
+//    		File files[] = useSuffixFilter(fileNameArray[i]);
+//    		
+//    		//如果存在数据文件，则按照文件命名规则，检测是否符合bin或hfmed文件格式，files是过滤不符合命名特征的文件。
+//        	files = useFilenameMatcher(files);
+//    	}
+//    	return files;
+//    }
     
     /**
      * 只过滤后缀

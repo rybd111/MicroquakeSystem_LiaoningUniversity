@@ -96,8 +96,6 @@ public class pullDataFromSensor_GetData {
 		/**询问是否继续？*/
 		ask_YorN.askWhenHasLess(MainThread.fileStr);
 		
-		
-		
 		/**拉取*/
         FindHistoryFile_GetData.launch(MainThread.fileStr, destPath, timeStr);
 	}
@@ -184,6 +182,10 @@ public class pullDataFromSensor_GetData {
 	 * @date revision 2021年1月30日下午7:36:50
 	 */
 	private boolean determineDiskIsContains_HFMED_BIN(File[] files) {
+		//可能是当前目录网络不好，所以获取不到文件，暂时跳过。
+		if(files == null) {
+			return false;
+		}
 		for(File file : files) {
 			if(
 					filePatternMatch.match_HFMED(file.getName()) || 

@@ -12,7 +12,7 @@ public class Parameters
 	 * the time to read when procedure start.
 	 * 离线模式使用，用于设定开始读取文件的时间。
 	 */
-	public static String StartTimeStr = "191110070000";
+	public static String StartTimeStr = "200726130000";
 	
 	/**
 	 * 传感器的采样频率，单位是hz/s，文档中是10k，表示每秒有10000条数据

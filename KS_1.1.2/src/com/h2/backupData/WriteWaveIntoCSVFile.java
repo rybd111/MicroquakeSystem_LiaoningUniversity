@@ -9,7 +9,6 @@ import java.util.Vector;
 
 import com.h2.constant.Parameters;
 import DataExchange.Sensor;
-import utils.fileProcess;
 import utils.one_dim_array_max_min;
 
 public class WriteWaveIntoCSVFile {
@@ -138,10 +137,17 @@ public class WriteWaveIntoCSVFile {
 	 */
     @SuppressWarnings("unused")
 	public void writeToCSV(Vector<String>[] totalMotiData, String filePath, int[] line, Sensor[] s1) throws ParseException, IOException {
+    	//删除后再新建一个
     	File file=new File(filePath);
     	
-    	System.out.println("文件是否成功删除？"+file.delete());
-		
+    	if(file.exists()) {
+    		System.out.println("文件是否成功删除？"+file.delete());
+    		file.createNewFile();
+    	}
+    	else {
+    		file.createNewFile();
+    	}
+    	
     	BufferedWriter out = null;
 		String result="";//every line data ready to write.
 		

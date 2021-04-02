@@ -131,7 +131,7 @@ public class EarthQuake {
 			if(countNumber >= 3) {
 				printRunningParameters.splitLine();
 				//stow the info of all sensors.
-				S = new relativeStatus(l, l1, countNumber, sensors, ssen, status, manager).stowInfoSensor();
+				S = new relativeStatus(l1, countNumber, sensors, ssen, status, manager).stowInfoSensor();
 			}
 			
 			/**
