@@ -27,31 +27,24 @@ public class MainTest {
 	//调试模式默认为本地非存储模式。
 	public static final int ADJUST_LOCAL = 0;
 
-	public static int runningModel = REMOTE_OFFLINE_STORAGE;
+	public static int runningModel = LOCAL_OFFLINE_STORAGE;
 	
 	public static void main(String[] agrs) throws IOException, ParseException {//定时器
-		/** 情景配置，共有8种模式，每一种对应一个整形数值，在MainTest类中定义。*/
-		new RunningSceneConfig(runningModel);
 		
-//		if(Parameters.offline == true) {
-			/** 配置离线运行数据路径和传感器数量，根据prePath下的数据路径自动获取
-			 * 具体参看InitialConfig类说明
-			 * */
-	//		String prePath = "I:/矿山/矿山数据/新设备数据/5/";
-			String prePath = "I:/矿山/矿山数据/红阳三矿/20200726/";
+		//根据情景模式选择不同的运行代码。
+		if(runningModel == REMOTE_ONLINE_STORAGE || runningModel == REMOTE_ONLINE_UNSTORAGE) {
+			new ConfigToParameters();
+			new RunningSceneConfig(runningModel);
+			printRunningParameters.printAllParameters();
+		}
+		else if(runningModel == LOCAL_OFFLINE_STORAGE || runningModel == LOCAL_OFFLINE_UNSTORAGE) {
+			new RunningSceneConfig(runningModel);
+			String prePath = "I:/矿山/矿山数据/红阳三矿/20210326/";
 			InitialConfig config = new InitialConfig(prePath);
-//		}
-//		else {
-//			/** 载入配置文件*/
-//			new ConfigToParameters();
-//			/** 输出参数*/
-//			printRunningParameters.printAllParameters();
-//		}
+		}
 		
 		/** 启动主线程*/
 		MainThread aMain = new MainThread();
 		aMain.start();
-		
-		
 	}
 }

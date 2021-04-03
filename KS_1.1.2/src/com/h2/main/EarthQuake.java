@@ -95,15 +95,15 @@ public class EarthQuake {
 					for(int j=0;j<Parameters.diskName[Parameters.diskNameNum].length;j++) {
 						if(MainTest.runningModel != MainTest.LOCAL_ONLINE_UNSTORAGE || MainTest.runningModel != MainTest.LOCAL_ONLINE_STORAGE) {
 							if(Parameters.offline==false) {
-								identity = MainThread.fileStr[i].replace(":/", "");
+								identity = MainThread.fileStr[i].replace(":/", "").toLowerCase();
 							}
 							else {
-								identity = MainThread.fileParentPackage[i].replace("Test", "");
+								identity = MainThread.fileParentPackage[i].replace("Test", "").toLowerCase();
 							}
 						}
 						//测试本地在线时的计算部分。
 						else {
-							identity = MainThread.fileParentPackage[i].replace("Test", "");
+							identity = MainThread.fileParentPackage[i].replace("Test", "").toLowerCase();
 						}
 						
 						if(identity.equals(Parameters.diskName[Parameters.diskNameNum][j])) {
@@ -165,7 +165,7 @@ public class EarthQuake {
 			//if the number of motivated sensors is greater than 4, we will calculate four location-main event location.
 			if(countNumber>=4 && manager.getIsRealMoti() == true) {
 //				loc.temporal_spatio_strength("major", S, status.getSensors1(), countNumber, manager);
-				loc.temporal_spatio_strength("timelocation", S, status.getSensors1(), countNumber, manager);
+//				loc.temporal_spatio_strength("timelocation", S, status.getSensors1(), countNumber, manager);
 			}
 		}
 		//we can hide this print when the console are so much content or display this print when we want to adjust the procedure.
