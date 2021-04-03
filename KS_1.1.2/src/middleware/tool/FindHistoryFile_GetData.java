@@ -211,12 +211,14 @@ public class FindHistoryFile_GetData implements Runnable {
 	    		//预估完成时间（剩余秒数 ，剩余拷贝文件大小/速度）单位：s
 	    		double completeTime = (inputChannel.size()-outputChannel.size()) / currentSpeed;
 	    		
-	    		System.out.println(
-	    				"已拷贝的文件大小为： " + outputChannel.size() + "B " + 
-	    				"占总文件的比重为：" + progress + "% " +
-	    				"当前的拷贝速度估计为：" + currentSpeed + "B/s " + 
-	    				"预估剩余完成时间为：" + completeTime + "s"
-	    		);
+	    		if(i%1000 == 0) {
+		    		System.out.println(
+		    				"已拷贝的文件大小为： " + outputChannel.size() + "B " + 
+		    				"占总文件的比重为：" + progress + "% " +
+		    				"当前的拷贝速度估计为：" + currentSpeed + "B/s " + 
+		    				"预估剩余完成时间为：" + completeTime + "s"
+		    		);
+	    		}
 	    	}
 	    	
 	    	//把最后剩余的字节数拷贝。

@@ -145,7 +145,7 @@ public class fileFilter {
     	//载入每个传入文件的绝对路径，并获取绝对路径的最后部分，对于这个函数，最后部分为文件名。
     	for(int i=0;i<f.length;i++) {
     		String fileName = f[i].getName();
-    		if(filePatternMatch.isHFMEDFile(fileName) || filePatternMatch.isBINFile(fileName)) {
+    		if(filePatternMatch.isHFMEDFile(fileName) || filePatternMatch.isBINFile(fileName) || filePatternMatch.isHDIFX(fileName)) {
     			resultsFiles = Arrays.copyOf(resultsFiles, resultsFiles.length+1);
     			resultsFiles[resultsFiles.length-1] = f[i];
     		}

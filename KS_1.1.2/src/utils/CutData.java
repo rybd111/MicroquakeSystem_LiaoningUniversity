@@ -37,8 +37,8 @@ public class CutData {
 		//diagnose the sensors' P arrival time is exceed 1 second, procedure will cut one more second before the motivating line, and cut one less second after the motivating line.
 				
 		try {
-			motiDate = format1.parse(sen.getTime());
-			initmotiDate = format1.parse(s[0].getTime());
+			motiDate = String2Date.str2Date(sen.getTime());
+			initmotiDate = String2Date.str2Date(s[0].getTime());
 		}
 		catch (ParseException e1) {e1.printStackTrace();}
 		
@@ -50,7 +50,7 @@ public class CutData {
 		Vector<String> resultSet = new Vector<String>();
 		
 		for(int i = 0; i < data.size(); i++){
-			try {t1 = format1.parse(data.get(i).split(" ")[6]);}
+			try {t1 = String2Date.str2Date(data.get(i).split(" ")[6]);}
 			catch (ParseException e) {e.printStackTrace();}
 			timeDiff = (motiDate.getTime()-t1.getTime())/1000;
 			if(timeDiff < PreSeconds && timeDiff >= -AfterSeconds){

@@ -43,4 +43,13 @@ public class Date2String {
 		
 		return date;
 	}
+	
+	public static String date2str4(Date d) throws ParseException{
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss") ;
+		
+		String date = simpleDateFormat.format(d);
+		
+		return date;
+	}
 }

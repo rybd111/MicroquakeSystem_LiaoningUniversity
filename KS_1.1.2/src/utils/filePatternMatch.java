@@ -106,6 +106,17 @@ public class filePatternMatch {
 	}
 	
 	/**
+	 * HFMED文件的索引文件，否则可能无法用HFMED的波形文件打开。
+	 * @param fileName
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年4月3日下午3:18:18
+	 */
+	public static boolean isHDIFX(String fileName) {
+		return (checkSuffix(fileName, "HFIDX") & match_HFMED(fileName));
+	}
+	
+	/**
 	 * 判断是否满足bin文件的特征。
 	 * findNew类使用。
 	 * @param fileName
