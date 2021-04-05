@@ -112,7 +112,7 @@ public class Main extends Application {
 		new ConfigToParameters();
 		
 		/** 情景配置，共有8中模式，每一种对应一个整形数值，在MainTest类中定义。*/
-		new RunningSceneConfig(MainTest.LOCAL_OFFLINE_STORAGE);
+		new RunningSceneConfig(MainTest.REMOTE_ONLINE_STORAGE);
 		
 		/** 输出参数*/
 		printRunningParameters.printAllParameters();

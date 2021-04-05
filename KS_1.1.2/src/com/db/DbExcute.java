@@ -49,8 +49,8 @@ public class DbExcute {
 			resultSet = statement.executeQuery(sql);
 
 		} catch (SQLException e) {
-			System.out.println("Error:----ks数据库中不存在该表");
-//			e.printStackTrace();
+//			System.out.println("Error:----ks数据库中不存在该表");
+			e.printStackTrace();
 		} finally {
 			JdbcUtil.releaseResources(resultSet, statement, connection);
 		}
@@ -111,8 +111,8 @@ public class DbExcute {
 				);
 			}
 		} catch (SQLException e) {
-			System.out.println("Error:----ks数据库中不存在该表");
-//			e.printStackTrace();
+//			System.out.println("Error:----ks数据库中不存在该表");
+			e.printStackTrace();
 		} finally {
 			JdbcUtil.releaseResources(resultSet, statement, connection);
 		}
@@ -305,7 +305,7 @@ public class DbExcute {
 			}
 		} catch (SQLException e) {
 			System.out.println("Error:----ks数据库中不存在该表");
-//			e.printStackTrace();
+			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(connection, (com.mysql.cj.api.jdbc.Statement) statement, resultSet);
 		}
@@ -403,7 +403,7 @@ public class DbExcute {
 			}
 		} catch (SQLException e) {
 			System.out.println("Error:----ks数据库中不存在该表");
-//			e.printStackTrace();
+			e.printStackTrace();
 		} finally {
 			JdbcUtil.releaseResources(resultSet, statement, connection);
 		}

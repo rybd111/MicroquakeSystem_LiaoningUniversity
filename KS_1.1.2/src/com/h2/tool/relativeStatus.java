@@ -226,13 +226,27 @@ public class relativeStatus{
 		}
 		
 		//get the complete string of all sensor used to the name of the motivated file split with " ".
+		
+		//当没有未激发盘符时，去掉一个空格。
 		if(Parameters.offline==false) {
-			panfu = panfu+ " " + stringJoin.SJoin_Array(MainThread.fileStr, sensors2);
-			panfu=panfu.replaceAll(":/", "");//替换掉盘符中的:/
+			String unMotivationSensor = stringJoin.SJoin_Array(MainThread.fileStr, sensors2);
+			if(unMotivationSensor != "") {
+				panfu = panfu+ " " + unMotivationSensor;
+				panfu=panfu.replaceAll(":/", "");//替换掉盘符中的:/
+			}
+			else {
+				panfu=panfu.replaceAll(":/", "");//替换掉盘符中的:/
+			}
 		}
 		else {
-			panfu = panfu+ " " + stringJoin.SJoin_Array(MainThread.fileParentPackage, sensors2);
-			panfu = panfu.replaceAll("Test", "");
+			String unMotivationSensor = stringJoin.SJoin_Array(MainThread.fileParentPackage, sensors2);
+			if(unMotivationSensor != "") {
+				panfu = panfu+ " " + unMotivationSensor;
+				panfu=panfu.replaceAll(":/", "");//替换掉盘符中的:/
+			}
+			else {
+				panfu=panfu.replaceAll(":/", "");//替换掉盘符中的:/
+			}
 		}
 		//复制数组。
 		

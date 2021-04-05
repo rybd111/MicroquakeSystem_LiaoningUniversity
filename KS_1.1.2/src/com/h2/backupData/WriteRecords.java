@@ -61,7 +61,7 @@ public class WriteRecords{
             for (int i = 0; i < Parameters.diskName[Parameters.diskNameNum].length; i++) {
             	for(int j=0;j<sensors.length;j++) {
             		if(Parameters.offline == true) {
-            			i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "");
+            			i1=MainThread.fileParentPackage[sensors[j].getSensorNum()].replace("Test", "").toLowerCase();
             		}
             		else {
             			i1 = MainThread.fileStr[sensors[j].getSensorNum()].replace(":/", "");
