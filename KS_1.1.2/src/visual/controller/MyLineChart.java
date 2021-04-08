@@ -69,8 +69,15 @@ public class MyLineChart {
 	/** 波形图表的Y坐标轴数组 */
 	private ArrayList<NumberAxis> T_yAxis = new ArrayList<>();
 	/** 传感器站台名字 */
-	private String[] sensorName = { "杨\n甸\n子", "树\n碑\n子", "北\n青\n堆\n子", "车\n队", "工\n业\n广\n场", "火\n药\n库", "南\n风\n井",
-			"蒿\n子\n屯", "李\n大\n人" };
+	// 红阳三矿
+	private String[] sensorName_hongyanng = { "杨\n甸\n子", "树\n碑\n子", "北\n青\n堆\n子", "车\n队", "工\n业\n广\n场", "火\n药\n库",
+			"南\n风\n井", "蒿\n子\n屯", "李\n大\n人" };
+	// 大同
+	private String[] sensorName_datong = { "3\n号", "4\n号", "5\n号", "6\n号", "7\n号", "2\n号", "1\n号" };
+	// 平顶山
+	private String[] sensorName_pingdingshan = { "牛家村", "洗煤厂", "香山矿", "王家村", "十一矿工业广场老办公楼西南角花坛", "西风井", "打钻工区" };
+	// 马道头
+	private String[] sensorName_madaotou = { "sel", "nhy", "wmz ", "tbz" };
 	/** 波形线 数组 */
 	private ArrayList<XYChart.Series<Number, Number>> T_seriesZ = new ArrayList<XYChart.Series<Number, Number>>();
 	/** P波到时 */
@@ -149,10 +156,10 @@ public class MyLineChart {
 		this.mSlider_lower.setValue(0.00);
 		this.mSlider_upper.setValue(90000.00);
 		System.out.println("读取CSV文件路径为：" + path);
-//		if (path == null || path == "" || path == " " || path.length() <= 0) {
-//			System.out.println("路径为空，绘制波形图失败！");
-//			return;
-//		}
+		// if (path == null || path == "" || path == " " || path.length() <= 0) {
+		// System.out.println("路径为空，绘制波形图失败！");
+		// return;
+		// }
 		this.filePath = path;
 		ReadCSV r = new ReadCSV(this.filePath);
 		try {
@@ -169,7 +176,7 @@ public class MyLineChart {
 		System.out.println("==================================================");
 	}
 
-	private void setSensorName() {
+	public void setSensorName() {
 
 		SplitPane splitpane = null;
 		AnchorPane anchoranpane = null;
@@ -180,6 +187,33 @@ public class MyLineChart {
 			label = (Label) anchoranpane.getChildren().get(0);
 			label.setText("T" + (i + 1));
 		}
+		/** 判断是哪个矿区 */
+		switch (Parameters.diskNameNum) {
+		case 0:// 红阳三矿
+			setSensorName_hongyang();
+			break;
+		case 1:// 大同
+			setSensorName_datong();
+			break;
+		case 2:// 平顶山
+			setSensorName_pingdingshan();
+			break;
+		case 3:// 马道头
+			setSensorName_madaotou();
+			break;
+		default:
+			System.out.println("未能识别属于哪个矿区-----MyLineChart");
+			break;
+		}
+	}
+
+	/**
+	 * 红阳三矿
+	 */
+	private void setSensorName_hongyang() {
+		SplitPane splitpane = null;
+		AnchorPane anchoranpane = null;
+		Label label = null;
 		char[] name = Tools_DataCommunication.getCommunication().fileSS.toUpperCase().toCharArray();
 		for (int i = 0; i < name.length; i++) {
 			splitpane = (SplitPane) mVBoxLineChart.getChildren().get(i);
@@ -187,44 +221,159 @@ public class MyLineChart {
 			label = (Label) anchoranpane.getChildren().get(0);
 			switch (name[i]) {
 			case 'T':
-				label.setText(sensorName[0]);
+				label.setText(sensorName_hongyanng[0]);
 				break;
 			case 'U':
-				label.setText(sensorName[1]);
+				label.setText(sensorName_hongyanng[1]);
 				break;
 			case 'W':
-				label.setText(sensorName[2]);
+				label.setText(sensorName_hongyanng[2]);
 				break;
 			case 'X':
-				label.setText(sensorName[3]);
+				label.setText(sensorName_hongyanng[3]);
 				break;
 			case 'Z':
-				label.setText(sensorName[4]);
+				label.setText(sensorName_hongyanng[4]);
 				break;
 			case 'Y':
-				label.setText(sensorName[5]);
+				label.setText(sensorName_hongyanng[5]);
 				break;
 			case 'V':
-				label.setText(sensorName[6]);
+				label.setText(sensorName_hongyanng[6]);
 				break;
 			case 'S':
-				label.setText(sensorName[7]);
+				label.setText(sensorName_hongyanng[7]);
 				break;
 			case 'R':
-				label.setText(sensorName[8]);
+				label.setText(sensorName_hongyanng[8]);
 				break;
 			default:
 				System.out.println(
-						"======================Error：-传感器站台名称出错。-MyLineChart===================================");
+						"======================Error：-红阳三矿传感器站台名称出错。-MyLineChart===================================");
+				break;
+			}
+		}
+	}
+
+	/**
+	 * 大同
+	 */
+	private void setSensorName_datong() {
+		SplitPane splitpane = null;
+		AnchorPane anchoranpane = null;
+		Label label = null;
+		char[] name = Tools_DataCommunication.getCommunication().fileSS.toUpperCase().toCharArray();
+		for (int i = 0; i < name.length; i++) {
+			splitpane = (SplitPane) mVBoxLineChart.getChildren().get(i);
+			anchoranpane = (AnchorPane) splitpane.getItems().get(0);
+			label = (Label) anchoranpane.getChildren().get(0);
+			switch (name[i]) {
+			case 'V':// 3号
+				label.setText(sensorName_datong[0]);
+				break;
+			case 'W':// 4号
+				label.setText(sensorName_datong[1]);
+				break;
+			case 'X':// 5号
+				label.setText(sensorName_datong[2]);
+				break;
+			case 'Y':// 6号
+				label.setText(sensorName_datong[3]);
+				break;
+			case 'Z':// 7号
+				label.setText(sensorName_datong[4]);
+				break;
+			case 'U':// 2号
+				label.setText(sensorName_datong[5]);
+				break;
+			case 'T':// 1号
+				label.setText(sensorName_datong[6]);
+				break;
+			default:
+				System.out.println(
+						"======================Error：-大同传感器站台名称出错。-MyLineChart===================================");
+				break;
+			}
+		}
+	}
+
+	/**
+	 * 平顶山
+	 */
+	private void setSensorName_pingdingshan() {
+		SplitPane splitpane = null;
+		AnchorPane anchoranpane = null;
+		Label label = null;
+		char[] name = Tools_DataCommunication.getCommunication().fileSS.toUpperCase().toCharArray();
+		for (int i = 0; i < name.length; i++) {
+			splitpane = (SplitPane) mVBoxLineChart.getChildren().get(i);
+			anchoranpane = (AnchorPane) splitpane.getItems().get(0);
+			label = (Label) anchoranpane.getChildren().get(0);
+			switch (name[i]) {
+			case 'Z':// Z 牛家村
+				label.setText(sensorName_pingdingshan[0]);
+				break;
+			case 'T':// T 洗煤厂
+				label.setText(sensorName_pingdingshan[1]);
+				break;
+			case 'Y':// Y 香山矿
+				label.setText(sensorName_pingdingshan[2]);
+				break;
+			case 'V':// V 王家村
+				label.setText(sensorName_pingdingshan[3]);
+				break;
+			case 'X':// X 十一矿工业广场老办公楼西南角花坛
+				label.setText(sensorName_pingdingshan[4]);
+				break;
+			case 'W':// W 西风井
+				label.setText(sensorName_pingdingshan[5]);
+				break;
+			case 'U':// U 打钻工区
+				label.setText(sensorName_pingdingshan[6]);
+				break;
+			default:
+				System.out.println(
+						"======================Error：-平顶山传感器站台名称出错。-MyLineChart===================================");
+				break;
+			}
+		}
+	}
+
+	/**
+	 * 马道头
+	 */
+	private void setSensorName_madaotou() {
+		SplitPane splitpane = null;
+		AnchorPane anchoranpane = null;
+		Label label = null;
+		char[] name = Tools_DataCommunication.getCommunication().fileSS.toUpperCase().toCharArray();
+		for (int i = 0; i < name.length; i++) {
+			splitpane = (SplitPane) mVBoxLineChart.getChildren().get(i);
+			anchoranpane = (AnchorPane) splitpane.getItems().get(0);
+			label = (Label) anchoranpane.getChildren().get(0);
+			switch (name[i]) {
+			case 'O':// O sel
+				label.setText(sensorName_pingdingshan[0]);
+				break;
+			case 'P':// P nhy
+				label.setText(sensorName_pingdingshan[1]);
+				break;
+			case 'Q':// Q wmz
+				label.setText(sensorName_pingdingshan[2]);
+				break;
+			case 'Z':// Z tbz
+				label.setText(sensorName_pingdingshan[3]);
+				break;
+			default:
+				System.out.println(
+						"======================Error：-马道头传感器站台名称出错。-MyLineChart===================================");
 				break;
 			}
 		}
 	}
 
 	private void setSeries() {
-		// 清空P波到时
-		for (int i = 0; i < 9; i++)
-			pArray.get(i).getData().clear();
+		clearP();
 		double tempt = 0.0;
 		for (int i = 0; i < Tools_DataCommunication.getCommunication().fileSS.length(); i++) {
 
@@ -258,11 +407,27 @@ public class MyLineChart {
 		}
 	}
 
-	private void clearSeries() {
+	public void clearSeries() {
 		for (int i = 0; i < T_seriesZ.size(); i++)
 			T_seriesZ.get(i).getData().clear();
 	}
 
+	public void clearP() {
+		// 清空P波到时
+		for (int i = 0; i < 9; i++)
+			pArray.get(i).getData().clear();
+	}
+	public void clearName() {
+		SplitPane splitpane = null;
+		AnchorPane anchoranpane = null;
+		Label label = null;
+		for (int i = 0; i < mVBoxLineChart.getChildren().size(); i++) {
+			splitpane = (SplitPane) mVBoxLineChart.getChildren().get(i);
+			anchoranpane = (AnchorPane) splitpane.getItems().get(0);
+			label = (Label) anchoranpane.getChildren().get(0);
+			label.setText("T" + (i + 1));
+		}
+	}
 	/** 改变LineChart的高度 */
 	public void alterSplitPaneHight(double hight) {
 		SplitPane pane = null;
@@ -300,7 +465,7 @@ public class MyLineChart {
 					return;
 				double temp = pArray.get(tIndex - 1).getData().get(1).getYValue().doubleValue();
 				pArray.get(tIndex - 1).getData().clear();
-				XYChart.Data<Number, Number> data1 = new XYChart.Data<Number, Number>(newValue, temp/1.5);
+				XYChart.Data<Number, Number> data1 = new XYChart.Data<Number, Number>(newValue, temp / 1.5);
 				XYChart.Data<Number, Number> data2 = new XYChart.Data<Number, Number>(newValue, temp);
 				pArray.get(tIndex - 1).getData().addAll(data1, data2);
 			}
@@ -416,7 +581,7 @@ public class MyLineChart {
 			}
 		});
 		/** 设置StackPhone孩子的对齐方式 */
-//		stackpane.setAlignment(Pos.TOP_LEFT);
+		// stackpane.setAlignment(Pos.TOP_LEFT);
 		stackpane.setAlignment(label, Pos.TOP_LEFT);
 
 		/** 对显示XY坐标的Label进行鼠标跟随操作 */
@@ -482,8 +647,9 @@ public class MyLineChart {
 	}
 
 	public void updata(double x, double y, double z, double parrival, String quackTime, int whereID) {
-//		System.out.println(
-//				"----------：x=" + x + ", y=" + y + ", z=" + z + ", parrival=" + parrival + ", quackTime=" + quackTime);
+		// System.out.println(
+		// "----------：x=" + x + ", y=" + y + ", z=" + z + ", parrival=" + parrival + ",
+		// quackTime=" + quackTime);
 		DbExcute aDbExcute = new DbExcute();
 		String sql = "UPDATE `" + Parameters.DatabaseName5 + "` SET xData='" + x + "', yData='" + y + "', zData='" + z
 				+ "', parrival='" + parrival + "',quackTime='" + quackTime + "' where id='" + whereID + "';";

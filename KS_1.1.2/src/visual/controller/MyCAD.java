@@ -20,7 +20,6 @@ public class MyCAD {
 		this.mLabel_neweve=label;
 		BorderPane pane;
 		try {
-
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(UIController.class.getResource("ShowCAD.fxml"));
 			pane = (BorderPane) loader.load();

@@ -103,7 +103,12 @@
             <ComboBox fx:id="eventType" layoutX="79.0" layoutY="251.0" prefHeight="35.0" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <Button layoutX="177.0" layoutY="571.0" mnemonicParsing="false" onAction="#onClickQuery" prefHeight="47.0" prefWidth="128.0" text="查询" AnchorPane.bottomAnchor="30.0">
+      <Button layoutX="56.0" layoutY="816.0" mnemonicParsing="false" onAction="#onClickQuery" prefHeight="47.0" prefWidth="128.0" text="查询" AnchorPane.bottomAnchor="51.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="mExportButton" disable="true" layoutX="286.0" layoutY="816.0" mnemonicParsing="false" onAction="#onClickExport" prefHeight="47.0" prefWidth="128.0" text="导出">
          <font>
             <Font size="18.0" />
          </font>

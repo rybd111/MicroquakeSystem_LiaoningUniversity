@@ -147,6 +147,9 @@ public class ParametersToConfig {
 					if (item[0].equals("Yizhen")) {
 						buf.append("Yizhen = " + Parameters.Yizhen);
 					}
+//					if (item[0].equals("YIMiaoG")) {
+//						buf.append("YIMiaoG = " + Parameters.YIMiaoG);
+//					}
 					if (item[0].equals("YIMiao")) {
 						buf.append("YIMiao = " + Parameters.YIMiao);
 					}

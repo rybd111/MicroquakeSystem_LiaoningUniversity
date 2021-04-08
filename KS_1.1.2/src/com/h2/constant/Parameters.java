@@ -56,7 +56,7 @@ public class Parameters
 	
 	/**
 	 * 设置传感器的数量，通过设定主函数中的fileStr设置，
-	 * 每次断线重连时，此值根据盘符个数进行改变。
+	 * 每次断线重连时，此值根据盘符个数进行改变，不用配置。
 	 */
 	public static int SensorNum = 10;
 	
@@ -129,6 +129,7 @@ public class Parameters
 	
 	/**
 	 * 用于通道转换中使用的阈值，HEAD表示通道上限与下限，超过上限或下限，则转换大量程通道进行判断与计算
+	 * 此值不必配置。
 	 */
 	public static final int HEAD = 32767;
 	public static final int TAIL = -32768;
@@ -160,6 +161,7 @@ public class Parameters
 	
 	/**
 	 * when it is true, then the time interval among all sensors are turn on.
+	 * 此值不必配置，只有当调试模式开启时，该变量生效。
 	 */
 	public static boolean SSIntervalToOtherSensors=true;
 	
@@ -222,12 +224,18 @@ public class Parameters
 	 * 通道数为123时，使用123通道
 	 * 通道数为456时，使用456通道
 	 * 通道数为123456时，使用123456通道
+	 * 此值不需配置，程序中会根据读取的文件是否同时存在4通道和7通道判断该变量是否置1.
 	 */
 	public static int TongDaoDiagnose=0;//If there has only one sensor's channel numbers are 4, this variable becomes 0.
+	
+	/**
+	 * 此值只会在调试模式下才会为0。
+	 */
 	public static int motivationDiagnose=1;//加上精细判断。
 	
 	/**
 	 * 所有的存储路径，包括激发波形数据、到时数据、数据库记录。
+	 * 此值后续可以修改，但不推荐自定义配置该路径，与qq聊天记录一样，需要在程序开始时自动配置。
 	 * the record position.
 	 */
 	public static final String prePath = "D:/data/ConstructionData/";
@@ -240,13 +248,14 @@ public class Parameters
 	/**
 	 * true indicate we will minus a fixed value on the magnitude.
 	 * false indicate we will not minus a fixed value on the magnitude.
+	 * 此值需要经常开启，如果近震震级的算法不变，则计算的震级大于正常值，故减去固定值以平衡震级。
 	 */
 	public static boolean MinusAFixedOnMagtitude = true;
 	public static double MinusAFixedValue = 2.8;
 	
 	/**
 	 * mutiple coefficient.
-	 * 此值新旧设备需要考虑不一致的问题。
+	 * 此值新旧设备需要考虑不一致的问题，此值一般不用修改，必须根据硬件设备调整。
 	 */
 	public static final double plusSingle_coefficient = 0.00001562;
 	public static final double plusDouble_coefficient_45 = 0.00000298;
@@ -261,7 +270,7 @@ public class Parameters
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.
 	 * This variable will effect the coordination of this procedure, please confirm it twice.
-	 * 现已经通过情景模式类Entrance->RunningSceneConfig.java进行更新。
+	 * 现已经通过情景模式类Entrance->RunningSceneConfig.java进行更新，不必手动更新。
 	 */
 	public static String [] station= {"hongyang","datong","pingdingshan","madaotou"};
 	public static String region = station[2];
@@ -292,8 +301,6 @@ public class Parameters
 		{ "牛家村", "洗煤厂", "香山矿", "王家村", "工业广场", "西风井", "打钻工区"},//pingdingshan
 		{ "sel", "nhy", "wmz", "tbz"}//madaotou
 	};
-	
-	
 	
 	/**
 	 * 端口号

@@ -7,41 +7,57 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.imageio.ImageIO;
+
 import org.eclipse.swt.widgets.Display;
 import com.db.DbExcute;
+import com.h2.constant.Parameters;
+
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication;
 import DataExchange.QuackResults;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mutiThread.MainThread;
+import utils.CutPaint;
 import visual.Main;
 import visual.Preferences;
 import visual.controller.MyLineChart;
 
 public class UIController {
 	public Stage myStage = null;
+	//界面标题Label
+	@FXML
+	private Label mTitleLabel;
+	
 	@FXML
 	private SplitPane mSplitpaneSum;
 
@@ -92,6 +108,9 @@ public class UIController {
 	public Stage DistributedPanelStage = null;
 
 	@FXML
+	private MenuButton mMenuButton;
+
+	@FXML
 	private Slider mSlider_P;
 	@FXML
 	private Slider mSlider_lower;
@@ -138,6 +157,87 @@ public class UIController {
 	void onClickExit(ActionEvent event) {// 退出
 		System.exit(0);
 		System.out.println("按下退出按钮");
+	}
+
+	@FXML
+	void onClickReport(ActionEvent event) {// 生成报表
+		System.out.println("按下生成报表按钮");
+		if (!Tools_DataCommunication.getCommunication().getReport().isReport) {
+			// 弹出对话框
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("提示");
+			alert.setHeaderText("请先点击左下方的事件");
+			alert.setContentText("没有点击事件或本地没有波形文件或没有波形路径！");
+			alert.showAndWait();
+			return;
+		}
+		String SensorinfName = null;
+		switch (Parameters.diskNameNum) {
+		case 0:
+			SensorinfName = "红阳三矿";
+			break;
+		case 1:
+			SensorinfName = "大同";
+			break;
+		case 2:
+			SensorinfName = "平顶山";
+			break;
+		case 3:
+			SensorinfName = "马道头";
+			break;
+		default:
+			break;
+		}
+		// 2 构造快照参数
+		SnapshotParameters params = new SnapshotParameters();
+		params.setFill(Color.TRANSPARENT);// 设置透明背景或其他颜色
+
+		// 3 生成快照，保存到文件
+		String writePath = Parameters.prePath + File.separator + "Report" + File.separator + "image"
+				+ File.separator + SensorinfName
+				+ Tools_DataCommunication.getCommunication().getReport().eventName.split(" ")[0];
+		//要保存截图的窗口名，后续需要改成从主界面获取。
+		String windowName = "CS界面-辽宁大学";
+		//跟随cad控件大小
+		int [] cutSize = {573,505};
+ 		// CAD截图
+		new CutPaint(windowName, writePath + "-cad" + ".png", cutSize);
+//		WritableImage image_CAD = mGreenPane.snapshot(params, null);
+//		File file_CAD = new File(writePath + "-cad" + ".png");
+		// 波形图截图
+		WritableImage image_boxt = mBluePane.snapshot(params, null);
+		File file_boxt = new File(writePath + "-wave" + ".png");
+		// 保存到磁盘
+		try {
+//			ImageIO.write(SwingFXUtils.fromFXImage(image_CAD, null), "png", file_CAD);
+			ImageIO.write(SwingFXUtils.fromFXImage(image_boxt, null), "png", file_boxt);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		//生成的word报表路径。
+		String docxPath = "";
+		try {
+			docxPath = Tools_DataCommunication.getCommunication().getReport().generate(writePath);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// 弹出对话框
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("提示");
+		alert.setHeaderText("生成报表成功");
+		alert.setContentText("生成报表成功，请前往" + Parameters.prePath + "/Report 文件夹查看");
+		
+		//直接打开报表
+		try {
+			Runtime.getRuntime().exec("cmd /c \"" + docxPath + "\"");
+			System.out.println("打开文件成功！");
+//			Desktop.getDesktop().open(new File(writePath));//打开文件
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		alert.showAndWait();
 	}
 
 	@FXML
@@ -298,11 +398,47 @@ public class UIController {
 			RepositionPanelStage.close();
 		}
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/RepositionPanel.fxml"));
+		AnchorPane root = null;
+		/***
+		 * 这里使用数组类型的原因是： 防止下面监听窗口关闭操作时，匿名内部类报错： Local variable xxx defined in an
+		 * enclosing scope must be final or effectively final
+		 */
+		RepositionPanelController_hongyang[] controller_hongyang = new RepositionPanelController_hongyang[1];
+		RepositionPanelController_datong[] controller_datong = new RepositionPanelController_datong[1];
+		RepositionPanelController_pingdingshan[] controller_pingdingshan = new RepositionPanelController_pingdingshan[1];
+		RepositionPanelController_madaotou[] controller_madaotou = new RepositionPanelController_madaotou[1];
+		switch (Parameters.diskNameNum) {
+		case 0:// 红阳三矿
+			loader.setLocation(Main.class.getResource("view/RepositionPanel_hongyang.fxml"));
+			root = (AnchorPane) loader.load();
+			controller_hongyang[0] = loader.getController();
+			Tools_DataCommunication.getCommunication().controller_hongyang = controller_hongyang[0];
+
+			break;
+		case 1:// 大同
+			loader.setLocation(Main.class.getResource("view/RepositionPanel_datong.fxml"));
+			root = (AnchorPane) loader.load();
+			controller_datong[0] = loader.getController();
+			Tools_DataCommunication.getCommunication().controller_datong = controller_datong[0];
+			break;
+		case 2:// 平顶山
+			loader.setLocation(Main.class.getResource("view/RepositionPanel_pingdingshan.fxml"));
+			root = (AnchorPane) loader.load();
+			controller_pingdingshan[0] = loader.getController();
+			Tools_DataCommunication.getCommunication().controller_pingdingshan = controller_pingdingshan[0];
+			break;
+		case 3:// 马道头
+			loader.setLocation(Main.class.getResource("view/RepositionPanel_madaotou.fxml"));
+			root = (AnchorPane) loader.load();
+			controller_madaotou[0] = loader.getController();
+			Tools_DataCommunication.getCommunication().controller_madaotou = controller_madaotou[0];
+			break;
+		default:
+			System.out.println("没有找到额外的矿区重新定位面板，请联系开发人员！-------UIController—重定位按钮");
+			break;
+		}
 //		//获得RootLayout对象
-		AnchorPane root = (AnchorPane) loader.load();
-		RepositionPanelController controller = loader.getController();
-		Tools_DataCommunication.getCommunication().repositionPanelController = controller;
+
 		Scene scene = new Scene(root);
 		RepositionPanelStage = new Stage();
 		RepositionPanelStage.setScene(scene);
@@ -310,17 +446,28 @@ public class UIController {
 		RepositionPanelStage.getIcons()
 				.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
 		RepositionPanelStage.setResizable(false);// 禁止对窗口进行拉伸操作！
-//		if (myStage != null) {
-//			RepositionPanelStage.setX(myStage.getX() - 295);
-//			RepositionPanelStage.setY(myStage.getY());
-//		}
+		if(controller_hongyang[0]!=null)
+			controller_hongyang[0].setMystage(RepositionPanelStage);
+		if(controller_datong[0]!=null)
+			controller_datong[0].setMystage(RepositionPanelStage);
+		if(controller_pingdingshan[0]!=null)
+			controller_pingdingshan[0].setMystage(RepositionPanelStage);
+		if(controller_madaotou[0]!=null)
+			controller_madaotou[0].setMystage(RepositionPanelStage);
 		RepositionPanelStage.show();
-		controller.setMystage(RepositionPanelStage);
+
 		/** 监听窗口关闭操作 */
 		RepositionPanelStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
-				controller.close();
+				if (controller_hongyang[0] != null)// 红阳三矿
+					controller_hongyang[0].close();
+				if (controller_datong[0] != null)// 大同
+					controller_datong[0].close();
+				if (controller_pingdingshan[0] != null)// 平顶山
+					controller_pingdingshan[0].close();
+				if (controller_madaotou[0] != null)// 马道头
+					controller_madaotou[0].close();
 			}
 		});
 	}
@@ -340,10 +487,15 @@ public class UIController {
 		alert.showAndWait().ifPresent(response -> {
 			if (response == ButtonType.OK) {
 				MyLineChart myLineChart = Tools_DataCommunication.getCommunication().getmChart();
+				//获取重定位后的数据信息
 				QuackResults data = Tools_DataCommunication.getCommunication().reLocateData.getQuackResults();
+				//更新生成报表中的数据信息
+				Tools_DataCommunication.getCommunication().getReport().setData(data);
+				//更新到数据库中
 				myLineChart.updata(data.getxData(), data.getyData(), data.getzData(), data.getParrival(),
 						data.getQuackTime(),
 						Integer.parseInt(Tools_DataCommunication.getCommunication().reLocateData.getEventIndex()));
+				//将这个时候的p波到时保存到本地csv文件中
 				myLineChart.saveP();
 				System.out.println("保存成功");
 			}
@@ -354,6 +506,22 @@ public class UIController {
 	// 在Main程序加载fxml文件时候执行
 	@FXML
 	void initialize() {
+		switch (Parameters.diskNameNum) {
+		case 0:
+			mTitleLabel.setText("红阳三矿地面矿震监测系统");
+			break;
+		case 1:
+			mTitleLabel.setText("大同地面矿震监测系统");
+			break;
+		case 2:
+			mTitleLabel.setText("平顶山地面矿震监测系统");
+			break;
+		case 3:
+			mTitleLabel.setText("马道头地面矿震监测系统");
+			break;
+		default:
+			break;
+		}
 		// 获取当前UI主界面控制类
 		Tools_DataCommunication.getCommunication().setController(this);
 		// 显示CAD

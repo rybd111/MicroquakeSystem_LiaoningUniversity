@@ -25,6 +25,7 @@ public class ReadDateFromHead {
 		// 打开流
 		HfmedHead hfmedHead = new ReadHfmedHead().readHead(file);//读文件头，文件头内容
 		BufferedInputStream buffered = new BufferedInputStream(new FileInputStream(file));
+		
 		if(hfmedHead.getChannelOnNum()==7) {
 			Parameters.WenJianTou=284;
 			Parameters.TongDaoDiagnose = 1;
@@ -36,6 +37,7 @@ public class ReadDateFromHead {
 		buffered.skip(Parameters.WenJianTou);
 		buffered.read(dataSegmentHeadByte);
 		buffered.close();
+		
 		byte[] segmentDate = FindByte.searchByteSeq(dataSegmentHeadByte, 8, 17);
 		String startDate;
 		startDate = "20" + segmentDate[0]+"-";
@@ -44,6 +46,14 @@ public class ReadDateFromHead {
 		startDate = startDate + segmentDate[3]+":";
 		startDate = startDate + segmentDate[4]+":";
 		startDate = startDate + segmentDate[5];
+//		System.out.println();
+//		System.out.println("当前文件"+fileName+"的起始时间：");
+//		
+//		for(int i = 0;i<segmentDate.length;i++) {
+//			System.out.print(segmentDate[i]+" ");
+//		}
+//		
+//		System.out.println();
 		return startDate;
 	}
 	

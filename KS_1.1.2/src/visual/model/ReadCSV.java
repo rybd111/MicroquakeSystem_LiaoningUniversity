@@ -33,9 +33,10 @@ public class ReadCSV {
 		// 解决文件名兼容性问题
 //		mysqlit(fileS[fileS.length - 1]);
 		fileSS = mysqlit(fileS[fileS.length - 1]);// filess="25613"
-		if(fileSS == null)
+//		System.out.println("!111111111111111111   " + fileSS);
+		if (fileSS == null)
 			return;
-		System.out.println("文件名为：" + fileSS);
+//		System.out.println("文件名为：" + fileSS);
 		this.senNum = fileSS.length();
 		Tools_DataCommunication.getCommunication().fileSS = fileSS;
 //		motiPos = new int[senNum];// the motivated position of each sensor.
@@ -51,18 +52,14 @@ public class ReadCSV {
 	 * @return
 	 */
 	private String mysqlit(String fileName) {
-		//按照空格分片
+		// 按照空格分片
 		String temp1[] = fileName.split(" ");
-		//分两种情况：
-		if(temp1[1].equals("")) {
-			return temp1[0];
-		}
-		else {
-			char c = temp1[1].toCharArray()[0];
-			if ('a' <= c && c <= 'z')
-				return temp1[0] + temp1[1];
-		}
-		return null;
+		// 分两种情况：
+		char c = temp1[1].toCharArray()[0];
+		if ('a' <= c && c <= 'z')
+			return temp1[0] + temp1[1];
+
+		return temp1[0];
 	}
 
 	public ArrayList<ArrayList<Integer>> readContents(int num) throws NumberFormatException, IOException {

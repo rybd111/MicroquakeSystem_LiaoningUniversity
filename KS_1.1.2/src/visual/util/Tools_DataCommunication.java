@@ -14,7 +14,10 @@ import visual.model.MyPrintStream;
 import visual.model.TableData;
 import visual.util.Tools_DataCommunication.tableViewType;
 import visual.view.DistributedPanelController;
-import visual.view.RepositionPanelController;
+import visual.view.RepositionPanelController_datong;
+import visual.view.RepositionPanelController_hongyang;
+import visual.view.RepositionPanelController_madaotou;
+import visual.view.RepositionPanelController_pingdingshan;
 import visual.view.UIController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -88,6 +91,12 @@ public class Tools_DataCommunication {
 		return audioPlayer;
 	}
 
+	/** 生成报表类 */
+	public GenerateReport getReport() {
+		return report;
+	}
+	private GenerateReport report = new GenerateReport();
+	
 	/** 控制定时读取记录线程 */
 	public boolean isRunTXT = false;
 	/** 获取控制分布式面板控制类 */
@@ -142,7 +151,7 @@ public class Tools_DataCommunication {
 	}
 
 	/** 用于读取CSV文件的秒数 一秒5000条数据 */
-	public int readTime = Parameters.startTime+Parameters.endTime;// s
+	public int readTime = Parameters.startTime + Parameters.endTime;// s
 	/*** 当前显示波形图的文件路径 */
 	public String csvPath = null;
 	public TableData reLocateData = null;
@@ -178,7 +187,11 @@ public class Tools_DataCommunication {
 //	public boolean isInitWidthandHigth = true;
 //============================================================================================================================
 	/** 获取重定位控制类 */
-	public RepositionPanelController repositionPanelController = null;
+//	public RepositionPanelController_pingdingshan repositionPanelController = null;
+	public RepositionPanelController_hongyang controller_hongyang = null;
+	public RepositionPanelController_datong controller_datong = null;
+	public RepositionPanelController_pingdingshan controller_pingdingshan = null;
+	public RepositionPanelController_madaotou controller_madaotou = null;
 	public String[] reLocationResultString = null;
 	/**
 	 * =======================================屏幕自适应解决方案===========================================================================================

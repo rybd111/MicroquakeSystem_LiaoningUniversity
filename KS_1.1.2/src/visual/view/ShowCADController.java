@@ -22,7 +22,9 @@ public class ShowCADController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		browser = browserView.getBrowser();
 		Tools_DataCommunication.getCommunication().jxBrowser = browser;
-		browser.loadURL("http://localhost:3000/good2.html");
+		browser.loadURL("http://182.92.239.30:3001/good2.html");
+//		browser.loadURL("http://localhost:3000/good2.html");
+//		browser.loadURL("http://www.baidu.com");
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

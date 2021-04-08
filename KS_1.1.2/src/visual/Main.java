@@ -3,7 +3,6 @@ package visual;
 import java.io.FileInputStream;
 import java.io.IOException;
 import com.h2.constant.ConfigToParameters;
-import com.h2.constant.Parameters;
 
 import Entrance.MainTest;
 import Entrance.InitialConfig;
@@ -21,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import mutiThread.MainThread;
 import utils.printRunningParameters;
 import visual.util.Tools_DataCommunication;
 import visual.view.UIController;
@@ -48,7 +46,7 @@ public class Main extends Application {
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("CS界面-辽宁大学");
-		primaryStage.setMinHeight(914);
+//		primaryStage.setMinHeight(914);
 		primaryStage.getIcons()
 				.add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\resource\\lndx.png")));
 		primaryStage.show();
@@ -73,18 +71,18 @@ public class Main extends Application {
 				});
 			}
 		});
-		/** 监听Stage的位置XY */
-		primaryStage.xProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				if (controller.RepositionPanelStage == null)
-					return;
-//				System.out.println("x=" + primaryStage.getX() + ",  y=" + primaryStage.getY());
-				controller.RepositionPanelStage.setX(primaryStage.getX() - 295);
-				controller.RepositionPanelStage.setY(primaryStage.getY());
-			}
-		});
+//		/** 监听Stage的位置XY */
+//		primaryStage.xProperty().addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				if (controller.RepositionPanelStage == null)
+//					return;
+////				System.out.println("x=" + primaryStage.getX() + ",  y=" + primaryStage.getY());
+//				controller.RepositionPanelStage.setX(primaryStage.getX() - 295);
+//				controller.RepositionPanelStage.setY(primaryStage.getY());
+//			}
+//		});
 		/** 监听窗口最大化及还原窗口操作 */
 		primaryStage.maximizedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
@@ -115,8 +113,10 @@ public class Main extends Application {
 		new RunningSceneConfig(MainTest.REMOTE_ONLINE_STORAGE);
 		
 		/** 输出参数*/
-		printRunningParameters.printAllParameters();
+		InitialConfig m = new InitialConfig();
 		
+		/** 输出参数*/
+		printRunningParameters.printAllParameters();
 //		Tools_DataCommunication.getCommunication().showandcloseMyConsole();
 
 		// 启动JavaFX程序

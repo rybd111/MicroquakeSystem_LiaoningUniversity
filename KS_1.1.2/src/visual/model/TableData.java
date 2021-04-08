@@ -50,6 +50,10 @@ public class TableData {
 //		System.out.println(dbresults.toString());
 	}
 
+	public void Sysout() {
+
+	}
+
 	public String getEventIndex() {
 		return eventIndex.get();
 	}
