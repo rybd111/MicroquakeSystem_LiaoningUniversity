@@ -31,7 +31,7 @@ public class SensorDiskMonitor {
 		
 		if(al == null) {
 			//虽然提前返回了，但仍需要标识当前循环结束了。
-			System.out.println("---------------------------------------"); 
+			System.out.println("---------------------------------------");
 			return;
 		}
 		for(TableProperty tp:al) {
