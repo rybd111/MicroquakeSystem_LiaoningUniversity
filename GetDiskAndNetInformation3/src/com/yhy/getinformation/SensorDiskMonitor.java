@@ -11,9 +11,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.mysql.cj.exceptions.StatementIsClosedException;
 
-import utils.Parameters;  
-
-
+import utils.Parameters;
+import utils.currentDate;  
 /**
  * The aim of this class is executing the task regularly.
  * @author Haiyou Yu, Hanlin Zhang.
@@ -25,7 +24,9 @@ public class SensorDiskMonitor {
 	
 	public static void runMain() throws IOException, ParseException {
 		System.out.println("---------------------------------------");
-		System.out.println("当前扫描间隔时间："+ SleepTime/1000 +"秒");
+		System.out.print("当前扫描间隔时间："+ SleepTime/1000 +"秒     ");
+		System.out.println("当前扫描的时间：" + currentDate.currentTime());
+		
 		ArrayList<TableProperty> al = new GetStationInfo().getAllStationsInformation();
 		
 		if(al == null) {
