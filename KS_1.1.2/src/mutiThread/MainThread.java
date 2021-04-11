@@ -15,7 +15,7 @@ public class MainThread extends Thread{
     /**this variable obtain the parent fold name.*/
     public static String fileParentPackage[] = new String[Parameters.SensorNum];
     /**this variable exchange data to the foreground.*/
-    public static vectorExchange[] aDataRec = new vectorExchange[Parameters.SensorNum];
+    public static vectorExchange aDataRec [] = new vectorExchange[Parameters.SensorNum];
     /**volatile decorate String promises the latest String in current thread.*/
     public static volatile boolean exitVariable_visual = true;
     
@@ -23,7 +23,7 @@ public class MainThread extends Thread{
     	/** the visual model controller variable.*/
     	exitVariable_visual=false;
     	/** the log prefix print in the console.*/
-    	SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();//do not call this function many times.
+//    	SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();//do not call this function many times.
     	/** global super administrator saves all status in system for replacing the global variables.*/
     	ADMINISTRATOR manager = new ADMINISTRATOR();
     	

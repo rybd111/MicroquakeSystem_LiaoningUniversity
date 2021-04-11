@@ -11,7 +11,8 @@ import utils.printRunningParameters;
 
 
 /**
- * when we test our behind procedure, we can execute this function.
+ * When we test our behind procedure, we can execute this function.
+ * This is the complete background function. 
  * @author Yilong Zhang, Hanlin Zhang.
  */
 public class MainTest {
@@ -28,19 +29,21 @@ public class MainTest {
 	public static final int ADJUST_LOCAL = 0;
 
 	public static int runningModel = LOCAL_OFFLINE_STORAGE;
+	public static String prePath = "I:/矿山/矿山数据/红阳三矿/20210326/";
 	
 	public static void main(String[] agrs) throws IOException, ParseException {//定时器
+		//只要运行程序后台，都读取配置文件。
+		new ConfigToParameters();
+		
 		
 		//根据情景模式选择不同的运行代码。
 		if(runningModel == REMOTE_ONLINE_STORAGE || runningModel == REMOTE_ONLINE_UNSTORAGE) {
-			new ConfigToParameters();
 			new RunningSceneConfig(runningModel);
 			printRunningParameters.printAllParameters();
 		}
 		else if(runningModel == LOCAL_OFFLINE_STORAGE || runningModel == LOCAL_OFFLINE_UNSTORAGE) {
 			new RunningSceneConfig(runningModel);
-			String prePath = "I:/矿山/矿山数据/红阳三矿/20210326/";
-			InitialConfig config = new InitialConfig(prePath);
+			InitialConfig config = new InitialConfig(MainTest.prePath);
 		}
 		
 		/** 启动主线程*/

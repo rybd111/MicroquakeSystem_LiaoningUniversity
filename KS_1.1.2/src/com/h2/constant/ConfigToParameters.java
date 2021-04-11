@@ -56,7 +56,7 @@ public class ConfigToParameters {
 		File file = new File(Path);
 		
 		//(文件完整路径),编码格式
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "GBK"));//GBK
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));//GBK
         
         String line = null;
         while((line=reader.readLine())!=null){//when the procedure read the last line in csv file, the length of it will become 1.
@@ -244,6 +244,10 @@ public class ConfigToParameters {
 		            if(item[0].equals("runningModel")) {
 		            	MainTest.runningModel = Integer.valueOf(item[1]);
 		            }
+		            if(item[0].equals("prePath")) {
+		            	MainTest.prePath = item[1];
+		            }
+		            
 	            }
             }
         }

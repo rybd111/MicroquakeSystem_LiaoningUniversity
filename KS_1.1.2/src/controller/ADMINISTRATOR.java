@@ -274,6 +274,7 @@ public class ADMINISTRATOR {
 	//data exchange vector storage container.----------------------------------------------------------------------
 	public void resetDataRec() {
 		this.dataRecArray = new vectorExchange[Parameters.SensorNum];
+		MainThread.aDataRec = new vectorExchange[this.dataRecArray.length];
 		
 		for(int i=0;i<this.dataRecArray.length;i++) {
 			this.dataRecArray[i] = new vectorExchange();
