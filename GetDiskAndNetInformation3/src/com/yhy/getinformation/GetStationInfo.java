@@ -50,7 +50,7 @@ public class GetStationInfo {
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public ArrayList<TableProperty> getAllStationsInformation() throws IOException, ParseException {
+	public ArrayList<TableProperty> getAllStationsInformation() {
 		//获取1级或2级目录有数据文件的远程盘符。
 		GetNetDisk getNetDisk = new GetNetDisk();
 		try {

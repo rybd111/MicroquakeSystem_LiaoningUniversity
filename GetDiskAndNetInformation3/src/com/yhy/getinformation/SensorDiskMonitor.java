@@ -22,7 +22,7 @@ public class SensorDiskMonitor {
 	//睡眠时间。
 	public static int SleepTime = 1000*60*60;//one hour.
 	
-	public static void runMain() throws IOException, ParseException {
+	public static void runMain() {
 		System.out.println("---------------------------------------");
 		System.out.print("当前扫描间隔时间："+ SleepTime/1000 +"秒     ");
 		System.out.println("当前扫描的时间：" + currentDate.currentTime());
@@ -38,12 +38,19 @@ public class SensorDiskMonitor {
 			String[] str = tp.getStringArray();
 			System.out.println(tp.toString());
 			//插入数据库。
-			DatabaseUtil.insert(str,true);
+			try {
+				DatabaseUtil.insert(str,true);
+			}
+			//没有数据库就返回，不用存储，但要输出信息。
+			catch (Exception e) {
+				return;
+			}
 		}
 		try {
 			Thread.sleep(10);
 			DatabaseUtil.close();
 		} catch (InterruptedException e) {
+			
 			e.printStackTrace();
 		}
 		System.out.println("---------------------------------------"); 
