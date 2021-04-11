@@ -265,7 +265,7 @@ public class Parameters
 	 * control to run procedure in a offline way.
 	 * 现已经通过情景模式类Entrance->RunningSceneConfig.java进行更新。
 	 */
-	public static boolean offline=false;
+	public static boolean offline=true;
 	
 	/**where the data are reading from?
 	 * There are two regions we distribute called datong, pingdingshan.
@@ -273,7 +273,7 @@ public class Parameters
 	 * 现已经通过情景模式类Entrance->RunningSceneConfig.java进行更新，不必手动更新。
 	 */
 	public static String [] station= {"hongyang","datong","pingdingshan","madaotou"};
-	public static String region = station[2];
+	public static String region = station[0];
 	
 	/**the data file must store in a fold which name ends with "s" or "t" or "z" or "s" and etc.
 	 * Please modify this variable to adapt different mining area.
