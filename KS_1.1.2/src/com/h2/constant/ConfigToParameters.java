@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import Entrance.MainTest;
 import mutiThread.MainThread;
+import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 
 /**
  * config the constant parameters of procedure from the beginning.
@@ -21,12 +22,11 @@ public class ConfigToParameters {
 	/**
 	 * @param args
 	 * @author Hanlin Zhang.
-	 * @throws IOException 
+	 * @throws IOException
 	 * @throws NumberFormatException 
 	 * @author Hanlin Zhang
 	 */
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		// TODO Auto-generated method stub
 		ConfigToParameters c = new ConfigToParameters();
 	}
 	
@@ -63,6 +63,8 @@ public class ConfigToParameters {
             if(line.length()>1) { //this line has content.
 	            if(!line.substring(0, 1).equals("#")) {//this line is an annotation.
 	            	String item[] = line.split("=");
+	            	//输出item长度。
+//	            	System.out.println(item.length);
 	            	//save different data from config file.
 	            	item[0] = item[0].replaceAll(" ", "");
 	            	item[1] = item[1].replaceAll(" ", "");

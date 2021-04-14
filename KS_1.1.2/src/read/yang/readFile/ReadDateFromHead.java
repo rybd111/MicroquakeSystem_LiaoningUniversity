@@ -54,6 +54,15 @@ public class ReadDateFromHead {
 //		}
 //		
 //		System.out.println();
+		//把78两个字节转换成整型，观察其数值是否符合1000进位。
+//		byte [] Abyte = {segmentDate[6], segmentDate[7], segmentDate[8], segmentDate[9]};
+//		
+//		short[] A = utils.Byte2Short.byteToShort(Abyte);
+//		
+//		for(int i =0;i<A.length;i++) {
+//			System.out.println("转换后的每一字节对应为：" + A[i]);
+//		}
+		
 		return startDate;
 	}
 	

@@ -35,7 +35,6 @@ public class MainTest {
 		//只要运行程序后台，都读取配置文件。
 		new ConfigToParameters();
 		
-		
 		//根据情景模式选择不同的运行代码。
 		if(runningModel == REMOTE_ONLINE_STORAGE || runningModel == REMOTE_ONLINE_UNSTORAGE) {
 			new RunningSceneConfig(runningModel);
