@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="864.0" prefWidth="953.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="visual.view.CurrentTimeLinechartController">
+   <children>
+      <VBox fx:id="mVBox" layoutX="6.0" prefHeight="823.0" prefWidth="953.0" spacing="3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
+         <children>
+            <SplitPane dividerPositions="0.08755274261603375" prefHeight="83.0" prefWidth="200.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="79.0" prefWidth="111.0" style="-fx-border-color: #000000;" text="T1" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;" />
+              </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.08755274261603375" layoutX="10.0" layoutY="10.0" prefHeight="83.0" prefWidth="200.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="79.0" prefWidth="111.0" style="-fx-border-color: #000000;" text="T2" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;" />
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.08755274261603375" layoutX="10.0" layoutY="96.0" prefHeight="83.0" prefWidth="200.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="79.0" prefWidth="111.0" style="-fx-border-color: #000000;" text="T3" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;" />
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.08755274261603375" layoutX="10.0" layoutY="182.0" prefHeight="83.0" prefWidth="200.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="79.0" prefWidth="111.0" style="-fx-border-color: #000000;" text="T4" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;" />
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.08755274261603375" layoutX="10.0" layoutY="268.0" prefHeight="83.0" prefWidth="200.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="79.0" prefWidth="111.0" style="-fx-border-color: #000000;" text="T5" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;" />
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.08755274261603375" layoutX="10.0" layoutY="354.0" prefHeight="83.0" prefWidth="200.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="79.0" prefWidth="111.0" style="-fx-border-color: #000000;" text="T6" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;" />
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.08755274261603375" layoutX="10.0" layoutY="440.0" prefHeight="83.0" prefWidth="200.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="79.0" prefWidth="111.0" style="-fx-border-color: #000000;" text="T7" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;" />
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.08755274261603375" layoutX="10.0" layoutY="526.0" prefHeight="83.0" prefWidth="200.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="79.0" prefWidth="111.0" style="-fx-border-color: #000000;" text="T8" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;" />
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.08755274261603375" layoutX="10.0" layoutY="612.0" prefHeight="83.0" prefWidth="200.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="79.0" prefWidth="111.0" style="-fx-border-color: #000000;" text="T9" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;" />
+               </items>
+            </SplitPane>
+            <SplitPane dividerPositions="0.08755274261603375" layoutX="10.0" layoutY="698.0" prefHeight="83.0" prefWidth="200.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="79.0" prefWidth="111.0" style="-fx-border-color: #000000;" text="时间" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #000000;" />
+               </items>
+            </SplitPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
