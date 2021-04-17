@@ -72,6 +72,7 @@ public class SensorDiskMonitor {
 	
 	public static void main(String[] args) throws IOException, ParseException {  
 		 doTask();
+		 //主类
 	}
 }
 
