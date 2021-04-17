@@ -19,8 +19,8 @@ public class ConvertCoordination_pingdingshan extends ConvertCoordination_base{
 		double tempy = x-3744500;
 		double newY = tempy*Math.cos(radian)+tempx*Math.sin(radian);
 		double newX = tempx*Math.cos(radian)-tempy*Math.sin(radian);
-		this.setX(newX);
-		this.setY(newY);
+		this.x = newX;
+		this.y = newY;
 	}
 	
 	/**

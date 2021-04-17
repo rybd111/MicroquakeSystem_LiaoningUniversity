@@ -57,7 +57,7 @@ public class SaveInfo {
 	 * @author Hanlin Zhang.
 	 * @date revision 2021年2月12日下午6:16:34
 	 */
-	public void saveInfo(
+	public void saveToDB(
 			String kind, 
 			String quakeString, 
 			double finalEnergy, 
@@ -235,7 +235,7 @@ public class SaveInfo {
 		//we will set 0 when the consequence appears NAN value.
 		String quakeString = (Float.compare(Float.NaN, earthQuakeFinal) == 0) ? "0"	: String.format("%.2f", earthQuakeFinal);//修改震级，保留两位小数
 		//save to database.
-		saveInfo(kind, quakeString, finalEnergy, tensor_c, b_value, manager);
+		saveToDB(kind, quakeString, finalEnergy, tensor_c, b_value, manager);
 		//we also record the quake location in a '.csv' file for manually computation.
 		if(Parameters.isStorageEventRecord==1) {
 			saveEventRecord(location_refine.getquackTime(), quakeString, finalEnergy, tensor_c, b_value, manager);

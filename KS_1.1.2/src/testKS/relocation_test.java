@@ -9,6 +9,7 @@ import java.text.ParseException;
 import com.h2.locate.ReLocation;
 import com.mathworks.toolbox.javabuilder.MWException;
 
+import utils.CoorProcess;
 import utils.stringJoin;
 
 /**
@@ -104,6 +105,12 @@ public class relocation_test {
 		result[2] = String.valueOf(Double.parseDouble(result[2])+coor[0][2]);
 		result[3] = String.valueOf(Double.parseDouble(result[3])+coor[0][3]);
 		
+		//转换坐标
+		double xy[] = CoorProcess.coorProcess(Double.parseDouble(result[0]), Double.parseDouble(result[1]));
+		
+		result[0] = String.valueOf(xy[0]);
+		result[1] = String.valueOf(xy[1]);
+
 		System.out.println(stringJoin.SJoin_ArrayAsSpace(result));
 	}
 

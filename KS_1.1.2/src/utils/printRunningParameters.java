@@ -52,7 +52,7 @@ public class printRunningParameters {
 		outArray.outArray_double(Parameters.SENSORINFO1, Parameters.diskNameNum);
 		System.out.println("StartTimeStr： " + formToChar(Parameters.StartTimeStr));
 		System.out.println("自动配置完毕，是否继续？按任意键继续——————————");
-		System.in.read();System.in.read();
+//		System.in.read();System.in.read();
 		
 	}
 	

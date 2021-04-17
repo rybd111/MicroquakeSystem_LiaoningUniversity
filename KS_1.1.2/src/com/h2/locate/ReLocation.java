@@ -63,10 +63,8 @@ public class ReLocation {
 				double parrival=location_refine.getSecTime();//到时
 				String intequackTime =TimeTransform.TimeDistance(sensors1[0].getAbsoluteTime(), location_refine.getSecTime()); //发震时刻
 				
-				//转换坐标
-				double xy[] = CoorProcess.coorProcess(xdata, ydata);
-				result[0] = String.valueOf(xy[0]);
-				result[1] = String.valueOf(xy[1]);
+				result[0] = String.valueOf(xdata);
+				result[1] = String.valueOf(ydata);
 				result[2] = String.valueOf(zdata);
 				result[3] = String.valueOf(parrival);
 				result[4] = String.valueOf(intequackTime);
@@ -112,10 +110,8 @@ public class ReLocation {
 				double parrival=location_refine.getSecTime();//到时
 				String intequackTime =TimeTransform.TimeDistance(sensors1[0].getAbsoluteTime(), location_refine.getSecTime()); //发震时刻
 				
-				//转换坐标
-				double xy[] = CoorProcess.coorProcess(xdata, ydata);
-				result[0] = String.valueOf(xy[0]);
-				result[1] = String.valueOf(xy[1]);
+				result[0] = String.valueOf(xdata);
+				result[1] = String.valueOf(ydata);
 				result[2] = String.valueOf(zdata);
 				result[3] = String.valueOf(parrival);
 				result[4] = String.valueOf(intequackTime);
