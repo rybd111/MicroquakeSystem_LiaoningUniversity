@@ -34,25 +34,30 @@ public class ReLocation {
 	 * @throws ParseException.
 	 * @author 张港
 	 */
-	public static String[] locate(double[][] senserInformation,String kind,String absolutetime) throws MWException, ParseException {
+	public static String[] locate(double[][] sensorInformation,String kind,String absolutetime) throws MWException, ParseException {
 		String[] result = new String[5];
 		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
 		nf.setGroupingUsed(false);
-		if(senserInformation.length<3)
+		
+		if(sensorInformation.length<3)
 		{
 			System.out.println("激发传感器个数小于3，无法计算");
 		}
 		else {
-			Sensor[] sensors1 = new Sensor[senserInformation.length];
+			//先求相对坐标
+			double[][] newCoor = relativeCoor(sensorInformation);
+			//保存相对坐标
+			Sensor[] sensors1 = new Sensor[sensorInformation.length];
 			
-			for(int i=0;i<senserInformation.length;i++) {
-				sensors1[i]=new Sensor();	
-				sensors1[i].setSecTime(senserInformation[i][0]);//到时
-				sensors1[i].setx(senserInformation[i][1]);//x
-				sensors1[i].sety(senserInformation[i][2]);//y
-				sensors1[i].setz(senserInformation[i][3]);//z
+			for(int i=0;i<newCoor.length;i++) {
+				sensors1[i]=new Sensor();
+				sensors1[i].setSecTime(newCoor[i][0]);//到时
+				sensors1[i].setx(newCoor[i][1]);//x
+				sensors1[i].sety(newCoor[i][2]);//y
+				sensors1[i].setz(newCoor[i][3]);//z
 			}
 			sensors1[0].setAbsoluteTime(absolutetime);//绝对时间
+			
 			if(kind=="Five_Locate")	{
 				Sensor location_refine = FiveLocation.getLocation(sensors1);
 				location_refine.toString();
@@ -63,9 +68,15 @@ public class ReLocation {
 				double parrival=location_refine.getSecTime();//到时
 				String intequackTime =TimeTransform.TimeDistance(sensors1[0].getAbsoluteTime(), location_refine.getSecTime()); //发震时刻
 				
-				result[0] = String.valueOf(xdata);
-				result[1] = String.valueOf(ydata);
-				result[2] = String.valueOf(zdata);
+				//绝对坐标
+				double xyz[] = absoluteCoor(xdata, ydata, zdata, sensorInformation[0]);
+				
+				//转换坐标
+				double xy[] = CoorProcess.coorProcess(xyz[0], xyz[1]);
+				
+				result[0] = String.valueOf(xy[0]);
+				result[1] = String.valueOf(xy[1]);
+				result[2] = String.valueOf(xyz[2]);
 				result[3] = String.valueOf(parrival);
 				result[4] = String.valueOf(intequackTime);
 				
@@ -110,9 +121,15 @@ public class ReLocation {
 				double parrival=location_refine.getSecTime();//到时
 				String intequackTime =TimeTransform.TimeDistance(sensors1[0].getAbsoluteTime(), location_refine.getSecTime()); //发震时刻
 				
-				result[0] = String.valueOf(xdata);
-				result[1] = String.valueOf(ydata);
-				result[2] = String.valueOf(zdata);
+				//绝对坐标
+				double xyz[] = absoluteCoor(xdata, ydata, zdata, sensorInformation[0]);
+				
+				//转换坐标
+				double xy[] = CoorProcess.coorProcess(xyz[0], xyz[1]);
+				
+				result[0] = String.valueOf(xy[0]);
+				result[1] = String.valueOf(xy[1]);
+				result[2] = String.valueOf(xyz[2]);
 				result[3] = String.valueOf(parrival);
 				result[4] = String.valueOf(intequackTime);
 				
@@ -170,7 +187,58 @@ public class ReLocation {
 		return coor;
 	}
 	
+	/**
+	 * 求取相对坐标、相对时间。
+	 * @param sensorInformation
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年4月18日上午10:39:39
+	 */
+	public static double[][] relativeCoor(double[][] sensorInformation) {
+		//深拷贝，防止篡改。
+		double[][] newInfo = new double[sensorInformation.length][sensorInformation[0].length];
+		
+		for(int i=0;i<sensorInformation.length;i++) {
+			newInfo[i][0] = sensorInformation[i][0];
+			newInfo[i][1] = sensorInformation[i][1];
+			newInfo[i][2] = sensorInformation[i][2];
+			newInfo[i][3] = sensorInformation[i][3];
+		}
+		
+		for(int i=1;i<newInfo.length;i++) {
+			newInfo[i][0] = newInfo[i][0] - newInfo[0][0];
+			newInfo[i][1] = newInfo[i][1] - newInfo[0][1];
+			newInfo[i][2] = newInfo[i][2] - newInfo[0][2];
+			newInfo[i][3] = newInfo[i][3] - newInfo[0][3];
+		}
+		
+		newInfo[0][0] = 0;
+		newInfo[0][1] = 0;
+		newInfo[0][2] = 0;
+		newInfo[0][3] = 0;
+		
+		return newInfo; 
+	}
 	
+	/**
+	 * 注意sensorInformation里面的数据顺序
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param firstCoor
+	 * @return
+	 * @author Hanlin Zhang.
+	 * @date revision 2021年4月18日上午10:39:17
+	 */
+	public static double[] absoluteCoor(double x, double y, double z, double[] firstCoor){
+		double newx = x + firstCoor[1];
+		double newy = y + firstCoor[2];
+		double newz = z + firstCoor[3];
+		
+		double[] result = {newx, newy, newz};
+		
+		return result;
+	}
 	
 	
 //	public static void main(String[] args) throws MWException, ParseException {

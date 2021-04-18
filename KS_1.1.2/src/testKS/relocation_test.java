@@ -29,10 +29,9 @@ public class relocation_test {
 	 * @date revision 下午6:34:06
 	 */
 	public static void main(String[] args) throws IOException, MWException, ParseException {
-		// TODO Auto-generated method stub
 		double [][] coor = null;
 		String kind = "PSO_Locate";//PSO_Locate, Five_Locate.
-		
+		//确定传感器数量。
 		int sensorNum = 4;
 		double []daoshi = new double[sensorNum]; 
 		String[] filePath = new String[sensorNum];
@@ -53,12 +52,12 @@ public class relocation_test {
 		coor[0][1] = 384321.5012;
 		coor[0][2] = 4349462.1852;
 		coor[0][3] = 675.1000;
-		coor[0][0] = 2769/500.0;
+		coor[0][0] = 2760/500.0;
 		
 		coor[1][1] = 384406.7260;
 		coor[1][2] = 4349173.9024;
 		coor[1][3] = 676.2000;
-		coor[1][0] = 2760/500.0;
+		coor[1][0] = 2770/500.0;
 		
 //		coor[2][1] = 384523.7502;
 //		coor[2][2] = 4349263.0437;
@@ -80,37 +79,14 @@ public class relocation_test {
 		coor[3][3] = 1401.1460;
 		coor[3][0] = 2990/500.0;
 		
-		for(int i = 1;i < coor.length; i++) {
-			coor[i][0] = coor[i][0] - coor[0][0];
-			coor[i][1] = coor[i][1] - coor[0][1];
-			coor[i][2] = coor[i][2] - coor[0][2];
-			coor[i][3] = coor[i][3] - coor[0][3];
-		}
-		
-		coor[0][0] = 0;
-		coor[0][1] = 0;
-		coor[0][2] = 0;
-		coor[0][3] = 0;
-		
 		String absolutetime="2021-01-22 06-11-50`63";
 		String[] result=ReLocation.locate(coor, kind, absolutetime);
-		
-		coor[0][1] = 384321.5012;
-		coor[0][2] = 4349462.1852;
-		coor[0][3] = 675.1000;
-		coor[0][0] = 2769/500.0;
 
-		result[0] = String.valueOf(Double.parseDouble(result[0])+coor[0][0]);
-		result[1] = String.valueOf(Double.parseDouble(result[1])+coor[0][1]);
-		result[2] = String.valueOf(Double.parseDouble(result[2])+coor[0][2]);
-		result[3] = String.valueOf(Double.parseDouble(result[3])+coor[0][3]);
+		result[0] = String.valueOf(Double.parseDouble(result[0]));
+		result[1] = String.valueOf(Double.parseDouble(result[1]));
+		result[2] = String.valueOf(Double.parseDouble(result[2]));
+		result[3] = String.valueOf(Double.parseDouble(result[3]));
 		
-		//转换坐标
-		double xy[] = CoorProcess.coorProcess(Double.parseDouble(result[0]), Double.parseDouble(result[1]));
-		
-		result[0] = String.valueOf(xy[0]);
-		result[1] = String.valueOf(xy[1]);
-
 		System.out.println(stringJoin.SJoin_ArrayAsSpace(result));
 	}
 
