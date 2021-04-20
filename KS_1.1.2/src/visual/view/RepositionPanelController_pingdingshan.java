@@ -105,46 +105,46 @@ public class RepositionPanelController_pingdingshan {
 		for (int i = 0; i < numbername.size(); i++) {
 
 			if (numbername.get(i).equals("Z 牛家村")) {
-				senserInformation[i][0] = pHashMap.get('Z') / (Parameters.FREQUENCY + 200)-t;// 相对时间???
-				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][0][0] - a[0];// x
-				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][0][1] - a[1];// y
-				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][0][2] - a[2];// z
+				senserInformation[i][0] = pHashMap.get('Z') / (Parameters.FREQUENCY + 200);// 相对时间???
+				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][0][0];// x
+				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][0][1];// y
+				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][0][2];// z
 			}
 			if (numbername.get(i).equals("T 洗煤厂")) {
-				senserInformation[i][0] = pHashMap.get('T') / (Parameters.FREQUENCY + 200)-t;
-				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][1][0] - a[0];
-				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][1][1] - a[1];
-				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][1][2] - a[2];
+				senserInformation[i][0] = pHashMap.get('T') / (Parameters.FREQUENCY + 200);
+				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][1][0];
+				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][1][1];
+				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][1][2];
 			}
 			if (numbername.get(i).equals("Y 香山矿")) {
-				senserInformation[i][0] = pHashMap.get('Y') / (Parameters.FREQUENCY + 200)-t;
-				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][2][0] - a[0];
-				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][2][1] - a[1];
-				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][2][2] - a[2];
+				senserInformation[i][0] = pHashMap.get('Y') / (Parameters.FREQUENCY + 200);
+				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][2][0];
+				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][2][1];
+				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][2][2];
 			}
 			if (numbername.get(i).equals("V 王家村")) {
-				senserInformation[i][0] = pHashMap.get('V') / (Parameters.FREQUENCY + 200)-t;
-				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][3][0] - a[0];
-				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][3][1] - a[1];
-				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][3][2] - a[2];
+				senserInformation[i][0] = pHashMap.get('V') / (Parameters.FREQUENCY + 200);
+				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][3][0];
+				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][3][1];
+				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][3][2];
 			}
 			if (numbername.get(i).equals("X 十一矿工业广场老办公楼西南角花坛")) {
-				senserInformation[i][0] = pHashMap.get('X') / (Parameters.FREQUENCY + 200)-t;
-				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][4][0] - a[0];
-				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][4][1] - a[1];
-				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][4][2] - a[2];
+				senserInformation[i][0] = pHashMap.get('X') / (Parameters.FREQUENCY + 200);
+				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][4][0];
+				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][4][1];
+				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][4][2];
 			}
 			if (numbername.get(i).equals("W 西风井")) {
-				senserInformation[i][0] = pHashMap.get('W') / (Parameters.FREQUENCY + 200)-t;
-				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][5][0] - a[0];
-				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][5][1] - a[1];
-				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][5][2] - a[2];
+				senserInformation[i][0] = pHashMap.get('W') / (Parameters.FREQUENCY + 200);
+				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][5][0];
+				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][5][1];
+				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][5][2];
 			}
 			if (numbername.get(i).equals("U 打钻工区")) {
-				senserInformation[i][0] = pHashMap.get('U') / (Parameters.FREQUENCY + 200)-t;
-				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][6][0] - a[0];
-				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][6][1] - a[1];
-				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][6][2] - a[2];
+				senserInformation[i][0] = pHashMap.get('U') / (Parameters.FREQUENCY + 200);
+				senserInformation[i][1] = Parameters.SENSORINFO1[Parameters.diskNameNum][6][0];
+				senserInformation[i][2] = Parameters.SENSORINFO1[Parameters.diskNameNum][6][1];
+				senserInformation[i][3] = Parameters.SENSORINFO1[Parameters.diskNameNum][6][2];
 			}
 		}
 

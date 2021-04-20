@@ -68,7 +68,7 @@ public class InitialConfig {
 	public InitialConfig(String prePath) throws IOException, ParseException {
 		//前缀路径长度不足2，则认为前缀路径错误。
 		if(prePath.length()<=1) {
-			System.out.println("请配置正确的带有‘Testa-Testz’的离线数据路径。");
+//			System.out.println("请配置正确的带有‘Testa-Testz’的离线数据路径。");
 			System.exit(0);
 		}
 		if(Parameters.offline == true) {
