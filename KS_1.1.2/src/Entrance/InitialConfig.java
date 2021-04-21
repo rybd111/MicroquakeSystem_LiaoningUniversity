@@ -149,19 +149,24 @@ public class InitialConfig {
 						switch (i) {
 						case 0:
 							Parameters.region = "pingdingshan";
+							Parameters.diskNameNum = 2;
 							break;
 						case 1:
 							Parameters.region = "hongyang";
+							Parameters.diskNameNum = 0;
 							break;
 						case 2:
 							Parameters.region = "madaotou";
+							Parameters.diskNameNum = 3;
 							break;
 						case 3:
 							Parameters.region = "datong";
+							Parameters.diskNameNum = 1;
 							break;
 						default:
 							System.out.println("路径中不包含能够识别的矿区位置！默认矿区为0号：红阳三矿");
 							Parameters.region = "hongyang";
+							Parameters.diskNameNum = 0;
 						}				
 					}
 				}
