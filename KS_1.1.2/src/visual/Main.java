@@ -2,6 +2,8 @@ package visual;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+
 import com.h2.constant.ConfigToParameters;
 
 import Entrance.MainTest;
@@ -97,7 +99,7 @@ public class Main extends Application {
 		});
 	}
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	public static void main(String[] args) throws NumberFormatException, IOException, ParseException {
 
 		// 设置读取CSV文件的秒数
 		Tools_DataCommunication.getCommunication().readTime = com.h2.constant.Parameters.READTIMER;// s
@@ -110,9 +112,10 @@ public class Main extends Application {
 		new ConfigToParameters();
 		
 		/** 情景配置，共有8中模式，每一种对应一个整形数值，在MainTest类中定义。*/
-		new RunningSceneConfig(MainTest.REMOTE_ONLINE_STORAGE);
+		new RunningSceneConfig(MainTest.LOCAL_OFFLINE_UNSTORAGE);
 		
 		/** 输出参数*/
+		String prePath = "I:\\矿山\\矿山数据\\红阳三矿\\20201023\\";
 		InitialConfig m = new InitialConfig();
 		
 		/** 输出参数*/

@@ -119,6 +119,7 @@ public class RunningSceneConfig {
 	private void REMOTE_ONLINE_UNSTORAGE() {
 		Set_Online();
 		
+		
 		remoteDB();
 		closeStorage();
 		SetOthers();
@@ -141,6 +142,7 @@ public class RunningSceneConfig {
 	private void remoteDB() {
 		
 		Parameters.SevIP = "182.92.239.30:3306/ks";
+		
 		/** 设置数据库名称*/
 		switch(Parameters.region) {
 		case "pingdingshan":

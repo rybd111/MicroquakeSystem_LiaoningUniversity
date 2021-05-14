@@ -1,13 +1,17 @@
 package com.db;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
-
-import com.h2.constant.Parameters;
 
 /**
  * connect to database.
@@ -23,26 +27,20 @@ public class JdbcUtil {
 	static {
 		try {
 			Properties properties = new Properties();
-//			String j = "./jdbc.properties";//get the procedure absolute path.
-//			System.out.println(j);
-//			InputStream in = JdbcUtil.class.getClassLoader().getResourceAsStream(j);
-//			System.out.println(in);
+			String j = System.getProperty("user.dir") + "/jdbc.properties";
+			InputStreamReader in = null;
 			
-//			properties.load(in);
-			properties.put("driver","com.mysql.cj.jdbc.Driver");
-			//properties.put("url","url=jdbc:mysql://localhost:3306/ks?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true");
-			properties.setProperty("useSSL", "false");
+			try {
+				in = new InputStreamReader(new FileInputStream(new File(j)), "UTF-8");
+				properties.load(in);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			url = properties.getProperty("url");
+			username = properties.getProperty("username");
+			password = properties.getProperty("password");
 			driver = properties.getProperty("driver");
-			
-//			url = properties.getProperty("url");
-			url = "jdbc:mysql://"+Parameters.SevIP+"?useSSL=false&serverTimezone=UTC";
-			//System.out.println(url);
-//			username = properties.getProperty("username");
-//			password = properties.getProperty("password");
-			username = "root";
-			password = "root";
-//			System.out.println(password);
-//			System.out.println(driver);
 			
 			Class.forName(driver);
 		} catch (Exception e) {

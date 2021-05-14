@@ -1,7 +1,11 @@
 package com.yhy.getinformation;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,7 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import utils.Parameters;
+import utils.filePatternMatch;
 
 /**
  * This class is used for adding,querying,updating for the database table of  mine_quack_stationcondition
@@ -24,6 +28,7 @@ public class DatabaseUtil {
 	private static String username = null;
 	private static String password = null;
 	private static String driver = null;
+	
 	private static Connection connection = null;
 	private static Statement statement;
 	private static ResultSet resultSet;
@@ -31,10 +36,27 @@ public class DatabaseUtil {
 
 	public static Connection getConnection() {
 		try {
-			url = "jdbc:mysql://"+Parameters.SevIP+"?serverTimezone=UTC&useSSL=false";
-			driver = "com.mysql.cj.jdbc.Driver";
-			username = "root";
-			password = "root";
+			
+//			url = "jdbc:mysql://"+Parameters.SevIP+"?serverTimezone=UTC&useSSL=false";
+//			driver = "com.mysql.cj.jdbc.Driver";
+//			username = "root";
+//			password = "root";
+			
+			Properties properties = new Properties();
+			String j = System.getProperty("user.dir") + "/jdbc.properties";
+			InputStreamReader in = null;
+			
+			try {
+				in = new InputStreamReader(new FileInputStream(new File(j)), "UTF-8");
+				properties.load(in);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			url = properties.getProperty("url");
+			username = properties.getProperty("username");
+			password = properties.getProperty("password");
+			driver = properties.getProperty("driver");
 			
 			Class.forName(driver);
 			if(connection == null) {

@@ -32,7 +32,6 @@ public class ConfigToParameters {
 	
 	public ConfigToParameters() throws NumberFormatException, IOException {
 		String j = System.getProperty("user.dir");//get the procedure absolute path.
-		
 		this.filePath = j+"/resource/Config.ini";//get the config file.
 		System.out.println(filePath);
 		Load(this.filePath);//get the variables in config file.
