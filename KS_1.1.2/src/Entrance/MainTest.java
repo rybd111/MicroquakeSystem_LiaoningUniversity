@@ -28,7 +28,7 @@ public class MainTest {
 	//调试模式默认为本地非存储模式。
 	public static final int ADJUST_LOCAL = 0;
 
-	public static int runningModel = LOCAL_OFFLINE_STORAGE;
+	public static int runningModel = 1;
 	public static String prePath = "I:/矿山/矿山数据/红阳三矿/20210326/";
 	
 	public static void main(String[] agrs) throws IOException, ParseException {//定时器

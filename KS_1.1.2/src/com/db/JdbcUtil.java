@@ -13,6 +13,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import com.h2.constant.Parameters;
+
+import Entrance.MainTest;
+
 /**
  * connect to database.
  * @author 
@@ -36,11 +40,19 @@ public class JdbcUtil {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			url = properties.getProperty("url");
-			username = properties.getProperty("username");
-			password = properties.getProperty("password");
-			driver = properties.getProperty("driver");
+			//根据不同的模式选用不同的数据库表。
+			if(MainTest.runningModel == 1 || MainTest.runningModel == 5) {
+				url = "jdbc:mysql://"+Parameters.SevIP+"?useSSL=false&serverTimezone=UTC";
+				username = "root";
+				password = "root";
+				driver = "com.mysql.cj.jdbc.Driver";
+			}
+			else {
+				url = properties.getProperty("url");
+				username = properties.getProperty("username");
+				password = properties.getProperty("password");
+				driver = properties.getProperty("driver");
+			}
 			
 			Class.forName(driver);
 		} catch (Exception e) {

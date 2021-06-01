@@ -134,14 +134,12 @@ public class DbExcute {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
 			/***
-			 * 
 			 * @param eventIndex 事件序号
 			 * @param eventTime  触发时间
 			 * @param eventLoca  触发台站
 			 * @param eventPos   定位坐标
 			 * @param energy     能量
 			 * @param grade      震级
-			 * 
 			 */
 			while (resultSet.next()) {
 				int id = resultSet.getShort("id");
