@@ -114,11 +114,13 @@ public class getInfoMuti implements Runnable{
 		String filePath = diskname + File.separator + "testnetspeed.txt";
 		File dest = new File(filePath);
 		
+		//当出现异常时，说明当前网络路径无法创建文件，即当前网络路径无法联通，此时我们应输出一个盘符名，显示在控制台即可，不作处理。
 		if(!dest.exists()) {
 			try {
 				dest.createNewFile();
 			} catch (IOException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
+				System.out.println("当前盘符" + diskname + "能够显示，但无法联通，即虚连。");
 				return null;
 			}
 		}
