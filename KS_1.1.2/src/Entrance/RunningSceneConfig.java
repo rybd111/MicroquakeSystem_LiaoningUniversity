@@ -147,12 +147,15 @@ public class RunningSceneConfig {
 		switch(Parameters.region) {
 		case "pingdingshan":
 			Parameters.DatabaseName5 = "mine_quake_results_pingdingshan";
+			Parameters.diskNameNum = 2;
 			break;
 		case "hongyang":
 			Parameters.DatabaseName5 = "mine_quake_results_hongyang";
+			Parameters.diskNameNum = 0;
 			break;
 		case "madaotou":
 			Parameters.DatabaseName5 = "mine_quake_results_madaotou";
+			Parameters.diskNameNum = 3;
 			break;
 		}
 	}
